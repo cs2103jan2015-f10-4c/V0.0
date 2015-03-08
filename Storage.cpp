@@ -4,7 +4,6 @@
 #include <vector>
 #include <fstream>
 #include "Storage.h"
-//hello
 
 using namespace std;
 
