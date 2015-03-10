@@ -19,6 +19,6 @@ void Task::setEndingTime(string inputEndingTime){
 	endingTime = inputEndingTime;
 }
 
-void Task::setDate(string inputDate){
-	date = inputDate;
-}
+//void Task::setDate(string inputDate){
+	//date = inputDate;
+//}

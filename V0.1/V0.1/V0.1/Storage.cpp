@@ -8,6 +8,7 @@
 
 using namespace std;
 
+<<<<<<< HEAD
 
 Storage::Storage(){
 }
@@ -15,11 +16,14 @@ Storage::Storage(){
 Storage::~Storage(){}
 
 void Storage::storeTask(string task, string startingTime, string endingTime, string date){
+=======
+void Storage::storeTask(string task, string startingTime, string endingTime){
+>>>>>>> aadd4e3110a98adfe2195bde96f717c7fb5bdbcb
 	Task tempStorage;
 	tempStorage.taskName = task;
 	tempStorage.startingTime = startingTime;
 	tempStorage.endingTime = endingTime;
-	tempStorage.date = date;
+	//tempStorage.date = date;
 	taskList.push_back(tempStorage);
 };
 
@@ -32,7 +36,7 @@ void Storage::saveFile(vector<Task> fileStorage){
 	writeFile.open("file.txt");
 	for (int i = 0; i < fileStorage.size(); i++){
 		writeFile << fileStorage[i].taskName;
-		writeFile << fileStorage[i].date;
+		//writeFile << fileStorage[i].date;
 		writeFile << fileStorage[i].startingTime;
 		writeFile << fileStorage[i].endingTime << endl;
 	}
