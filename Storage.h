@@ -5,15 +5,9 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "Task.h"
 
 using namespace std; 
-
-struct Task{
-	string taskDescription;
-	string startingTime;
-	string endingTIme;
-	string date;
-};
 
 class Storage{
 private:
