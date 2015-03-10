@@ -8,7 +8,10 @@
 class Display{
 
 public:
-    Display();
+    Display(void);
+    ~Display(void);
+    
     void displayAll();
+    void displayRequired(vector<Task>);
 };
 #endif

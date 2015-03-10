@@ -8,12 +8,17 @@
 #include "Display.h"
 #include "Task.h"
 
+using namespace std;
+
 class editExecutor{
 
 public:
     editExecutor(void);
     ~editExecutor(void);
-    void editTask(int);
+    void editTaskTitle(int, string);
+    void editTaskDate(int, string);
+    void editTaskStartTime(int, string);
+    void editTaskDuration(int, string);
     
 private:
     vector<Task> taskStorage;

@@ -1,8 +1,11 @@
 #include "display.h"
 
+Display::display(void){
+}
+
 void Display::displayAll() {
-    vector<string> taskStorage;
-    taskStorage = Storage:: get
+    vector<Task> taskStorage;
+    taskStorage = storage.getTaskList();
     int lineNumber = 1;
 
 	if (taskStorage.empty()) {
@@ -14,4 +17,10 @@ void Display::displayAll() {
 			lineNumber++;
             }
 	}
+}
+
+void Display::displayRequired(vector<Task> taskList){
+    for (int i = 0; i < taskList.size(); i++) {
+        cout << i+1 << "." << taskList[i] << endl;
+    }
 }
