@@ -77,6 +77,7 @@ int main()
             endDateTime = strToDateTime(endDay, endTime);
             startDateTime = strToDateTime(endDay, endTime);
             strftime (eDateTime, 100, "%Y-%m-%d %H:%M", localtime(&endDateTime));
+
             
             printf("Your action is: %s \n",action);
             printf("the title is: %s \n",title);
