@@ -8,6 +8,12 @@
 
 using namespace std;
 
+
+Storage::Storage(){
+}
+
+Storage::~Storage(){}
+
 void Storage::storeTask(string task, string startingTime, string endingTime, string date){
 	Task tempStorage;
 	tempStorage.taskName = task;

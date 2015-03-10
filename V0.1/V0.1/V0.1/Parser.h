@@ -9,16 +9,25 @@
 #include <fstream>
 #include <algorithm>
 #include "Logic.h"
-#include "UI.h"
+
 
 using namespace std;
 
 class Parser{
+
 private:
 	Logic logic;
 	static enum COMMAND_TYPE 
 	{COMMAND_ADD,  COMMAND_DELETE, COMMAND_SEARCH, COMMAND_EDIT};
 
+	static  string USER_PROMPT_TASKNAME ;
+	static  string USER_PROMPT_STARTTIME;
+	static  string USER_PROMPT_ENDTIME;
+	static  string USER_PROMPT_INDEX;
+	static  string USER_PROMPT_KEYWORD ;
+	static  string USER_PROMPT_NEWTASKNAME ;
+	static  string USER_PROMPT_NEWSTARTTIME ;
+	static  string USER_PROMPT_NEWENDTIME ;
 
 public:
 
@@ -27,7 +36,7 @@ public:
 
 	bool determineCommandType(string);
 
-	void processCommand(COMMAND_TYPE)
+	void processCommand(COMMAND_TYPE);
 
 
 };

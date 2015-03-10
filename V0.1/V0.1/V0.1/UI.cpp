@@ -1,9 +1,14 @@
 #include "UI.h"
 
-static const string WELCOME_MESSAGE = "Welcome to RushHour, your private assistant";
-static const string SUCCESS_MESSAGE = "Your command is successfully performed";
-static const string ERROR_MESSAGE = "Sorry, an error has inccurred";
-static const string USER_PROMPT_COMMAND = "Please enter your command: ";
+string UI::WELCOME_MESSAGE = "Welcome to RushHour, your private assistant\n";
+string UI::SUCCESS_MESSAGE = "Your command is successfully performed\n";
+string UI::ERROR_MESSAGE = "Sorry, an error has inccurred\n";
+string UI::USER_PROMPT_COMMAND = "Please enter your command: ";
+
+
+UI::UI(){}
+UI::~UI(){}
+
 
 void UI::main(){
 	 getUserCommand();
@@ -17,9 +22,10 @@ string UI::getUserCommand(){
 	while (true){
 		cout << USER_PROMPT_COMMAND;
 		getline(cin, command);
-		if (Parser.determineCommandType(command)){
+		if (parser.determineCommandType(command)){
 			cout << SUCCESS_MESSAGE;
-		}else{
+		}
+		else{
 			cout << ERROR_MESSAGE;
 		}
 	}

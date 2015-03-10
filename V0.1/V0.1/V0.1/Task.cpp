@@ -1,6 +1,12 @@
 #include "Task.h"
 #include <string>
 
+
+Task::Task(){
+}
+
+Task::~Task(){}
+
 void Task::setTaskName(string inputTaskName){
 	taskName = inputTaskName;
 }

@@ -21,6 +21,7 @@ private:
 	Storage storage;
 	History history;
 	Task task;
+	vector<Task> taskList;
 
 public:
 	Logic();
@@ -31,16 +32,19 @@ public:
 	void editExecutor(int, string, string, string);
 	void displayResult(vector<Task>);
     */
-    void addTask(string, string, string, string, vector<Task>&, Storage&, Display&);
-    void updateStorage(vector<Task>&, Storage&);
-    void deleteTask(size_t index, Display&, Storage&);
-    void editTaskTitle(int, string);
-    void editTaskDate(int, string);
-    void editTaskStartTime(int, string);
-    void editTaskDuration(int, string);
-    void searchTask(string, Display&);
+    void addTask(string, string, string);
+    void updateStorage();
+    void deleteTask(int);
+    //void editTaskTitle(int, string);
+    //void editTaskDate(int, string);
+    //void editTaskStartTime(int, string);
+    //void editTaskEndTime(int, string);
+	void editTask(int, string, string, string);
+    void searchTask(string);
+	void displayAll();
+	void displaySpecified(vector<Task>);
 };
 
 
 
-#endift
+#endif

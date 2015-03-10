@@ -15,7 +15,7 @@ private:
 
 public:
 	Storage();
-
+	~Storage();
 	void storeTask(string task, string startingTime, string endingTime, string date);
 	void saveFile(vector<Task> fileStorage);
 	vector<Task> getTaskList();

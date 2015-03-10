@@ -1,34 +1,38 @@
-static const string USER_PROMPT_TASKNAME = "Please enter task tile: ";
-static const string USER_PROMPT_STARTTIME = "Star time: ";
-static const string USER_PROMPT_ENDTIME = "End time: ";
-static const string USER_PROMPT_INDEX = "Please the index of the targeted task: ";
-static const string USER_PROMPT_KEYWORD = "Please enter the Keyword to search for: ";
-static const string USER_PROMPT_NEWTASKNAME = "Please enter the new task name: ";
-static const string USER_PROMPT_NEWSTARTTIME = "Please enter the new start time: ";
-static const string USER_PROMPT_NEWENDTIME = "Please enter the new end time: ";
-
 #include "Parser.h"
 
+string Parser::USER_PROMPT_TASKNAME = "Please enter task title: ";
+string Parser::USER_PROMPT_STARTTIME = "Start time: ";
+string Parser::USER_PROMPT_ENDTIME = "End time: ";
+string Parser::USER_PROMPT_INDEX = "Please enter the index of the targeted task: ";
+string Parser::USER_PROMPT_KEYWORD = "Please enter the Keyword to search for: ";
+string Parser::USER_PROMPT_NEWTASKNAME = "Please enter the new task name: ";
+string Parser::USER_PROMPT_NEWSTARTTIME = "Please enter the new start time: ";
+string Parser::USER_PROMPT_NEWENDTIME = "Please enter the new end time: ";
+
+
+Parser::Parser() {}
+Parser::~Parser(){}
+
 bool Parser::determineCommandType(string userCommand){
-	 
+	COMMAND_TYPE command;
 	bool systemFeedback = false;
 	if (userCommand == "add"){
-		COMMAND_TYPE command = COMMAND_ADD;
+		 command = COMMAND_ADD;
 		systemFeedback = true;
 	}
 	else if (userCommand == "delete"){
-		COMMAND_TYPE command = COMMAND_DELETE;
+		command = COMMAND_DELETE;
 		systemFeedback = true;
 	}
 	else if (userCommand == "search"){
-		COMMAND_TYPE command = COMMAND_SEARCH;
+		command = COMMAND_SEARCH;
 		systemFeedback = true;
 	}
 	else if (userCommand == "edit"){
-		COMMAND_TYPE command = COMMAND_EDIT;
+		command = COMMAND_EDIT;
 		systemFeedback = true;
 	}
-	else return systemFeedback;
+	else return false;
 
 	processCommand(command);
 	
@@ -49,20 +53,20 @@ void Parser::processCommand(COMMAND_TYPE command){
 		cin >> startTime;
 		cout << USER_PROMPT_ENDTIME;
 		cin >> endTime;
-		logic.addExecutor(taskName, startTime, endTime);
+		logic.addTask(taskName, startTime, endTime);
 		break;
 
 	}case Parser::COMMAND_DELETE:{
 		int index;
 		cout << USER_PROMPT_INDEX;
 		cin >> index;
-		logic.deleteExecutor(index);
+		logic.deleteTask(index);
 		break;
 	}case Parser::COMMAND_SEARCH:{
 		string keyWord;
 		cout << USER_PROMPT_KEYWORD;
 		cin >> keyWord;
-		logic.searchExecutor(keyWord);
+		logic.searchTask(keyWord);
 		break;
 	}case Parser::COMMAND_EDIT:{
 		int index;
@@ -77,7 +81,7 @@ void Parser::processCommand(COMMAND_TYPE command){
 		cin >> newStartTime;
 		cout << USER_PROMPT_ENDTIME;
 		cin >> newEndTime;
-		logic.editExecutor(index, newTaskName, newStartTime, newEndTime);
+		logic.editTask(index, newTaskName, newStartTime, newEndTime);
 		break;
 	}default:
 		break;
