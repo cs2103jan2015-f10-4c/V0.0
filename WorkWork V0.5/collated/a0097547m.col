@@ -1,0 +1,2848 @@
+//@author: a0097547m
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWCommand.cpp
+	 */
+
+
+//WWCommand.cpp
+
+#include <string>
+#include "WWCommand.h"
+#include "WWUtilities.h"
+
+using namespace std;
+
+WWCommand::WWCommand() {
+	_hasCommand = false;
+}
+
+void WWCommand::setCommand(WWUtilities::CommandType inputCommand) {
+	_command = inputCommand;
+	_hasCommand = true;
+}
+
+void WWCommand::setDetail(string inputDetail) {
+	_detail = inputDetail;
+}
+
+void WWCommand::setDate1(string inputDate1) {
+	_date1 = inputDate1;
+}
+
+void WWCommand::setTime1(string inputTime1) {
+	_time1 = inputTime1;
+}
+
+void WWCommand::setDate2(string inputDate2) {
+	_date2 = inputDate2;
+}
+
+void WWCommand::setTime2(string inputTime2) {
+	_time2 = inputTime2;
+}
+
+bool WWCommand::hasCommand() {
+	return _hasCommand;
+}
+
+bool WWCommand::hasDetail() {
+	return (!_detail.empty());
+}
+
+bool WWCommand::hasDate1() {
+	return (!_date1.empty());
+}
+
+bool WWCommand::hasTime1() {
+	return (!_time1.empty());
+}
+
+bool WWCommand::hasDate2() {
+	return (!_date2.empty());
+}
+
+bool WWCommand::hasTime2() {
+	return (!_time2.empty());
+}
+
+WWUtilities::CommandType WWCommand::getCommand() {
+	return _command;
+}
+
+string WWCommand::getDetail() {
+	return _detail;
+}
+
+string WWCommand::getDate1() {
+	return _date1;
+}
+
+string WWCommand::getTime1() {
+	return _time1;
+}
+
+string WWCommand::getDate2() {
+	return _date2;
+}
+
+string WWCommand::getTime2() {
+	return _time2;
+}
+
+void WWCommand::clearCommand() {
+	_command = WWUtilities::INVALID;
+	_detail = "";
+	_date1 = "";
+	_time1 = "";
+	_date2 = "";
+	_time2 = "";
+	_hasCommand = false;
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWCommand.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWCommandParser.cpp
+	 */
+
+
+#include <algorithm>
+#include <string>
+#include "WWCommandParser.h"
+#include "WWUtilities.h"
+#include "WWLogger.h"
+
+using namespace std;
+
+const unsigned int COMMAND_STRING_STARTING_INDEX = 0;
+
+//The various match cases for basic commands
+const string ADD_COMMAND = "ADD";
+const string DELETE_COMMAND = "DELETE";
+const string EDIT_COMMAND = "EDIT";
+const string DONE_COMMAND = "COMPLETE";
+const string UNDONE_COMMAND = "INCOMPLETE";
+const string SEARCH_COMMAND = "SEARCH";
+const string UNDO_COMMAND = "UNDO";
+const string REDO_COMMAND = "REDO";
+const string VIEW_COMMAND = "VIEW";
+const string REFRESH_COMMAND = "REFRESH";
+const string EXIT_COMMAND = "QUIT";
+
+//The various match cases for delete type command
+const string DELETETYPE_ALL = "ALL";
+const string DELETETYPE_DONE = "COMPLETE";
+
+//The various match cases for view type command
+const string VIEWTYPE_ALL = "ALL";
+const string VIEWTYPE_DEADLINE = "DEADLINE";
+const string VIEWTYPE_TIMED = "TIMED";
+const string VIEWTYPE_FLOATING = "FLOATING";
+const string VIEWTYPE_TODAY = "TODAY";
+const string VIEWTYPE_DONE = "COMPLETE";
+const string VIEWTYPE_UNDONE = "INCOMPLETE";
+const string VIEWTYPE_OVERDUE = "OVERDUE";
+const string VIEWTYPE_SEARCH = "SEARCH";
+
+const string WHITESPACE_TAB = " \t";
+
+//strings that are used for logging
+const string LOG_PARSECOMMAND = "parseCommand is called, received ";
+const string LOG_RETRIEVECOMMANDTYPE = "retrieveCommandType is called";
+const string LOG_RETRIEVEUNUSEDCONTENT = "retrieveUnusedContent is called, returned ";
+
+WWCommandParser::WWCommandParser() {
+}
+
+void WWCommandParser::parseCommand(string inputString) {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_PARSECOMMAND + inputString);
+	logger.saveLog();
+
+	trimLeadingWhitespace(inputString);
+	try {
+		determineCommandType(inputString);
+	}
+	catch (char*) {
+		_commandType = WWUtilities::INVALID;
+	}
+}
+
+WWUtilities::CommandType WWCommandParser::retrieveCommandType() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_RETRIEVECOMMANDTYPE);
+	logger.saveLog();
+
+	return _commandType;
+}
+
+string WWCommandParser::retrieveUnusedContent() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_RETRIEVEUNUSEDCONTENT + _unusedContent);
+	logger.saveLog();
+
+	return _unusedContent;
+}
+
+void WWCommandParser::determineCommandType(string inputString) {
+	string inputCommand = extractFirstWord(inputString);
+
+	if(inputString.empty()) {
+		throw ("inputString is empty");
+	} 
+
+	_commandType = WWUtilities::INVALID;
+
+	if(inputCommand == ADD_COMMAND) {
+		_commandType = WWUtilities::ADD;
+		_unusedContent = inputString.substr(inputCommand.size());
+	}
+
+	if(inputCommand == DELETE_COMMAND) {
+		string inputWithoutDelete = inputString.substr(inputCommand.size());
+		_commandType = determineDeleteType(inputWithoutDelete);
+	}
+
+	if(inputCommand == EDIT_COMMAND) {
+		_commandType = WWUtilities::EDIT;
+		_unusedContent = inputString.substr(inputCommand.size());
+	}
+
+	if(inputCommand == DONE_COMMAND) {
+		_commandType = WWUtilities::DONE;
+		_unusedContent = inputString.substr(inputCommand.size());
+	}
+
+	if(inputCommand == UNDONE_COMMAND) {
+		_commandType = WWUtilities::UNDONE;
+		_unusedContent = inputString.substr(inputCommand.size());
+	}
+
+	if(inputCommand == SEARCH_COMMAND) {
+		_commandType = WWUtilities::SEARCH;
+		_unusedContent = inputString.substr(inputCommand.size());
+	}
+
+	if(inputCommand == UNDO_COMMAND) {
+		_commandType = WWUtilities::UNDO;
+		_unusedContent = inputString.substr(inputCommand.size());
+	}
+
+	if(inputCommand == REDO_COMMAND) {
+		_commandType = WWUtilities::REDO;
+		_unusedContent = inputString.substr(inputCommand.size());
+	}
+
+	if(inputCommand == VIEW_COMMAND) {
+		string inputWithoutView = inputString.substr(inputCommand.size());
+		_commandType = determineViewType(inputWithoutView);
+	}
+
+	if(inputCommand == REFRESH_COMMAND) {
+		_commandType = WWUtilities::REFRESH;
+		_unusedContent = inputString.substr(inputCommand.size());
+	}
+
+	if(inputCommand == EXIT_COMMAND) {
+		_commandType = WWUtilities::EXIT;
+		_unusedContent = inputString.substr(inputCommand.size());
+	}
+}
+
+WWUtilities::CommandType WWCommandParser::determineDeleteType(string inputString) {
+	trimLeadingWhitespace(inputString);
+	string inputDeleteType = extractFirstWord(inputString);
+
+	WWUtilities::CommandType deleteCommand = WWUtilities::DELETE;
+	
+	_unusedContent = inputString;
+
+	if(inputDeleteType == DELETETYPE_ALL) {
+		deleteCommand = WWUtilities::DELETEALL;
+		_unusedContent = inputString.substr(inputDeleteType.size());
+	}
+	
+	return deleteCommand;
+}
+
+WWUtilities::CommandType WWCommandParser::determineViewType(string inputString) {
+	trimLeadingWhitespace(inputString);
+	string inputViewType = extractFirstWord(inputString);
+
+	WWUtilities::CommandType viewCommand = WWUtilities::INVALID;
+
+	if(inputViewType == VIEWTYPE_ALL) {
+		viewCommand = WWUtilities::VIEWALL;
+	}
+
+	if(inputViewType == VIEWTYPE_DEADLINE) {
+		viewCommand = WWUtilities::VIEWDEADLINE;
+	}
+
+	if(inputViewType == VIEWTYPE_TIMED) {
+		viewCommand = WWUtilities::VIEWTIMED;
+	}
+	
+	if(inputViewType == VIEWTYPE_FLOATING) {
+		viewCommand = WWUtilities::VIEWFLOATING;
+	}
+	
+	if(inputViewType == VIEWTYPE_TODAY) {
+		viewCommand = WWUtilities::VIEWTODAY;
+	}
+	
+	if(inputViewType == VIEWTYPE_DONE) {
+		viewCommand = WWUtilities::VIEWDONE;
+	}
+	
+	if(inputViewType == VIEWTYPE_UNDONE) {
+		viewCommand = WWUtilities::VIEWUNDONE;
+	}
+	
+	if(inputViewType == VIEWTYPE_OVERDUE) {
+		viewCommand = WWUtilities::VIEWOVERDUE;
+	}
+
+	if(inputViewType == VIEWTYPE_SEARCH) {
+		viewCommand = WWUtilities::VIEWSEARCH;
+	}
+
+	_unusedContent = inputString.substr(inputViewType.size());
+
+	return viewCommand;
+}
+
+string WWCommandParser::extractFirstWord(string inputString) {
+	trimLeadingWhitespace(inputString);
+
+	unsigned int firstSpaceIndex = inputString.string::find_first_of(WHITESPACE_TAB);
+
+	string firstWord = inputString.substr(COMMAND_STRING_STARTING_INDEX, firstSpaceIndex);
+	toUpperCase(firstWord);
+
+	return firstWord;
+}
+
+void WWCommandParser::toUpperCase(string& input) {
+	transform(input.begin(), input.end(), input.begin(), toupper);
+}
+
+void WWCommandParser::trimLeadingWhitespace(string& input) {
+	unsigned int firstNonSpaceIndex = input.string::find_first_not_of(WHITESPACE_TAB);
+
+	if(firstNonSpaceIndex != string::npos) {
+		input = input.substr(firstNonSpaceIndex);
+	} else {
+		input.clear();
+	}
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWCommandParser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWDateChecker.cpp
+	 */
+
+
+#include <string>
+#include "WWUtilities.h"
+#include "WWDateChecker.h"
+#include "WWLogger.h"
+
+using namespace std;
+
+//The date string will be returned in YYYYMMDD format, thus the size is 2 for MM
+const unsigned int STANDARD_MONTH_SIZE = 2;
+const string STANDARD_MONTH_SIZE_ADJUSTMENT = "0";
+
+//The date string will be returned in YYYYMMDD format, thus the size is 2 for DD
+const unsigned int STANDARD_DAY_SIZE = 2;
+const string STANDARD_DAY_SIZE_ADJUSTMENT = "0";
+
+const int FIRST_INDEX_FOR_MONTH = 0;
+const int SIZE_MONTH_SHORTHAND = 3;
+
+const int SMALLEST_POSSIBLE_MONTH_INT = 1;
+const int LARGEST_POSSIBLE_MONTH_INT = 12;
+
+const int SMALLEST_POSSIBLE_DAY_INT = 1;
+
+const int LARGEST_POSSIBLE_FEB_DAYS_NONLEAPYEAR = 28;
+const int LARGEST_POSSIBLE_FEB_DAYS_LEAPYEAR = 29;
+
+//Knuckle months are months that have 31 days
+//Non-knuckle months are months that have 30 days
+const int LARGEST_POSSIBLE_DAYS_KNUCKLEMONTH = 31;
+const int LARGEST_POSSIBLE_DAYS_NONKNUCKLEMONTH = 30;
+
+//To add a year to the date strings, 10000 is added as int.
+//This is because the format is YYYYMMDD
+const int NEXT_YEAR_ADJUSTMENT = 10000;
+
+const string LOG_ISVALID = "date is valid with output: ";
+const string LOG_NOTVALID = "date is not valid";
+
+WWDateChecker::WWDateChecker() {
+}
+
+//isValidDateWordFormat is used to check if dates such as 23 nov 2014 is valid.
+//The method will return true if valid and a string 20141123 in this case.
+bool WWDateChecker::isValidDateWordFormat(string yearString, string monthString, string dayString, string& standardDateFormat) {
+	WWLogger& logger = WWLogger::getInstance();
+
+	bool isValid = false;
+
+	if(isValidYear(yearString)) {
+		if(isValidMonthWordFormat(monthString)) {
+			if(isValidDay(dayString)) {
+				isValid = true;
+				standardDateFormat = composeProjectDate();
+			}
+		}
+	}
+
+	if(isValid) {
+		logger.addLog(LOG_ISVALID + standardDateFormat);
+	} else {
+		logger.addLog(LOG_NOTVALID);
+	}
+
+	logger.saveLog();
+
+	return isValid;
+}
+
+//isValidDateWordFormatWithoutYear is used to check if dates such as 23 nov is valid.
+//The current system year will be used as default for the missing year input.
+//The method will return true if valid and a string 20141123 in this case.
+bool WWDateChecker::isValidDateWordFormatWithoutYear(string monthString, string dayString, string& standardDateFormat) {
+	WWLogger& logger = WWLogger::getInstance();
+
+	bool isValid = false;
+
+	WWUtilities& utilities = WWUtilities::getInstance();
+	_year = utilities.getCurrentYear();
+
+	if(isValidMonthWordFormat(monthString)) {
+		if(isValidDay(dayString)) {
+			isValid = true;
+			standardDateFormat = composeProjectDate();
+		}
+	}
+
+	if(isValid) {
+		if(isOverdueWithoutYear(standardDateFormat)) {
+			setNextYear(standardDateFormat);
+		}
+	}
+
+	if(isValid) {
+		logger.addLog(LOG_ISVALID + standardDateFormat);
+	} else {
+		logger.addLog(LOG_NOTVALID);
+	}
+
+	logger.saveLog();
+	
+	return isValid;
+}
+
+//isValidDateDigitFormat is used to check if dates such as 23/11/2014 is valid.
+//The method will return true if valid and a string 20141123 in this case.
+bool WWDateChecker::isValidDateDigitFormat(string yearString, string monthString, string dayString, string& standardDateFormat) {
+	WWLogger& logger = WWLogger::getInstance();
+
+	bool isValid = false;
+
+	if(isValidYear(yearString)) {
+		if(isValidMonthDigitFormat(monthString)) {
+			if(isValidDay(dayString)) {
+				isValid = true;
+				standardDateFormat = composeProjectDate();
+			}
+		}
+	}
+
+	if(isValid) {
+		logger.addLog(LOG_ISVALID + standardDateFormat);
+	} else {
+		logger.addLog(LOG_NOTVALID);
+	}
+
+	logger.saveLog();
+
+	return isValid;
+}
+
+//isValidDateDigitFormatWithoutYear is used to check if dates such as 23/11 is valid.
+//The current system year will be used as default for the missing year input.
+//The method will return true if valid and a string 20141123 in this case.
+bool WWDateChecker::isValidDateDigitFormatWithoutYear(string monthString, string dayString, string& standardDateFormat) {
+	WWLogger& logger = WWLogger::getInstance();
+
+	bool isValid = false;
+
+	WWUtilities& utilities = WWUtilities::getInstance();
+	_year = utilities.getCurrentYear();
+
+	if(isValidMonthDigitFormat(monthString)) {
+		if(isValidDay(dayString)) {
+			isValid = true;
+			standardDateFormat = composeProjectDate();
+		}
+	}
+
+	if(isValid) {
+		if(isOverdueWithoutYear(standardDateFormat)) {
+			setNextYear(standardDateFormat);
+		}
+	}
+
+	if(isValid) {
+		logger.addLog(LOG_ISVALID + standardDateFormat);
+	} else {
+		logger.addLog(LOG_NOTVALID);
+	}
+
+	logger.saveLog();
+
+	return isValid;
+}
+
+bool WWDateChecker::isValidYear(string yearString) {
+	bool validStatus = false;
+
+	int inputYear = stringToInt(yearString);
+	
+	WWUtilities& utilities = WWUtilities::getInstance();
+	int currentYear = utilities.getCurrentYear();
+
+	if(inputYear >= currentYear) {
+		validStatus = true;
+		_year = inputYear;
+	}
+
+	return validStatus;
+}
+
+//isValidMonthWordFormat checks if month in word format, such as January, nov, Dec, is valid month
+bool WWDateChecker::isValidMonthWordFormat(string monthString) {
+	bool validStatus = false;
+
+	monthString = monthString.substr(FIRST_INDEX_FOR_MONTH, SIZE_MONTH_SHORTHAND);
+
+	WWUtilities& utilities = WWUtilities::getInstance();
+	int inputMonth = utilities.convertMonthFromStringToInt(monthString);
+
+	if((inputMonth >= SMALLEST_POSSIBLE_MONTH_INT) && (inputMonth <= LARGEST_POSSIBLE_MONTH_INT)) {
+		validStatus = true;
+		_month = inputMonth;
+	}
+
+	return validStatus;
+}
+
+//isValidMonthDigitFormat checks if month in digit format is valid month
+bool WWDateChecker::isValidMonthDigitFormat(string monthString) {
+	bool validStatus = false;
+
+	int inputMonth = stringToInt(monthString);
+
+	if((inputMonth >= SMALLEST_POSSIBLE_MONTH_INT) && (inputMonth <= LARGEST_POSSIBLE_MONTH_INT)) {
+		validStatus = true;
+		_month = inputMonth;
+	}
+
+	return validStatus;
+}
+
+bool WWDateChecker::isValidDay(string dayString) {
+	bool validStatus = false;
+	
+	int inputDay = stringToInt(dayString); 
+
+	if(inputDay >= SMALLEST_POSSIBLE_DAY_INT) {
+		switch(_month) {
+			case 2: {
+				if(isLeapYear()) { // We only care about leap years in February 
+					if(inputDay <= LARGEST_POSSIBLE_FEB_DAYS_LEAPYEAR) {
+						validStatus = true;
+						_day = inputDay;
+					}
+				} else {
+					if(inputDay <= LARGEST_POSSIBLE_FEB_DAYS_NONLEAPYEAR) {
+						validStatus = true;
+						_day = inputDay;
+					}
+				}
+				break;
+			}
+
+			case 1: 
+			case 3: 
+			case 5: 
+			case 7: 
+			case 8: 
+			case 10: 
+			case 12: {
+				if(inputDay <= LARGEST_POSSIBLE_DAYS_KNUCKLEMONTH) {
+					validStatus = true;
+					_day = inputDay;
+				}
+				break;
+			}
+
+			case 4: 
+			case 6: 
+			case 9: 
+			case 11: {
+				if(inputDay <= LARGEST_POSSIBLE_DAYS_NONKNUCKLEMONTH) {
+					validStatus = true;
+					_day = inputDay;
+				}
+				break;
+			}
+
+			default: {
+				validStatus = false;
+				break;
+			}
+		}
+	}
+
+	return validStatus;
+}
+
+bool WWDateChecker::isLeapYear() {
+	return ((_year % 4 == 0 && _year % 100 != 0) || (_year % 400 == 0));
+}
+
+//isOverdueWithoutYear checks if the input date without year has already been passed.
+//For example, an input of 2 Jan without year specified when the system time is already in Apr will return true
+bool WWDateChecker::isOverdueWithoutYear(string inputDate) {
+	int currentDate = getCurrentDateInt();
+
+	return (stringToInt(inputDate) < currentDate);
+}
+
+void WWDateChecker::setNextYear(string& inputDate) {
+	int nextYearDate = stringToInt(inputDate) + NEXT_YEAR_ADJUSTMENT;
+	
+	inputDate = to_string(nextYearDate);
+}
+
+int WWDateChecker::getCurrentDateInt() {
+	WWUtilities& utilities = WWUtilities::getInstance();
+
+	string yearString = to_string(utilities.getCurrentYear());
+	string monthString = to_string(utilities.getCurrentMonth());
+	string dayString = to_string(utilities.getCurrentDay());
+
+	if(monthString.size() != STANDARD_MONTH_SIZE) {
+			monthString = STANDARD_MONTH_SIZE_ADJUSTMENT + monthString;
+		}
+
+	if(dayString.size() != STANDARD_DAY_SIZE) {
+		dayString = STANDARD_DAY_SIZE_ADJUSTMENT + dayString;
+	}
+
+	string currentDateString = yearString + monthString + dayString;
+
+	return stringToInt(currentDateString);
+}
+
+//composeProjectDate will compose the date in a YYYYMMDD digit format
+string WWDateChecker::composeProjectDate() {
+	string standardYear = to_string(_year);
+	string standardMonth = to_string(_month);
+	string standardDay = to_string(_day);
+
+	if(standardMonth.size() != STANDARD_MONTH_SIZE) {
+		standardMonth = STANDARD_MONTH_SIZE_ADJUSTMENT + standardMonth;
+	}
+
+	if(standardDay.size() != STANDARD_DAY_SIZE) {
+		standardDay = STANDARD_DAY_SIZE_ADJUSTMENT + standardDay;
+	}
+
+	return standardYear + standardMonth + standardDay;
+}
+
+int WWDateChecker::stringToInt(string inputString) {
+	return atoi(inputString.c_str());
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWDateChecker.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWDateParser.cpp
+	 */
+
+
+#include <string>
+#include <vector>
+#include <regex>
+#include <cassert>
+#include "WWDateParser.h"
+#include "WWDateChecker.h"
+#include "WWLogger.h"
+
+using namespace std;
+
+//word format refers to dates which have the month written in word form
+//For example, November, nov. The match will be case-insensitive
+//digit format refers to dates with month written in digits.
+//Back reference is used in this case, meaning 23.11/2014 will be rejected
+const regex wordFormatWithYear("\\b((?:\\d)?\\d)([-/.\\s])?(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\\2(\\d\\d\\d\\d)\\b", regex_constants::icase);
+const regex wordFormatWithoutYear("\\b((?:\\d)?\\d)([-/.\\s])?(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\\b", regex_constants::icase);
+const regex digitFormatWithYear("\\b((?:\\d)?\\d)([-/.])((?:\\d)?\\d)\\2(\\d\\d\\d\\d)\\b");
+const regex digitFormatWithoutYear("\\b((?:\\d)?\\d)([-/.])((?:\\d)?\\d)\\b");
+
+//These indexes are used to locate information stored within the smatch
+const unsigned int MATCH_INDEX = 0;
+const unsigned int DAY_INDEX = 1;
+const unsigned int MONTH_INDEX = 3;
+const unsigned int YEAR_INDEX = 4;
+
+const unsigned int FIRST_DATE_INDEX = 0;
+const unsigned int SECOND_DATE_INDEX = 1;
+
+const int DEFAULT_FIRST_MATCH_INDEX = 0;
+const int DEFAULT_LAST_MATCH_INDEX = 0;
+
+const int NEXT_CHAR_ADJUSTMENT = 1;
+
+const unsigned int MIN_SIZE_DATE_WITH_YEAR = 7;
+const unsigned int MAXIMUM_NUM_REQUIRED_DATES = 2;
+
+//The escape character provided to resolve misinterpretation is backslash
+const char ESCAPE_CHARACTER = '\\';
+
+const int SIZE_REQUIRED_TO_SORT = 2;
+
+const string LOG_PARSEDATE = "parseDate is called, received ";
+const string LOG_RETRIEVEDATE = "retrieveDate is called";
+const string LOG_RETRIEVEUNUSEDCONTENT = "retrieveUnusedContent is called, returned ";
+
+WWDateParser::WWDateParser() {
+}
+
+void WWDateParser::parseDate(string inputString) {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_PARSEDATE + inputString);
+	logger.saveLog();
+
+	_dateIndex.clear();
+	_dateStorage.clear();
+	_originalDateStorage.clear();
+	_inputString = inputString;
+	_higherPriorityAdjustment = _inputString.size();
+
+	extractDate();
+	determineDate();
+	extractUnusedContent();
+}
+
+void WWDateParser::retrieveDate(vector<string>& destinationStorage) {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_RETRIEVEDATE);
+	logger.saveLog();
+
+	for(unsigned int i = 0; i != _dateStorage.size(); i++) {
+		destinationStorage.push_back(_dateStorage[i]);
+	}
+}
+
+string WWDateParser::retrieveUnusedContent() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_RETRIEVEUNUSEDCONTENT + _unusedContent);
+	logger.saveLog();
+
+	return _unusedContent;
+}
+
+//extractDate will continuously attempt to parse a string using the same format until no match can be found.
+//The order of the format used for parsing follows the precedence rule.
+void WWDateParser::extractDate() {
+	string contentAfterParsing = _inputString;
+
+	while(parseWordFormatWithYear(contentAfterParsing)) {
+	}
+
+	while(parseDigitFormatWithYear(contentAfterParsing)) {
+	}
+
+	while(parseWordFormatWithoutYear(contentAfterParsing)) {
+	}
+
+	while(parseDigitFormatWithoutYear(contentAfterParsing)) {
+	}
+}
+
+//parseWordFormatWithYear will attempt to find a match within the string.
+//When a match is found, the date will be converted to YYYYMMDD format.
+//The date will also be checked for validity using WWDateChecker
+bool WWDateParser::parseWordFormatWithYear(string& inputString) {
+	smatch matchDetails;
+
+	bool isFound = regex_search(inputString, matchDetails, wordFormatWithYear);
+
+	if(isFound) {
+		char charBeforeMatch = matchDetails.prefix().str().back();
+		
+		if(isNotEscapeCharacter(charBeforeMatch)) {
+			int lastMatchIndex = determineLastMatchIndex();
+			unsigned int dateFoundIndex = _inputString.find(matchDetails[MATCH_INDEX], lastMatchIndex + NEXT_CHAR_ADJUSTMENT);
+			
+			string dateStandardFormat;
+
+			if(_dateChecker.isValidDateWordFormat(matchDetails[YEAR_INDEX], matchDetails[MONTH_INDEX], matchDetails[DAY_INDEX], dateStandardFormat)) {
+				_dateIndex.push_back(dateFoundIndex);
+				_dateStorage.push_back(dateStandardFormat);
+				_originalDateStorage.push_back(matchDetails[MATCH_INDEX]);
+
+				inputString = matchDetails.prefix().str() + matchDetails.suffix().str();
+			} else {
+				string contentAfterMatch = matchDetails.suffix().str();
+				isFound = parseWordFormatWithYear(contentAfterMatch);
+
+				if(isFound) {
+					inputString = matchDetails.prefix().str() + contentAfterMatch;
+				}
+			}
+		} else {
+			string contentAfterMatch = matchDetails.suffix().str();
+			isFound = parseWordFormatWithYear(contentAfterMatch);
+
+			if(isFound) {
+				inputString = matchDetails.prefix().str() + contentAfterMatch;
+			}
+		}
+	}
+
+	return isFound;
+}
+
+//parseDigitFormatWithYear will attempt to find a match within the string.
+//When a match is found, the date will be converted to YYYYMMDD format.
+//The date will also be checked for validity using WWDateChecker
+bool WWDateParser::parseDigitFormatWithYear(string& inputString) {
+	smatch matchDetails;
+
+	bool isFound = regex_search(inputString, matchDetails, digitFormatWithYear);
+
+	if(isFound) {
+		char charBeforeMatch = matchDetails.prefix().str().back();
+
+		if(isNotEscapeCharacter(charBeforeMatch)) {
+			int lastMatchIndex = determineLastMatchIndex();
+			unsigned int dateFoundIndex = _inputString.find(matchDetails[MATCH_INDEX], lastMatchIndex + NEXT_CHAR_ADJUSTMENT);
+
+			string dateStandardFormat;
+
+			if(_dateChecker.isValidDateDigitFormat(matchDetails[YEAR_INDEX], matchDetails[MONTH_INDEX], matchDetails[DAY_INDEX], dateStandardFormat)) {
+				_dateIndex.push_back(dateFoundIndex);
+				_dateStorage.push_back(dateStandardFormat);
+				_originalDateStorage.push_back(matchDetails[MATCH_INDEX]);
+
+				inputString = matchDetails.prefix().str() + matchDetails.suffix().str();
+			} else {
+				string contentAfterMatch = matchDetails.suffix().str();
+				isFound = parseDigitFormatWithYear(contentAfterMatch);
+
+				if(isFound) {
+					inputString = matchDetails.prefix().str() + contentAfterMatch;
+				}
+			}
+		} else {
+			string contentAfterMatch = matchDetails.suffix().str();
+			isFound = parseDigitFormatWithYear(contentAfterMatch);
+
+			if(isFound) {
+				inputString = matchDetails.prefix().str() + contentAfterMatch;
+			}
+		}
+	}
+
+	return isFound;
+}
+
+//parseWordFormatWithoutYear will attempt to find a match within the string.
+//When a match is found, the date will be converted to YYYYMMDD format.
+//The year will be taken as the nearest year without the date being overdue
+//The date will also be checked for validity using WWDateChecker
+bool WWDateParser::parseWordFormatWithoutYear(string& inputString) {
+	smatch matchDetails;
+
+	bool isFound = regex_search(inputString, matchDetails, wordFormatWithoutYear);
+
+	if(isFound) {
+		char charBeforeMatch = matchDetails.prefix().str().back();
+
+		if(isNotEscapeCharacter(charBeforeMatch)) {
+			int lastMatchIndex = determineLastMatchIndex();
+			unsigned int dateFoundIndex = _inputString.find(matchDetails[MATCH_INDEX], lastMatchIndex + NEXT_CHAR_ADJUSTMENT);
+
+			string dateStandardFormat;
+
+			if(_dateChecker.isValidDateWordFormatWithoutYear(matchDetails[MONTH_INDEX], matchDetails[DAY_INDEX], dateStandardFormat)) {
+				_dateIndex.push_back(dateFoundIndex);
+				_dateStorage.push_back(dateStandardFormat);
+				_originalDateStorage.push_back(matchDetails[MATCH_INDEX]);
+
+				inputString = matchDetails.prefix().str() + matchDetails.suffix().str();
+			} else {
+				string contentAfterMatch = matchDetails.suffix().str();
+				isFound = parseWordFormatWithoutYear(contentAfterMatch);
+
+				if(isFound) {
+					inputString = matchDetails.prefix().str() + contentAfterMatch;
+				}
+			}
+		} else {
+			string contentAfterMatch = matchDetails.suffix().str();
+			isFound = parseWordFormatWithoutYear(contentAfterMatch);
+
+			if(isFound) {
+				inputString = matchDetails.prefix().str() + contentAfterMatch;
+			}
+		}
+	}
+
+	return isFound;
+}
+
+//parseDigitFormatWithoutYear will attempt to find a match within the string.
+//When a match is found, the date will be converted to YYYYMMDD format.
+//The year will be taken as the nearest year without the date being overdue
+//The date will also be checked for validity using WWDateChecker
+bool WWDateParser::parseDigitFormatWithoutYear(string& inputString) {
+	smatch matchDetails;
+
+	bool isFound = regex_search(inputString, matchDetails, digitFormatWithoutYear);
+
+	if(isFound) {
+		char charBeforeMatch = matchDetails.prefix().str().back();
+
+		if(isNotEscapeCharacter(charBeforeMatch)) {
+			int lastMatchIndex = determineLastMatchIndex();
+			unsigned int dateFoundIndex = _inputString.find(matchDetails[MATCH_INDEX], lastMatchIndex + NEXT_CHAR_ADJUSTMENT);
+
+			string dateStandardFormat;
+
+			if(_dateChecker.isValidDateDigitFormatWithoutYear(matchDetails[MONTH_INDEX], matchDetails[DAY_INDEX], dateStandardFormat)) {
+				_dateIndex.push_back(dateFoundIndex);
+				_dateStorage.push_back(dateStandardFormat);
+				_originalDateStorage.push_back(matchDetails[MATCH_INDEX]);
+
+				inputString = matchDetails.prefix().str() + matchDetails.suffix().str();
+			} else {
+				string contentAfterMatch = matchDetails.suffix().str();
+				isFound = parseDigitFormatWithoutYear(contentAfterMatch);
+
+				if(isFound) {
+					inputString = matchDetails.prefix().str() + contentAfterMatch;
+				}
+			}
+		} else {
+			string contentAfterMatch = matchDetails.suffix().str();
+			isFound = parseDigitFormatWithoutYear(contentAfterMatch);
+
+			if(isFound) {
+				inputString = matchDetails.prefix().str() + contentAfterMatch;
+			}
+		}
+	}
+
+	return isFound;
+}
+
+int WWDateParser::determineLastMatchIndex() {
+	int lastMatchIndex;
+
+	if(!_dateIndex.empty()) {
+		lastMatchIndex = _dateIndex.back();
+	} else {
+		lastMatchIndex = DEFAULT_LAST_MATCH_INDEX;
+	}
+
+	return lastMatchIndex;
+}
+
+void WWDateParser::determineDate() {
+	if(!_dateStorage.empty()) {
+		allocatePriority();
+		retainTwoImportantDates();
+		deallocatePriority();
+
+		if(_dateStorage.size() == MAXIMUM_NUM_REQUIRED_DATES) {
+			sortDatesByAppearance();
+		}
+	}
+}
+
+void WWDateParser::retainTwoImportantDates() {
+	unsigned int earliestDateIndex;
+
+	while(_dateStorage.size() > MAXIMUM_NUM_REQUIRED_DATES) {
+		earliestDateIndex = DEFAULT_FIRST_MATCH_INDEX;
+
+		for(unsigned int i = 0; i != _dateIndex.size(); i++) {
+			if(_dateIndex[earliestDateIndex] > _dateIndex[i]) {
+				earliestDateIndex = i;
+			}
+		}
+
+		if(_dateIndex[earliestDateIndex] > _inputString.size()) {
+			_dateIndex[earliestDateIndex] = _dateIndex[earliestDateIndex] - _higherPriorityAdjustment;
+		}
+
+		_dateIndex.erase(_dateIndex.begin() + earliestDateIndex);
+		_dateStorage.erase(_dateStorage.begin() + earliestDateIndex);
+		_originalDateStorage.erase(_originalDateStorage.begin() + earliestDateIndex);
+	}
+}
+
+void WWDateParser::allocatePriority() {
+	for(unsigned int i = 0; i != _dateStorage.size(); i++) {
+		if(_originalDateStorage[i].size() >= MIN_SIZE_DATE_WITH_YEAR) {
+			_dateIndex[i] = _dateIndex[i] + _higherPriorityAdjustment;
+		}
+	}
+}
+
+void WWDateParser::deallocatePriority() {
+	for(unsigned int i = 0; i != _dateStorage.size(); i++) {
+		if(_dateIndex[i] > _inputString.size()) {
+			_dateIndex[i] = _dateIndex[i] - _higherPriorityAdjustment;
+		}
+	}
+}
+
+//dates which appeared later will be stored in lower index
+void WWDateParser::sortDatesByAppearance() {
+	assert(_dateIndex.size() == SIZE_REQUIRED_TO_SORT);
+	assert(_dateStorage.size() == SIZE_REQUIRED_TO_SORT);
+	assert(_originalDateStorage.size() == SIZE_REQUIRED_TO_SORT);
+
+	if(_dateIndex[FIRST_DATE_INDEX] < _dateIndex[SECOND_DATE_INDEX]) {
+		int tempIndex;
+		string tempDate;
+		string tempOriginalDate;
+
+		tempIndex = _dateIndex[FIRST_DATE_INDEX];
+		_dateIndex[FIRST_DATE_INDEX] = _dateIndex[SECOND_DATE_INDEX];
+		_dateIndex[SECOND_DATE_INDEX] = tempIndex;
+
+		tempDate = _dateStorage[FIRST_DATE_INDEX];
+		_dateStorage[FIRST_DATE_INDEX] = _dateStorage[SECOND_DATE_INDEX];
+		_dateStorage[SECOND_DATE_INDEX] = tempDate;
+
+		tempOriginalDate = _originalDateStorage[FIRST_DATE_INDEX];
+		_originalDateStorage[FIRST_DATE_INDEX] = _originalDateStorage[SECOND_DATE_INDEX];
+		_originalDateStorage[SECOND_DATE_INDEX] = tempOriginalDate;
+	}
+}
+
+void WWDateParser::extractUnusedContent() {
+	_unusedContent = _inputString;
+
+	for(unsigned int i = 0; i != _dateStorage.size(); i++) {
+		if(_dateIndex[i] > _inputString.size()) {
+			_dateIndex[i] = _dateIndex[i] - _higherPriorityAdjustment;
+		}
+
+		_unusedContent.erase(_dateIndex[i], _originalDateStorage[i].size());
+	}
+}
+
+bool WWDateParser::isNotEscapeCharacter(char checkCharacter) {
+	return checkCharacter != ESCAPE_CHARACTER;
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWDateParser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWDateTimeProcessor.cpp
+	 */
+
+
+#include <ctime>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <cassert>
+#include "WWDateTimeProcessor.h"
+#include "WWUtilities.h"
+#include "WWLogger.h";
+
+using namespace std;
+
+//The number of dates/time required for the different types of tasks
+const int SIZE_REQUIRED_FOR_TIMED_TASK = 2;
+const int SIZE_REQUIRED_FOR_DEADLINE_TASK = 1;
+const int SIZE_REQUIRED_FOR_FLOATING_TASK = 0;
+
+const int FIRST_DATE_TIME_INDEX = 0;
+const int SECOND_DATE_TIME_INDEX = 1;
+
+//the format for dates is YYYYMMDD, thus the size for MM is 2
+const unsigned int STANDARD_MONTH_SIZE = 2;
+const string STANDARD_MONTH_SIZE_ADJUSTMENT = "0";
+
+//the format for dates is YYYYMMDD, thus the size for DD is 2
+const unsigned int STANDARD_DAY_SIZE = 2;
+const string STANDARD_DAY_SIZE_ADJUSTMENT = "0";
+
+//the format for time is HHMM, thus the size for MM is 2
+const unsigned int STANDARD_MINUTE_SIZE = 2;
+const string STANDARD_MINUTE_SIZE_ADJUSTMENT = "0";
+
+const int SYSTEM_MONTH_ADJUSTMENT = 1;
+const int SYSTEM_YEAR_ADJUSTMENT = 1900;
+
+const int SIZE_REQUIRED_TO_SORT = 2;
+
+const string LOG_PROCESSTIMED = "date and time processed for timed task";
+const string LOG_PROCESSDEADLINE = "date and time processed for deadline task";
+const string LOG_PROCESSFLOATING = "date and time processed for floating task";
+
+WWDateTimeProcessor::WWDateTimeProcessor() {
+}
+
+//processDateTime will determine the type of tasks based on the number of the dates and time parsed.
+void WWDateTimeProcessor::processDateTime(vector<string>& dateStorage, vector<string>& timeStorage) {
+	WWLogger& logger = WWLogger::getInstance();
+
+	if((dateStorage.size() == SIZE_REQUIRED_FOR_TIMED_TASK) && (timeStorage.size() == SIZE_REQUIRED_FOR_TIMED_TASK)) {
+		processTimed(dateStorage, timeStorage);
+		logger.addLog(LOG_PROCESSTIMED);
+		logger.saveLog();
+	}
+
+	if((dateStorage.size() == SIZE_REQUIRED_FOR_TIMED_TASK) && (timeStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK)) {
+		processTimed(dateStorage, timeStorage);
+		logger.addLog(LOG_PROCESSTIMED);
+		logger.saveLog();
+	}
+
+	if((dateStorage.size() == SIZE_REQUIRED_FOR_TIMED_TASK) && (timeStorage.size() == SIZE_REQUIRED_FOR_FLOATING_TASK)) {
+		processTimed(dateStorage, timeStorage);
+		logger.addLog(LOG_PROCESSTIMED);
+		logger.saveLog();
+	}
+
+	if((dateStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK) && (timeStorage.size() == SIZE_REQUIRED_FOR_TIMED_TASK)) {
+		processTimed(dateStorage, timeStorage);
+		logger.addLog(LOG_PROCESSTIMED);
+		logger.saveLog();
+	}
+
+	if((dateStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK) && (timeStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK)) {
+		processDeadline(dateStorage, timeStorage);
+		logger.addLog(LOG_PROCESSDEADLINE);
+		logger.saveLog();
+	}
+
+	if((dateStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK) && (timeStorage.size() == SIZE_REQUIRED_FOR_FLOATING_TASK)) {
+		processDeadline(dateStorage, timeStorage);
+		logger.addLog(LOG_PROCESSDEADLINE);
+		logger.saveLog();
+	}
+
+	if((dateStorage.size() == SIZE_REQUIRED_FOR_FLOATING_TASK) && (timeStorage.size() == SIZE_REQUIRED_FOR_TIMED_TASK)) {
+		processTimed(dateStorage, timeStorage);
+		logger.addLog(LOG_PROCESSTIMED);
+		logger.saveLog();
+	}
+
+	if((dateStorage.size() == SIZE_REQUIRED_FOR_FLOATING_TASK) && (timeStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK)) {
+		processDeadline(dateStorage, timeStorage);
+		logger.addLog(LOG_PROCESSDEADLINE);
+		logger.saveLog();
+	}
+
+	if((dateStorage.size() == SIZE_REQUIRED_FOR_FLOATING_TASK) && (timeStorage.size() == SIZE_REQUIRED_FOR_FLOATING_TASK)) {
+		logger.addLog(LOG_PROCESSFLOATING);
+		logger.saveLog();
+	}
+}
+
+void WWDateTimeProcessor::processTimed(vector<string>& dateStorage, vector<string>& timeStorage) {
+	if(dateStorage.size() == SIZE_REQUIRED_FOR_TIMED_TASK) {
+		if(timeStorage.size() == SIZE_REQUIRED_FOR_TIMED_TASK) {
+			rearrangeDateTime(dateStorage, timeStorage);
+		}
+
+		if(timeStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK) {
+			rearrangeDate(dateStorage);
+		}
+
+		if(timeStorage.size() == SIZE_REQUIRED_FOR_FLOATING_TASK) {
+			rearrangeDate(dateStorage);
+		}
+	}
+
+	if(dateStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK) {
+		if(timeStorage.size() == SIZE_REQUIRED_FOR_TIMED_TASK) {
+			rearrangeTime(timeStorage);
+
+			string sameDate = dateStorage[FIRST_DATE_TIME_INDEX];
+			dateStorage.push_back(sameDate);
+		}
+	}
+
+	if(dateStorage.size() == SIZE_REQUIRED_FOR_FLOATING_TASK) {
+		if(timeStorage.size() == SIZE_REQUIRED_FOR_TIMED_TASK) {
+			rearrangeTime(timeStorage);
+
+			string currentTime = getCurrentTimeString();
+
+			if(stringToInt(timeStorage[FIRST_DATE_TIME_INDEX]) < stringToInt(currentTime)) {
+				dateStorage.push_back(getNextDayDateString());
+				dateStorage.push_back(getNextDayDateString());
+			} else {
+				dateStorage.push_back(getCurrentDateString());
+				dateStorage.push_back(getCurrentDateString());
+			}
+		}
+	}
+}
+
+void WWDateTimeProcessor::processDeadline(vector<string>& dateStorage, vector<string>& timeStorage) {
+	if(dateStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK) {
+		if(timeStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK) {
+		}
+
+		if(timeStorage.size() == SIZE_REQUIRED_FOR_FLOATING_TASK) {
+		}
+	}
+
+	if(dateStorage.size() == SIZE_REQUIRED_FOR_FLOATING_TASK) {
+		if(timeStorage.size() == SIZE_REQUIRED_FOR_DEADLINE_TASK) {
+			string currentTime = getCurrentTimeString();
+
+			if(stringToInt(timeStorage[FIRST_DATE_TIME_INDEX]) < stringToInt(currentTime)) {
+				dateStorage.push_back(getNextDayDateString());
+			} else {
+				dateStorage.push_back(getCurrentDateString());
+			}
+		}
+	}
+}
+
+void WWDateTimeProcessor::rearrangeDateTime(vector<string>& dateStorage, vector<string>& timeStorage) {
+	assert(dateStorage.size() == SIZE_REQUIRED_TO_SORT);
+	assert(timeStorage.size() == SIZE_REQUIRED_TO_SORT);
+
+	int firstDate = stringToInt(dateStorage[FIRST_DATE_TIME_INDEX]);
+	int secondDate = stringToInt(dateStorage[SECOND_DATE_TIME_INDEX]);
+
+	if(firstDate > secondDate) {
+		string temp;
+		
+		temp = dateStorage[FIRST_DATE_TIME_INDEX];
+		dateStorage[FIRST_DATE_TIME_INDEX] = dateStorage[SECOND_DATE_TIME_INDEX];
+		dateStorage[SECOND_DATE_TIME_INDEX] = temp;
+
+		temp = timeStorage[FIRST_DATE_TIME_INDEX];
+		timeStorage[FIRST_DATE_TIME_INDEX] = timeStorage[SECOND_DATE_TIME_INDEX];
+		timeStorage[SECOND_DATE_TIME_INDEX] = temp;
+	} 
+
+	if(firstDate == secondDate) {
+		rearrangeTime(timeStorage);
+	}
+}
+
+void WWDateTimeProcessor::rearrangeDate(vector<string>& dateStorage) {
+	assert(dateStorage.size() == SIZE_REQUIRED_TO_SORT);
+
+	int firstDate = stringToInt(dateStorage[FIRST_DATE_TIME_INDEX]);
+	int secondDate = stringToInt(dateStorage[SECOND_DATE_TIME_INDEX]);
+
+	if(firstDate > secondDate) {
+		string temp;
+
+		temp = dateStorage[FIRST_DATE_TIME_INDEX];
+		dateStorage[FIRST_DATE_TIME_INDEX] = dateStorage[SECOND_DATE_TIME_INDEX];
+		dateStorage[SECOND_DATE_TIME_INDEX] = temp;
+	}
+}
+
+void WWDateTimeProcessor::rearrangeTime(vector<string>& timeStorage) {
+	assert(timeStorage.size() == SIZE_REQUIRED_TO_SORT);
+
+	int firstTime = stringToInt(timeStorage[FIRST_DATE_TIME_INDEX]);
+	int secondTime = stringToInt(timeStorage[SECOND_DATE_TIME_INDEX]);
+
+	if(firstTime > secondTime) {
+		string temp;
+
+		temp = timeStorage[FIRST_DATE_TIME_INDEX];
+		timeStorage[FIRST_DATE_TIME_INDEX] = timeStorage[SECOND_DATE_TIME_INDEX];
+		timeStorage[SECOND_DATE_TIME_INDEX] = temp;
+	}
+}
+
+string WWDateTimeProcessor::getCurrentDateString() {
+	WWUtilities& utilities = WWUtilities::getInstance();
+
+	string yearString = to_string(utilities.getCurrentYear());
+	string monthString = to_string(utilities.getCurrentMonth());
+	string dayString = to_string(utilities.getCurrentDay());
+
+	if(monthString.size() != STANDARD_MONTH_SIZE) {
+			monthString = STANDARD_MONTH_SIZE_ADJUSTMENT + monthString;
+		}
+
+	if(dayString.size() != STANDARD_DAY_SIZE) {
+		dayString = STANDARD_DAY_SIZE_ADJUSTMENT + dayString;
+	}
+
+	return yearString + monthString + dayString;
+}
+
+string WWDateTimeProcessor::getNextDayDateString() {
+	time_t rawTime = time(NULL);
+	time_t result;
+	struct tm timeInfo;
+	localtime_s(&timeInfo, &rawTime);
+
+	timeInfo.tm_mday += 1;
+
+	result = mktime(&timeInfo);
+
+	localtime_s(&timeInfo, &result);
+	int resultYear = timeInfo.tm_year + SYSTEM_YEAR_ADJUSTMENT;
+	int resultMonth = timeInfo.tm_mon + SYSTEM_MONTH_ADJUSTMENT;
+	int resultDay = timeInfo.tm_mday;
+
+	string yearString = to_string(resultYear);
+	string monthString = to_string(resultMonth);
+	string dayString = to_string(resultDay);
+
+	if(monthString.size() != STANDARD_MONTH_SIZE) {
+			monthString = STANDARD_MONTH_SIZE_ADJUSTMENT + monthString;
+	}
+
+	if(dayString.size() != STANDARD_DAY_SIZE) {
+			dayString = STANDARD_DAY_SIZE_ADJUSTMENT + dayString;
+	}
+
+	return yearString + monthString + dayString;
+}
+
+string WWDateTimeProcessor::getCurrentTimeString() {
+	WWUtilities& utilities = WWUtilities::getInstance();
+
+	string hourString = to_string(utilities.getCurrentHour());
+	string minuteString = to_string(utilities.getCurrentMinute());
+
+	if(minuteString.size() != STANDARD_MINUTE_SIZE) {
+		minuteString = STANDARD_MINUTE_SIZE_ADJUSTMENT + minuteString;
+	}
+
+	return hourString + minuteString;
+}
+
+int WWDateTimeProcessor::stringToInt(string inputString) {
+	return atoi(inputString.c_str());
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWDateTimeProcessor.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWLogger.cpp
+	 */
+
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include "WWLogger.h"
+
+using namespace std;
+
+const std::string LOG_FILENAME = "logFile.txt";
+
+WWLogger::WWLogger() {
+}
+
+void WWLogger::addLog(string newLog) {
+	_logContent.push_back(newLog);
+}
+
+void WWLogger::saveLog() {
+	ofstream writeFile(LOG_FILENAME.c_str());
+
+	for(unsigned int i = 0; i < _logContent.size(); i++) {
+		writeFile << _logContent[i] << endl;		
+	}
+
+	writeFile.close();
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWLogger.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWMainParser.cpp
+	 */
+
+
+#include <algorithm>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <cassert>
+#include "WWMainParser.h"
+#include "WWCommandParser.h"
+#include "WWDateParser.h"
+#include "WWTimeParser.h"
+#include "WWDateTimeProcessor.h"
+#include "WWCommand.h"
+#include "WWUtilities.h"
+#include "WWLogger.h"
+
+using namespace std;
+
+const string WHITESPACE_TAB = " \t";
+
+const string LOG_PARSEINPUT = "parseInput is called, received ";
+const string LOG_RETRIEVECOMMAND = "retrieveCommand is called";
+const string LOG_PARSECOMMANDTYPE = "parseCommandType is called, passing ";
+const string LOG_PARSEDATE = "parseDate is called, passing ";
+const string LOG_PARSETIME = "parseTime is called, passing ";
+const string LOG_PROCESSDATETIME = "processDateTime is called";
+const string LOG_COMPOSECOMMAND = "composeCommand is called";
+const string LOG_COMPOSECOMMANDDETAIL = "composeCommandDetail is called, returned ";
+
+WWMainParser::WWMainParser() {
+}
+
+void WWMainParser::parseInput(string inputString) {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_PARSEINPUT + inputString);
+	logger.saveLog();
+
+	_dateStorage.clear();
+	_timeStorage.clear();
+	_inputString = inputString;
+	executeParsing();
+}
+
+WWCommand WWMainParser::retrieveCommand() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_RETRIEVECOMMAND);
+	logger.saveLog();
+
+	return _command;
+}
+
+void WWMainParser::executeParsing() {
+	assert(_dateStorage.empty());
+	assert(_timeStorage.empty());
+
+	trimLeadingWhitespace(_inputString);
+
+	parseCommandType();
+	parseDate();
+	parseTime();
+	processDateTime();
+	composeCommand();
+}
+	
+void WWMainParser::parseCommandType() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_PARSECOMMANDTYPE + _inputString);
+	logger.saveLog();
+
+	_commandParser.parseCommand(_inputString);
+	_commandType = _commandParser.retrieveCommandType();
+	_unusedContent = _commandParser.retrieveUnusedContent();
+}
+	
+void WWMainParser::parseDate() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_PARSEDATE + _unusedContent);
+	logger.saveLog();
+
+	_dateParser.parseDate(_unusedContent);
+	_dateParser.retrieveDate(_dateStorage);
+	_unusedContent = _dateParser.retrieveUnusedContent();
+}
+	
+void WWMainParser::parseTime() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_PARSETIME + _unusedContent);
+	logger.saveLog();
+
+	_timeParser.parseTime(_unusedContent);
+	_timeParser.retrieveTime(_timeStorage);
+	_unusedContent = _timeParser.retrieveUnusedContent();
+}
+
+void WWMainParser::processDateTime() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_PROCESSDATETIME);
+	logger.saveLog();
+
+	_dateTimeProcessor.processDateTime(_dateStorage, _timeStorage);
+}
+
+void WWMainParser::composeCommand() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_COMPOSECOMMAND);
+	logger.saveLog();
+
+	_command.clearCommand();
+	_command.setCommand(_commandType);
+	composeCommandDetail();
+
+	if(_dateStorage.size() > 0) {
+		_command.setDate1(_dateStorage[0]);
+	}
+	if(_timeStorage.size() > 0) {
+		_command.setTime1(_timeStorage[0]);
+	}
+	if(_dateStorage.size() > 1) {
+		_command.setDate2(_dateStorage[1]);
+	}
+	if(_timeStorage.size() > 1) {
+		_command.setTime2(_timeStorage[1]);
+	}
+}
+
+//The unused content after parsing will all be treated as task name.
+//The extra whitespaces are removed and each token are treated as a standalone word.
+void WWMainParser::composeCommandDetail() {
+	_unusedContent.erase(remove(_unusedContent.begin(), _unusedContent.end(), '\\'), _unusedContent.end());
+	istringstream iss(_unusedContent);
+
+	string unusedToken;
+	vector<string> unusedTokenStorage;
+
+	while(iss >> unusedToken) {
+		unusedTokenStorage.push_back(unusedToken);
+	}
+
+	string detailString;
+
+	for(unsigned int i = 0; i != unusedTokenStorage.size(); i++) {
+		if(i == unusedTokenStorage.size() - 1) {
+			detailString = detailString + unusedTokenStorage[i];
+		} else {
+			detailString = detailString + unusedTokenStorage[i] + " ";
+		}
+	}
+
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_COMPOSECOMMANDDETAIL + detailString);
+	logger.saveLog();
+
+	_command.setDetail(detailString);
+}
+
+void WWMainParser::trimLeadingWhitespace(string& input) {
+	unsigned int firstNonSpaceIndex = input.string::find_first_not_of(WHITESPACE_TAB);
+
+	if(firstNonSpaceIndex != string::npos) {
+		input = input.substr(firstNonSpaceIndex);
+	} else {
+		input.clear();
+	}
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWMainParser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWParser.cpp
+	 */
+
+
+#include <string>
+#include "WWParser.h"
+#include "WWMainParser.h"
+#include "WWCommand.h"
+#include "WWLogger.h"
+
+using namespace std;
+
+const string LOG_PARSEINPUT = "WWParser::parseInput is called, received ";
+const string LOG_RETRIEVECOMMAND = "WWParser::retrieveCommand is called";
+
+WWParser::WWParser() {
+}
+
+ void WWParser::parseInput(string inputString) {
+	 WWLogger& logger = WWLogger::getInstance();
+	 logger.addLog(LOG_PARSEINPUT + inputString);
+	 logger.saveLog();
+
+	 _mainParser.parseInput(inputString);
+}
+
+WWCommand WWParser::retrieveCommand() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_RETRIEVECOMMAND);
+	 logger.saveLog();
+
+	return _mainParser.retrieveCommand();
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWParser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWTimeParser.cpp
+	 */
+
+
+#include <algorithm>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <regex>
+#include <cassert>
+#include "WWTimeParser.h"
+#include "WWLogger.h"
+
+using namespace std;
+
+//meridiem format refers to time which have am, pm, mn, nn.
+//acceptable formats include:
+//7am 7pm 12mn 12nn 7.30am 7:30am 7:30 am
+//24H format refers to time written in the following format:
+//2359h, there must be an accompanying h
+//the regex will automatically ignore time which are invalid
+//For example, 2899h or 13pm
+const regex timeMeridiemFormat("\\b([0]?[1-9]|1[0-2])([:.]?([0-5][\\d]))?\\s?([ap]m|mn|nn)\\b", regex_constants::icase);
+const regex time24HFormat("\\b([01][\\d]|2[0-3])[:.]?([0-5][\\d]\\s?)h\\b", regex_constants::icase);
+
+//These indexes are used to locate information stored within the smatch
+const unsigned int MATCH_INDEX = 0;
+const unsigned int MERIDIEM_HOUR_INDEX = 1;
+const unsigned int MERIDIEM_MINUTE_INDEX = 3;
+const unsigned int MERIDIEM_AMPM_INDEX = 4;
+const unsigned int DIGIT_24H_HOUR_INDEX = 1;
+const unsigned int DIGIT_24H_MINUTE_INDEX = 2;
+
+//These are common strings needed for meridiem format
+const string MIDNIGHT_MERIDIEM_HOUR = "12";
+const string NOON_MERIDIEM_HOUR = "12";
+const string ANTE_MERIDIEM = "AM";
+const string POST_MERIDIEM = "PM";
+const string MIDNIGHT_MERIDIEM = "MN";
+const string NOON_MERIDIEM = "NN";
+
+//These are common strings needed for 24H format
+const string MIDNIGHT_DIGIT_HOUR = "00";
+const string MIDNIGHT_DIGIT_MINUTE = "00";
+const string NOON_DIGIT_HOUR = "12";
+const string NOON_DIGIT_MINUTE = "00";
+
+//The time string will be stored in HHMM format, thus the size for HH is 2
+const unsigned int STANDARD_HOUR_SIZE = 2;
+const string STANDARD_HOUR_SIZE_ADJUSTMENT = "0";
+
+//The time string will be stored in HHMM format, thus the size for MM is 2
+const unsigned int STANDARD_MINUTE_SIZE = 2;
+const string STANDARD_MINUTE_SIZE_ADJUSTMENT = "0";
+
+//These are int values required to convert the time from meridiem format to 24H format
+const int MIDNIGHT_TO_ZERO_ADJUSTMENT = 12;
+const int POST_MERIDIEM_TO_DIGIT_ADJUSTMENT = 12;
+const int NUMBER_HOURS_IN_DAY = 24;
+const int MIDNIGHT_HOUR_INT = 0;
+
+const unsigned int FIRST_TIME_INDEX = 0;
+const unsigned int SECOND_TIME_INDEX = 1;
+
+const int DEFAULT_LAST_MATCH_INDEX = 0;
+const int DEFAULT_FIRST_MATCH_INDEX = 0;
+
+const int NEXT_CHAR_ADJUSTMENT = 1;
+
+const unsigned int MAXIMUM_NUM_REQUIRED_TIME = 2;
+
+const int INDEX_FIRST_ELEMENT = 0;
+
+//The escape character provided to resolve potential misinterpretation is backslash
+const char ESCAPE_CHARACTER = '\\';
+
+const int SIZE_REQUIRED_TO_SORT = 2;
+
+const string LOG_PARSETIME = "parseTime is called, received ";
+const string LOG_RETRIEVETIME = "retrieveTime is called";
+const string LOG_RETRIEVEUNUSEDCONTENT = "retrieveUnusedContent is called, returned ";
+
+WWTimeParser::WWTimeParser() {
+}
+
+void WWTimeParser::parseTime(string inputString) {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_PARSETIME + inputString);
+	logger.saveLog();
+
+	_timeIndex.clear();
+	_timeStorage.clear();
+	_originalTimeStorage.clear();
+	_inputString = inputString;
+
+	extractTime();
+	determineTime();
+	extractUnusedContent();
+}
+
+void WWTimeParser::retrieveTime(vector<string>& destinationStorage) {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_RETRIEVETIME);
+	logger.saveLog();
+
+	for(unsigned int i = 0; i != _timeStorage.size(); i++) {
+		destinationStorage.push_back(_timeStorage[i]);
+	}
+}
+
+string WWTimeParser::retrieveUnusedContent() {
+	WWLogger& logger = WWLogger::getInstance();
+	logger.addLog(LOG_RETRIEVEUNUSEDCONTENT + _unusedContent);
+	logger.saveLog();
+
+	return _unusedContent;
+}
+
+//extractTime will continuously attempt to parse a string using the same format until no match can be found.
+//The order of the format used for parsing follows the precedence rule.
+void WWTimeParser::extractTime() {
+	string contentAfterParsing = _inputString;
+
+	while(parseMeridiemFormat(contentAfterParsing)) {
+	}
+
+	while(parse24HFormat(contentAfterParsing)) {
+	}
+}
+
+//parseMeridiemFormat will attempt to find a match within the string.
+//When a match is found, the time will be converted to HHMM format.
+bool WWTimeParser::parseMeridiemFormat(string& inputString) {
+	smatch matchDetails;
+
+	bool isFound = regex_search(inputString, matchDetails, timeMeridiemFormat);
+
+	if(isFound) {
+		char charBeforeMatch = matchDetails.prefix().str().back();
+
+		if(isNotEscapeCharacter(charBeforeMatch)) {
+			int lastMatchIndex = determineLastMatchIndex();
+			unsigned int timeFoundIndex = _inputString.find(matchDetails[MATCH_INDEX], lastMatchIndex + NEXT_CHAR_ADJUSTMENT);
+			
+			string timeStandardFormat;
+
+			if(isValidMeridiemFormat(matchDetails[MERIDIEM_HOUR_INDEX], matchDetails[MERIDIEM_MINUTE_INDEX], matchDetails[MERIDIEM_AMPM_INDEX], timeStandardFormat)) {
+				_timeIndex.push_back(timeFoundIndex);
+				_timeStorage.push_back(timeStandardFormat);
+				_originalTimeStorage.push_back(matchDetails[MATCH_INDEX]);
+
+				inputString = matchDetails.prefix().str() + matchDetails.suffix().str();
+			} else {
+				string contentAfterMatch = matchDetails.suffix().str();
+				isFound = parseMeridiemFormat(contentAfterMatch);
+
+				if(isFound) {
+					inputString = matchDetails.prefix().str() + contentAfterMatch;
+				}
+			}
+		} else {
+			string contentAfterMatch = matchDetails.suffix().str();
+			isFound = parseMeridiemFormat(contentAfterMatch);
+
+			if(isFound) {
+				inputString = matchDetails.prefix().str() + contentAfterMatch;
+			}
+		}
+	}
+
+	return isFound;
+}
+
+//parseMeridiemFormat will attempt to find a match within the string.
+//When a match is found, the time will be converted to HHMM format.
+bool WWTimeParser::parse24HFormat(string& inputString) {
+	smatch matchDetails;
+
+	bool isFound = regex_search(inputString, matchDetails, time24HFormat);
+
+	if(isFound) {
+		char charBeforeMatch = matchDetails.prefix().str().back();
+
+		if(isNotEscapeCharacter(charBeforeMatch)) {
+			int lastMatchIndex = determineLastMatchIndex();
+			unsigned int timeFoundIndex = _inputString.find(matchDetails[MATCH_INDEX], lastMatchIndex + NEXT_CHAR_ADJUSTMENT);
+			
+			string timeStandardFormat = matchDetails[DIGIT_24H_HOUR_INDEX].str() + matchDetails[DIGIT_24H_MINUTE_INDEX].str();
+
+			_timeIndex.push_back(timeFoundIndex);
+			_timeStorage.push_back(timeStandardFormat);
+			_originalTimeStorage.push_back(matchDetails[MATCH_INDEX]);
+
+			inputString = matchDetails.prefix().str() + matchDetails.suffix().str();
+		} else {
+			string contentAfterMatch = matchDetails.suffix().str();
+			isFound = parse24HFormat(contentAfterMatch);
+
+			if(isFound) {
+				inputString = matchDetails.prefix().str() + contentAfterMatch;
+			}
+		}
+	}
+
+	return isFound;
+}
+
+int WWTimeParser::determineLastMatchIndex() {
+	int lastMatchIndex;
+
+	if(!_timeIndex.empty()) {
+		lastMatchIndex = _timeIndex.back();
+	} else {
+		lastMatchIndex = DEFAULT_LAST_MATCH_INDEX;
+	}
+
+	return lastMatchIndex;
+}
+
+bool WWTimeParser::isValidMeridiemFormat(string hourString, string minuteString, string AMPMString, string& timeStandardFormat) {
+	bool isValidStatus = false;
+
+	if(isAnteMeridiem(AMPMString)) {
+		timeStandardFormat = composeAnteMeridiem(hourString, minuteString);
+		isValidStatus = true;
+	}
+
+	if(isPostMeridiem(AMPMString)) {		
+		timeStandardFormat = composePostMeridiem(hourString, minuteString);
+		isValidStatus = true;
+	}
+
+	if(isMidnightMeridiem(hourString, AMPMString)) {
+		timeStandardFormat = composeMidnightMeridiem(minuteString);
+		isValidStatus = true;
+	}
+
+	if(isNoonMeridiem(hourString, AMPMString)) {
+		timeStandardFormat = composeNoonMeridiem(minuteString);
+		isValidStatus = true;
+	}
+
+	return isValidStatus;
+}
+
+bool WWTimeParser::isAnteMeridiem(string AMPMString) {
+	toUpperCase(AMPMString);
+
+	return (AMPMString == ANTE_MERIDIEM);
+}
+
+bool WWTimeParser::isPostMeridiem(string AMPMString) {
+	toUpperCase(AMPMString);
+
+	return (AMPMString == POST_MERIDIEM);
+}
+
+bool WWTimeParser::isMidnightMeridiem(string hourString, string AMPMString) {
+	toUpperCase(AMPMString);
+
+	return (hourString == MIDNIGHT_MERIDIEM_HOUR) && (AMPMString == MIDNIGHT_MERIDIEM);
+}
+
+bool WWTimeParser::isNoonMeridiem(string hourString, string AMPMString) {
+	toUpperCase(AMPMString);
+
+	return (hourString == NOON_MERIDIEM_HOUR) && (AMPMString == NOON_MERIDIEM);
+}
+
+string WWTimeParser::composeAnteMeridiem(string hourString, string minuteString) {
+	int hourInt = stringToInt(hourString) % MIDNIGHT_TO_ZERO_ADJUSTMENT;
+	hourString = intToString(hourInt);
+
+	while(hourString.size() < STANDARD_HOUR_SIZE) {
+		hourString = STANDARD_HOUR_SIZE_ADJUSTMENT + hourString;
+	}
+
+	while(minuteString.size() < STANDARD_MINUTE_SIZE) {
+		minuteString = STANDARD_MINUTE_SIZE_ADJUSTMENT + minuteString;
+	}
+
+	return hourString + minuteString;
+}
+
+string WWTimeParser::composePostMeridiem(string hourString, string minuteString) {
+	int hourInt = (stringToInt(hourString) + POST_MERIDIEM_TO_DIGIT_ADJUSTMENT) % NUMBER_HOURS_IN_DAY;
+	
+	if(hourInt == MIDNIGHT_HOUR_INT) {
+		hourInt = hourInt + POST_MERIDIEM_TO_DIGIT_ADJUSTMENT;
+	}
+
+	hourString = intToString(hourInt);
+
+	while(hourString.size() < STANDARD_HOUR_SIZE) {
+		hourString = STANDARD_HOUR_SIZE_ADJUSTMENT + hourString;
+	}
+
+	while(minuteString.size() < STANDARD_MINUTE_SIZE) {
+		minuteString = STANDARD_MINUTE_SIZE_ADJUSTMENT + minuteString;
+	}
+
+	return hourString + minuteString;
+}
+
+string WWTimeParser::composeMidnightMeridiem(string minuteString) {
+	if(minuteString.empty()) {
+		minuteString = MIDNIGHT_DIGIT_MINUTE;
+	}
+	return MIDNIGHT_DIGIT_HOUR + minuteString;
+}
+
+string WWTimeParser::composeNoonMeridiem(string minuteString) {
+	if(minuteString.empty()) {
+		minuteString = NOON_DIGIT_MINUTE;
+	}
+	return NOON_DIGIT_HOUR + minuteString;
+}
+
+void WWTimeParser::determineTime() {
+	if(!_timeStorage.empty()) {
+
+		retainTwoImportantTime();
+
+		if(_timeStorage.size() == MAXIMUM_NUM_REQUIRED_TIME) { 
+			sortTimeByAppearance();
+		}
+	}
+}
+
+void WWTimeParser::retainTwoImportantTime() {
+	unsigned int earliestTimeIndex;
+
+	while(_timeStorage.size() > MAXIMUM_NUM_REQUIRED_TIME) {
+		earliestTimeIndex = INDEX_FIRST_ELEMENT;
+
+		for(unsigned int i = 0; i != _timeIndex.size(); i++) {
+			if(_timeIndex[earliestTimeIndex] > _timeIndex[i]) {
+				earliestTimeIndex = i;
+			}
+		}
+
+		_timeIndex.erase(_timeIndex.begin() + earliestTimeIndex);
+		_timeStorage.erase(_timeStorage.begin() + earliestTimeIndex);
+		_originalTimeStorage.erase(_originalTimeStorage.begin() + earliestTimeIndex);
+	}
+}
+
+//time which appeared later will be stored in lower index
+void WWTimeParser::sortTimeByAppearance() {
+	assert(_timeIndex.size() == SIZE_REQUIRED_TO_SORT);
+	assert(_timeStorage.size() == SIZE_REQUIRED_TO_SORT);
+	assert(_originalTimeStorage.size() == SIZE_REQUIRED_TO_SORT);
+
+	if(_timeIndex[FIRST_TIME_INDEX] < _timeIndex[SECOND_TIME_INDEX]) {
+		int tempIndex;
+		string tempTime;
+		string tempOriginalTime;
+
+		tempIndex = _timeIndex[FIRST_TIME_INDEX];
+		_timeIndex[FIRST_TIME_INDEX] = _timeIndex[SECOND_TIME_INDEX];
+		_timeIndex[SECOND_TIME_INDEX] = tempIndex;
+
+		tempTime = _timeStorage[FIRST_TIME_INDEX];
+		_timeStorage[FIRST_TIME_INDEX] = _timeStorage[SECOND_TIME_INDEX];
+		_timeStorage[SECOND_TIME_INDEX] = tempTime;
+
+		tempOriginalTime = _originalTimeStorage[FIRST_TIME_INDEX];
+		_originalTimeStorage[FIRST_TIME_INDEX] = _originalTimeStorage[SECOND_TIME_INDEX];
+		_originalTimeStorage[SECOND_TIME_INDEX] = tempOriginalTime;
+	}
+}
+
+void WWTimeParser::extractUnusedContent() {
+	_unusedContent = _inputString;
+
+	for(unsigned int i = 0; i != _timeStorage.size(); i++) {
+		_unusedContent.erase(_timeIndex[i], _originalTimeStorage[i].size());
+	}
+}
+
+bool WWTimeParser::isNotEscapeCharacter(char checkCharacter) {
+	return checkCharacter != ESCAPE_CHARACTER;
+}
+
+void WWTimeParser::toUpperCase(string& input) {
+	transform(input.begin(), input.end(), input.begin(), toupper);
+}
+
+int WWTimeParser::stringToInt(string inputString) {
+	return atoi(inputString.c_str());
+}
+
+string WWTimeParser::intToString(int inputInt) {
+	return to_string(inputInt);
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWTimeParser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWUtilities.cpp
+	 */
+
+
+#include "WWUtilities.h"
+#include "WWUtilitiesMonth.h"
+#include "WWUtilitiesTime.h"
+
+using namespace std;
+
+WWUtilities::WWUtilities() {
+}
+
+int WWUtilities::convertMonthFromStringToInt(string inputString) {
+	return _monthUtility.convertMonthFromStringToInt(inputString);
+}
+
+string WWUtilities::convertMonthFromIntToString(int inputInt) {
+	return _monthUtility.convertMonthFromIntToString(inputInt);
+}
+
+int WWUtilities::getCurrentDay() {
+	return _timeUtility.getCurrentDay();
+}
+
+int WWUtilities::getCurrentMonth() {
+	return _timeUtility.getCurrentMonth();
+}
+
+int WWUtilities::getCurrentYear() {
+	return _timeUtility.getCurrentYear();
+}
+
+int WWUtilities::getCurrentMinute() {
+	return _timeUtility.getCurrentMinute();
+}
+
+int WWUtilities::getCurrentHour() {
+	return _timeUtility.getCurrentHour();
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWUtilities.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWUtilitiesMonth.cpp
+	 */
+
+
+#include <cctype>
+#include <string>
+#include <map>
+#include "WWUtilitiesMonth.h"
+
+#include <iostream>
+
+using namespace std;
+
+const string WWUtilitiesMonth::JAN_STRING = "Jan";
+const string WWUtilitiesMonth::FEB_STRING = "Feb";
+const string WWUtilitiesMonth::MAR_STRING = "Mar";
+const string WWUtilitiesMonth::APR_STRING = "Apr";
+const string WWUtilitiesMonth::MAY_STRING = "May";
+const string WWUtilitiesMonth::JUN_STRING = "Jun";
+const string WWUtilitiesMonth::JUL_STRING = "Jul";
+const string WWUtilitiesMonth::AUG_STRING = "Aug";
+const string WWUtilitiesMonth::SEP_STRING = "Sep";
+const string WWUtilitiesMonth::OCT_STRING = "Oct";
+const string WWUtilitiesMonth::NOV_STRING = "Nov";
+const string WWUtilitiesMonth::DEC_STRING = "Dec";
+const string WWUtilitiesMonth::INVALID_MONTH_STRING = "";
+
+const int WWUtilitiesMonth::JAN_INT = 1;
+const int WWUtilitiesMonth::FEB_INT = 2;
+const int WWUtilitiesMonth::MAR_INT = 3;
+const int WWUtilitiesMonth::APR_INT = 4;
+const int WWUtilitiesMonth::MAY_INT = 5;
+const int WWUtilitiesMonth::JUN_INT = 6;
+const int WWUtilitiesMonth::JUL_INT = 7;
+const int WWUtilitiesMonth::AUG_INT = 8;
+const int WWUtilitiesMonth::SEP_INT = 9;
+const int WWUtilitiesMonth::OCT_INT = 10;
+const int WWUtilitiesMonth::NOV_INT = 11;
+const int WWUtilitiesMonth::DEC_INT = 12;
+const int WWUtilitiesMonth::INVALID_MONTH_INT = 0;
+
+const int FIRST_CHAR_INDEX = 0;
+
+WWUtilitiesMonth::WWUtilitiesMonth() {
+	_stringIntMap[JAN_STRING] = JAN_INT;
+	_stringIntMap[FEB_STRING] = FEB_INT;
+	_stringIntMap[MAR_STRING] = MAR_INT;
+	_stringIntMap[APR_STRING] = APR_INT;
+	_stringIntMap[MAY_STRING] = MAY_INT;
+	_stringIntMap[JUN_STRING] = JUN_INT;
+	_stringIntMap[JUL_STRING] = JUL_INT;
+	_stringIntMap[AUG_STRING] = AUG_INT;
+	_stringIntMap[SEP_STRING] = SEP_INT;
+	_stringIntMap[OCT_STRING] = OCT_INT;
+	_stringIntMap[NOV_STRING] = NOV_INT;
+	_stringIntMap[DEC_STRING] = DEC_INT;
+
+	_intStringMap[JAN_INT] = JAN_STRING;
+	_intStringMap[FEB_INT] = FEB_STRING;
+	_intStringMap[MAR_INT] = MAR_STRING;
+	_intStringMap[APR_INT] = APR_STRING;
+	_intStringMap[MAY_INT] = MAY_STRING;
+	_intStringMap[JUN_INT] = JUN_STRING;
+	_intStringMap[JUL_INT] = JUL_STRING;
+	_intStringMap[AUG_INT] = AUG_STRING;
+	_intStringMap[SEP_INT] = SEP_STRING;
+	_intStringMap[OCT_INT] = OCT_STRING;
+	_intStringMap[NOV_INT] = NOV_STRING;
+	_intStringMap[DEC_INT] = DEC_STRING;
+}
+
+// maps the month abbreviation string to a integer month
+int WWUtilitiesMonth::convertMonthFromStringToInt(string inputString) {
+	int monthInt;
+
+	caseCorrection(inputString);
+
+	if(_stringIntMap.count(inputString)) {
+		monthInt = _stringIntMap[inputString];
+	} else {
+		monthInt = INVALID_MONTH_INT;
+	}
+
+	return monthInt;
+}
+
+// converts integer month to a abbreviation month string
+string WWUtilitiesMonth::convertMonthFromIntToString(int inputInt) {
+	string monthString;
+
+	if(_intStringMap.count(inputInt)) {
+		monthString = _intStringMap[inputInt];
+	} else {
+		monthString = INVALID_MONTH_STRING;
+	}
+
+	return monthString;
+}
+
+
+// convert the uppercase letter in the month abbreviation string
+// to lowercase.
+void WWUtilitiesMonth::caseCorrection(string& inputString) {
+	inputString[FIRST_CHAR_INDEX] = toupper(inputString[FIRST_CHAR_INDEX]);
+
+	for(unsigned int i = 1; i != inputString.size(); i++) {
+		inputString[i] = tolower(inputString[i]);
+	}
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWUtilitiesMonth.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWUtilitiesTime.cpp
+	 */
+
+
+#include <ctime>
+#include "WWUtilitiesTime.h"
+
+using namespace std;
+
+const int WWUtilitiesTime::SYSTEM_MONTH_ADJUSTMENT = 1;
+const int WWUtilitiesTime::SYSTEM_YEAR_ADJUSTMENT = 1900;
+
+WWUtilitiesTime::WWUtilitiesTime() {
+}
+
+int WWUtilitiesTime::getCurrentDay() {
+	retrieveDetailsFromSystem();
+	return _currentDay;
+}
+
+int WWUtilitiesTime::getCurrentMonth() {
+	retrieveDetailsFromSystem();
+	return _currentMonth;
+}
+
+int WWUtilitiesTime::getCurrentYear() {
+	retrieveDetailsFromSystem();
+	return _currentYear;
+}
+
+int WWUtilitiesTime::getCurrentMinute() {
+	retrieveDetailsFromSystem();
+	return _currentMinute;
+}
+
+int WWUtilitiesTime::getCurrentHour() {
+	retrieveDetailsFromSystem();
+	return _currentHour;
+}
+
+
+// retrieve system time and adjust the private attributes accordingly
+void WWUtilitiesTime::retrieveDetailsFromSystem() {
+	time_t rawTime = time(NULL);
+	struct tm timeInformation;
+	localtime_s(&timeInformation, &rawTime);
+
+	_currentDay = timeInformation.tm_mday;
+	_currentMonth = timeInformation.tm_mon + SYSTEM_MONTH_ADJUSTMENT;
+	_currentYear = timeInformation.tm_year + SYSTEM_YEAR_ADJUSTMENT;
+	_currentMinute = timeInformation.tm_min;
+	_currentHour = timeInformation.tm_hour;
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkLib\WWUtilitiesTime.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkTest\WWCommandParserTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace std;
+
+const string TEST_ADD_INPUT = "add test";
+const string TEST_DELETE_INPUT = "delete test";
+const string TEST_EDIT_INPUT = "edit test";
+const string TEST_COMPLETE_INPUT = "complete test";
+const string TEST_INCOMPLETE_INPUT = "incomplete test";
+const string TEST_SEARCH_INPUT = "search test";
+const string TEST_UNDO_INPUT = "undo test";
+const string TEST_REDO_INPUT = "redo test";
+const string TEST_QUIT_INPUT = "quit test";
+
+const string TEST_VIEWALL_INPUT = "view all test";
+const string TEST_VIEWDEADLINE_INPUT = "view deadline test";
+const string TEST_VIEWTIMED_INPUT = "view timed test";
+const string TEST_VIEWFLOATING_INPUT = "view floating test";
+const string TEST_VIEWTODAY_INPUT = "view today test";
+const string TEST_VIEWDONE_INPUT = "view complete test";
+const string TEST_VIEWUNDONE_INPUT = "view incomplete test";
+const string TEST_VIEWOVERDUE_INPUT = "view overdue test";
+const string TEST_VIEWSEARCH_INPUT = "view search test";
+
+const string TEST_CASE_SENSITIVE_INPUT = "AdD test";
+
+const string EMPTY_INPUT = "";
+const string INVALID_INPUT = "qwerty test";
+const string INVALID_VIEW_INPUT = "view qwerty test";
+const string WHITESPACE_TAB_INPUT = "	";
+
+const string UNUSED_CONTENT = " test";
+const string UNUSED_CONTENT_DELETE = "test";
+
+
+namespace WorkWorkTest
+{
+	TEST_CLASS(WWCommandParserTest)
+	{
+	public:
+		
+		TEST_METHOD(addCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_ADD_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::ADD);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(deleteCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_DELETE_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::DELETE);
+			 Assert::AreEqual(UNUSED_CONTENT_DELETE, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(editCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_EDIT_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::EDIT);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(completeCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_COMPLETE_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::DONE);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(incompleteCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_INCOMPLETE_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::UNDONE);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(searchCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_SEARCH_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::SEARCH);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(undoCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_UNDO_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::UNDO);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(redoCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_REDO_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::REDO);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(quitCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_QUIT_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::EXIT);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(invalidCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(INVALID_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::INVALID);
+			 Assert::AreEqual(EMPTY_INPUT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(viewAllCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_VIEWALL_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::VIEWALL);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(viewDeadlineCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_VIEWDEADLINE_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::VIEWDEADLINE);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(viewTimedCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_VIEWTIMED_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::VIEWTIMED);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(viewFloatingCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_VIEWFLOATING_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::VIEWFLOATING);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(viewTodayCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_VIEWTODAY_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::VIEWTODAY);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(viewDoneCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_VIEWDONE_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::VIEWDONE);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(viewUndoneCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_VIEWUNDONE_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::VIEWUNDONE);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(viewSearchCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_VIEWSEARCH_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::VIEWSEARCH);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(invalidViewCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(INVALID_VIEW_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::INVALID);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(leadingWhitespaceCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(WHITESPACE_TAB_INPUT + TEST_ADD_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::ADD);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+
+		TEST_METHOD(caseInsensitiveCommandParserTest)
+		{
+			 WWCommandParser testCommandParser;
+			 testCommandParser.parseCommand(TEST_CASE_SENSITIVE_INPUT);
+
+			 WWUtilities::CommandType parsedCommandType = testCommandParser.retrieveCommandType();
+
+			 Assert::IsTrue(parsedCommandType == WWUtilities::ADD);
+			 Assert::AreEqual(UNUSED_CONTENT, testCommandParser.retrieveUnusedContent());
+		}
+	};
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkTest\WWCommandParserTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkTest\WWCommandTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace std;
+
+const string TEST_INPUT = "Test";
+const string EMPTY_INPUT = "";
+
+namespace UnitTest
+{
+	TEST_CLASS(WWCommandTest)
+	{
+	public:
+		
+		TEST_METHOD(setValidCommandTest)
+		{
+			WWCommand testWWCommand;
+			
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+			
+			WWUtilities::CommandType inputCommand = WWUtilities::ADD;
+			testWWCommand.setCommand(inputCommand);
+
+			Assert::IsTrue(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			Assert::IsTrue(inputCommand == testWWCommand.getCommand());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDetail());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate2());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime2());
+		}
+
+		TEST_METHOD(setInvalidCommandTest)
+		{
+			WWCommand testWWCommand;
+			
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+			
+			WWUtilities::CommandType inputCommand = WWUtilities::INVALID;
+			testWWCommand.setCommand(inputCommand);
+
+			Assert::IsTrue(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			Assert::IsTrue(inputCommand == testWWCommand.getCommand());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDetail());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate2());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime2());
+		}
+
+		TEST_METHOD(setDetailTest)
+		{
+			WWCommand testWWCommand;
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			testWWCommand.setDetail(TEST_INPUT);
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsTrue(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			Assert::AreEqual(TEST_INPUT, testWWCommand.getDetail());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate2());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime2());
+		}
+
+		TEST_METHOD(setDate1Test)
+		{
+			WWCommand testWWCommand;
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			testWWCommand.setDate1(TEST_INPUT);
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsTrue(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDetail());
+			Assert::AreEqual(TEST_INPUT, testWWCommand.getDate1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate2());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime2());
+		}
+
+		TEST_METHOD(setTime1Test)
+		{
+			WWCommand testWWCommand;
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			testWWCommand.setTime1(TEST_INPUT);
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsTrue(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDetail());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate1());
+			Assert::AreEqual(TEST_INPUT, testWWCommand.getTime1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate2());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime2());
+		}
+
+		TEST_METHOD(setDate2Test)
+		{
+			WWCommand testWWCommand;
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			testWWCommand.setDate2(TEST_INPUT);
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsTrue(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDetail());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime1());
+			Assert::AreEqual(TEST_INPUT, testWWCommand.getDate2());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime2());
+		}
+
+		TEST_METHOD(setTime2Test)
+		{
+			WWCommand testWWCommand;
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			testWWCommand.setTime2(TEST_INPUT);
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsTrue(testWWCommand.hasTime2());
+
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDetail());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate2());
+			Assert::AreEqual(TEST_INPUT, testWWCommand.getTime2());
+		}
+
+		TEST_METHOD(setMultipleEmptyTest)
+		{
+			WWCommand testWWCommand;
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			testWWCommand.setDetail(EMPTY_INPUT);
+			testWWCommand.setDate1(EMPTY_INPUT);
+			testWWCommand.setTime1(EMPTY_INPUT);
+			testWWCommand.setDate2(EMPTY_INPUT);
+			testWWCommand.setTime2(EMPTY_INPUT);
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDetail());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime1());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getDate2());
+			Assert::AreEqual(EMPTY_INPUT, testWWCommand.getTime2());
+		}
+			
+		TEST_METHOD(setMultipleTest)
+		{
+			WWCommand testWWCommand;
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+
+			WWUtilities::CommandType inputCommand = WWUtilities::ADD;
+			testWWCommand.setCommand(inputCommand);
+
+			testWWCommand.setDetail(TEST_INPUT);
+			testWWCommand.setDate1(TEST_INPUT);
+			testWWCommand.setTime1(TEST_INPUT);
+			testWWCommand.setDate2(TEST_INPUT);
+			testWWCommand.setTime2(TEST_INPUT);
+
+			Assert::IsTrue(testWWCommand.hasCommand());
+			Assert::IsTrue(testWWCommand.hasDetail());
+			Assert::IsTrue(testWWCommand.hasDate1());
+			Assert::IsTrue(testWWCommand.hasTime1());
+			Assert::IsTrue(testWWCommand.hasDate2());
+			Assert::IsTrue(testWWCommand.hasTime2());
+
+			Assert::IsTrue(inputCommand == testWWCommand.getCommand());
+			Assert::AreEqual(TEST_INPUT, testWWCommand.getDetail());
+			Assert::AreEqual(TEST_INPUT, testWWCommand.getDate1());
+			Assert::AreEqual(TEST_INPUT, testWWCommand.getTime1());
+			Assert::AreEqual(TEST_INPUT, testWWCommand.getDate2());
+			Assert::AreEqual(TEST_INPUT, testWWCommand.getTime2());
+		}
+
+		TEST_METHOD(clearCommandTest)
+		{
+			WWCommand testWWCommand;
+
+			WWUtilities::CommandType inputCommand = WWUtilities::ADD;
+			testWWCommand.setCommand(inputCommand);
+
+			testWWCommand.setDetail(TEST_INPUT);
+			testWWCommand.setDate1(TEST_INPUT);
+			testWWCommand.setTime1(TEST_INPUT);
+			testWWCommand.setDate2(TEST_INPUT);
+			testWWCommand.setTime2(TEST_INPUT);
+
+			Assert::IsTrue(testWWCommand.hasCommand());
+			Assert::IsTrue(testWWCommand.hasDetail());
+			Assert::IsTrue(testWWCommand.hasDate1());
+			Assert::IsTrue(testWWCommand.hasTime1());
+			Assert::IsTrue(testWWCommand.hasDate2());
+			Assert::IsTrue(testWWCommand.hasTime2());
+
+			testWWCommand.clearCommand();
+
+			Assert::IsFalse(testWWCommand.hasCommand());
+			Assert::IsFalse(testWWCommand.hasDetail());
+			Assert::IsFalse(testWWCommand.hasDate1());
+			Assert::IsFalse(testWWCommand.hasTime1());
+			Assert::IsFalse(testWWCommand.hasDate2());
+			Assert::IsFalse(testWWCommand.hasTime2());
+		}
+	};
+}
+	// End of segment: C:\Users\Junhan\Desktop\cs2103jan2014-t16-1c\WorkWork V0.5\WorkWorkTest\WWCommandTest.cpp
+
+
+
+
+

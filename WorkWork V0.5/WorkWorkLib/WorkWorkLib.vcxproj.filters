@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Executor related">
+      <UniqueIdentifier>{23d6ef0d-fbfc-4753-9f28-080c7cd07274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Executor Related">
+      <UniqueIdentifier>{28ad617d-bb40-4c66-a072-101eb290ed39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Display Related">
+      <UniqueIdentifier>{a6b03948-32b3-468f-82f0-86b562e0b208}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Display Related">
+      <UniqueIdentifier>{b8ff3cc0-a5a4-4eea-b7fd-c75f1eeba961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Parser Related">
+      <UniqueIdentifier>{a120a797-f676-477b-a555-c6e6c6060bfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Parser Related">
+      <UniqueIdentifier>{f5711644-1a70-4de9-acc0-8b0bcd8a9ba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Storage Related">
+      <UniqueIdentifier>{7f12d142-e6a3-440d-b917-84c4400a6322}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Storage Related">
+      <UniqueIdentifier>{bc7d7f49-82a7-4616-a33f-ac6e4d9c406d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities Related">
+      <UniqueIdentifier>{7c086d71-57f0-4adb-a656-d4a9ed6d783b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities Related">
+      <UniqueIdentifier>{30e96524-6680-4907-beb0-4e5feb656923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Logic Related">
+      <UniqueIdentifier>{47d47069-2560-4a13-9fb7-f54be28f67c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logic Related">
+      <UniqueIdentifier>{d5cb0f6f-ef43-4375-abf5-e3147038c743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{4f39453c-50d0-471f-b1ad-539c86881511}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{5e6e68ee-f240-4d74-bfd2-96a098eb8618}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WWUIConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WWUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddExecutor.h">
+      <Filter>Header Files\Executor related</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteExecutor.h">
+      <Filter>Header Files\Executor related</Filter>
+    </ClInclude>
+    <ClInclude Include="EditExecutor.h">
+      <Filter>Header Files\Executor related</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchExecutor.h">
+      <Filter>Header Files\Executor related</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusExecutor.h">
+      <Filter>Header Files\Executor related</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskSorter.h">
+      <Filter>Header Files\Executor related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWExecutor.h">
+      <Filter>Header Files\Executor related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWDisplay.h">
+      <Filter>Header Files\Display Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWDisplayFloating.h">
+      <Filter>Header Files\Display Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWDisplayWindow.h">
+      <Filter>Header Files\Display Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWSystemResponse.h">
+      <Filter>Header Files\Display Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWCommandParser.h">
+      <Filter>Header Files\Parser Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWDateChecker.h">
+      <Filter>Header Files\Parser Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWDateParser.h">
+      <Filter>Header Files\Parser Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWDateTimeProcessor.h">
+      <Filter>Header Files\Parser Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWMainParser.h">
+      <Filter>Header Files\Parser Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWParser.h">
+      <Filter>Header Files\Parser Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWTimeParser.h">
+      <Filter>Header Files\Parser Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWStorage.h">
+      <Filter>Header Files\Storage Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWHistoryStorage.h">
+      <Filter>Header Files\Storage Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWFileStorage.h">
+      <Filter>Header Files\Storage Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWUtilities.h">
+      <Filter>Header Files\Utilities Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWUtilitiesMonth.h">
+      <Filter>Header Files\Utilities Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWUtilitiesTime.h">
+      <Filter>Header Files\Utilities Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWLogic.h">
+      <Filter>Header Files\Logic Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWCommandInterpreter.h">
+      <Filter>Header Files\Logic Related</Filter>
+    </ClInclude>
+    <ClInclude Include="WWTaskTime.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="WWTask.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="WWConverter.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="WWCommand.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="WWLogger.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WWUIConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WWUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddExecutor.cpp">
+      <Filter>Source Files\Executor Related</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteExecutor.cpp">
+      <Filter>Source Files\Executor Related</Filter>
+    </ClCompile>
+    <ClCompile Include="EditExecutor.cpp">
+      <Filter>Source Files\Executor Related</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchExecutor.cpp">
+      <Filter>Source Files\Executor Related</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusExecutor.cpp">
+      <Filter>Source Files\Executor Related</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskSorter.cpp">
+      <Filter>Source Files\Executor Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWExecutor.cpp">
+      <Filter>Source Files\Executor Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWDisplay.cpp">
+      <Filter>Source Files\Display Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWDisplayFloating.cpp">
+      <Filter>Source Files\Display Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWDisplayWindow.cpp">
+      <Filter>Source Files\Display Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWSystemResponse.cpp">
+      <Filter>Source Files\Display Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWDateChecker.cpp">
+      <Filter>Source Files\Parser Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWCommandParser.cpp">
+      <Filter>Source Files\Parser Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWDateParser.cpp">
+      <Filter>Source Files\Parser Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWDateTimeProcessor.cpp">
+      <Filter>Source Files\Parser Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWMainParser.cpp">
+      <Filter>Source Files\Parser Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWParser.cpp">
+      <Filter>Source Files\Parser Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWTimeParser.cpp">
+      <Filter>Source Files\Parser Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWStorage.cpp">
+      <Filter>Source Files\Storage Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWHistoryStorage.cpp">
+      <Filter>Source Files\Storage Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWFileStorage.cpp">
+      <Filter>Source Files\Storage Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWUtilitiesTime.cpp">
+      <Filter>Source Files\Utilities Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWUtilitiesMonth.cpp">
+      <Filter>Source Files\Utilities Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWUtilities.cpp">
+      <Filter>Source Files\Utilities Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWLogic.cpp">
+      <Filter>Source Files\Logic Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWCommandInterpreter.cpp">
+      <Filter>Source Files\Logic Related</Filter>
+    </ClCompile>
+    <ClCompile Include="WWCommand.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="WWConverter.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="WWTask.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="WWTaskTime.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="WWLogger.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
