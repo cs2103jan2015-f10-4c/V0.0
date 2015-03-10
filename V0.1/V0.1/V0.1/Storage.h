@@ -7,7 +7,7 @@
 #include <vector>
 #include "Task.h"
 
-using namespace std;
+using namespace std; 
 
 class Storage{
 private:
@@ -16,8 +16,10 @@ private:
 public:
 	Storage();
 
-	void storeTask(string task, string startingTime, string endingTime, string date);
+	void storeTask(string task, string startingTime, string endingTime);
 	void saveFile(vector<Task> fileStorage);
+	vector<Task> getTaskList();
+	void updateTaskList(vector<Task> taskStorage);
 
 };
 

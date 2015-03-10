@@ -8,13 +8,17 @@
 
 using namespace std;
 
-void Storage::storeTask(string task, string startingTime, string endingTime, string date){
+void Storage::storeTask(string task, string startingTime, string endingTime){
 	Task tempStorage;
 	tempStorage.taskDescription = task;
 	tempStorage.startingTime = startingTime;
 	tempStorage.endingTIme = endingTime;
 	tempStorage.date = date;
 	taskList.push_back(tempStorage);
+};
+
+void Storage::updateTaskList(vector<Task> taskStorage){
+	taskList = taskStorage;
 };
 
 void Storage::saveFile(vector<Task> fileStorage){
@@ -28,6 +32,12 @@ void Storage::saveFile(vector<Task> fileStorage){
 	}
 	writeFile.close();
 };
+
+vector<Task> Storage::getTaskList(){
+	return taskList;
+};
+	
+
 
 
 
