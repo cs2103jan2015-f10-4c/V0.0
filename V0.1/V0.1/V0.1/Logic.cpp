@@ -29,6 +29,7 @@ void Logic::addDeadlineTask(string taskTitle, string endTime) {
 	taskList.push_back(tempStorage);
 	updateDeadlineStorage();
 	displaySpecified(deadlineList);
+	displayAll();
 }
 
 void Logic::addFloatingTask(string taskTitle) {
@@ -43,6 +44,7 @@ void Logic::addFloatingTask(string taskTitle) {
 	updateFloatingStorage();
 	updateStorage();
 	displaySpecified(floatingList);
+	displayAll();
 }
 
 
