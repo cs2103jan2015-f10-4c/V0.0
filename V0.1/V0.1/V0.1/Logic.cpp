@@ -44,6 +44,7 @@ void Logic::editTask(int index, string newTaskName, string newStartTime, string 
 	taskList[index - 1].endingTime = newEndTime;
 
 	updateStorage();
+    cout << setw(10);
     cout << "Editted result: " << taskList[index - 1].taskName << taskList[index - 1].startingTime << taskList[index - 1].endingTime << endl;
     displayAll();
 
@@ -87,12 +88,14 @@ void Logic::searchTask(string keyPhrase){
 void Logic::displayAll() {
 	taskList = storage.getTaskList();
 	for (int i = 0; i < taskList.size(); i++) {
-		cout << i + 1 << "." << taskList[i].taskName <<'\t' << taskList[i].startingTime << '\t' << taskList[i].endingTime << endl;
+		cout << setw(10);
+        cout << i + 1 << "." << taskList[i].taskName << taskList[i].startingTime << taskList[i].endingTime << endl;
 	}
 }
 
 void Logic::displaySpecified(vector<Task> List) {
 	for (int i = 0; i < List.size(); i++) {
-		cout << i + 1 << "." << List[i].taskName << '\t' << List[i].startingTime << '\t'<< List[i].endingTime << endl;
+		cout << setw(10);
+        cout << i + 1 << "." << List[i].taskName << List[i].startingTime << List[i].endingTime << endl;
 	}
 }
