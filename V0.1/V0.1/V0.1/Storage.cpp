@@ -8,6 +8,8 @@
 
 using namespace std;
 
+const string TEXTFILENAME = "rushhour.txt";
+
 void Storage::storeTask(string task, string startingTime, string endingTime){
 	Task tempStorage;
 	tempStorage.taskName = task;
@@ -21,9 +23,9 @@ void Storage::updateTaskList(vector<Task> taskStorage){
 	taskList = taskStorage;
 };
 
-void Storage::saveFile(string textFileName){
+void Storage::saveFile(string TEXTFILENAME){
 	ofstream writeFile;
-	writeFile.open(textFileName);
+	writeFile.open(TEXTFILENAME.c_str());
 	for (int i = 0; i < taskList.size(); i++){
 		writeFile << i + 1 << ".";
 		writeFile << taskList[i].taskName << "from";

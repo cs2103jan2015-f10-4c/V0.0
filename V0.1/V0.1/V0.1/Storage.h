@@ -17,10 +17,9 @@ public:
 	Storage();
 
 	void storeTask(string task, string startingTime, string endingTime);
-	void saveFile(string textFileName);
+	void saveFile(string TEXTFILENAME);
 	vector<Task> getTaskList();
 	void updateTaskList(vector<Task> taskStorage);
-	void openFile();
 
 };
 
