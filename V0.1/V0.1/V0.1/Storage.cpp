@@ -34,30 +34,29 @@ void Storage::updateFloatingTaskList(vector<Task> floatingTaskStorage){
 	floatingTaskList = floatingTaskStorage;
 };
 
-void Storage::saveFile(string TEXTFILENAME){
-	ofstream writeFile;
-	writeFile.open(TEXTFILENAME.c_str());
+void Storage::saveFile(){
+	ofstream writeFile(TEXTFILENAME);
 	
 	writeFile << " Normal Tasklist:" << endl;
 	for (int i = 0; i < taskList.size(); i++){
-		writeFile << i + 1 << ".";
-		writeFile << taskList[i].taskName << "from";
+		writeFile << i + 1 << ". ";
+		writeFile << taskList[i].taskName << " from ";
 		//writeFile << taskList[i].date;
-		writeFile << taskList[i].startingTime << "to";
+		writeFile << taskList[i].startingTime << " to ";
 		writeFile << taskList[i].endingTime << endl;
 	}
 	
 	writeFile << " Deadline Tasklist:" << endl;
 	for (int i = 0; i < deadlineTaskList.size(); i++){
-		writeFile << i + 1 << ".";
-		writeFile << deadlineTaskList[i].taskName << "at";
+		writeFile << i + 1 << ". ";
+		writeFile << deadlineTaskList[i].taskName << " at ";
 		//writeFile << taskList[i].date;
 		writeFile << deadlineTaskList[i].startingTime << endl;
 	}
 
 	writeFile << " Floating Tasklist:" << endl;
 	for (int i = 0; i < floatingTaskList.size(); i++){
-		writeFile << i + 1 << ".";
+		writeFile << i + 1 << ". ";
 		writeFile << floatingTaskList[i].taskName << endl;
 	}
 	writeFile.close();

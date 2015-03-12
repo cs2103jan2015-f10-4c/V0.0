@@ -20,7 +20,7 @@ public:
 	~Storage();
 
 	//void storeTask(string task, string startingTime, string endingTime);
-	void saveFile(string TEXTFILENAME);
+	void saveFile();
 	vector<Task> getTaskList();
 	vector<Task> getDeadlineTaskList();
 	vector<Task> getFloatingTaskList();
