@@ -14,6 +14,7 @@ void Logic::addTask(string taskTitle, string startTime, string endTime) {
     tempStorage.startingTime = startTime;
     tempStorage.endingTime = endTime;
     taskList.push_back(tempStorage);
+    updateStorage();
     displayAll();
 }
 
