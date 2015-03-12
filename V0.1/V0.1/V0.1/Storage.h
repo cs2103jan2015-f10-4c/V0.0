@@ -15,6 +15,7 @@ private:
 
 public:
 	Storage();
+	~Storage();
 
 	void storeTask(string task, string startingTime, string endingTime);
 	void saveFile(string TEXTFILENAME);
