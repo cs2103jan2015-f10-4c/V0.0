@@ -87,7 +87,7 @@ void Logic::searchTask(string keyPhrase){
 void Logic::displayAll() {
 	taskList = storage.getTaskList();
 	for (int i = 0; i < taskList.size(); i++) {
-		cout << i + 1 << "." << taskList[i].taskName << taskList[i].startingTime << taskList[i].endingTime << endl;
+		cout << i + 1 << "." << taskList[i].taskName <<'\t' << taskList[i].startingTime << '\t' << taskList[i].endingTime << endl;
 	}
 }
 
