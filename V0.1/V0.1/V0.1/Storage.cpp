@@ -8,22 +8,12 @@
 
 using namespace std;
 
-<<<<<<< HEAD
-
-Storage::Storage(){
-}
-
-Storage::~Storage(){}
-
-void Storage::storeTask(string task, string startingTime, string endingTime, string date){
-=======
-void Storage::storeTask(string task, string startingTime, string endingTime){
->>>>>>> aadd4e3110a98adfe2195bde96f717c7fb5bdbcb
+void Storage::storeTask(string task, string startingTime, string endingTime,string date){
 	Task tempStorage;
 	tempStorage.taskName = task;
 	tempStorage.startingTime = startingTime;
 	tempStorage.endingTime = endingTime;
-	//tempStorage.date = date;
+	tempStorage.date = date;
 	taskList.push_back(tempStorage);
 };
 
@@ -31,14 +21,14 @@ void Storage::updateTaskList(vector<Task> taskStorage){
 	taskList = taskStorage;
 };
 
-void Storage::saveFile(vector<Task> fileStorage){
+void Storage::saveFile(string textFileName){
 	ofstream writeFile;
-	writeFile.open("file.txt");
-	for (int i = 0; i < fileStorage.size(); i++){
-		writeFile << fileStorage[i].taskName;
-		//writeFile << fileStorage[i].date;
-		writeFile << fileStorage[i].startingTime;
-		writeFile << fileStorage[i].endingTime << endl;
+	writeFile.open(textFileName);
+	for (int i = 0; i < taskList.size(); i++){
+		writeFile << taskList[i].taskName;
+		writeFile << taskList[i].date;
+		writeFile << taskList[i].startingTime;
+		writeFile << taskList[i].endingTime << endl;
 	}
 	writeFile.close();
 };
@@ -46,8 +36,4 @@ void Storage::saveFile(vector<Task> fileStorage){
 vector<Task> Storage::getTaskList(){
 	return taskList;
 };
-	
-
-
-
 
