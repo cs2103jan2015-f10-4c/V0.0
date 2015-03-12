@@ -28,6 +28,7 @@ void Logic::addDeadlineTask(string taskTitle, string endTime) {
 	deadlineList.push_back(tempStorage);
 	taskList.push_back(tempStorage);
 	updateDeadlineStorage();
+	updateStorage();
 	displaySpecified(deadlineList);
 	displayAll();
 }
