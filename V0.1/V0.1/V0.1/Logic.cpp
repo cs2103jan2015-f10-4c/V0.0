@@ -14,12 +14,48 @@ void Logic::addTask(string taskTitle, string startTime, string endTime) {
     tempStorage.startingTime = startTime;
     tempStorage.endingTime = endTime;
     taskList.push_back(tempStorage);
-    updateStorage();
+	updateStorage();
     displayAll();
 }
 
+void Logic::addDeadlineTask(string taskTitle, string endTime) {
+	deadlineList = storage.getDeadlineTaskList();
+	taskList = storage.getTaskList();
+	Task tempStorage;
+	tempStorage.taskName = taskTitle;
+	tempStorage.startingTime = "";
+	tempStorage.endingTime = endTime;
+	deadlineList.push_back(tempStorage);
+	taskList.push_back(tempStorage);
+	updateDeadlineStorage();
+	displaySpecified(deadlineList);
+}
+
+void Logic::addFloatingTask(string taskTitle) {
+	floatingList = storage.getFloatingTaskList();
+	taskList = storage.getTaskList();
+	Task tempStorage;
+	tempStorage.taskName = taskTitle;
+	tempStorage.startingTime = "";
+	tempStorage.endingTime = "";
+	floatingList.push_back(tempStorage);
+	taskList.push_back(tempStorage);
+	updateFloatingStorage();
+	updateStorage();
+	displaySpecified(floatingList);
+}
+
+
 void Logic::updateStorage() {
     storage.updateTaskList (taskList);
+}
+
+void Logic::updateDeadlineStorage() {
+	storage.updateDeadlineTaskList(deadlineList);
+}
+
+void Logic::updateFloatingStorage() {
+	storage.updateFloatingTaskList(floatingList);
 }
 
 void Logic::deleteTask(int index) {

@@ -24,6 +24,8 @@ private:
 	History history;
 	Task task;
 	vector<Task> taskList;
+	vector<Task> deadlineList;
+	vector<Task> floatingList;
 
 public:
 	Logic();
@@ -35,7 +37,11 @@ public:
 	void displayResult(vector<Task>);
     */
     void addTask(string, string, string);
+	void addDeadlineTask(string, string);
+	void addFloatingTask(string);
     void updateStorage();
+	void updateDeadlineStorage();
+	void updateFloatingStorage();
     void deleteTask(int);
     //void editTaskTitle(int, string);
     //void editTaskDate(int, string);
