@@ -6,6 +6,12 @@
 
 using namespace std;
 
+
+History::History(){};
+History::~History(){};
+
+
+
 void History::saveOperation(vector<Task> taskStorage){
 	undoTaskStorage.push(taskStorage);
 

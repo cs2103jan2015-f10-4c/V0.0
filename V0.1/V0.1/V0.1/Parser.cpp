@@ -68,21 +68,24 @@ bool Parser::determineCommand(string userCommand){
         systemFeedback = true;
         string type = detail;
         if ( type == "all"){
-            logic.displaySpecified(logic.taskList);
+            logic.displayAll();
         }
         else if ( type == "dl"){
-            logic.displaySpecified(logic.deadlineList);
+            logic.displayDeadline();
         }
         else if( type == "ft"){
-            logic.displaySpecified(logic.floatingList);
+            logic.displayFloating();
         }else{}
     }
     else if (task == "markdone"){
         systemFeedback = true;
         int index;
         index = getIndex(detail);
-        //logic.markdone(index);
+        logic.markdone(index);
     }
+	/*else if (task == "undo") {
+		systemFeedback = true;
+		history.undoTaskStorage*/
     else return false;
     
     return systemFeedback;
