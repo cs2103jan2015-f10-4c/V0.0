@@ -93,6 +93,6 @@ void Logic::displayAll() {
 
 void Logic::displaySpecified(vector<Task> List) {
 	for (int i = 0; i < List.size(); i++) {
-		cout << i + 1 << "." << List[i].taskName << List[i].startingTime << List[i].endingTime << endl;
+		cout << i + 1 << "." << List[i].taskName << '\t' << List[i].startingTime << '\t'<< List[i].endingTime << endl;
 	}
 }
