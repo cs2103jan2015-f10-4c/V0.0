@@ -30,7 +30,6 @@ bool Parser::determineCommand(string userCommand){
             string startTime;
             taskName = getTaskName(detail);
             startTime = getStartDetail1(detail);
-            //cout<<taskName<<"& "<< startTime;
             logic.addDeadlineTask(taskName, startTime);
         }else{
             string taskName;
@@ -46,13 +45,11 @@ bool Parser::determineCommand(string userCommand){
         index = getIndex(detail);
         logic.deleteTask(index);
     }
-   
     else if (task == "search"){
         systemFeedback = true;
         string keyWord = detail;
         logic.searchTask(keyWord);
     }
-    
     else if (task == "edit"){
         systemFeedback = true;
         int index;
@@ -66,6 +63,25 @@ bool Parser::determineCommand(string userCommand){
         startTime = getStartDetail2(editDetail);
         endTime = getEndDetail(editDetail);
         //logic.editTask(index,taskName, startTime, endTime);
+    }
+    else if (task == "display"){
+        systemFeedback = true;
+        string type = detail;
+        if ( type == "all"){
+            logic.displaySpecified(logic.taskList);
+        }
+        else if ( type == "dl"){
+            logic.displaySpecified(logic.deadlineList);
+        }
+        else if( type == "ft"){
+            logic.displaySpecified(logic.floatingList);
+        }else{}
+    }
+    else if (task == "markdone"){
+        systemFeedback = true;
+        int index;
+        index = getIndex(detail);
+        //logic.markdone(index);
     }
     else return false;
     
