@@ -22,37 +22,52 @@ bool Parser::determineCommand(string input,string& commandType,string& userTask,
 */
 
 bool Parser::determineCommand(string userCommand){
-    COMMAND_TYPE command;
-    size_t positionA = 0;
-    size_t positionB = 0;
-    string task;
-    positionB = userCommand.find_first_of(DELIMITERS);
-    task = userCommand.substr(positionA, positionB - positionA);
-    
+    string task = getCommandType(userCommand);
+    string detail = getDetail(userCommand);
     bool systemFeedback = false;
     if (task == "add"){
-        command = COMMAND_ADD;
+        //command = COMMAND_ADD;
         systemFeedback = true;
         
-        string taskName;
-        string startTime;
-        string endTime;
-        taskName = getUserTask(userCommand);
-        startTime = getStartDetail(userCommand);
-        endTime = getEndDetail(userCommand);
-        logic.addTask(taskName, startTime, endTime);
-    }
+        size_t task = std::count(detail.begin(), detail.end(), ';');
+        if (task == 3){
+            string taskName;
+            string startTime;
+            string endTime;
+            taskName = getTaskName(detail);
+            cout << "TName is : "<< taskName << "\n";
+            startTime = getStartDetail2(detail);
+            cout << "start time is : "<< startTime << "\n";
+            endTime = getEndDetail(detail);
+            cout << "end time is : "<< endTime << "\n";
+            logic.addTask(taskName, startTime, endTime);
+        }else if (task == 2){
+            string taskName;
+            string startTime;
+            taskName = getTaskName(detail);
+            cout << "TName is : "<< taskName << "\n";
+            startTime = getStartDetail1(detail);
+            cout << "time is : "<< startTime << "\n";
+            //logic.addTask(taskName, startTime);
+        }else{
+            string taskName;
+            taskName = getTaskName(detail);
+            cout << "TName is : "<< taskName << "\n";
+            //logic.addTask(taskName);
+        }
+        
+        
+    } /*
     else if (task == "delete"){
-        command = COMMAND_DELETE;
+        //command = COMMAND_DELETE;
         systemFeedback = true;
-        
         int index;
-        cout << USER_PROMPT_INDEX;
-        cin >> index;
+        index = getIndex(userCommand);
         logic.deleteTask(index);
     }
+   
     else if (task == "search"){
-        command = COMMAND_SEARCH;
+        //command = COMMAND_SEARCH;
         systemFeedback = true;
         
         string keyWord;
@@ -61,7 +76,7 @@ bool Parser::determineCommand(string userCommand){
         logic.searchTask(keyWord);
     }
     else if (task == "edit"){
-        command = COMMAND_EDIT;
+        //command = COMMAND_EDIT;
         systemFeedback = true;
         
         string taskName;
@@ -72,10 +87,10 @@ bool Parser::determineCommand(string userCommand){
         endTime = getEndDetail(userCommand);
         int index;
         logic.editTask(index,taskName, startTime, endTime);
-    }
+    }*/
     else return false;
     
-    processCommand(command);
+    //processCommand(command);
     
     return systemFeedback;
     
@@ -92,66 +107,91 @@ string Parser::getCommandType(string input){
     return task;
 }
 
-string Parser::getUserTask(string input){
-    size_t positionA=0;
-    size_t positionB=0;
-    string task;
+string Parser::getDetail(string input){
+    size_t positionA = 0;
+    string detail;
     positionA = input.find_first_of(DELIMITERS);
     positionA++;
-    for (int i = 0; i < NO_OF_TIME_INDICATORS; i++){
-        positionB = input.find(TIME_INDICATORS[i], positionA + 1);
-        if (positionB != string::npos){
-            break;
-        }
-    }
+    detail = input.substr(positionA);
+    
+    return detail;
+}
+
+int Parser::getIndex(string input){
+    size_t positionA = 0;
+    positionA = input.find_first_of(DELIMITERS);
+    positionA++;
+    string indexs = input.substr(positionA);
+    int index;
+    
+    index = atoi(indexs.c_str());
+    cout << index;
+    return index;
+}
+
+
+string Parser::getTaskName(string input){
+    size_t positionA = 0;
+    size_t positionB = 0;
+    string task;
+    positionB = input.find_first_of(DELIMITERS);
     task = input.substr(positionA, positionB - positionA);
     
     return task;
 }
 
 
-string Parser::getStartDetail(string input){
+
+
+string Parser::getStartDetail1(string input){
     size_t positionA = 0;
     size_t positionB = 0;
-    string task;
-    for (int i = 0; i < NO_OF_TIME_INDICATORS; i++){
-        positionA = input.find(TIME_INDICATORS[i]);
-        if (positionA != string::npos && TIME_INDICATORS[i]!=" by "){
-            positionA = input.find(DELIMITERS, positionA + 1);
-            positionA++;
-            positionB = input.find(DELIMITERS, positionA);
-            break;
-        }
-    }
-    if (positionB==0){
-        task = "";
-    }
-    else{
-        task = input.substr(positionA, positionB - positionA);
-    }
-    return task;
+    string time;
+    positionA = input.find_first_of(DELIMITERS) + 1;
+    positionB = input.find_last_of(DELIMITERS);
+    time = input.substr(positionA, positionB - positionA);
+    return time;
+    
+    //asdas;32456;
+    //     A     B
+}
+
+string Parser::getStartDetail2(string input){
+    size_t positionA = 0;
+    size_t positionB = 0;
+    size_t positionC = 0;
+    string time;
+    
+    
+    positionA = input.find_first_of(DELIMITERS) + 1;
+    positionC = input.find_last_of(DELIMITERS);
+    string temp = input.substr(positionA, positionC - positionA);
+    positionB = temp.find_first_of(DELIMITERS);
+    positionA = 0;
+    time = temp.substr(positionA, positionB - positionA);
+    return time;
+    
+    //asdas;32456;43546;
+    //     A     B     C
 }
 
 string Parser::getEndDetail(string input){
     size_t positionA = 0;
     size_t positionB = 0;
-    string task;
-    for (int i = 0; i < NO_OF_TIME_INDICATORS; i++){
-        positionA = input.find(TIME_INDICATORS[i]);
-        if (positionA != string::npos && TIME_INDICATORS[i] != " from "){
-            positionA = input.find(DELIMITERS, positionA + 1);
-            positionA++;
-            positionB = input.find(DELIMITERS, positionA);
-            break;
-        }
-    }
-    if (positionB == 0){
-        task = "";
-    }
-    else{
-        task = input.substr(positionA, positionB - positionA);
-    }
-    return task;
+    size_t positionC = 0;
+    string time;
+    
+    
+    positionA = input.find_first_of(DELIMITERS) + 1;
+    positionC = input.find_last_of(DELIMITERS);
+    string temp = input.substr(positionA, positionC - positionA);
+    positionB = temp.find_first_of(DELIMITERS) + 1;
+    positionA = temp.find_first_of(DELIMITERS) + 1;
+    time = temp.substr(positionB, positionC - positionB);
+    return time;
+    
+    //asdas;32456;43546;
+    //     A     B     C
 }
 /*
 bool Parser::determineCommandType(string userCommand){
