@@ -73,3 +73,7 @@ vector<Task> Storage::getDeadlineTaskList(){
 vector<Task> Storage::getFloatingTaskList(){
 	return floatingTaskList;
 };
+
+void Storage::saveOperation(vector<Task> taskStorage){
+	history.saveOperation(taskStorage);
+};

@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "Task.h"
+#include "History.h"
 
 using namespace std; 
 
@@ -14,6 +15,7 @@ private:
 	vector<Task> taskList;
 	vector<Task> deadlineTaskList;
 	vector<Task> floatingTaskList;
+	History history;
 
 public:
 	Storage();
@@ -27,6 +29,7 @@ public:
 	void updateTaskList(vector<Task> taskStorage);
 	void updateDeadlineTaskList(vector<Task> deadlineTaskStorage);
 	void updateFloatingTaskList(vector<Task> floatingTaskStorage);
+	void saveOperation(vector<Task> taskStorage);
 
 };
 

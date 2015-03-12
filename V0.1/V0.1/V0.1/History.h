@@ -9,17 +9,22 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include "Task.h"
+#include <stack>
 
 class History{
 private:
+	stack <vector<Task>> undoTaskStorage;
 
 
 
 
 public:
+	History();
+	~History();
 
-
-
+	void saveOperation(vector<Task> taskStorage);
+	void undo(vector<Task> taskStorage);
 
 };
 
