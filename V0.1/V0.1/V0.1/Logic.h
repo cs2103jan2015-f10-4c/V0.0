@@ -9,6 +9,8 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include <iomanip>
+#include <ios>
 #include "Storage.h"
 #include "History.h"
 #include "Task.h"

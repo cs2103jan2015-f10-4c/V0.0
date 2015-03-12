@@ -14,6 +14,7 @@ void Logic::addTask(string taskTitle, string startTime, string endTime) {
     tempStorage.startingTime = startTime;
     tempStorage.endingTime = endTime;
     taskList.push_back(tempStorage);
+    updateStorage();
     displayAll();
 }
 
@@ -43,7 +44,8 @@ void Logic::editTask(int index, string newTaskName, string newStartTime, string 
 	taskList[index - 1].endingTime = newEndTime;
 
 	updateStorage();
-    cout << "Editted result: " << taskList[index - 1].taskName << taskList[index - 1].startingTime << taskList[index - 1].endingTime << endl;
+    cout << setw(10);
+    cout << "Editted result: " << taskList[index - 1].taskName << setw(30) << taskList[index - 1].startingTime << setw(30) << taskList[index - 1].endingTime << endl;
     displayAll();
 
 }
@@ -86,12 +88,14 @@ void Logic::searchTask(string keyPhrase){
 void Logic::displayAll() {
 	taskList = storage.getTaskList();
 	for (int i = 0; i < taskList.size(); i++) {
-		cout << i + 1 << "." << taskList[i].taskName << taskList[i].startingTime << taskList[i].endingTime << endl;
+		cout << setw(10);
+        cout << i + 1 << "." << taskList[i].taskName << setw(30) << taskList[i].startingTime << setw(30) << taskList[i].endingTime << endl;
 	}
 }
 
 void Logic::displaySpecified(vector<Task> List) {
 	for (int i = 0; i < List.size(); i++) {
-		cout << i + 1 << "." << List[i].taskName << List[i].startingTime << List[i].endingTime << endl;
+		cout << setw(10);
+        cout << i + 1 << "." << List[i].taskName << setw(30) << List[i].startingTime << setw(30) << List[i].endingTime << endl;
 	}
 }
