@@ -25,6 +25,8 @@ private:
 	Task task;
     static string OPENNING_MSG_FOR_DEADLINETASK_DISPLAYING;
     static string OPENING_MSG_FOR_FLOATINGTASK_DISPLAYING;
+	static string DEFAULT_TASK_STATUS;
+	static string OPENING_MSG_FOR_SEARCH_RESULT;
 
 
 public:
@@ -55,6 +57,7 @@ public:
     void searchTask(string);
 	void displayAll();
     void sortTask();
+	void markdone(int);
     void displayDeadline();
     void displayFloating();
 	void displaySpecified(vector<Task>);
