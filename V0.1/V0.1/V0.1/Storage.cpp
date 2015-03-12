@@ -8,12 +8,12 @@
 
 using namespace std;
 
-void Storage::storeTask(string task, string startingTime, string endingTime,string date){
+void Storage::storeTask(string task, string startingTime, string endingTime){
 	Task tempStorage;
 	tempStorage.taskName = task;
 	tempStorage.startingTime = startingTime;
 	tempStorage.endingTime = endingTime;
-	tempStorage.date = date;
+	//tempStorage.date = date;
 	taskList.push_back(tempStorage);
 };
 
@@ -25,9 +25,10 @@ void Storage::saveFile(string textFileName){
 	ofstream writeFile;
 	writeFile.open(textFileName);
 	for (int i = 0; i < taskList.size(); i++){
-		writeFile << taskList[i].taskName;
-		writeFile << taskList[i].date;
-		writeFile << taskList[i].startingTime;
+		writeFile << i + 1 << ".";
+		writeFile << taskList[i].taskName << "from";
+		//writeFile << taskList[i].date;
+		writeFile << taskList[i].startingTime << "to";
 		writeFile << taskList[i].endingTime << endl;
 	}
 	writeFile.close();
