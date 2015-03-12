@@ -22,7 +22,7 @@ string UI::getUserCommand(){
 	while (true){
 		cout << USER_PROMPT_COMMAND;
 		getline(cin, command);
-		if (parser.determineCommandType(command)){
+		if (parser.determineCommand(command)){
 			cout << SUCCESS_MESSAGE;
 		}
 		else{

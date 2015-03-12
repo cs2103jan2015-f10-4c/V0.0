@@ -10,6 +10,9 @@ using namespace std;
 
 const string TEXTFILENAME = "rushhour.txt";
 
+Storage::Storage(void){}
+Storage::~Storage(void){}
+
 void Storage::storeTask(string task, string startingTime, string endingTime){
 	Task tempStorage;
 	tempStorage.taskName = task;
