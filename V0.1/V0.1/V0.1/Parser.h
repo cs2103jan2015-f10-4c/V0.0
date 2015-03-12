@@ -16,11 +16,7 @@ class Parser{
     
 private:
     Logic logic;
-    //static enum COMMAND_TYPE {COMMAND_ADD,  COMMAND_DELETE, COMMAND_SEARCH, COMMAND_EDIT};
-    static const string DELIMITERS;
-    static const string TIME_INDICATORS[];
-    static const int NO_OF_TIME_INDICATORS;
-    
+    static const string DELIMITERS;    
     static  string USER_PROMPT_TASKNAME ;
     static  string USER_PROMPT_STARTTIME;
     static  string USER_PROMPT_ENDTIME;
@@ -31,12 +27,13 @@ private:
     static  string USER_PROMPT_NEWENDTIME ;
     
     string getCommandType(string);
+    string getDetail(string);
+    int getIndex(string);
     string getTaskName(string);
     string getStartDetail1(string);
     string getStartDetail2(string);
     string getEndDetail(string);
-    int getIndex(string input);
-    string getDetail(string input);
+    
     
 public:
     
@@ -44,10 +41,6 @@ public:
     ~Parser();
     
     bool determineCommand(string);
-    
-    //void processCommand(COMMAND_TYPE);
-    
-    
 };
 
 #endif
