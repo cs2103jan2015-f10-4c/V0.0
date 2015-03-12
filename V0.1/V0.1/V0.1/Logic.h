@@ -23,7 +23,9 @@ private:
 	Storage storage;
 	History history;
 	Task task;
-	
+    static string OPENNING_MSG_FOR_DEADLINETASK_DISPLAYING;
+    static string OPENING_MSG_FOR_FLOATINGTASK_DISPLAYING;
+
 
 public:
     vector<Task> taskList;
@@ -31,6 +33,7 @@ public:
     vector<Task> floatingList;
 	Logic();
 	~Logic();
+    
 	/*void addExecutor(string, string, string);
 	void deleteExecutor(int);
 	void searchExecutor(string);
@@ -51,6 +54,9 @@ public:
 	void editTask(int, string, string, string);
     void searchTask(string);
 	void displayAll();
+    void sortTask();
+    void displayDeadline();
+    void displayFloating();
 	void displaySpecified(vector<Task>);
 };
 

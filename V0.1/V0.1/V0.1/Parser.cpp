@@ -62,7 +62,7 @@ bool Parser::determineCommand(string userCommand){
         taskName = getTaskName(editDetail);
         startTime = getStartDetail2(editDetail);
         endTime = getEndDetail(editDetail);
-        //logic.editTask(index,taskName, startTime, endTime);
+        logic.editTask(index,taskName, startTime, endTime);
     }
     else if (task == "display"){
         systemFeedback = true;
