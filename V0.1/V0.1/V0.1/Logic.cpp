@@ -14,6 +14,7 @@ void Logic::addTask(string taskTitle, string startTime, string endTime) {
     tempStorage.startingTime = startTime;
     tempStorage.endingTime = endTime;
     taskList.push_back(tempStorage);
+    displayAll();
 }
 
 void Logic::updateStorage() {
@@ -32,7 +33,7 @@ void Logic::deleteTask(int index) {
 		taskList.erase(taskList.begin() + (index - 1));
 		updateStorage();
     
-    //displayAll();
+    displayAll();
 }
 
 void Logic::editTask(int index, string newTaskName, string newStartTime, string newEndTime){
@@ -42,8 +43,8 @@ void Logic::editTask(int index, string newTaskName, string newStartTime, string 
 	taskList[index - 1].endingTime = newEndTime;
 
 	updateStorage();
-
-
+    cout << "Editted result: " << taskList[index - 1].taskName << taskList[index - 1].startingTime << taskList[index - 1].endingTime << endl;
+    displayAll();
 
 }
 
