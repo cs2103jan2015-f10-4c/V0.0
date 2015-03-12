@@ -26,11 +26,11 @@ void Storage::updateTaskList(vector<Task> taskStorage){
 	taskList = taskStorage;
 };
 
-void Storage::updateDeadlineTasklist(vector<Task> deadlineTaskStorage){
+void Storage::updateDeadlineTaskList(vector<Task> deadlineTaskStorage){
 	deadlineTaskList = deadlineTaskStorage;
 };
 
-void Storage::updateFloatingTasklist(vector<Task> floatingTaskStorage){
+void Storage::updateFloatingTaskList(vector<Task> floatingTaskStorage){
 	floatingTaskList = floatingTaskStorage;
 };
 
@@ -71,6 +71,6 @@ vector<Task> Storage::getDeadlineTaskList(){
 	return deadlineTaskList;
 };
 
-vector<Task> Storage::getFloatingTasklist(){
+vector<Task> Storage::getFloatingTaskList(){
 	return floatingTaskList;
 };

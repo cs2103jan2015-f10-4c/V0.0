@@ -23,10 +23,10 @@ public:
 	void saveFile(string TEXTFILENAME);
 	vector<Task> getTaskList();
 	vector<Task> getDeadlineTaskList();
-	vector<Task> getFloatingTasklist();
+	vector<Task> getFloatingTaskList();
 	void updateTaskList(vector<Task> taskStorage);
-	void updateDeadlineTasklist(vector<Task> deadlineTaskStorage);
-	void updateFloatingTasklist(vector<Task> floatingTaskStorage);
+	void updateDeadlineTaskList(vector<Task> deadlineTaskStorage);
+	void updateFloatingTaskList(vector<Task> floatingTaskStorage);
 
 };
 
