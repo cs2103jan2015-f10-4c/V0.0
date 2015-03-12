@@ -1,7 +1,7 @@
 #include "Logic.h"
 
-string Logic::OPENNING_MSG_FOR_DEADLINETASK_DISPLAYING = "Deadline need to be met:";
-string Logic::OPENING_MSG_FOR_FLOATINGTASK_DISPLAYING = "Floating Task:";
+string Logic::OPENNING_MSG_FOR_DEADLINETASK_DISPLAYING = "Deadline need to be met:\n";
+string Logic::OPENING_MSG_FOR_FLOATINGTASK_DISPLAYING = "Floating Task:\n";
 
 Logic::Logic(void){}
 
@@ -131,8 +131,7 @@ void Logic::sortTask() {}
 void Logic::displayAll() {
 	taskList = storage.getTaskList();
 	for (int i = 0; i < taskList.size(); i++) {
-		cout << setw(10);
-        cout << i + 1 << "." << taskList[i].taskName << setw(30) << taskList[i].startingTime << setw(30) << taskList[i].endingTime << endl;
+		cout << i + 1 << "." << taskList[i].taskName << setw(30) << taskList[i].startingTime << setw(30) << taskList[i].endingTime << endl;
 	}
 }
 
@@ -148,7 +147,7 @@ void Logic::displayFloating() {
 	floatingList = storage.getFloatingTaskList();
 	cout << OPENING_MSG_FOR_FLOATINGTASK_DISPLAYING;
 	for (int i = 0; i < floatingList.size(); i++) {
-		cout << "Task " << i + 1 << ":" << floatingList[i].taskName << endl;
+		cout << "Task " << i + 1 << ": " << floatingList[i].taskName << endl;
 	}
 }
 
