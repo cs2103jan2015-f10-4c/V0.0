@@ -9,6 +9,8 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include <iomanip>
+#include <ios>
 #include "Storage.h"
 #include "History.h"
 #include "Task.h"
@@ -21,11 +23,19 @@ private:
 	Storage storage;
 	History history;
 	Task task;
-	vector<Task> taskList;
+    static string OPENNING_MSG_FOR_DEADLINETASK_DISPLAYING;
+    static string OPENING_MSG_FOR_FLOATINGTASK_DISPLAYING;
+	static string DEFAULT_TASK_STATUS;
+	static string OPENING_MSG_FOR_SEARCH_RESULT;
+
 
 public:
+    vector<Task> taskList;
+    vector<Task> deadlineList;
+    vector<Task> floatingList;
 	Logic();
 	~Logic();
+    
 	/*void addExecutor(string, string, string);
 	void deleteExecutor(int);
 	void searchExecutor(string);
@@ -33,7 +43,11 @@ public:
 	void displayResult(vector<Task>);
     */
     void addTask(string, string, string);
+	void addDeadlineTask(string, string);
+	void addFloatingTask(string);
     void updateStorage();
+	void updateDeadlineStorage();
+	void updateFloatingStorage();
     void deleteTask(int);
     //void editTaskTitle(int, string);
     //void editTaskDate(int, string);
@@ -42,6 +56,10 @@ public:
 	void editTask(int, string, string, string);
     void searchTask(string);
 	void displayAll();
+    void sortTask();
+	void markdone(int);
+    void displayDeadline();
+    void displayFloating();
 	void displaySpecified(vector<Task>);
 };
 

@@ -8,37 +8,56 @@
 
 using namespace std;
 
-<<<<<<< HEAD
+const string TEXTFILENAME = "rushhour.txt";
 
-Storage::Storage(){
-}
+Storage::Storage(void){}
+Storage::~Storage(void){}
 
-Storage::~Storage(){}
-
-void Storage::storeTask(string task, string startingTime, string endingTime, string date){
-=======
-void Storage::storeTask(string task, string startingTime, string endingTime){
->>>>>>> aadd4e3110a98adfe2195bde96f717c7fb5bdbcb
+/*void Storage::storeTask(string task, string startingTime, string endingTime){
 	Task tempStorage;
 	tempStorage.taskName = task;
 	tempStorage.startingTime = startingTime;
 	tempStorage.endingTime = endingTime;
 	//tempStorage.date = date;
 	taskList.push_back(tempStorage);
-};
+};*/
 
 void Storage::updateTaskList(vector<Task> taskStorage){
 	taskList = taskStorage;
 };
 
-void Storage::saveFile(vector<Task> fileStorage){
-	ofstream writeFile;
-	writeFile.open("file.txt");
-	for (int i = 0; i < fileStorage.size(); i++){
-		writeFile << fileStorage[i].taskName;
-		//writeFile << fileStorage[i].date;
-		writeFile << fileStorage[i].startingTime;
-		writeFile << fileStorage[i].endingTime << endl;
+void Storage::updateDeadlineTaskList(vector<Task> deadlineTaskStorage){
+	deadlineTaskList = deadlineTaskStorage;
+};
+
+void Storage::updateFloatingTaskList(vector<Task> floatingTaskStorage){
+	floatingTaskList = floatingTaskStorage;
+};
+
+void Storage::saveFile(){
+	ofstream writeFile(TEXTFILENAME);
+	
+	writeFile << " Normal Tasklist:" << endl;
+	for (int i = 0; i < taskList.size(); i++){
+		writeFile << i + 1 << ". ";
+		writeFile << taskList[i].taskName << " from ";
+		//writeFile << taskList[i].date;
+		writeFile << taskList[i].startingTime << " to ";
+		writeFile << taskList[i].endingTime << endl;
+	}
+	
+	writeFile << " Deadline Tasklist:" << endl;
+	for (int i = 0; i < deadlineTaskList.size(); i++){
+		writeFile << i + 1 << ". ";
+		writeFile << deadlineTaskList[i].taskName << " at ";
+		//writeFile << taskList[i].date;
+		writeFile << deadlineTaskList[i].startingTime << endl;
+	}
+
+	writeFile << " Floating Tasklist:" << endl;
+	for (int i = 0; i < floatingTaskList.size(); i++){
+		writeFile << i + 1 << ". ";
+		writeFile << floatingTaskList[i].taskName << endl;
 	}
 	writeFile.close();
 };
@@ -46,8 +65,15 @@ void Storage::saveFile(vector<Task> fileStorage){
 vector<Task> Storage::getTaskList(){
 	return taskList;
 };
-	
 
+vector<Task> Storage::getDeadlineTaskList(){
+	return deadlineTaskList;
+};
 
+vector<Task> Storage::getFloatingTaskList(){
+	return floatingTaskList;
+};
 
-
+void Storage::saveOperation(vector<Task> taskStorage){
+	history.saveOperation(taskStorage);
+};
