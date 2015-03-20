@@ -8,6 +8,7 @@
 #include <fstream>
 #include <algorithm>
 #include "Logic.h"
+#include "History.h"
 
 
 using namespace std;
@@ -16,6 +17,7 @@ class Parser{
     
 private:
     Logic logic;
+	History history;
     static const string DELIMITERS;    
     static  string USER_PROMPT_TASKNAME ;
     static  string USER_PROMPT_STARTTIME;

@@ -19,8 +19,8 @@ void Task::setEndingTime(string inputEndingTime){
 	endingTime = inputEndingTime;
 }
 
-void Task::setDone(bool inputDone){
-    done = inputDone;
+void Task::setDone(string inputDone){
+	status = inputDone;
 }
 
 //void Task::setDate(string inputDate){

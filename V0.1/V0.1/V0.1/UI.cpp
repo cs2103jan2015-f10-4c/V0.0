@@ -24,9 +24,11 @@ string UI::getUserCommand(){
 		getline(cin, command);
 		if (parser.determineCommand(command)){
 			cout << SUCCESS_MESSAGE;
+			cout << "*****************************************************************\n"<<endl;
 		}
 		else{
 			cout << ERROR_MESSAGE;
+			cout << "*****************************************************************\n"<<endl;
 		}
 	}
 }

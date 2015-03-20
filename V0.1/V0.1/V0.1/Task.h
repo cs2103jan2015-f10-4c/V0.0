@@ -16,7 +16,7 @@ public:
 	string taskName;
 	string startingTime;
 	string endingTime;
-    bool done;
+	string status;
 	//string date;
 
 	Task();
@@ -25,7 +25,7 @@ public:
 	void setTaskName(string inputTaskName);
 	void setStartingTime(string inputStartingTime);
 	void setEndingTime(string inputEndingTime);
-    void setDone(bool inputDone);
+	void setDone(string inputDone);
 	//void setDate(string inputDate);
 
 };
