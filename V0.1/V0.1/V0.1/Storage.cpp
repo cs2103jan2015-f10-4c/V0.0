@@ -74,6 +74,8 @@ vector<Task> Storage::getFloatingTaskList(){
 	return floatingTaskList;
 };
 
-void Storage::saveOperation(vector<Task> taskStorage){
-	historyStorage.saveOperation(taskStorage);
-};
+//void Storage::saveOperation(vector<Task> taskStorage){
+//	taskList = taskStorage;
+//	historyStorage.saveOperation(taskList);
+//};
+
