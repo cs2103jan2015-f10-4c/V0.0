@@ -12,5 +12,5 @@ void searchExecutor::searchTask(string  keyPhrase){
             searchResult.push_back(taskList[i]);
         }
     }
-    displaySpecified(searchResult);
+    //displaySpecified(searchResult);
 }

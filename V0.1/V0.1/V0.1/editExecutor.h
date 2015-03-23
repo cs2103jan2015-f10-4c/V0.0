@@ -21,6 +21,7 @@ private:
 	Task task;
 	
 public:
+    vector<Task> taskList;
     editExecutor();
     ~editExecutor();
     void editTask(int, string, string, string);

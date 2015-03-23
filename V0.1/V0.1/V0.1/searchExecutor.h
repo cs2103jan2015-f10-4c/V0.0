@@ -21,6 +21,7 @@ private:
 	Task task;
 	
 public:
+    vector<Task> taskList;
     searchExecutor();
     ~searchExecutor();
     void searchTask(string);

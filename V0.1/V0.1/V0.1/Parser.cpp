@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include "assert.h"
 
 const string Parser::DELIMITERS = ";";
 
@@ -11,6 +12,11 @@ Parser::~Parser(){
 
 
 bool Parser::determineCommand(string userCommand){
+	assert(userCommand != "");
+
+	if (userCommand == "") {
+		throw invalid_argument("Invalid user input!");
+	}
     string task = getCommandType(userCommand);
     string detail = getDetail(userCommand);
     bool systemFeedback = false;

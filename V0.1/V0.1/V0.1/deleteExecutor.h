@@ -19,6 +19,7 @@ private:
 	Task task;
 
 public:
+    vector<Task> taskList;
     deleteExecutor();
     ~deleteExecutor();
     void deleteTask(int);
