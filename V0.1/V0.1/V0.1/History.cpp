@@ -62,3 +62,7 @@ bool History::redo(vector<Task> updatedTaskList){
 	return redoStatus;
 };
 
+//void History::updateHistoryTaskList(vector<Task> taskStorage){
+//	historyTaskList = taskStorage;
+//}
+
