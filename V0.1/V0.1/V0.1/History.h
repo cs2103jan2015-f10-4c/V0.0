@@ -14,7 +14,8 @@
 
 class History{
 private:
-	stack <vector<Task>> undoTaskStorage;
+	stack <vector<Task>> undoStorageList;
+	stack <vector<Task>> redoStorageList;
 
 
 
@@ -24,7 +25,8 @@ public:
 	~History();
 
 	void saveOperation(vector<Task> taskStorage);
-	void undo(vector<Task> taskStorage);
+	bool undo(vector<Task> updatedTaskList);
+	bool redo(vector<Task> updatedTaskList);
 
 };
 

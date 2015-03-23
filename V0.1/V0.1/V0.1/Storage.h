@@ -15,7 +15,7 @@ private:
 	vector<Task> taskList;
 	vector<Task> deadlineTaskList;
 	vector<Task> floatingTaskList;
-	History history;
+	History historyStorage;
 
 public:
 	Storage();
