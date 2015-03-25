@@ -2,7 +2,7 @@
 
 #include "Logic.h"
 
-string Logic::executeUserCommand(string userInput){
+void Logic::executeUserCommand(string userInput){
 	string commandWord;
 	commandWord = parser.getCommandWord(userInput);
 	COMMAND_TYPE commandType;
@@ -22,6 +22,12 @@ string Logic::executeUserCommand(string userInput){
 		return display();
 	case UNDO:
 		return undoTask();
+	case REDO:
+		return redoTask();
+	default:
+		break;
+	}
+}
 
 COMMAND_TYPE Logic::determineCommandType(string commandWord){
 	if (commandWord == "Add" || commandType == "add") {
@@ -55,21 +61,21 @@ void Logic::addTask(){
 		string endTime = parser.getEndTime();
 		add.addDeadlineTask(taskName, endTime, taskType);
 	} else if (taskType == "Floating") {
-		string taskName == parser.getTaskName();
+		string taskName = parser.getTaskName();
 		add.addFloatingTask(taskName, taskType);
 	}
 }
 
 void Logic::deleteTask(){
 	int index = parser.getIndex();
-	deleteTask.deleteTask(index);
+	deleteATask.deleteTask(index);
 }
 
 void Logic::editTask(){
 	int index = parser.getIndex();
-	newTaskName = parser.getTaskName();
-	newStartTime = parser.getStartTime();
-	newEndTime = parser.getEndTime();
+	string newTaskName = parser.getTaskName();
+	string newStartTime = parser.getStartTime();
+	string newEndTime = parser.getEndTime();
 	edit.editTask(index, newTaskName, newStartTime, newEndTime);
 }
 
@@ -81,6 +87,18 @@ void Logic::searchTask(){
 void Logic::markDoneTask(){
 	int index = parser.getIndex();
 	mark.markDone(index);
+}
+
+void Logic::undoTask(){
+	storage.undo();
+	taskList = storage.getTaskList();
+	display. displayAll();
+}
+
+void Logic::redo(){
+	storage.redo();
+	taskList = storage.getTaskList();
+	display.displayAll();
 }
 
 void Logic::display(){
