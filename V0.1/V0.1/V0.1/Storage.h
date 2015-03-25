@@ -45,7 +45,7 @@ public:
 	string removeIndex(string input);
 	string getTaskName(string input);
 	string getStartingTime(string input);
-	string getEndlingTime(string input);
+	string getEndingTime(string input);
 	string getStatus(string input);
 	string getDueTime(string input);
 

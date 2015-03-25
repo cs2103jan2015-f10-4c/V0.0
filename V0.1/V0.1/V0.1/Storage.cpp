@@ -240,7 +240,7 @@ string Storage::getStartingTime(string input){
 
 }
 
-string Storage::getEndlingTime(string input){
+string Storage::getEndingTime(string input){
 	size_t p1 = 0;
 	size_t p2 = 0;
 	size_t p3 = 0;
