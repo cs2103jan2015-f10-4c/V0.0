@@ -14,7 +14,8 @@ void deleteExecutor::deleteTask(int index){
         string deletedText;
 		deletedText = taskList[index - 1];*/
 		taskList.erase(taskList.begin() + (index - 1));
-		updateStorage();
+		executor.updateStorage();
+		storage.saveOperation();
     cout << "Task " << index << " is deleted!" << endl;
     //displayAll();
 }

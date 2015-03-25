@@ -11,6 +11,7 @@
 #include "Storage.h"
 #include "History.h"
 #include "Task.h"
+#include "commonExecutor.h"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ private:
     Storage storage;
 	History history;
 	Task task;
+	commonExecutor executor;
 
 public:
     vector<Task> taskList;

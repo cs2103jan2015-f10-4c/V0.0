@@ -11,6 +11,7 @@
 #include "Storage.h"
 #include "History.h"
 #include "Task.h"
+#include "commonExecutor.h"
 
 using namespace std;
 
@@ -19,6 +20,8 @@ private:
 	Storage storage;
 	History history;
 	Task task;
+	commonExecutor executor;
+	static string DEFAULT_TASK_STATUS;
 
 public:
 	vector<Task> taskList;
@@ -26,9 +29,9 @@ public:
     vector<Task> floatingList;
 	addExecutor();
 	~addExecutor();
-	void addTask(string, string, string);
-	void addDeadlineTask(string, string);
-	void addFloatingTask(string);
+	void addTask(string, string, string, string);
+	void addDeadlineTask(string, string, string);
+	void addFloatingTask(string, string);
 
 };
 #endif

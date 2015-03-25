@@ -10,10 +10,11 @@ void markDoneExecutor::markDoneTask(int index){
 	floatingList = storage.getFloatingTaskList();
 	string doneTaskTitle = taskList[index - 1].taskName;
 	taskList[index - 1].status = "Done";
-	updateStorage();
+	executor.updateStorage();
+	storage.saveOperation();
 
 	//update respective task in deadlineList:
-	for (int i = 0; i < deadlineList.size(); i++) {
+	/*for (int i = 0; i < deadlineList.size(); i++) {
 		if (deadlineList[i].taskName == doneTaskTitle) {
 			deadlineList[i].status = "Done";
 			updateDeadlineStorage();
@@ -26,6 +27,6 @@ void markDoneExecutor::markDoneTask(int index){
 			floatingList[j].status = "Done";
 			updateFloatingStorage();
 		}
-	}
+	}*/
 
 }
