@@ -28,6 +28,16 @@ private:
     static  string USER_PROMPT_NEWSTARTTIME ;
     static  string USER_PROMPT_NEWENDTIME ;
     
+    
+    
+    
+    string taskType;
+    string taskName;
+    string startTime;
+    string endTime;
+    int index;
+    string searchWord;
+    
     string getCommandType(string);
     string getDetail(string);
     int getIndex(string);
@@ -42,7 +52,21 @@ public:
     Parser();
     ~Parser();
     
-    bool determineCommand(string);
+    //bool determineCommand(string command);
+    
+    string getCommandWord(string command);
+    
+    string getTaskType();
+    
+    string getTaskName();
+    
+    string getStartTime();
+    
+    string getEndTime();
+    
+    int getIndex();
+    
+    string getSearchWord();
 };
 
 #endif
