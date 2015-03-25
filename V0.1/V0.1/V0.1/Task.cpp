@@ -23,6 +23,10 @@ void Task::setDone(string inputDone){
 	status = inputDone;
 }
 
+void Task::setType(string inputType){
+	type = inputType;
+}
+
 //void Task::setDate(string inputDate){
 	//date = inputDate;
 //}
