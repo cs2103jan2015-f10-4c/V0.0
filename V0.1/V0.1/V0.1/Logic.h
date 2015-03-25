@@ -1,68 +1,57 @@
 
 
-#ifndef Logic_H
-#define Logic_H
-
+#ifndef LOGIC_H_
+#define LOGIC_H_
 
 #include <iostream>
-#include <vector>
-#include <string>
 #include <fstream>
+#include <string>
 #include <algorithm>
-#include <iomanip>
-#include <ios>
+#include <sstream>
+#include <stdio.h>
+#include <sstream>
+#include "Parser.h"
+#include "UI.h"
+#include "addExecutor.h"
+#include "deleteExecutor.h"
+#include "editExecutor.h"
+#include "searchExecutor.h"
+#include "markDoneExecutor.h"
+#include "Display.h"
 #include "Storage.h"
-#include "History.h"
-#include "Task.h"
 
 using namespace std;
 
 class Logic{
 private:
-
+    
+	vector<Task> taskList;
+	Parser parser;
+    addExecutor add;
+	deleteExecutor deleteATask;
+	editExecutor edit;
+	searchExecutor search;
+	markDoneExecutor mark;
 	Storage storage;
-	History history;
-	Task task;
-    static string OPENNING_MSG_FOR_DEADLINETASK_DISPLAYING;
-    static string OPENING_MSG_FOR_FLOATINGTASK_DISPLAYING;
-	static string DEFAULT_TASK_STATUS;
-	static string OPENING_MSG_FOR_SEARCH_RESULT;
+	Display disp;
 
 
 public:
-    vector<Task> taskList;
-    vector<Task> deadlineList;
-    vector<Task> floatingList;
 	Logic();
 	~Logic();
-    
-	/*void addExecutor(string, string, string);
-	void deleteExecutor(int);
-	void searchExecutor(string);
-	void editExecutor(int, string, string, string);
-	void displayResult(vector<Task>);
-    */
-    void addTask(string, string, string);
-	void addDeadlineTask(string, string);
-	void addFloatingTask(string);
-    void updateStorage();
-	void updateDeadlineStorage();
-	void updateFloatingStorage();
-    void deleteTask(int);
-    //void editTaskTitle(int, string);
-    //void editTaskDate(int, string);
-    //void editTaskStartTime(int, string);
-    //void editTaskEndTime(int, string);
-	void editTask(int, string, string, string);
-    void searchTask(string);
-	void displayAll();
-    void sortTask();
-	void markdone(int);
-    void displayDeadline();
-    void displayFloating();
-	void displaySpecified(vector<Task>);
+	enum COMMAND_TYPE {
+		ADD, DELETE, EDIT, SEARCH, MARKDONE, DISPLAY, UNDO, REDO
+	};
+	
+    void addTask();
+	void deleteTask();
+	void editTask();
+	void searchTask();
+	void markDoneTask();
+	void display();
+	void undoTask();
+	COMMAND_TYPE determineCommandType(string);
+	static void executeUserCommand (string);
+
 };
-
-
-
 #endif
