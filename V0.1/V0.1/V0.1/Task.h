@@ -17,6 +17,7 @@ public:
 	string startingTime;
 	string endingTime;
 	string status;
+	string type;
 
 
 	Task();
@@ -26,7 +27,7 @@ public:
 	void setStartingTime(string inputStartingTime);
 	void setEndingTime(string inputEndingTime);
 	void setDone(string inputDone);
-	
+	void setType(string inputType);
 
 };
 

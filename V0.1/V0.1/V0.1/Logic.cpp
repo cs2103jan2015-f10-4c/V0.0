@@ -4,7 +4,7 @@
 
 void Logic::executeUserCommand(string userInput){
 	string commandWord;
-	commandWord = parser.getCommandWord(userInput);
+	commandWord = parse.getCommandWord(userInput);
 	COMMAND_TYPE commandType;
 	commandType = determineCommandType(commandWord);
 	switch (commandType) {
@@ -29,12 +29,12 @@ void Logic::executeUserCommand(string userInput){
 	}
 }
 
-COMMAND_TYPE Logic::determineCommandType(string commandWord){
-	if (commandWord == "Add" || commandType == "add") {
+Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
+	if (commandWord == "Add" || commandWord == "add") {
 		return COMMAND_TYPE::ADD;
-	} else if (commandWord == "Delete" || commandType == "delete") {
+	} else if (commandWord == "Delete" || commandWord == "delete") {
 		return COMMAND_TYPE::DELETE;
-	} else if (commandType == "Edit" || commandType == "edit") {
+	} else if (commandWord == "Edit" || commandWord == "edit") {
 		return COMMAND_TYPE::EDIT;
 	} else if (commandWord == "Search" || commandWord == "search") {
 		return COMMAND_TYPE::SEARCH;
@@ -50,70 +50,58 @@ COMMAND_TYPE Logic::determineCommandType(string commandWord){
 }
 
 void Logic::addTask(){
-	string taskType = parser.getTaskType();
+	string taskType = parse.getTaskType();
 	if (taskType == "Timed") {
-		string taskName = parser.getTaskName();
-		string startTime = parser.getStartTime();
-		string endTime = parser.getEndTime();
+		string taskName = parse.getTaskName();
+		string startTime = parse.getStartTime();
+		string endTime = parse.getEndTime();
 		add.addTask(taskName, startTime, endTime, taskType);
 	} else if (taskType == "Deadline") {
-		string taskName = parser.getTaskName();
-		string endTime = parser.getEndTime();
+		string taskName = parse.getTaskName();
+		string endTime = parse.getEndTime();
 		add.addDeadlineTask(taskName, endTime, taskType);
 	} else if (taskType == "Floating") {
-		string taskName = parser.getTaskName();
+		string taskName = parse.getTaskName();
 		add.addFloatingTask(taskName, taskType);
 	}
 }
 
 void Logic::deleteTask(){
-	int index = parser.getIndex();
+	int index = parse.getIndex();
 	deleteATask.deleteTask(index);
 }
 
 void Logic::editTask(){
-	int index = parser.getIndex();
-	string newTaskName = parser.getTaskName();
-	string newStartTime = parser.getStartTime();
-	string newEndTime = parser.getEndTime();
+	int index = parse.getIndex();
+	string newTaskName = parse.getTaskName();
+	string newStartTime = parse.getStartTime();
+	string newEndTime = parse.getEndTime();
 	edit.editTask(index, newTaskName, newStartTime, newEndTime);
 }
 
 void Logic::searchTask(){
-	string keyPhrase = parser.getSearchWord();
+	string keyPhrase = parse.getSearchWord();
 	search.searchTask(keyPhrase);
 }
 
 void Logic::markDoneTask(){
-	int index = parser.getIndex();
-	mark.markDone(index);
+	int index = parse.getIndex();
+	mark.markDoneTask(index);
 }
 
 void Logic::undoTask(){
 	storage.undo();
 	taskList = storage.getTaskList();
-	display. displayAll();
+	disp.setDefaultDisplay();
 }
 
-void Logic::redo(){
+void Logic::redoTask(){
 	storage.redo();
 	taskList = storage.getTaskList();
-	display.displayAll();
+	disp.setDefaultDisplay();
 }
 
 void Logic::display(){
-	string displayType = parser.getTaskType();
-	if (displayType == "timed") {
-		disp.displayTimed();
-	} else if (displayType == "deadline") {
-		disp.displayDeadline();
-	} else if (displayType == "floating") {
-		disp.displayFloating();
-	} else if (displayType == "ongoing") {
-		disp.displayOngong();
-	} else if (displayType == "done") {
-		disp.displayDone();
-	} else if (displayType == "overdue") {
-		disp.displayOverdue();
-	}
+	string displayType = parse.getTaskType();
+	disp.setVariousDisplay(displayType);
 }

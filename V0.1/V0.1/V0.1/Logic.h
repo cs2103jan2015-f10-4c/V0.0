@@ -6,12 +6,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <algorithm>
 #include <sstream>
 #include <stdio.h>
 #include <sstream>
 #include "Parser.h"
-#include "UI.h"
+#include "Task.h"
 #include "addExecutor.h"
 #include "deleteExecutor.h"
 #include "editExecutor.h"
@@ -23,10 +24,11 @@
 using namespace std;
 
 class Logic{
+
 private:
     
 	vector<Task> taskList;
-	Parser parser;
+	Parser parse;
     addExecutor add;
 	deleteExecutor deleteATask;
 	editExecutor edit;
@@ -50,8 +52,9 @@ public:
 	void markDoneTask();
 	void display();
 	void undoTask();
+	void redoTask();
 	COMMAND_TYPE determineCommandType(string);
-	static void executeUserCommand (string);
+    void executeUserCommand (string);
 
 };
 #endif

@@ -191,7 +191,7 @@ namespace GUI {
 			 int count = 5;
 			 Storage storage;
 			 string temp;
-		     Storage::readFile();
+			 Storage::readFile;
 			 vector<Task> tasklist = storage.getTaskList();
 		     this->SystemResponse->Text = "Hello Jim. Welcome to RushHour!\r\n\r\nWhat would you like to do?";
 			 this->feedbackWindow->Text = instruction.c_str;
@@ -231,8 +231,8 @@ namespace GUI {
 			 string temp;
 		     inputBox -> Clear();
 			 DisplayContent->Items->Clear();
-
-		     Logic::executeUserCommand(userInput);
+			 Logic logic;
+		     logic.executeUserCommand(userInput);
 			 DisplayWindow display;
 			 vector<Task> tasklist = display.getContent();
 			 for (int i = 0; i < tasklist.size(); i++){
