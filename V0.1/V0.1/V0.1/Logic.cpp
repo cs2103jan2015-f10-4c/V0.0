@@ -1,195 +1,101 @@
+
+
 #include "Logic.h"
 
-string Logic::OPENNING_MSG_FOR_DEADLINETASK_DISPLAYING = "Deadline need to be met:\n";
-string Logic::OPENING_MSG_FOR_FLOATINGTASK_DISPLAYING = "Floating Task:\n";
-string Logic::DEFAULT_TASK_STATUS = "Ongoing";
-string Logic::OPENING_MSG_FOR_SEARCH_RESULT = "Search result\n";
+string Logic::executeUserCommand(string userInput){
+	string commandWord;
+	commandWord = parser.getCommandWord(userInput);
+	COMMAND_TYPE commandType;
+	commandType = determineCommandType(commandWord);
+	switch (commandType) {
+	case ADD:
+		return addTask();
+	case DELETE:
+		return deleteTask();
+	case EDIT:
+		return editTask();
+	case SEARCH:
+		return searchTask();
+	case MARKDONE:
+		return markDoneTask();
+	case DISPLAY:
+		return display();
+	case UNDO:
+		return undoTask();
 
-Logic::Logic(void){}
-
-Logic::~Logic(void){}
-
-void Logic::addTask(string taskTitle, string startTime, string endTime) {
-    taskList = storage.getTaskList();
-    Task tempStorage;
-    tempStorage.taskName = taskTitle;
-    //tempStorage.date = taskDate;
-    tempStorage.startingTime = startTime;
-    tempStorage.endingTime = endTime;
-	tempStorage.status = DEFAULT_TASK_STATUS;
-    taskList.push_back(tempStorage);
-	updateStorage();
-    //displayAll();
-}
-
-void Logic::addDeadlineTask(string taskTitle, string endTime) {
-	deadlineList = storage.getDeadlineTaskList();
-	taskList = storage.getTaskList();
-	Task tempStorage;
-	tempStorage.taskName = taskTitle;
-	tempStorage.startingTime = "None";
-	tempStorage.endingTime = endTime;
-	tempStorage.status = DEFAULT_TASK_STATUS;
-	deadlineList.push_back(tempStorage);
-	taskList.push_back(tempStorage);
-	updateDeadlineStorage();
-	updateStorage();
-	//displayDeadline();
-	//displayAll();
-}
-
-void Logic::addFloatingTask(string taskTitle) {
-	floatingList = storage.getFloatingTaskList();
-	taskList = storage.getTaskList();
-	Task tempStorage;
-	tempStorage.taskName = taskTitle;
-	tempStorage.startingTime = "Not specified";
-	tempStorage.endingTime = "Not specified";
-	tempStorage.status = DEFAULT_TASK_STATUS;
-	floatingList.push_back(tempStorage);
-	taskList.push_back(tempStorage);
-	updateFloatingStorage();
-	updateStorage();
-	//displayFloating();
-	//displayAll();
-}
-
-
-void Logic::updateStorage() {
-    storage.updateTaskList (taskList);
-}
-
-void Logic::updateDeadlineStorage() {
-	storage.updateDeadlineTaskList(deadlineList);
-}
-
-void Logic::updateFloatingStorage() {
-	storage.updateFloatingTaskList(floatingList);
-}
-
-void Logic::deleteTask(int index) {
-    taskList = storage.getTaskList();
-    /*if (index > taskList.size()) {
-        display::displayError();
-    }
-    
-    else {
-        string deletedText;
-		deletedText = taskList[index - 1];*/
-		taskList.erase(taskList.begin() + (index - 1));
-		updateStorage();
-    cout << "Task " << index << " is deleted!" << endl;
-    //displayAll();
-}
-
-void Logic::editTask(int index, string newTaskName, string newStartTime, string newEndTime){
-	taskList = storage.getTaskList();
-	taskList[index - 1].taskName = newTaskName;
-	taskList[index - 1].startingTime = newStartTime;
-	taskList[index - 1].endingTime = newEndTime;
-	taskList[index - 1].status = DEFAULT_TASK_STATUS;
-
-
-	updateStorage();
-    cout << "Editted result: " << taskList[index - 1].taskName << setw(15) << taskList[index - 1].startingTime << setw(15) <<
-		taskList[index - 1].endingTime << setw(15) << taskList[index - 1].status <<endl;
-    //displayAll();
-
-}
-
-
-/*void Logic::editTaskTitle(int index, string newName){
-    taskList = storage.getTaskList();
-    taskList[index+1].taskName = newName;
-	//updateStorage();
-}
-
-/*Logic::editTaskDate(int index, string newDate){
-    taskList = storage.getTaskList();
-    taskList[index+1].taskDate = newDate;
-}*/
-
-/*void Logic::editTaskStartTime(int index, string newStartingTime){
-    taskList = storage.getTaskList();
-    taskList[index+1].taskName = newStartingTime;
-	//updateStorage();
-}
-
-void Logic::editTaskEndTime(int index, string newEndingTime){
-    taskList = storage.getTaskList();
-    taskList[index+1].taskName = newEndingTime;
-	//updateStorage();
-}*/
-
-void Logic::searchTask(string keyPhrase){
-	vector<Task> searchResult;
-    taskList = storage.getTaskList();
-    for (int i=0; i < taskList.size(); i++) {
-        if (taskList[i].taskName.compare(keyPhrase) == 0) {
-            searchResult.push_back(taskList[i]);
-        }
-    }
-    displaySpecified(searchResult);
-}
-
-void Logic::sortTask() {}
-
-void Logic::markdone(int index) {
-	taskList = storage.getTaskList();
-	deadlineList = storage.getDeadlineTaskList();
-	floatingList = storage.getFloatingTaskList();
-	string doneTaskTitle = taskList[index - 1].taskName;
-	taskList[index - 1].status = "Done";
-	updateStorage();
-
-	//update respective task in deadlineList:
-	for (int i = 0; i < deadlineList.size(); i++) {
-		if (deadlineList[i].taskName == doneTaskTitle) {
-			deadlineList[i].status = "Done";
-			updateDeadlineStorage();
-		} 
-	}
-
-	//update respective task in floatingList:
-	for (int j = 0; j < floatingList.size(); j++) {
-		if (floatingList[j].taskName == doneTaskTitle) {
-			floatingList[j].status = "Done";
-			updateFloatingStorage();
-		}
-	}
-
-}
-
-
-void Logic::displayAll() {
-	taskList = storage.getTaskList();
-	for (int i = 0; i < taskList.size(); i++) {
-		cout << i + 1 << "." << taskList[i].taskName  << setw(15) << taskList[i].startingTime << setw(15) << 
-			taskList[i].endingTime << setw(15) << taskList[i].status << endl;
+COMMAND_TYPE Logic::determineCommandType(string commandWord){
+	if (commandWord == "Add" || commandType == "add") {
+		return COMMAND_TYPE::ADD;
+	} else if (commandWord == "Delete" || commandType == "delete") {
+		return COMMAND_TYPE::DELETE;
+	} else if (commandType == "Edit" || commandType == "edit") {
+		return COMMAND_TYPE::EDIT;
+	} else if (commandWord == "Search" || commandWord == "search") {
+		return COMMAND_TYPE::SEARCH;
+	} else if (commandWord == "Mark done" || commandWord == "mark done" || commandWord == "mark") {
+		return COMMAND_TYPE::MARKDONE;
+	} else if (commandWord == "Display" || commandWord == "display") {
+		return COMMAND_TYPE::DISPLAY;
+	} else if (commandWord == "Undo" || commandWord == "undo") {
+		return COMMAND_TYPE::UNDO;
+	} else if (commandWord == "Redo" || commandWord == "redo") {
+		return COMMAND_TYPE::REDO;
 	}
 }
 
-void Logic::displayDeadline() {
-	deadlineList = storage.getDeadlineTaskList();
-	cout << OPENNING_MSG_FOR_DEADLINETASK_DISPLAYING;
-	for (int i = 0; i < deadlineList.size(); i++) {
-		cout << "Task " << i + 1 << ": " << deadlineList[i].taskName << "is due by " << deadlineList[i].endingTime <<
-			",\t" << deadlineList[i].status << endl;
+void Logic::addTask(){
+	string taskType = parser.getTaskType();
+	if (taskType == "Timed") {
+		string taskName = parser.getTaskName();
+		string startTime = parser.getStartTime();
+		string endTime = parser.getEndTime();
+		add.addTask(taskName, startTime, endTime, taskType);
+	} else if (taskType == "Deadline") {
+		string taskName = parser.getTaskName();
+		string endTime = parser.getEndTime();
+		add.addDeadlineTask(taskName, endTime, taskType);
+	} else if (taskType == "Floating") {
+		string taskName == parser.getTaskName();
+		add.addFloatingTask(taskName, taskType);
 	}
 }
 
-void Logic::displayFloating() {
-	floatingList = storage.getFloatingTaskList();
-	cout << OPENING_MSG_FOR_FLOATINGTASK_DISPLAYING;
-	for (int i = 0; i < floatingList.size(); i++) {
-		cout << "Task " << i + 1 << ": " << floatingList[i].taskName << setw(15) << floatingList[i].status << endl;
-	}
+void Logic::deleteTask(){
+	int index = parser.getIndex();
+	deleteTask.deleteTask(index);
 }
 
-void Logic::displaySpecified(vector<Task> List) {
-	for (int i = 0; i < List.size(); i++) {
-		cout << OPENING_MSG_FOR_SEARCH_RESULT;
-		cout << i + 1 << "." << List[i].taskName << setw(15) << List[i].startingTime << setw(15) << 
-			List[i].endingTime << setw(15) << List[i].status << endl;
+void Logic::editTask(){
+	int index = parser.getIndex();
+	newTaskName = parser.getTaskName();
+	newStartTime = parser.getStartTime();
+	newEndTime = parser.getEndTime();
+	edit.editTask(index, newTaskName, newStartTime, newEndTime);
+}
+
+void Logic::searchTask(){
+	string keyPhrase = parser.getSearchWord();
+	search.searchTask(keyPhrase);
+}
+
+void Logic::markDoneTask(){
+	int index = parser.getIndex();
+	mark.markDone(index);
+}
+
+void Logic::display(){
+	string displayType = parser.getTaskType();
+	if (displayType == "timed") {
+		disp.displayTimed();
+	} else if (displayType == "deadline") {
+		disp.displayDeadline();
+	} else if (displayType == "floating") {
+		disp.displayFloating();
+	} else if (displayType == "ongoing") {
+		disp.displayOngong();
+	} else if (displayType == "done") {
+		disp.displayDone();
+	} else if (displayType == "overdue") {
+		disp.displayOverdue();
 	}
 }
