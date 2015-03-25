@@ -2,7 +2,9 @@
 #include <msclr/marshal_cppstd.h>
 #include <iostream>
 #include <cliext/vector>
-#include "Parser.h"
+#include "Logic.h"
+#include "Storage.h"
+#include "DisplayWindow.h"
 #using <mscorlib.dll>
 
 namespace GUI {
@@ -27,7 +29,7 @@ namespace GUI {
 			//TODO: Add the constructor code here
 			//
 		}
-
+	
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -43,12 +45,19 @@ namespace GUI {
 	protected:
 
 	private: System::Windows::Forms::TextBox^  inputBox;
-	private: System::Windows::Forms::TextBox^  displayWindow;
+
 	private: System::Windows::Forms::TextBox^  feedbackWindow;
+	private: System::Windows::Forms::Label^  SystemResponse;
+	private: System::Windows::Forms::ListView^  DisplayContent;
 
-
-
-	protected:
+	private: System::Windows::Forms::ColumnHeader^  Index;
+	private: System::Windows::Forms::ColumnHeader^  TaskName;
+	private: System::Windows::Forms::ColumnHeader^  Start;
+	private: System::Windows::Forms::ColumnHeader^  End;
+	private: System::Windows::Forms::ColumnHeader^  Status;
+    
+   
+	protected:System::Windows::Forms::ListViewItem^ listViewItems;
 
 	private:
 		/// <summary>
@@ -65,13 +74,19 @@ namespace GUI {
 		{
 			this->comfirmButton = (gcnew System::Windows::Forms::Button());
 			this->inputBox = (gcnew System::Windows::Forms::TextBox());
-			this->displayWindow = (gcnew System::Windows::Forms::TextBox());
 			this->feedbackWindow = (gcnew System::Windows::Forms::TextBox());
+			this->SystemResponse = (gcnew System::Windows::Forms::Label());
+			this->DisplayContent = (gcnew System::Windows::Forms::ListView());
+			this->Index = (gcnew System::Windows::Forms::ColumnHeader());
+			this->TaskName = (gcnew System::Windows::Forms::ColumnHeader());
+			this->Start = (gcnew System::Windows::Forms::ColumnHeader());
+			this->End = (gcnew System::Windows::Forms::ColumnHeader());
+			this->Status = (gcnew System::Windows::Forms::ColumnHeader());
 			this->SuspendLayout();
 			// 
 			// comfirmButton
 			// 
-			this->comfirmButton->Location = System::Drawing::Point(401, 24);
+			this->comfirmButton->Location = System::Drawing::Point(667, 24);
 			this->comfirmButton->Name = L"comfirmButton";
 			this->comfirmButton->Size = System::Drawing::Size(60, 21);
 			this->comfirmButton->TabIndex = 0;
@@ -84,36 +99,82 @@ namespace GUI {
 			this->inputBox->Location = System::Drawing::Point(24, 24);
 			this->inputBox->Multiline = true;
 			this->inputBox->Name = L"inputBox";
-			this->inputBox->Size = System::Drawing::Size(357, 21);
+			this->inputBox->Size = System::Drawing::Size(637, 21);
 			this->inputBox->TabIndex = 1;
 			this->inputBox->TextChanged += gcnew System::EventHandler(this, &MyForm::inputBox_TextChanged);
 			// 
-			// displayWindow
-			// 
-			this->displayWindow->Location = System::Drawing::Point(24, 70);
-			this->displayWindow->Multiline = true;
-			this->displayWindow->Name = L"displayWindow";
-			this->displayWindow->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
-			this->displayWindow->Size = System::Drawing::Size(357, 226);
-			this->displayWindow->TabIndex = 2;
-			this->displayWindow->TextChanged += gcnew System::EventHandler(this, &MyForm::displayWindow_TextChanged);
-			// 
 			// feedbackWindow
 			// 
-			this->feedbackWindow->Location = System::Drawing::Point(394, 69);
+			this->feedbackWindow->Location = System::Drawing::Point(544, 69);
 			this->feedbackWindow->Multiline = true;
 			this->feedbackWindow->Name = L"feedbackWindow";
-			this->feedbackWindow->Size = System::Drawing::Size(67, 226);
+			this->feedbackWindow->Size = System::Drawing::Size(183, 237);
 			this->feedbackWindow->TabIndex = 3;
 			this->feedbackWindow->TextChanged += gcnew System::EventHandler(this, &MyForm::feedbackWindow_TextChanged);
+			// 
+			// SystemResponse
+			// 
+			this->SystemResponse->AutoSize = true;
+			this->SystemResponse->Location = System::Drawing::Point(24, 309);
+			this->SystemResponse->Name = L"SystemResponse";
+			this->SystemResponse->Size = System::Drawing::Size(89, 12);
+			this->SystemResponse->TabIndex = 4;
+			this->SystemResponse->Text = L"SystemResponse";
+			this->SystemResponse->Click += gcnew System::EventHandler(this, &MyForm::label1_Click);
+			// 
+			// DisplayContent
+			// 
+			this->DisplayContent->AllowColumnReorder = true;
+			this->DisplayContent->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(5) {
+				this->Index, this->TaskName,
+					this->Start, this->End, this->Status
+			});
+			this->DisplayContent->FullRowSelect = true;
+			this->DisplayContent->GridLines = true;
+			this->DisplayContent->Location = System::Drawing::Point(26, 69);
+			this->DisplayContent->Name = L"DisplayContent";
+			this->DisplayContent->Size = System::Drawing::Size(512, 237);
+			this->DisplayContent->TabIndex = 5;
+			this->DisplayContent->UseCompatibleStateImageBehavior = false;
+			this->DisplayContent->View = System::Windows::Forms::View::Details;
+			this->DisplayContent->SelectedIndexChanged += gcnew System::EventHandler(this, &MyForm::listView1_SelectedIndexChanged);
+			// 
+			// Index
+			// 
+			this->Index->Text = L"Index";
+			this->Index->Width = 50;
+			// 
+			// TaskName
+			// 
+			this->TaskName->Text = L"TaskName";
+			this->TaskName->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->TaskName->Width = 100;
+			// 
+			// Start
+			// 
+			this->Start->Text = L"Start";
+			this->Start->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->Start->Width = 150;
+			// 
+			// End
+			// 
+			this->End->Text = L"End";
+			this->End->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->End->Width = 150;
+			// 
+			// Status
+			// 
+			this->Status->Text = L"Status";
+			this->Status->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(491, 308);
+			this->ClientSize = System::Drawing::Size(748, 343);
+			this->Controls->Add(this->DisplayContent);
+			this->Controls->Add(this->SystemResponse);
 			this->Controls->Add(this->feedbackWindow);
-			this->Controls->Add(this->displayWindow);
 			this->Controls->Add(this->inputBox);
 			this->Controls->Add(this->comfirmButton);
 			this->Name = L"MyForm";
@@ -125,7 +186,39 @@ namespace GUI {
 		}
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-		     this->feedbackWindow->Text = "Hello Jim. Welcome to RushHour!\r\n\r\nWhat would you like to do?";
+
+		     string instruction;//initialise the feedbackwindow with aceptable inputs
+			 int count = 5;
+			 Storage storage;
+			 string temp;
+		     Storage::readFile();
+			 vector<Task> tasklist = storage.getTaskList();
+		     this->SystemResponse->Text = "Hello Jim. Welcome to RushHour!\r\n\r\nWhat would you like to do?";
+			 this->feedbackWindow->Text = instruction.c_str;
+
+			 for (int i = 0; i < tasklist.size(); i++){
+				// while (count > 0){
+					 //Index//
+					 temp = to_string(i + 1);
+					 listViewItems = gcnew Windows::Forms::ListViewItem(temp.c_str); 
+					 //TaskName//
+					 temp = tasklist[i].taskName;
+					 listViewItems->SubItems->Add(temp.c_str);
+					 //StartTime//
+					 temp = tasklist[i].startingTime;
+					 listViewItems->SubItems->Add(temp.c_str);
+					 //EndTime//
+					 temp = tasklist[i].endingTime;
+					 listViewItems->SubItems->Add(temp.c_str);
+					 //status//
+					 temp = tasklist[i].status;
+					 listViewItems->SubItems->Add(temp.c_str);
+
+					 DisplayContent->Items->Add(this->listViewItems);
+				// }  
+
+			 }
+			
 	}
 
 	private: System::Void inputBox_KeyUp(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
@@ -135,18 +228,44 @@ namespace GUI {
 	}
 	private: System::Void comfirmButton_Click(System::Object^  sender, System::EventArgs^  e) {
 		     string userInput = msclr::interop::marshal_as<string>(inputBox->Text);
+			 string temp;
 		     inputBox -> Clear();
-		     Parser::determineCommand(userInput);
-		     string displayString = Feedback::getDisplay();// to be changed 
-		     //string responseString = Feedback::getResponse();
-		    // textBox3->Text = msclr::interop::marshal_as<String^>(responseString);
-		     ->Text = msclr::interop::marshal_as<String^>(displayString);//
+			 DisplayContent->Items->Clear();
+
+		     Logic::executeUserCommand(userInput);
+			 DisplayWindow display;
+			 vector<Task> tasklist = display.getContent();
+			 for (int i = 0; i < tasklist.size(); i++){
+				 // while (count > 0){
+				 //Index//
+				 temp = to_string(i + 1);
+				 listViewItems = gcnew Windows::Forms::ListViewItem(temp.c_str);
+				 //TaskName//
+				 temp = tasklist[i].taskName;
+				 listViewItems->SubItems->Add(temp.c_str);
+				 //StartTime//
+				 temp = tasklist[i].startingTime;
+				 listViewItems->SubItems->Add(temp.c_str);
+				 //EndTime//
+				 temp = tasklist[i].endingTime;
+				 listViewItems->SubItems->Add(temp.c_str);
+				 //status//
+				 temp = tasklist[i].status;
+				 listViewItems->SubItems->Add(temp.c_str);
+
+				 DisplayContent->Items->Add(this->listViewItems);
+				 // }  
+
+			 }
+
 	}
 	private: System::Void inputBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
     }
 	private: System::Void feedbackWindow_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 	}
-	private: System::Void displayWindow_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-	}
+    private: System::Void label1_Click(System::Object^  sender, System::EventArgs^  e) {
+    }
+    private: System::Void listView1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+    }
 };
 }
