@@ -2,7 +2,7 @@
 
 
 
-bool cmpName(Task a, Task b){
+bool Sorter::cmpName(Task a, Task b){
 	int i = 0;
 	while ((i < a.taskName.length()) && (i < b.taskName.length()))
 	{
@@ -19,14 +19,29 @@ bool cmpName(Task a, Task b){
 		return false;
 }
 
-bool cmpEndingTime(Task a, Task b){
-
+bool Sorter::cmpEndingTime(Task a, Task b){
+	time_t timeA = time.stringToTime(a.endingTime);
+	time_t timeB = time.stringToTime(b.endingTime);
+	if (timeA < timeB){
+		return true;
+	}
+	else {
+		return false;
+	}
 
 }
 
 
 
-bool cmpStartingTime(Task a, Task b){
+bool Sorter::cmpStartingTime(Task a, Task b){
+	time_t timeA = time.stringToTime(a.startingTime);
+	time_t timeB = time.stringToTime(b.startingTime);
+	if (timeA < timeB){
+		return true;
+	}
+	else {
+		return false;
+	}
 
 }
 
@@ -39,5 +54,27 @@ vector<Task> Sorter::sortFloatingTaskList(vector<Task> tasklist){
 
 vector<Task> Sorter::sortDeadlineTaskList(vector<Task> tasklist){
 	sort(tasklist.begin(), tasklist.end(), cmpEndingTime);
+	return tasklist;
+}
+
+vector<Task> Sorter::sortTimedTaskList(vector<Task> tasklist){
+	sort(tasklist.begin(), tasklist.end(), cmpStartingTime);
+	return tasklist;
+}
+
+
+vector<Task> Sorter::sortOverdueTaskList(vector<Task> tasklist){
+	sort(tasklist.begin(), tasklist.end(), cmpName);
+	return tasklist;
+}
+
+
+vector<Task> Sorter::sortDoneTaskList(vector<Task> tasklist){
+	sort(tasklist.begin(), tasklist.end(), cmpName);
+	return tasklist;
+}
+
+vector<Task> Sorter::sortOngoingTaskList(vector<Task> tasklist){
+	sort(tasklist.begin(), tasklist.end(), cmpName);
 	return tasklist;
 }
