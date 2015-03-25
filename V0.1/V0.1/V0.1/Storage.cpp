@@ -171,7 +171,7 @@ void Storage::loadTask (vector<string> taskLine){
 
 			string taskName = getTaskName(taskDetail);
 			string dueTime = getDueTime(taskDetail);
-			string status = getStatus2(taskDetail);
+			string status = getStatus(taskDetail);
 			string endTime = "";
 			string taskType = "deadline";
 
@@ -188,7 +188,7 @@ void Storage::loadTask (vector<string> taskLine){
 		if (numberOfDelimiter == 1){
 
 			string taskName = getTaskName(taskDetail);
-			string status = getStatus3(taskDetail);
+			string status = getStatus(taskDetail);
 			string startingTime = "";
 			string endingTime = "";
 			string taskType = "floating";
@@ -223,23 +223,57 @@ string Storage::getTaskName(string input){
 	string task;
 	positionEnd = input.find_first_of(";");
 	task = input.substr(positionStart, positionEnd - positionStart);
+	return task;
 }
 
 string Storage::getStartingTime(string input){
 	size_t p1 = 0;
 	size_t p2 = input.size();
+	size_t p3 = 0;
 	string task;
-	p1 = input.find_first_of(";");
-
-
-
+	p1 = input.find_first_of(";") + 1;
+	string temp = input.substr(p1, p2-p1);
+	p3 = temp.find_first_of(";");
+	p1 =0;
+	task = temp.substr(p1, p3-p1);
+	return task;
 
 }
 
 string Storage::getEndlingTime(string input){
+	size_t p1 = 0;
+	size_t p2 = 0;
+	size_t p3 = 0;
+	size_t p4 = input.size();
+	p1 = input.find_first_of(";") + 1;
+	string temp = input.substr(p1, p4-p1);
+	p2 = temp.find_first_of(";") + 1;
+	p4 = temp.size();
+	string temp2 = temp.substr(p2, p4-p2);
+	p3 = temp2.find_first_of(";");
+	p1 = 0;
+	string task = temp2.substr(p1, p3-p1);
+	return task;
+}
 
+string Storage::getStatus(string input){
+	size_t p1 = 0;
+	size_t p2 = input.size();
+	p1 = input.find_last_of(";") + 1;
+	string task = input.substr(p1,p2-p1);
+	return task;
 }
 
 string Storage::getDueTime(string input){
-
+	size_t p1 = 0;
+	size_t p2 = input.size();
+	size_t p3 = 0;
+	string task;
+	p1 = input.find_first_of(";") + 1;
+	string temp = input.substr(p1, p2-p1);
+	p3 = temp.find_first_of(";");
+	p1 =0;
+	task = temp.substr(p1, p3-p1);
+	return task;
 }
+
