@@ -97,9 +97,9 @@ bool Parser::determineCommand(string userCommand){
         index = getIndex(detail);
         logic.markdone(index);
     }
-	/*else if (task == "undo") {
+	else if (task == "undo") {
 		systemFeedback = true;
-		history.undoTaskStorage*/
+		history.undoTaskStorage
     else return false;
     
     return systemFeedback;

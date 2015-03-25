@@ -54,3 +54,49 @@ string TransformTime::timeToString(time_t t){
     
     return outputTime;
 }
+
+
+
+int TransformTime::getYear(time_t t){
+    time_t inputTime = t;
+    tm *timeinfo = localtime(&inputTime);
+    year = timeinfo->tm_year;
+    year += 1900;
+    return year;
+}
+
+
+int TransformTime::getMonth(time_t t){
+    time_t inputTime = t;
+    tm *timeinfo = localtime(&inputTime);
+    month = timeinfo->tm_mon;
+    month += 1;
+    
+    return month;
+}
+
+
+int TransformTime::getDay(time_t t){
+    time_t inputTime = t;
+    tm *timeinfo = localtime(&inputTime);
+    day = timeinfo->tm_mday;
+    return day;
+}
+
+int TransformTime::getHour(time_t t){
+    time_t inputTime = t;
+    tm *timeinfo = localtime(&inputTime);
+    hour = timeinfo->tm_hour;
+    return hour;
+}
+
+int TransformTime::getMin(time_t t){
+    time_t inputTime = t;
+    tm *timeinfo = localtime(&inputTime);
+    min = timeinfo->tm_min;
+    return min;
+}
+
+
+
+
