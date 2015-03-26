@@ -191,28 +191,28 @@ namespace GUI {
 			 int count = 5;
 			 Storage storage;
 			 string temp;
-			 Storage::readFile;
+			 storage.readFile();
 			 vector<Task> tasklist = storage.getTaskList();
 		     this->SystemResponse->Text = "Hello Jim. Welcome to RushHour!\r\n\r\nWhat would you like to do?";
-			 this->feedbackWindow->Text = instruction.c_str;
+			 this->feedbackWindow->Text = gcnew String(instruction.c_str());
 
 			 for (int i = 0; i < tasklist.size(); i++){
-				// while (count > 0){
 					 //Index//
 					 temp = to_string(i + 1);
-					 listViewItems = gcnew Windows::Forms::ListViewItem(temp.c_str); 
+					
+					 listViewItems = gcnew Windows::Forms::ListViewItem(gcnew String(temp.c_str())); 
 					 //TaskName//
 					 temp = tasklist[i].taskName;
-					 listViewItems->SubItems->Add(temp.c_str);
+					 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
 					 //StartTime//
 					 temp = tasklist[i].startingTime;
-					 listViewItems->SubItems->Add(temp.c_str);
+					 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
 					 //EndTime//
 					 temp = tasklist[i].endingTime;
-					 listViewItems->SubItems->Add(temp.c_str);
+					 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
 					 //status//
 					 temp = tasklist[i].status;
-					 listViewItems->SubItems->Add(temp.c_str);
+					 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
 
 					 DisplayContent->Items->Add(this->listViewItems);
 				// }  
@@ -239,19 +239,19 @@ namespace GUI {
 				 // while (count > 0){
 				 //Index//
 				 temp = to_string(i + 1);
-				 listViewItems = gcnew Windows::Forms::ListViewItem(temp.c_str);
+				 listViewItems = gcnew Windows::Forms::ListViewItem(gcnew String(temp.c_str()));
 				 //TaskName//
 				 temp = tasklist[i].taskName;
-				 listViewItems->SubItems->Add(temp.c_str);
+				 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
 				 //StartTime//
 				 temp = tasklist[i].startingTime;
-				 listViewItems->SubItems->Add(temp.c_str);
+				 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
 				 //EndTime//
 				 temp = tasklist[i].endingTime;
-				 listViewItems->SubItems->Add(temp.c_str);
+				 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
 				 //status//
 				 temp = tasklist[i].status;
-				 listViewItems->SubItems->Add(temp.c_str);
+				 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
 
 				 DisplayContent->Items->Add(this->listViewItems);
 				 // }  

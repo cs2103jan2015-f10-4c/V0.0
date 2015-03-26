@@ -1,8 +1,8 @@
 #include "Sorter.h"
+#include "TransformTime.h"
 
 
-
-bool Sorter::cmpName(Task a, Task b){
+bool cmpName(Task a, Task b){
 	int i = 0;
 	while ((i < a.taskName.length()) && (i < b.taskName.length()))
 	{
@@ -19,7 +19,9 @@ bool Sorter::cmpName(Task a, Task b){
 		return false;
 }
 
-bool Sorter::cmpEndingTime(Task a, Task b){
+bool cmpEndingTime(Task a, Task b){
+
+	TransformTime time;
 	time_t timeA = time.stringToTime(a.endingTime);
 	time_t timeB = time.stringToTime(b.endingTime);
 	if (timeA < timeB){
@@ -33,7 +35,9 @@ bool Sorter::cmpEndingTime(Task a, Task b){
 
 
 
-bool Sorter::cmpStartingTime(Task a, Task b){
+bool cmpStartingTime(Task a, Task b){
+
+	TransformTime time;
 	time_t timeA = time.stringToTime(a.startingTime);
 	time_t timeB = time.stringToTime(b.startingTime);
 	if (timeA < timeB){
