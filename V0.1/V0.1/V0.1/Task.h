@@ -14,14 +14,14 @@ using namespace std;
 class Task{
 private:
 
+	
+public:
 	string taskName;
 	string startingTime;
 	string endingTime;
 	string status;
 	string type;
 
-public:
-	
 
 	Task();
 	~Task();
