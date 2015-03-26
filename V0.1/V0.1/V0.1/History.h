@@ -25,7 +25,8 @@ public:
 	void saveOperation(vector<Task> taskStorage);
 	vector<Task> undo(vector<Task> updatedTaskList);
 	vector<Task> redo(vector<Task> updatedTaskList);
-	
+	stack <vector<Task>> getUndoStorageList();
+	stack <vector<Task>> getRedoStorageList();
 };
 
 #endif

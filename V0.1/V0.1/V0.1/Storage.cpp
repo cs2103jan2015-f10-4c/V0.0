@@ -135,7 +135,6 @@ void Storage::readFile(){
 		loadTask(tempTask);
 	}
 
-
 	
 	file.close();
 }
