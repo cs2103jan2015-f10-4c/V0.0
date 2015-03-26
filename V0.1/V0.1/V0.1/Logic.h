@@ -1,18 +1,16 @@
 
-
 #ifndef LOGIC_H_
 #define LOGIC_H_
 
+
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <sstream>
 #include <vector>
+#include <string>
 #include <algorithm>
-#include <sstream>
-#include <stdio.h>
-#include <sstream>
-#include "Parser.h"
 #include "Task.h"
+#include "Parser.h"
 #include "addExecutor.h"
 #include "deleteExecutor.h"
 #include "editExecutor.h"
@@ -20,13 +18,17 @@
 #include "markDoneExecutor.h"
 #include "Display.h"
 #include "Storage.h"
-
-using namespace std;
+#include <stdio.h>
 
 class Logic{
 
 private:
+<<<<<<< HEAD
     Parser parse;
+=======
+
+	Parser parse;
+>>>>>>> 723c00640015219699b2d4ce36c6cbe5bcca1fc0
 	vector<Task> taskList;
     addExecutor add;
 	deleteExecutor deleteATask;
@@ -40,10 +42,15 @@ private:
 public:
 	Logic();
 	~Logic();
+
 	enum COMMAND_TYPE {
+<<<<<<< HEAD
 		ADD, DELETE, EDIT, SEARCH, MARKDONE, DISPLAY, UNDO, REDO, ERROR
+=======
+		_ADD, _DELETE, _EDIT, _SEARCH, _MARKDONE, _DISPLAY, _UNDO, _REDO
+>>>>>>> 723c00640015219699b2d4ce36c6cbe5bcca1fc0
 	};
-	
+
     void addTask();
 	void deleteTask();
 	void editTask();
