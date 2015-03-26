@@ -28,21 +28,21 @@ void Logic::executeUserCommand(string userInput){
 	COMMAND_TYPE commandType;
 	commandType = determineCommandType(commandWord);
 	switch (commandType) {
-	case _ADD:
+	case ADD:
 		return addTask();
-	case _DELETE:
+	case DELETE:
 		return deleteTask();
-	case _EDIT:
+	case EDIT:
 		return editTask();
-	case _SEARCH:
+	case SEARCH:
 		return searchTask();
-	case _MARKDONE:
+	case MARKDONE:
 		return markDoneTask();
-	case _DISPLAY:
+	case DISPLAY:
 		return display();
-	case _UNDO:
+	case UNDO:
 		return undoTask();
-	case _REDO:
+	case REDO:
 		return redoTask();
 	default:
 		break;
@@ -52,6 +52,7 @@ void Logic::executeUserCommand(string userInput){
 <<<<<<< HEAD
 
 =======
+
 Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 	if (commandWord == "Add" || commandWord == "add") {
 		return COMMAND_TYPE::_ADD;
@@ -71,6 +72,7 @@ Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 		return COMMAND_TYPE::_REDO;
 	}
 }
+
 >>>>>>> 723c00640015219699b2d4ce36c6cbe5bcca1fc0
 
 void Logic::addTask(){
