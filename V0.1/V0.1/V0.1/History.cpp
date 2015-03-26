@@ -23,8 +23,8 @@ vector<Task> History::undo(vector<Task> updatedTaskList){
     if (!undoStorageList.empty()){
         redoStorageList.push(undoStorageList.top());
         
-        if (undoStorageList.size() > 2){
-            undoStorageList.pop();
+        if (undoStorageList.size() > 2){//why greater than 3???? 
+            undoStorageList.pop();      // exceptions;assertions
             
             undoStatue = true;
         }
@@ -67,6 +67,15 @@ vector<Task> History::redo(vector<Task> updatedTaskList){
 	else{
 		return updatedTaskList;
 	}
+
 };
 
+
+stack <vector<Task>> History::getUndoStorageList(){
+	return undoStorageList;
+}
+
+stack <vector<Task>> History::getRedoStorageList(){
+	return redoStorageList;
+}
 
