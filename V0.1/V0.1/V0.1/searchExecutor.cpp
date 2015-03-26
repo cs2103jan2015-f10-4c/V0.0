@@ -12,5 +12,18 @@ void searchExecutor::searchTask(string  keyPhrase){
             searchResult.push_back(taskList[i]);
         }
     }
+
     //displaySpecified(searchResult);
 }
+
+string searchExecutor::getSearchedResult(vector<Task> searchResult){
+	if (searchResult.size() == 0) {
+		return NULL;
+	} else {
+		for (int i = 0; i < searchResult.size(); i++) {
+			return searchResult[i].ToString();
+		}
+	}
+}
+
+

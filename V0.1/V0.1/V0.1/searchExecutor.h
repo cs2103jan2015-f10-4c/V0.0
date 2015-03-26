@@ -25,6 +25,7 @@ public:
     searchExecutor();
     ~searchExecutor();
     void searchTask(string);
+	string getSearchedResult(vector<Task>);
 };
 
 #endif
