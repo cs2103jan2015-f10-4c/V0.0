@@ -8,21 +8,21 @@ void Logic::executeUserCommand(string userInput){
 	COMMAND_TYPE commandType;
 	commandType = determineCommandType(commandWord);
 	switch (commandType) {
-	case ADD:
+	case _ADD:
 		return addTask();
-	case DELETE:
+	case _DELETE:
 		return deleteTask();
-	case EDIT:
+	case _EDIT:
 		return editTask();
-	case SEARCH:
+	case _SEARCH:
 		return searchTask();
-	case MARKDONE:
+	case _MARKDONE:
 		return markDoneTask();
-	case DISPLAY:
+	case _DISPLAY:
 		return display();
-	case UNDO:
+	case _UNDO:
 		return undoTask();
-	case REDO:
+	case _REDO:
 		return redoTask();
 	default:
 		break;
@@ -31,21 +31,21 @@ void Logic::executeUserCommand(string userInput){
 
 Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 	if (commandWord == "Add" || commandWord == "add") {
-		return COMMAND_TYPE::ADD;
+		return COMMAND_TYPE::_ADD;
 	} else if (commandWord == "Delete" || commandWord == "delete") {
-		return COMMAND_TYPE::DELETE;
+		return COMMAND_TYPE::_DELETE;
 	} else if (commandWord == "Edit" || commandWord == "edit") {
-		return COMMAND_TYPE::EDIT;
+		return COMMAND_TYPE::_EDIT;
 	} else if (commandWord == "Search" || commandWord == "search") {
-		return COMMAND_TYPE::SEARCH;
+		return COMMAND_TYPE::_SEARCH;
 	} else if (commandWord == "Mark done" || commandWord == "mark done" || commandWord == "mark") {
-		return COMMAND_TYPE::MARKDONE;
+		return COMMAND_TYPE::_MARKDONE;
 	} else if (commandWord == "Display" || commandWord == "display") {
-		return COMMAND_TYPE::DISPLAY;
+		return COMMAND_TYPE::_DISPLAY;
 	} else if (commandWord == "Undo" || commandWord == "undo") {
-		return COMMAND_TYPE::UNDO;
+		return COMMAND_TYPE::_UNDO;
 	} else if (commandWord == "Redo" || commandWord == "redo") {
-		return COMMAND_TYPE::REDO;
+		return COMMAND_TYPE::_REDO;
 	}
 }
 
