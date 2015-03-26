@@ -137,7 +137,7 @@ void Storage::readFile(){
 
 
 	
-	file.close;
+	file.close();
 }
 
 void Storage::loadTask (vector<string> taskLine){

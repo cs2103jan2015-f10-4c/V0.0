@@ -18,33 +18,35 @@ void History::saveOperation(vector<Task> taskStorage){
 };
 
 vector<Task> History::undo(vector<Task> updatedTaskList){
-	bool undoStatue = false;
-	
-	if (!undoStorageList.empty()){
-		redoStorageList.push(undoStorageList.top());
-		
-		if (undoStorageList.size() > 2){
-			undoStorageList.pop();
-
-			undoStatue = true;
-		}
-	
-		updatedTaskList.clear();
-
-		for (int i=0; i<undoStorageList.top().size(); i++){
-			updatedTaskList.push_back(undoStorageList.top()[i]);
-		}
-		
-		return updatedTaskList;
-	}
-
-	if (undoStatue == false){
-		redoStorageList.pop();
-		
-		return updatedTaskList;
-	}
-
+    bool undoStatue = false;
+    
+    if (!undoStorageList.empty()){
+        redoStorageList.push(undoStorageList.top());
+        
+        if (undoStorageList.size() > 2){
+            undoStorageList.pop();
+            
+            undoStatue = true;
+        }
+        
+        updatedTaskList.clear();
+        
+        for (int i=0; i<undoStorageList.top().size(); i++){
+            updatedTaskList.push_back(undoStorageList.top()[i]);
+        }
+        
+        return updatedTaskList;
+    }
+    
+    if (undoStatue == false){
+        redoStorageList.pop();
+        
+        return updatedTaskList;
+    }
+    
+    return updatedTaskList;
 };
+
 
 vector<Task> History::redo(vector<Task> updatedTaskList){
 	bool redoStatus = false;

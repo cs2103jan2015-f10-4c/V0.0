@@ -16,7 +16,7 @@ using namespace std;
 class Parser{
     
 private:
-    Logic logic;
+    // Logic logic;
 	History history;
     static const string DELIMITERS;    
     static  string USER_PROMPT_TASKNAME ;

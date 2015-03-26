@@ -26,9 +26,8 @@ using namespace std;
 class Logic{
 
 private:
-    
+    Parser parse;
 	vector<Task> taskList;
-	Parser parse;
     addExecutor add;
 	deleteExecutor deleteATask;
 	editExecutor edit;
@@ -42,7 +41,7 @@ public:
 	Logic();
 	~Logic();
 	enum COMMAND_TYPE {
-		ADD, DELETE, EDIT, SEARCH, MARKDONE, DISPLAY, UNDO, REDO
+		ADD, DELETE, EDIT, SEARCH, MARKDONE, DISPLAY, UNDO, REDO, ERROR
 	};
 	
     void addTask();
