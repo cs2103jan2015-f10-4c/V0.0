@@ -27,6 +27,12 @@ void Task::setType(string inputType){
 	type = inputType;
 }
 
+string Task::ToString(){
+	ostringstream oss;
+	oss << taskName <<" from "<< startingTime <<" to "<<endingTime<<" "<<status<<" "<<type <<"\n";
+
+	return oss.str();
+}
 //void Task::setDate(string inputDate){
 	//date = inputDate;
 //}

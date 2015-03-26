@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <sstream>
 #include <string>
 #include <fstream>
 #include <algorithm>
@@ -11,14 +12,16 @@
 using namespace std;
 
 class Task{
+private:
 
-public:
 	string taskName;
 	string startingTime;
 	string endingTime;
 	string status;
 	string type;
 
+public:
+	
 
 	Task();
 	~Task();
@@ -28,6 +31,8 @@ public:
 	void setEndingTime(string inputEndingTime);
 	void setDone(string inputDone);
 	void setType(string inputType);
+
+	string ToString();
 
 };
 
