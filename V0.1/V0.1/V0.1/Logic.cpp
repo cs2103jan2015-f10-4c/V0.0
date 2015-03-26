@@ -2,25 +2,6 @@
 
 #include "Logic.h"
 
-Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
-    if (commandWord == "Add" || commandWord == "add") {
-        return COMMAND_TYPE::ADD;
-    } else if (commandWord == "Delete" || commandWord == "delete") {
-        return COMMAND_TYPE::DELETE;
-    } else if (commandWord == "Edit" || commandWord == "edit") {
-        return COMMAND_TYPE::EDIT;
-    } else if (commandWord == "Search" || commandWord == "search") {
-        return COMMAND_TYPE::SEARCH;
-    } else if (commandWord == "Mark done" || commandWord == "mark done" || commandWord == "mark") {
-        return COMMAND_TYPE::MARKDONE;
-    } else if (commandWord == "Display" || commandWord == "display") {
-        return COMMAND_TYPE::DISPLAY;
-    } else if (commandWord == "Undo" || commandWord == "undo") {
-        return COMMAND_TYPE::UNDO;
-    } else if (commandWord == "Redo" || commandWord == "redo") {
-        return COMMAND_TYPE::REDO;
-    }  else return COMMAND_TYPE::ERROR;
-}
 
 void Logic::executeUserCommand(string userInput){
 	string commandWord;
@@ -28,30 +9,27 @@ void Logic::executeUserCommand(string userInput){
 	COMMAND_TYPE commandType;
 	commandType = determineCommandType(commandWord);
 	switch (commandType) {
-	case ADD:
+	case _ADD:
 		return addTask();
-	case DELETE:
+	case _DELETE:
 		return deleteTask();
-	case EDIT:
+	case _EDIT:
 		return editTask();
-	case SEARCH:
+	case _SEARCH:
 		return searchTask();
-	case MARKDONE:
+	case _MARKDONE:
 		return markDoneTask();
-	case DISPLAY:
+	case _DISPLAY:
 		return display();
-	case UNDO:
+	case _UNDO:
 		return undoTask();
-	case REDO:
+	case _REDO:
 		return redoTask();
 	default:
 		break;
 	}
 }
 
-<<<<<<< HEAD
-
-=======
 
 Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 	if (commandWord == "Add" || commandWord == "add") {
@@ -73,7 +51,6 @@ Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 	}
 }
 
->>>>>>> 723c00640015219699b2d4ce36c6cbe5bcca1fc0
 
 void Logic::addTask(){
 	string taskType = parse.getTaskType();

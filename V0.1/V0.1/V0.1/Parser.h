@@ -7,7 +7,6 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
-#include "Logic.h"
 #include "History.h"
 
 

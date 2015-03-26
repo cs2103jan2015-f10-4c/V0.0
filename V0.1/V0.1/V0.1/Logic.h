@@ -23,12 +23,10 @@
 class Logic{
 
 private:
-//<<<<<<< HEAD
-//    Parser parse;
-//=======
+
 
 	Parser parse;
-//>>>>>>> 723c00640015219699b2d4ce36c6cbe5bcca1fc0
+
 	vector<Task> taskList;
     addExecutor add;
 	deleteExecutor deleteATask;
@@ -44,11 +42,9 @@ public:
 	~Logic();
 
 	enum COMMAND_TYPE {
-<<<<<<< HEAD
-		ADD, DELETE, EDIT, SEARCH, MARKDONE, DISPLAY, UNDO, REDO, ERROR,
-=======
+
 		_ADD, _DELETE, _EDIT, _SEARCH, _MARKDONE, _DISPLAY, _UNDO, _REDO, _ERROR
->>>>>>> 723c00640015219699b2d4ce36c6cbe5bcca1fc0
+
 	};
 
     void addTask();
