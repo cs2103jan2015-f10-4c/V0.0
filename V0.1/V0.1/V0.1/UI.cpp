@@ -1,6 +1,6 @@
 #include "UI.h"
 
-const string WELCOME_MESSAGE = "Welcome to RushHour, your private assistant\n";
+const string UI::WELCOME_MESSAGE = "Welcome to RushHour, your private assistant\n";
 
 
 

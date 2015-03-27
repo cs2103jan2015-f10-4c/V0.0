@@ -16,7 +16,7 @@ void addExecutor::addTask(string taskTitle, string startTime, string endTime, st
 	tempStorage.status = DEFAULT_TASK_STATUS;
 	tempStorage.type = taskType;
     taskList.push_back(tempStorage);
-	executor.updateStorage();
+	executor.updateStorage(taskList);
 	storage.saveOperation();
     //displayAll();
 }
@@ -26,7 +26,7 @@ void addExecutor::addDeadlineTask(string taskTitle, string endTime, string taskT
 	taskList = storage.getTaskList();
 	Task tempStorage;
 	tempStorage.taskName = taskTitle;
-	tempStorage.startingTime = "None";
+	tempStorage.startingTime = "";
 	tempStorage.endingTime = endTime;
 	tempStorage.status = DEFAULT_TASK_STATUS;
 	tempStorage.type = taskType;
@@ -44,8 +44,8 @@ void addExecutor::addFloatingTask(string taskTitle, string taskType) {
 	taskList = storage.getTaskList();
 	Task tempStorage;
 	tempStorage.taskName = taskTitle;
-	tempStorage.startingTime = "Not specified";
-	tempStorage.endingTime = "Not specified";
+	tempStorage.startingTime = "";
+	tempStorage.endingTime = "";
 	tempStorage.type = taskType;
 	tempStorage.status = DEFAULT_TASK_STATUS;
 	floatingList.push_back(tempStorage);
