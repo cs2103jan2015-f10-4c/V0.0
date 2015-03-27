@@ -9,7 +9,7 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
-#include "Parser.h"
+#include "Logic.h"
 
 using namespace std;
 
@@ -17,15 +17,9 @@ class UI{
 
 private:
 
-	Parser parser;
-	static string WELCOME_MESSAGE;
-    static string SUCCESS_MESSAGE;
-	static string ERROR_MESSAGE;
-	static string USER_PROMPT_COMMAND;
-	
+	Logic logic;
 
-	void displayUserMessage();
-
+	static const string WELCOME_MESSAGE;
 public:
 
 	UI();
