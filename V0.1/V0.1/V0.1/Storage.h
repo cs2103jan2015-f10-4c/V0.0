@@ -21,8 +21,6 @@ private:
 	
 	vector<string> tempTask;
 	
-	/*vector<string> tempDeadlineTask;
-	vector<string> tempFloatingTask;*/
 
 public:
 	Storage();

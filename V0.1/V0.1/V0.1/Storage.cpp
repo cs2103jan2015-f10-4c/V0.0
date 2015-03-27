@@ -40,13 +40,6 @@ void Storage::updateTaskList(vector<Task> taskStorage){
 	//cout << taskList[0].taskName; case passed
 };
 
-//void Storage::updateDeadlineTaskList(vector<Task> deadlineTaskStorage){
-//	deadlineTaskList = deadlineTaskStorage;
-//};
-//
-//void Storage::updateFloatingTaskList(vector<Task> floatingTaskStorage){
-//	floatingTaskList = floatingTaskStorage;
-//};
 
 void Storage::saveFile(){
 	ofstream writeFile(TEXTFILENAME);
@@ -132,10 +125,10 @@ void Storage::readFile(){
 	
 	while (getline(file, taskLine)){
 		tempTask.push_back(taskLine);
-		
-		loadTask(tempTask);
+	
 	}
-
+	
+	loadTask(tempTask);
 	
 	file.close();
 }
@@ -212,16 +205,16 @@ string Storage::removeIndex(string input){
 	size_t positionStart = 0;
     size_t positionEnd = input.size();
     string task;
-    positionStart = input.find_first_of(".");
+    positionStart = input.find_first_of(".") + 1;
     task = input.substr(positionStart, positionEnd - positionStart);
     return task;
 }
 
 string Storage::getTaskName(string input){
-	size_t positionStart = 0;
+	size_t positionStart = 1;
 	size_t positionEnd = 0;
 	string task;
-	positionEnd = input.find_first_of(";");
+	positionEnd = input.find_first_of(";") - 1;
 	task = input.substr(positionStart, positionEnd - positionStart);
 	return task;
 }
@@ -233,8 +226,8 @@ string Storage::getStartingTime(string input){
 	string task;
 	p1 = input.find_first_of(";") + 1;
 	string temp = input.substr(p1, p2-p1);
-	p3 = temp.find_first_of(";");
-	p1 =0;
+	p3 = temp.find_first_of(";")-1;
+	p1 = 1;
 	task = temp.substr(p1, p3-p1);
 	return task;
 
@@ -250,8 +243,8 @@ string Storage::getEndingTime(string input){
 	p2 = temp.find_first_of(";") + 1;
 	p4 = temp.size();
 	string temp2 = temp.substr(p2, p4-p2);
-	p3 = temp2.find_first_of(";");
-	p1 = 0;
+	p3 = temp2.find_first_of(";")-1;
+	p1 = 1;
 	string task = temp2.substr(p1, p3-p1);
 	return task;
 }
@@ -271,8 +264,8 @@ string Storage::getDueTime(string input){
 	string task;
 	p1 = input.find_first_of(";") + 1;
 	string temp = input.substr(p1, p2-p1);
-	p3 = temp.find_first_of(";");
-	p1 =0;
+	p3 = temp.find_first_of(";")-1;
+	p1 = 1;
 	task = temp.substr(p1, p3-p1);
 	return task;
 }
