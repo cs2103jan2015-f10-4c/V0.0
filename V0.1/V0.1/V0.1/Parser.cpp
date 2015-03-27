@@ -119,7 +119,7 @@ string Parser::getCommandWord(string command){
         }else if (type == 1) {
             taskType = "deadline";
             taskName = getTaskName(detail);
-            startTime = getStartDetail1(detail);
+            endTime = getStartDetail1(detail);
         }else {
             taskType = "floating";
             taskName = getTaskName(detail);
