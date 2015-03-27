@@ -1,12 +1,12 @@
 #include "Display.h"
 
-const string FLOATING_TASK ="floating";
+/*const string FLOATING_TASK ="floating";
 const string DEADLINE_TASK="deadline";
 const string TIMED_TASK="timed";
 const string OVERDUE_TASK="overdue";
 const string DONE_TASK="done";
 const string ONGOING_TASK="ongoing";
-
+*/
 Display::Display(){}
 
 Display::~Display(){}
@@ -20,22 +20,22 @@ void Display::setDefaultDisplay(){
 
 void Display::setVariousDisplay(string displayType){
 	vector<Task> taskList = storage.getTaskList();
-	if (displayType == FLOATING_TASK){
+	if (displayType =="floating"){
 		_mainDisplay.setContent(getFloatingTask());
 	}
-	else if (displayType == DEADLINE_TASK){
+	else if (displayType == "deadline"){
 		_mainDisplay.setContent(getDeadlineTask());
 	}
-	else if (displayType == TIMED_TASK){
+	else if (displayType == "timed"){
 		_mainDisplay.setContent(getTimedTask());
 	}
-	else if (displayType == OVERDUE_TASK){
+	else if (displayType == "overdue"){
 		_mainDisplay.setContent(getOverdueTask(taskList));
 	}
-	else if (displayType == DONE_TASK){
+	else if (displayType == "done"){
 		_mainDisplay.setContent(getDoneTask(taskList));
 	}
-	else if (displayType == ONGOING_TASK){
+	else if (displayType =="ongoing"){
 		_mainDisplay.setContent(getOngoingTask(taskList));
 	}
 }

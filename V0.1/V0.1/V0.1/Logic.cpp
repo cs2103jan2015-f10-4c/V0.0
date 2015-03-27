@@ -3,6 +3,9 @@
 #include "Logic.h"
 
 
+Logic::Logic(){}
+Logic::~Logic(){}
+
 void Logic::executeUserCommand(string userInput){
 	string commandWord;
 	commandWord = parse.getCommandWord(userInput);
