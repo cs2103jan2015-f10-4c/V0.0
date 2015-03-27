@@ -37,7 +37,6 @@ void addExecutor::addDeadlineTask(string taskTitle, string endTime, string taskT
 	//taskList = storage.getTaskList();
 	//cout << taskList[0].taskName; assertion failed ?? 
 	storage.saveOperation();
-	//displayDeadline();
 	//displayAll();
 }
 

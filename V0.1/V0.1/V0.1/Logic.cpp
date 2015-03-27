@@ -70,14 +70,15 @@ void Logic::addTask(){
 		add.addTask(taskName, startTime, endTime, taskType);
 	} else if (taskType == "deadline") {
 		string taskName = parse.getTaskName();
-		//cout << taskName;
+		//cout << taskName; passed
 		string endTime = parse.getEndTime();
-		//cout << endTime;
+		//cout << endTime; debugged
 		add.addDeadlineTask(taskName, endTime, taskType);
 	} else if (taskType == "floating") {
 		string taskName = parse.getTaskName();
 		add.addFloatingTask(taskName, taskType);
 	}
+	disp.setDefaultDisplay();
 }
 
 void Logic::deleteTask(){
