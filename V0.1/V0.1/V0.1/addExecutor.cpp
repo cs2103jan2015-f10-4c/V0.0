@@ -33,7 +33,7 @@ void addExecutor::addDeadlineTask(string taskTitle, string endTime, string taskT
 	deadlineList.push_back(tempStorage);
 	taskList.push_back(tempStorage);
 	//updateDeadlineStorage();
-	executor.updateStorage();
+	executor.updateStorage(taskList);
 	storage.saveOperation();
 	//displayDeadline();
 	//displayAll();
