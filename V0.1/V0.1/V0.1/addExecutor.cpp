@@ -34,6 +34,8 @@ void addExecutor::addDeadlineTask(string taskTitle, string endTime, string taskT
 	taskList.push_back(tempStorage);
 	//updateDeadlineStorage();
 	executor.updateStorage(taskList);
+	//taskList = storage.getTaskList();
+	//cout << taskList[0].taskName; assertion failed ?? 
 	storage.saveOperation();
 	//displayDeadline();
 	//displayAll();

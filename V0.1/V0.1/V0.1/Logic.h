@@ -46,7 +46,7 @@ public:
 		_ADD, _DELETE, _EDIT, _SEARCH, _MARKDONE, _DISPLAY, _UNDO, _REDO, _ERROR
 
 	};
-
+	void retriveStorage();
     void addTask();
 	void deleteTask();
 	void editTask();

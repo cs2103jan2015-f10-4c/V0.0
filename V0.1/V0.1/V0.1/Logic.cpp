@@ -6,9 +6,14 @@
 Logic::Logic(){}
 Logic::~Logic(){}
 
+
+void Logic::retriveStorage(){
+	storage.readFile();
+}
 void Logic::executeUserCommand(string userInput){
 	string commandWord;
 	commandWord = parse.getCommandWord(userInput);
+	//cout << commandWord; test passed
 	COMMAND_TYPE commandType;
 	commandType = determineCommandType(commandWord);
 	switch (commandType) {
@@ -57,6 +62,7 @@ Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 
 void Logic::addTask(){
 	string taskType = parse.getTaskType();
+	//cout << taskType; test passed
 	if (taskType == "timed") {
 		string taskName = parse.getTaskName();
 		string startTime = parse.getStartTime();
@@ -64,7 +70,9 @@ void Logic::addTask(){
 		add.addTask(taskName, startTime, endTime, taskType);
 	} else if (taskType == "deadline") {
 		string taskName = parse.getTaskName();
+		//cout << taskName;
 		string endTime = parse.getEndTime();
+		//cout << endTime;
 		add.addDeadlineTask(taskName, endTime, taskType);
 	} else if (taskType == "floating") {
 		string taskName = parse.getTaskName();

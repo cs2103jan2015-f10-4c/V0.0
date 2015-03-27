@@ -37,6 +37,7 @@ void Storage::saveOperation(){
 
 void Storage::updateTaskList(vector<Task> taskStorage){
 	taskList = taskStorage;
+	//cout << taskList[0].taskName; case passed
 };
 
 //void Storage::updateDeadlineTaskList(vector<Task> deadlineTaskStorage){

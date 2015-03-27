@@ -17,6 +17,7 @@ void UI::main(){
 string UI::getUserCommand(){
 	string command;
 	cout << WELCOME_MESSAGE;
+	logic.retriveStorage();
 	while (true){
 		cout << "command: ";
 		getline(cin, command);
