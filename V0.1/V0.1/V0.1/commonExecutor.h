@@ -18,9 +18,9 @@ class commonExecutor{
 private:
     Storage storage;
 public: 
-    vector<Task> taskList;
+    //vector<Task> taskList;
     commonExecutor();
     ~commonExecutor();
-    void updateStorage();
+    void updateStorage(vector<Task>);
 };
 #endif

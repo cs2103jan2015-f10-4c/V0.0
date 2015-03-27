@@ -14,7 +14,7 @@ void editExecutor::editTask(int index, string newTaskName, string newStartTime, 
 	taskList[index - 1].status = DEFAULT_TASK_STATUS;
 
 
-	executor.updateStorage();
+	executor.updateStorage(taskList);
 	storage.saveOperation();
     cout << "Editted result: " << taskList[index - 1].taskName << setw(15) << taskList[index - 1].startingTime << setw(15) <<
 		taskList[index - 1].endingTime << setw(15) << taskList[index - 1].status <<endl;

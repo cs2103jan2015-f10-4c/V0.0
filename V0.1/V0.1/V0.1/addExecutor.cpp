@@ -50,8 +50,8 @@ void addExecutor::addFloatingTask(string taskTitle, string taskType) {
 	tempStorage.status = DEFAULT_TASK_STATUS;
 	floatingList.push_back(tempStorage);
 	taskList.push_back(tempStorage);
-	//updateFloatingStorage();
-	executor.updateStorage();
+	//updateFloatingStorage()t
+	executor.updateStorage(taskList);
 	storage.saveOperation();
 	//displayFloating();
 	//displayAll();
