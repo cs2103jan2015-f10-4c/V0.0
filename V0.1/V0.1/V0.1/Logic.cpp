@@ -57,16 +57,16 @@ Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 
 void Logic::addTask(){
 	string taskType = parse.getTaskType();
-	if (taskType == "Timed") {
+	if (taskType == "timed") {
 		string taskName = parse.getTaskName();
 		string startTime = parse.getStartTime();
 		string endTime = parse.getEndTime();
 		add.addTask(taskName, startTime, endTime, taskType);
-	} else if (taskType == "Deadline") {
+	} else if (taskType == "deadline") {
 		string taskName = parse.getTaskName();
 		string endTime = parse.getEndTime();
 		add.addDeadlineTask(taskName, endTime, taskType);
-	} else if (taskType == "Floating") {
+	} else if (taskType == "floating") {
 		string taskName = parse.getTaskName();
 		add.addFloatingTask(taskName, taskType);
 	}
