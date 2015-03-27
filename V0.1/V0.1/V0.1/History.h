@@ -23,8 +23,8 @@ public:
 	~History();
 
 	void saveOperation(vector<Task> taskStorage);
-	vector<Task> undo(vector<Task> updatedTaskList);
-	vector<Task> redo(vector<Task> updatedTaskList);
+	vector<Task> undo();
+	vector<Task> redo();
 	stack <vector<Task>> getUndoStorageList();
 	stack <vector<Task>> getRedoStorageList();
 };

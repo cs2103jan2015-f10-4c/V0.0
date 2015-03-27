@@ -24,11 +24,11 @@ Storage::~Storage(void){}
 };*/
 
 void Storage::undo(){
-	taskList = historyStorage.undo(taskList);
+	taskList = historyStorage.undo();
 }
 
 void Storage::redo(){
-	taskList = historyStorage.redo(taskList);
+	taskList = historyStorage.redo();
 }
 
 void Storage::saveOperation(){
