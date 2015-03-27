@@ -16,7 +16,7 @@ void addExecutor::addTask(string taskTitle, string startTime, string endTime, st
 	tempStorage.status = DEFAULT_TASK_STATUS;
 	tempStorage.type = taskType;
     taskList.push_back(tempStorage);
-	executor.updateStorage();
+	executor.updateStorage(taskList);
 	storage.saveOperation();
     //displayAll();
 }
