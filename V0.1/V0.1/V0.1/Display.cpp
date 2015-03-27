@@ -14,6 +14,9 @@ Display::~Display(){}
 
 void Display::setDefaultDisplay(){
 	vector<Task> taskList = storage.getTaskList();
+	//cout << "bug"; passed
+	//cout << taskList[0].taskName; assertion failled;
+	//cout << "bug";
 	_mainDisplay.setContent(taskList);
 	return;
 }

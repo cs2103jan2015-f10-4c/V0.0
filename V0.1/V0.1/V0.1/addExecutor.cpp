@@ -17,6 +17,7 @@ void addExecutor::addTask(string taskTitle, string startTime, string endTime, st
 	tempStorage.type = taskType;
     taskList.push_back(tempStorage);
 	executor.updateStorage(taskList);
+	//testing
 	storage.saveOperation();
     //displayAll();
 }
@@ -34,8 +35,10 @@ void addExecutor::addDeadlineTask(string taskTitle, string endTime, string taskT
 	taskList.push_back(tempStorage);
 	//updateDeadlineStorage();
 	executor.updateStorage(taskList);
-	//taskList = storage.getTaskList();
-	//cout << taskList[0].taskName; assertion failed ?? 
+	taskList = storage.getTaskList();
+	if (taskList.empty()){
+		cout << "empty";
+	}//assertion failed ?? empty???
 	storage.saveOperation();
 	//displayAll();
 }

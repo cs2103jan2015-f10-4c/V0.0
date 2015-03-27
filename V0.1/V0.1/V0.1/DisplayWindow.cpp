@@ -4,6 +4,7 @@ DisplayWindow::DisplayWindow(){}
 DisplayWindow::~DisplayWindow(){}
 
 void DisplayWindow::setContent(vector<Task> tasklist){
+	//cout << "testing"; test passed
    _content = tasklist;
    ostringstream oss;
    for (int i = 0; i < tasklist.size(); i++){
