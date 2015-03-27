@@ -9,6 +9,8 @@ const string STARTING_TIME = "0001";
 const string ENDING_TIME = "2359";
 const string STATUS = "DONE";
 
+const string TEST_TIMED_TASK = "1. meeting ; 2012-01-01 1000 ; 2012-01-01 1300 ; Done";
+
 namespace UnitTeststorage
 {		
 	TEST_CLASS(UnitTestStorage)
@@ -23,17 +25,19 @@ namespace UnitTeststorage
 			int size = tasklist.size();
 			Assert::AreEqual(size, 0);
 
-			Task task;
-			task.taskName = TASK_NAME;
-			task.startingTime = STARTING_TIME;
-			task.endingTime = ENDING_TIME;
-			task.status = STATUS;
+			Task testTask;
+			testTask.setTaskName(TASK_NAME);
+			testTask.setStartingTime(STARTING_TIME);
+			testTask.setEndingTime(ENDING_TIME);
+			testTask.setDone(STATUS);
 
-			tasklist = Storage.getTaskList();
-			Assert::IsTrue(tasklist[0].taskName == "ABC");
-			Assert::IsTrue(tasklist[0].startingTime == "0001");
-			Assert::IsTrue(tasklist[0].endingTime == "2359");
-			Assert::IsTrue(tasklist[0].status == "DONE");
+			tasklist.push_back(testTask);
+			int size1 = tasklist.size();
+			Assert::AreEqual(size1, 1);
+			Assert::IsTrue(tasklist[0].taskName == TASK_NAME);
+			Assert::IsTrue(tasklist[0].startingTime == STARTING_TIME);
+			Assert::IsTrue(tasklist[0].endingTime == ENDING_TIME);
+			Assert::IsTrue(tasklist[0].status == STATUS);
 
 		}
 		
@@ -62,6 +66,18 @@ namespace UnitTeststorage
 			Assert::IsTrue(storageTasklist[0].endingTime == "2359");
 			Assert::IsTrue(storageTasklist[0].status == "DONE");
 
+		}
+
+		TEST_METHOD(removeIndexMethod)
+		{
+			Storage fileStorage;
+
+			string testInput;
+			testInput = TEST_TIMED_TASK;
+			string testOutput;
+			testOutput = fileStorage.removeIndex(testInput);
+
+			Assert::IsTrue(testOutput == " meeting ; 2012-01-01 1000 ; 2012-01-01 1300 ; Done");
 		}
 
 	};
