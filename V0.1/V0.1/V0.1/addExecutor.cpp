@@ -35,10 +35,11 @@ void addExecutor::addDeadlineTask(string taskTitle, string endTime, string taskT
 	taskList.push_back(tempStorage);
 	//updateDeadlineStorage();
 	executor.updateStorage(taskList);
-	taskList = storage.getTaskList();
-	if (taskList.empty()){
+	//taskList = storage.getTaskList();
+	//if (taskList.empty()){
 		cout << "empty";
-	}//assertion failed ?? empty???
+	//} empty......
+
 	storage.saveOperation();
 	//displayAll();
 }

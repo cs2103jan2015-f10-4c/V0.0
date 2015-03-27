@@ -14,6 +14,11 @@ const string TEXTFILENAME = "rushhour.txt";
 Storage::Storage(void){}
 Storage::~Storage(void){}
 
+void Storage::test(){
+	if (_taskList.empty()){
+		cout << "empty";
+	}
+}
 /*void Storage::storeTask(string task, string startingTime, string endingTime){
 	Task tempStorage;
 	tempStorage.taskName = task;
@@ -24,20 +29,21 @@ Storage::~Storage(void){}
 };*/
 
 void Storage::undo(){
-	taskList = historyStorage.undo();
+	_taskList = historyStorage.undo();
 }
 
 void Storage::redo(){
-	taskList = historyStorage.redo();
+	_taskList = historyStorage.redo();
 }
 
 void Storage::saveOperation(){
-	historyStorage.saveOperation(taskList);
+	historyStorage.saveOperation(_taskList);
 }
 
 void Storage::updateTaskList(vector<Task> taskStorage){
-	taskList = taskStorage;
-	//cout << taskList[0].taskName; case passed
+	_taskList = taskStorage;
+	cout << _taskList[0].taskName; 
+	test();
 };
 
 
@@ -46,25 +52,25 @@ void Storage::saveFile(){
 	
 
 	writeFile << " Tasklist:" << endl;
-	for (int i = 0; i < taskList.size(); i++){
+	for (int i = 0; i < _taskList.size(); i++){
 		
-		if(taskList[i].type == "timed"){
+		if(_taskList[i].type == "timed"){
 			writeFile << i + 1 << ". ";
-			writeFile << taskList[i].taskName << " ; ";
-			writeFile << taskList[i].startingTime << " ; ";
-			writeFile << taskList[i].endingTime << " ; ";
-			writeFile << taskList[i].status << endl;
+			writeFile << _taskList[i].taskName << " ; ";
+			writeFile << _taskList[i].startingTime << " ; ";
+			writeFile << _taskList[i].endingTime << " ; ";
+			writeFile << _taskList[i].status << endl;
 		}
-		if(taskList[i].type == "deadline"){
+		if(_taskList[i].type == "deadline"){
 			writeFile << i + 1 << ". ";
-			writeFile << taskList[i].taskName << " ; ";
-			writeFile << taskList[i].startingTime << " ; ";
-			writeFile << taskList[i].status << endl;
+			writeFile << _taskList[i].taskName << " ; ";
+			writeFile << _taskList[i].startingTime << " ; ";
+			writeFile << _taskList[i].status << endl;
 		}
-		if(taskList[i].type == "floating"){
+		if(_taskList[i].type == "floating"){
 			writeFile << i + 1 << ". ";
-			writeFile << taskList[i].taskName << " ; ";
-			writeFile << taskList[i].status << endl;
+			writeFile << _taskList[i].taskName << " ; ";
+			writeFile << _taskList[i].status << endl;
 		}
 		
 	}
@@ -97,7 +103,7 @@ void Storage::saveFile(){
 //}
 
 vector<Task> Storage::getTaskList(){
-	return taskList;
+	return _taskList;
 };
 
 vector<Task> Storage::getTimedTaskList(){
@@ -157,7 +163,7 @@ void Storage::loadTask (vector<string> taskLine){
 			taskStorage.setDone(status);
 			taskStorage.setType(taskType);
 
-			taskList.push_back(taskStorage);
+			_taskList.push_back(taskStorage);
 			timedTaskList.push_back(taskStorage);
 		}
 		if (numberOfDelimiter == 2){
@@ -175,7 +181,7 @@ void Storage::loadTask (vector<string> taskLine){
 			taskStorage.setEndingTime(endTime);
 			taskStorage.setType(taskType);
 
-			taskList.push_back(taskStorage);
+			_taskList.push_back(taskStorage);
 			deadlineTaskList.push_back(taskStorage);
 		}
 		if (numberOfDelimiter == 1){
@@ -193,7 +199,7 @@ void Storage::loadTask (vector<string> taskLine){
 			taskStorage.setEndingTime(endingTime);
 			taskStorage.setType(taskType);
 
-			taskList.push_back(taskStorage);
+			_taskList.push_back(taskStorage);
 			floatingTaskList.push_back(taskStorage);
 		}
 

@@ -13,7 +13,7 @@ using namespace std;
 class Storage{
 private:
 	vector<Task> timedTaskList;
-	vector<Task> taskList;
+	vector<Task> _taskList;
 	vector<Task> deadlineTaskList;
 	vector<Task> floatingTaskList;
 	
@@ -46,6 +46,7 @@ public:
 	string getEndingTime(string input);
 	string getStatus(string input);
 	string getDueTime(string input);
+	void test();
 
 };
 
