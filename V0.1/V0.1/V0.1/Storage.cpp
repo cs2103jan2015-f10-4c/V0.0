@@ -146,7 +146,7 @@ void Storage::loadTask (vector<string> taskLine){
 		string line = taskLine[i];
 		string taskDetail = removeIndex(line);
 		
-		size_t numberOfDelimiter = count(taskDetail.begin(), taskDetail.end(), ";");
+		int numberOfDelimiter = count(taskDetail.begin(), taskDetail.end(), ';');
 
 		if (numberOfDelimiter == 3){
 	
