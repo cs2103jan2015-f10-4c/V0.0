@@ -23,13 +23,13 @@ private:
 	vector<Task> getOngoingTask(vector<Task>);//sorting same as above
 
 
-	//static const string FLOATING_TASK;
-	//static const string DEADLINE_TASK;
-	//static const string TIMED_TASK;
-	//static const string OVERDUE_TASK;
-	//static const string DONE_TASK;
-	//static const string ONGOING_TASK;
-	//static const string FLOATING_TASK;
+	static const string FLOATING_TASK;
+	static const string DEADLINE_TASK;
+	static const string TIMED_TASK;
+	static const string OVERDUE_TASK;
+	static const string DONE_TASK;
+	static const string ONGOING_TASK;
+	
 
 public:
 

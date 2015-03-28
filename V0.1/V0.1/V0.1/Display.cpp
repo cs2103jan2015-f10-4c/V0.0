@@ -1,12 +1,12 @@
 #include "Display.h"
 
-/*const string FLOATING_TASK ="floating";
-const string DEADLINE_TASK="deadline";
-const string TIMED_TASK="timed";
-const string OVERDUE_TASK="overdue";
-const string DONE_TASK="done";
-const string ONGOING_TASK="ongoing";
-*/
+const string Display::FLOATING_TASK ="floating";
+const string Display::DEADLINE_TASK="deadline";
+const string Display::TIMED_TASK="timed";
+const string Display::OVERDUE_TASK="overdue";
+const string Display::DONE_TASK="done";
+const string Display::ONGOING_TASK="ongoing";
+
 Display::Display(){}
 
 Display::~Display(){}
@@ -19,22 +19,22 @@ void Display::setDefaultDisplay(vector<Task> &taskList){
 
 void Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 	
-	if (displayType =="floating"){
+	if (displayType ==FLOATING_TASK){
 		_mainDisplay.setContent(getFloatingTask(taskList));
 	}
-	else if (displayType == "deadline"){
+	else if (displayType ==DEADLINE_TASK){
 		_mainDisplay.setContent(getDeadlineTask(taskList));
 	}
-	else if (displayType == "timed"){
+	else if (displayType == TIMED_TASK){
 		_mainDisplay.setContent(getTimedTask(taskList));
 	}
-	else if (displayType == "overdue"){
+	else if (displayType == OVERDUE_TASK){
 		_mainDisplay.setContent(getOverdueTask(taskList));
 	}
-	else if (displayType == "done"){
+	else if (displayType == DONE_TASK){
 		_mainDisplay.setContent(getDoneTask(taskList));
 	}
-	else if (displayType =="ongoing"){
+	else if (displayType ==ONGOING_TASK){
 		_mainDisplay.setContent(getOngoingTask(taskList));
 	}
 }
@@ -43,7 +43,7 @@ vector<Task>Display::getFloatingTask(vector<Task> taskList){
 	vector<Task> sortedFloatingTaskList;
 	vector<Task> floatingTaskList;
 	for (int i = 0; i < taskList.size(); i++){
-		if (taskList[i].type == "floating"){
+		if (taskList[i].type == FLOATING_TASK){
 			floatingTaskList.push_back(taskList[i]);
 		}
 	}
@@ -58,7 +58,7 @@ vector<Task>Display::getDeadlineTask(vector<Task> taskList){
 	vector<Task> deadlineTaskList;
 	vector<Task> sortedDeadlineTaskList;
 	for (int i = 0; i < taskList.size(); i++){
-		if (taskList[i].type == "deadline"){
+		if (taskList[i].type == DEADLINE_TASK){
 			deadlineTaskList.push_back(taskList[i]);
 		}
 	}
@@ -71,7 +71,7 @@ vector<Task>Display::getTimedTask(vector<Task> taskList){
 	vector<Task> timedTaskList;
 	vector<Task> sortedTimedTaskList;
 	for (int i = 0; i < taskList.size(); i++){
-		if (taskList[i].type == "floating"){
+		if (taskList[i].type == TIMED_TASK){
 			timedTaskList.push_back(taskList[i]);
 		}
 	}
@@ -86,7 +86,7 @@ vector<Task>Display::getOverdueTask(vector<Task> tasklist){
 	vector<Task> sortedOverdueTaskList;
 
 	for (int i = 0; i < tasklist.size(); i++){
-		if (tasklist[i].status == "overdue")
+		if (tasklist[i].status == OVERDUE_TASK)
 			overdueTaskList.push_back(tasklist[i]);
 	}
 	sortedOverdueTaskList = sorter.sortOverdueTaskList(overdueTaskList);
@@ -99,7 +99,7 @@ vector<Task>Display::getDoneTask(vector<Task> tasklist){
 	vector<Task> sortedDoneTaskList;
 
 	for (int i = 0; i < tasklist.size(); i++){
-		if (tasklist[i].status == "done")
+		if (tasklist[i].status == DONE_TASK)
 			doneTaskList.push_back(tasklist[i]);
 	}
 	sortedDoneTaskList = sorter.sortDoneTaskList(doneTaskList);
@@ -112,7 +112,7 @@ vector<Task>Display::getOngoingTask(vector<Task> tasklist){
 	vector<Task> sortedOngoingTaskList;
 
 	for (int i = 0; i < tasklist.size(); i++){
-		if (tasklist[i].status == "ongoing")
+		if (tasklist[i].status == ONGOING_TASK)
 			ongoingTaskList.push_back(tasklist[i]);
 	}
 	sortedOngoingTaskList = sorter.sortOngoingTaskList(ongoingTaskList);
