@@ -8,26 +8,26 @@
 #include <algorithm>
 #include <iomanip>
 #include <ios>
-#include "Storage.h"
-#include "History.h"
 #include "Task.h"
-#include "commonExecutor.h"
+/*#include "Storage.h"
+#include "History.h"
+#include "commonExecutor.h"*/
 
 using namespace std;
 
 class editExecutor{
 private:
-    Storage storage;
+   /* Storage storage;
 	History history;
 	Task task;
-	commonExecutor executor;
+	commonExecutor executor;*/
 	static string DEFAULT_TASK_STATUS;
 
 public:
-    vector<Task> taskList;
+   // vector<Task> taskList;
     editExecutor();
     ~editExecutor();
-    void editTask(int, string, string, string);
+    void editTask(int, string, string, string, vector<Task>&);
 };
 
 #endif
