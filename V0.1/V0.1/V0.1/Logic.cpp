@@ -91,7 +91,7 @@ void Logic::editTask(){
 	string newTaskName = parse.getTaskName();
 	string newStartTime = parse.getStartTime();
 	string newEndTime = parse.getEndTime();
-	edit.editTask(index, newTaskName, newStartTime, newEndTime);
+	edit.editTask(index, newTaskName, newStartTime, newEndTime, taskList);
 }
 
 void Logic::searchTask(){
