@@ -12,7 +12,7 @@ History::~History(){};
 
 
 
-void History::saveOperation(vector<Task> taskStorage){
+void History::saveOperation(vector<Task>& taskStorage){
 	undoStorageList.push(taskStorage);
 
 };

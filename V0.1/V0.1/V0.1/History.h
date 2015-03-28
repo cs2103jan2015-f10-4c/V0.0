@@ -22,7 +22,7 @@ public:
 	History();
 	~History();
 
-	void saveOperation(vector<Task> taskStorage);
+	void saveOperation(vector<Task>& taskStorage);
 	vector<Task> undo();
 	vector<Task> redo();
 	stack <vector<Task>> getUndoStorageList();

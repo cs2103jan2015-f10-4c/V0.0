@@ -17,7 +17,7 @@ namespace UnitTeststorage
 	{
 	public:
 		
-		TEST_METHOD(getTaskList)
+		/*TEST_METHOD(getTaskList)
 		{
 			Storage Storage;
 			vector<Task> testTasklist;
@@ -31,17 +31,16 @@ namespace UnitTeststorage
 			testTask.setEndingTime(ENDING_TIME);
 			testTask.setDone(STATUS);
 
-			Storage.storageTaskList.push_back(testTask);
-			int size2 = Storage.storageTaskList.size();
-			Assert::AreEqual(size2, 1);
+			
 			vector<Task> newTasklist;
 			newTasklist = Storage.getTaskList();
 			int size1 = newTasklist.size();
 			Assert::AreEqual(size1, 1);
-			/*Assert::IsTrue(newTasklist[0].taskName == TASK_NAME);
+			
+			Assert::IsTrue(newTasklist[0].taskName == TASK_NAME);
 			Assert::IsTrue(newTasklist[0].startingTime == STARTING_TIME);
 			Assert::IsTrue(newTasklist[0].endingTime == ENDING_TIME);
-			Assert::IsTrue(newTasklist[0].status == STATUS);*/
+			Assert::IsTrue(newTasklist[0].status == STATUS);
 
 		}
 		
@@ -70,7 +69,7 @@ namespace UnitTeststorage
 			Assert::IsTrue(storageTasklist[0].endingTime == "2359");
 			Assert::IsTrue(storageTasklist[0].status == "DONE");
 
-		}
+		}*/
 
 		TEST_METHOD(removeIndexMethod)
 		{
@@ -83,6 +82,8 @@ namespace UnitTeststorage
 
 			Assert::IsTrue(testOutput == " meeting ; 2012-01-01 1000 ; 2012-01-01 1300 ; Done");
 		}
+
+
 
 	};
 }
