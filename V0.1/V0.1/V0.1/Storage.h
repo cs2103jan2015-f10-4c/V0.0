@@ -12,12 +12,12 @@ using namespace std;
 
 class Storage{
 private:
-	vector<Task> timedTaskList;
+	/*vector<Task> timedTaskList;
 	vector<Task> _taskList;
 	vector<Task> deadlineTaskList;
 	vector<Task> floatingTaskList;
-	
-	History historyStorage;
+	*/
+	/*History historyStorage;*/
 	
 	vector<string> tempTask;
 	
@@ -27,19 +27,20 @@ public:
 	~Storage();
 
 	//void storeTask(string task, string startingTime, string endingTime);
-	void saveFile();
-	vector<Task> getTimedTaskList();
+	void saveFile(vector<Task>& taskList);
+	/*vector<Task> getTimedTaskList();
 	vector<Task> getTaskList();
 	vector<Task> getDeadlineTaskList();
-	vector<Task> getFloatingTaskList();
-	void updateTaskList(vector<Task> taskStorage);
+	vector<Task> getFloatingTaskList();*/
+
+	/*void updateTaskList(vector<Task> taskStorage);
 	void updateDeadlineTaskList(vector<Task> deadlineTaskStorage);
 	void updateFloatingTaskList(vector<Task> floatingTaskStorage);
 	void saveOperation();
 	void undo();
-	void redo();
-	void readFile();
-	void loadTask(vector<string> taskLine);
+	void redo();*/
+	void readFile(vector<Task>& taskList);
+	void loadTask(vector<string> taskLine,  vector<Task>& taskList);
 	string removeIndex(string input);
 	string getTaskName(string input);
 	string getStartingTime(string input);
