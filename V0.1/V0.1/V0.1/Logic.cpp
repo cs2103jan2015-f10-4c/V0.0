@@ -7,9 +7,9 @@ Logic::Logic(){}
 Logic::~Logic(){}
 
 
-void Logic::retriveStorage(){
+/*void Logic::retriveStorage(){
 	storage.readFile();
-}
+}*/
 void Logic::executeUserCommand(string userInput){
 	string commandWord;
 	commandWord = parse.getCommandWord(userInput);
@@ -80,6 +80,7 @@ void Logic::addTask(){
 	}
 	history.saveOperation(taskList);
 	disp.setDefaultDisplay(taskList);
+	storage.saveFile(taskList);
 }
 
 void Logic::deleteTask(){
@@ -87,6 +88,7 @@ void Logic::deleteTask(){
 	deleteATask.deleteTask(index, taskList);
 	history.saveOperation(taskList);
 	disp.setDefaultDisplay(taskList);
+	storage.saveFile(taskList);
 }
 
 void Logic::editTask(){
@@ -97,6 +99,7 @@ void Logic::editTask(){
 	edit.editTask(index, newTaskName, newStartTime, newEndTime, taskList);
 	history.saveOperation(taskList);
 	disp.setDefaultDisplay(taskList);
+	storage.saveFile(taskList);
 }
 
 void Logic::searchTask(){
@@ -110,16 +113,19 @@ void Logic::markDoneTask(){
 	mark.markDoneTask(index, taskList);
 	history.saveOperation(taskList);
 	disp.setDefaultDisplay(taskList);
+	storage.saveFile(taskList);
 }
 
 void Logic::undoTask(){
 	taskList = history.undo();
 	disp.setDefaultDisplay(taskList);
+	storage.saveFile(taskList);
 }
 
 void Logic::redoTask(){
 	taskList = history.redo();
 	disp.setDefaultDisplay(taskList);
+	storage.saveFile(taskList);
 }
 
 void Logic::display(){
