@@ -51,9 +51,10 @@ Storage::~Storage(void){}
 
 
 void Storage::saveFile(vector<Task>& taskList){
-	ofstream writeFile(TEXTFILENAME);
 	
-	writeFile << " Tasklist:" << endl;
+	ofstream writeFile(TEXTFILENAME);
+	writeFile << " Tasklist: "<< endl;
+
 	for (int i = 0; i < taskList.size(); i++){
 		
 		if(taskList[i].type == "timed"){
@@ -105,6 +106,11 @@ void Storage::saveFile(vector<Task>& taskList){
 //	return floatingTaskList;
 //};
 
+void Storage::createFile(){
+	ofstream file(TEXTFILENAME);
+	file << " Welcome to RushHour" << endl;
+	file.close();
+}
 
 void Storage::readFile(vector<Task>& taskList){
 	ifstream file;
