@@ -18,6 +18,7 @@
 #include "markDoneExecutor.h"
 #include "Display.h"
 #include "Storage.h"
+#include "History.h"
 #include <stdio.h>
 
 class Logic{
@@ -35,6 +36,7 @@ private:
 	markDoneExecutor mark;
 	Storage storage;
 	Display disp;
+	History history;
 
 
 public:

@@ -105,18 +105,16 @@ void Logic::markDoneTask(){
 }
 
 void Logic::undoTask(){
-	storage.undo();
-	taskList = storage.getTaskList();
-	disp.setDefaultDisplay();
+	taskList = history.undo();
+	disp.setDefaultDisplay(taskList);
 }
 
 void Logic::redoTask(){
-	storage.redo();
-	taskList = storage.getTaskList();
-	disp.setDefaultDisplay();
+	taskList = history.redo();
+	disp.setDefaultDisplay(taskList);
 }
 
 void Logic::display(){
 	string displayType = parse.getTaskType();
-	disp.setVariousDisplay(displayType);
+	disp.setVariousDisplay(taskList, displayType);
 }
