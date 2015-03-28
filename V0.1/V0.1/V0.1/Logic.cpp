@@ -78,12 +78,14 @@ void Logic::addTask(){
 		string taskName = parse.getTaskName();
 		add.addFloatingTask(taskName, taskType);
 	}
+	history.saveOperation(taskList);
 	disp.setDefaultDisplay(taskList);
 }
 
 void Logic::deleteTask(){
 	int index = parse.getIndex();
 	deleteATask.deleteTask(index, taskList);
+	history.saveOperation(taskList);
 	disp.setDefaultDisplay(taskList);
 }
 
@@ -93,6 +95,7 @@ void Logic::editTask(){
 	string newStartTime = parse.getStartTime();
 	string newEndTime = parse.getEndTime();
 	edit.editTask(index, newTaskName, newStartTime, newEndTime, taskList);
+	history.saveOperation(taskList);
 	disp.setDefaultDisplay(taskList);
 }
 
@@ -105,6 +108,7 @@ void Logic::searchTask(){
 void Logic::markDoneTask(){
 	int index = parse.getIndex();
 	mark.markDoneTask(index, taskList);
+	history.saveOperation(taskList);
 	disp.setDefaultDisplay(taskList);
 }
 
