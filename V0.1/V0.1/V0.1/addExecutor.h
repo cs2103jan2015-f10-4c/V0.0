@@ -8,30 +8,30 @@
 #include <algorithm>
 #include <iomanip>
 #include <ios>
-#include "Storage.h"
-#include "History.h"
+//#include "Storage.h"
+//#include "History.h"
 #include "Task.h"
-#include "commonExecutor.h"
+//#include "commonExecutor.h"
 
 using namespace std;
 
 class addExecutor{
 private:
-	Storage storage;
-	History history;
+	/*Storage storage;
+	History history;*/
 	Task task;
-	commonExecutor executor;
+	//commonExecutor executor;
 	static string DEFAULT_TASK_STATUS;
 
 public:
 	vector<Task> taskList;
-    vector<Task> deadlineList;
-    vector<Task> floatingList;
+    /*vector<Task> deadlineList;
+    vector<Task> floatingList;*/
 	addExecutor();
 	~addExecutor();
-	void addTask(string, string, string, string);
-	void addDeadlineTask(string, string, string);
-	void addFloatingTask(string, string);
+	void addTask(string, string, string, string, vector<Task>&);
+	void addDeadlineTask(string, string, string, vector<Task>&, vector<Task>&);
+	void addFloatingTask(string, string, vector<Task>&, vector<Task>&);
 
 };
 #endif

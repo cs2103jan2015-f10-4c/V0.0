@@ -43,6 +43,8 @@ public:
 	Logic();
 	~Logic();
 	vector<Task> taskList;
+	vector<Task> deadlineList;
+    vector<Task> floatingList;
 
 	enum COMMAND_TYPE {
 
