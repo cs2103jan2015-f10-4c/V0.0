@@ -6,19 +6,19 @@ addExecutor::addExecutor(void){}
 
 addExecutor::~addExecutor(void){}
 
-void addExecutor::addTask(string taskTitle, string startTime, string endTime, string taskType) {
-    taskList = storage.getTaskList();
+void addExecutor::addTask(string taskTitle, string startTime, string endTime, string taskType, vector<Task>& ptaskList) {
+    //taskList = storage.getTaskList();
     Task tempStorage;
     tempStorage.taskName = taskTitle;
     //tempStorage.date = taskDate;
     tempStorage.startingTime = startTime;
     tempStorage.endingTime = endTime;
-	tempStorage.status = DEFAULT_TASK_STATUS;
-	tempStorage.type = taskType;
-    taskList.push_back(tempStorage);
-	executor.updateStorage(taskList);
-	//testing
-	storage.saveOperation();
+    tempStorage.status = DEFAULT_TASK_STATUS;
+    tempStorage.type = taskType;
+    ptaskList.push_back(tempStorage);
+    //executor.updateStorage(taskList);
+    //testing
+    //storage.saveOperation();
     //displayAll();
 }
 
