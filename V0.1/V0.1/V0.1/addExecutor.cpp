@@ -1,6 +1,7 @@
 #include "addExecutor.h"
 
-string addExecutor::DEFAULT_TASK_STATUS = "Ongoing";
+string addExecutor::DEFAULT_TASK_STATUS = "ongoing";
+string addExecutor::EMPTY_STRING = "";
 
 addExecutor::addExecutor(void){}
 
@@ -27,7 +28,7 @@ void addExecutor::addDeadlineTask(string taskTitle, string endTime, string taskT
 	//taskList = storage.getTaskList();
 	Task tempStorage;
 	tempStorage.taskName = taskTitle;
-	tempStorage.startingTime = "";
+	tempStorage.startingTime = EMPTY_STRING;
 	tempStorage.endingTime = endTime;
 	tempStorage.status = DEFAULT_TASK_STATUS;
 	tempStorage.type = taskType;
@@ -49,8 +50,8 @@ void addExecutor::addFloatingTask(string taskTitle, string taskType, vector<Task
 	//taskList = storage.getTaskList();
 	Task tempStorage;
 	tempStorage.taskName = taskTitle;
-	tempStorage.startingTime = "";
-	tempStorage.endingTime = "";
+	tempStorage.startingTime = EMPTY_STRING;
+	tempStorage.endingTime = EMPTY_STRING;
 	tempStorage.type = taskType;
 	tempStorage.status = DEFAULT_TASK_STATUS;
 	floatingList.push_back(tempStorage);
