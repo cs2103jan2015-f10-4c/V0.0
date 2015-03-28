@@ -38,7 +38,7 @@ public:
 	Sorter sorter;
 	void setDefaultDisplay(vector<Task>&);
 	void setVariousDisplay(vector<Task>&, string);
-
+	static string getContent();
 
 };
 #endif

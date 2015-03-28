@@ -188,35 +188,59 @@ namespace GUI {
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
 		     string instruction;//initialise the feedbackwindow with aceptable inputs
-			 int count = 5;
-			 Storage storage;
-			 string temp;
-			 storage.readFile();
-			 vector<Task> tasklist = storage.getTaskList();
+			 int count = 0;
+			 size_t tempStart=0;
+			 size_t tempEnd=0;
+			 String^ temp;
+			 string componentInfo;
+			// storage.readFile(); Logic loadfile to be added;
+	
 		     this->SystemResponse->Text = "Hello Jim. Welcome to RushHour!\r\n\r\nWhat would you like to do?";
 			 this->feedbackWindow->Text = gcnew String(instruction.c_str());
+			 string returnInfo = Logic::tellGUI();
+			 String^ tempString = gcnew String(returnInfo.c_str());
 
-			 for (int i = 0; i < tasklist.size(); i++){
-					 //Index//
-					 temp = to_string(i + 1);
-					
-					 listViewItems = gcnew Windows::Forms::ListViewItem(gcnew String(temp.c_str())); 
-					 //TaskName//
-					 temp = tasklist[i].taskName;
-					 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
-					 //StartTime//
-					 temp = tasklist[i].startingTime;
-					 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
-					 //EndTime//
-					 temp = tasklist[i].endingTime;
-					 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
-					 //status//
-					 temp = tasklist[i].status;
-					 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
+			 for (int i = 0; i < returnInfo.size(); i++){
 
-					 DisplayContent->Items->Add(this->listViewItems);
-				// }  
+				 if (returnInfo.at(i) == ']') {
+					 count++;
+				 }
+			 }
+			 while (count > 0) {
+				 /****Index****/		
+				 tempStart = tempEnd + 1;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems = gcnew Windows::Forms::ListViewItem(temp);
+				 /****Task Name****/
+				 tempStart = tempEnd + 1;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+				 /****Starting Time****/
+				 tempStart = tempEnd + 1;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+				 /****Ending Time***/
+				 tempStart = tempEnd + 1;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+				 /****Status****/
+				 tempStart = tempEnd + 1;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+				
 
+				DisplayContent->Items->Add(this->listViewItems);
+				count -=5 ;
 			 }
 			
 	}
@@ -227,36 +251,65 @@ namespace GUI {
 		}
 	}
 	private: System::Void comfirmButton_Click(System::Object^  sender, System::EventArgs^  e) {
+		     int count = 0;
+		     size_t tempStart = 0;
+		     size_t tempEnd = 0;
+		     String^ temp;
+		     string componentInfo;
 		     string userInput = msclr::interop::marshal_as<string>(inputBox->Text);
-			 string temp;
+
 		     inputBox -> Clear();
 			 DisplayContent->Items->Clear();
-			 Logic logic;
-		     logic.executeUserCommand(userInput);
-			 DisplayWindow display;
-			 vector<Task> tasklist = display.getContent();
-			 for (int i = 0; i < tasklist.size(); i++){
-				 // while (count > 0){
-				 //Index//
-				 temp = to_string(i + 1);
-				 listViewItems = gcnew Windows::Forms::ListViewItem(gcnew String(temp.c_str()));
-				 //TaskName//
-				 temp = tasklist[i].taskName;
-				 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
-				 //StartTime//
-				 temp = tasklist[i].startingTime;
-				 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
-				 //EndTime//
-				 temp = tasklist[i].endingTime;
-				 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
-				 //status//
-				 temp = tasklist[i].status;
-				 listViewItems->SubItems->Add(gcnew String(temp.c_str()));
+
+		     Logic::executeUserCommand(userInput);
+			 string returnInfo = Logic::tellGUI();
+			 String^ tempString = gcnew String(returnInfo.c_str());
+			 
+			 for (int i = 0; i < returnInfo.size(); i++){
+
+				 if (returnInfo.at(i) == ']') {
+					 count++;
+				 }
+			 }
+			 while (count > 0) {
+				 /****Index****/
+				 tempStart = tempEnd + 1;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems = gcnew Windows::Forms::ListViewItem(temp);
+				 /****Task Name****/
+				 tempStart = tempEnd + 1;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+				 /****Starting Time****/
+				 tempStart = tempEnd + 1;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+				 /****Ending Time***/
+				 tempStart = tempEnd + 1;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+				 /****Status****/
+				 tempStart = tempEnd + 1;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+
 
 				 DisplayContent->Items->Add(this->listViewItems);
-				 // }  
-
+				 count -= 5;
 			 }
+
+
+			 
 
 	}
 	private: System::Void inputBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {

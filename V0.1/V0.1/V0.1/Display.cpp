@@ -121,3 +121,6 @@ vector<Task>Display::getOngoingTask(vector<Task> tasklist){
 }
 
 
+string Display::getContent(){
+	return _mainDisplay.getContent();
+}
