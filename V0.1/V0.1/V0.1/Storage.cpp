@@ -16,7 +16,7 @@ Storage::~Storage(void){}
 
 void Storage::test(){
 	if (_taskList.empty()){
-		cout << "empty";
+		cout << "empty";// vector is now empty
 	}
 }
 /*void Storage::storeTask(string task, string startingTime, string endingTime){
@@ -41,8 +41,11 @@ void Storage::saveOperation(){
 }
 
 void Storage::updateTaskList(vector<Task> taskStorage){
-	_taskList = taskStorage;
-	cout << _taskList[0].taskName; 
+	_taskList.clear();
+	for (int i = 0; i < taskStorage.size(); i++){
+		_taskList.push_back(taskStorage[i]);
+	}
+	//cout << _taskList[0].taskName; //successful correctlly cout
 	test();
 };
 
