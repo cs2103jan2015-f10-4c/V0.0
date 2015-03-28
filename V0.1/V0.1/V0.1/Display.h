@@ -7,7 +7,6 @@
 #include <string>
 #include <sstream>
 #include "Task.h"
-#include "Storage.h"
 #include "DisplayWindow.h"
 #include "Sorter.h"
 
@@ -16,9 +15,9 @@ private:
 	
 	DisplayWindow _mainDisplay;
 
-	vector<Task> getFloatingTask();//sorting alphabetical
-	vector<Task> getDeadlineTask();//sorting according to time
-	vector<Task> getTimedTask();//sorting according  to starting time
+	vector<Task> getFloatingTask(vector<Task>);//sorting alphabetical
+	vector<Task> getDeadlineTask(vector<Task>);//sorting according to time
+	vector<Task> getTimedTask(vector<Task>);//sorting according  to starting time
 	vector<Task> getOverdueTask(vector<Task>);//soring Floating +deadline +timed 
 	vector<Task> getDoneTask(vector<Task>);//sorting same as above
 	vector<Task> getOngoingTask(vector<Task>);//sorting same as above
@@ -36,10 +35,9 @@ public:
 
 	Display();
 	~Display();
-    Storage storage;
 	Sorter sorter;
-	void setDefaultDisplay();
-	void setVariousDisplay(string);
+	void setDefaultDisplay(vector<Task>&);
+	void setVariousDisplay(vector<Task>&, string);
 
 
 };

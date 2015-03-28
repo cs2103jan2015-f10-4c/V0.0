@@ -12,25 +12,21 @@ Display::Display(){}
 Display::~Display(){}
 
 
-void Display::setDefaultDisplay(){
-	vector<Task> taskList = storage.getTaskList();
-	//cout << "bug"; passed
-	//cout << taskList[0].taskName; assertion failled;
-	//cout << "bug";
+void Display::setDefaultDisplay(vector<Task> &taskList){
 	_mainDisplay.setContent(taskList);
 	return;
 }
 
-void Display::setVariousDisplay(string displayType){
-	vector<Task> taskList = storage.getTaskList();
+void Display::setVariousDisplay(vector<Task>& taskList,string displayType){
+	
 	if (displayType =="floating"){
-		_mainDisplay.setContent(getFloatingTask());
+		_mainDisplay.setContent(getFloatingTask(taskList));
 	}
 	else if (displayType == "deadline"){
-		_mainDisplay.setContent(getDeadlineTask());
+		_mainDisplay.setContent(getDeadlineTask(taskList));
 	}
 	else if (displayType == "timed"){
-		_mainDisplay.setContent(getTimedTask());
+		_mainDisplay.setContent(getTimedTask(taskList));
 	}
 	else if (displayType == "overdue"){
 		_mainDisplay.setContent(getOverdueTask(taskList));
@@ -43,31 +39,42 @@ void Display::setVariousDisplay(string displayType){
 	}
 }
 
-vector<Task>Display::getFloatingTask(){
+vector<Task>Display::getFloatingTask(vector<Task> taskList){
 	vector<Task> sortedFloatingTaskList;
 	vector<Task> floatingTaskList;
-	floatingTaskList = storage.getFloatingTaskList();
+	for (int i = 0; i < taskList.size(); i++){
+		if (taskList[i].type == "floating"){
+			floatingTaskList.push_back(taskList[i]);
+		}
+	}
 	sortedFloatingTaskList = sorter.sortFloatingTaskList(floatingTaskList);
-
 
 	return sortedFloatingTaskList;
 }
 
 
 
-vector<Task>Display::getDeadlineTask(){
+vector<Task>Display::getDeadlineTask(vector<Task> taskList){
 	vector<Task> deadlineTaskList;
 	vector<Task> sortedDeadlineTaskList;
-	deadlineTaskList = storage.getDeadlineTaskList();
+	for (int i = 0; i < taskList.size(); i++){
+		if (taskList[i].type == "deadline"){
+			deadlineTaskList.push_back(taskList[i]);
+		}
+	}
 	sortedDeadlineTaskList = sorter.sortDeadlineTaskList(deadlineTaskList);
 
 	return sortedDeadlineTaskList;
 }
 
-vector<Task>Display::getTimedTask(){
+vector<Task>Display::getTimedTask(vector<Task> taskList){
 	vector<Task> timedTaskList;
 	vector<Task> sortedTimedTaskList;
-	timedTaskList = storage.getTimedTaskList();
+	for (int i = 0; i < taskList.size(); i++){
+		if (taskList[i].type == "floating"){
+			timedTaskList.push_back(taskList[i]);
+		}
+	}
 	sortedTimedTaskList = sorter.sortTimedTaskList(timedTaskList);
 
 	return sortedTimedTaskList;
