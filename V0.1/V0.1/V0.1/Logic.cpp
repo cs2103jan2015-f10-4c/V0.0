@@ -96,7 +96,7 @@ void Logic::editTask(){
 
 void Logic::searchTask(){
 	string keyPhrase = parse.getSearchWord();
-	search.searchTask(keyPhrase);
+	search.searchTask(keyPhrase, taskList);
 }
 
 void Logic::markDoneTask(){

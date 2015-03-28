@@ -8,23 +8,23 @@
 #include <algorithm>
 #include <iomanip>
 #include <ios>
-#include "Storage.h"
-#include "History.h"
+/*#include "Storage.h"
+#include "History.h"*/
 #include "Task.h"
 
 using namespace std;
 
 class searchExecutor{
 private:
-    Storage storage;
+   /* Storage storage;
 	History history;
-	Task task;
+	Task task;*/
 	
 public:
-    vector<Task> taskList;
+    //vector<Task> taskList;
     searchExecutor();
     ~searchExecutor();
-    void searchTask(string);
+    void searchTask(string, vector<Task>&);
 	string getSearchedResult(vector<Task>);
 };
 
