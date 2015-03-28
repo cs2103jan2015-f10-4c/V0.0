@@ -4,7 +4,7 @@ searchExecutor::searchExecutor(void){}
 
 searchExecutor::~searchExecutor(void){}
 
-void searchExecutor::searchTask(string  keyPhrase, vector<Task>& taskList){
+vector<Task> searchExecutor::searchTask(string  keyPhrase, vector<Task>& taskList){
 	vector<Task> searchResult;
    // taskList = storage.getTaskList();
     for (int i=0; i < taskList.size(); i++) {
@@ -12,7 +12,7 @@ void searchExecutor::searchTask(string  keyPhrase, vector<Task>& taskList){
             searchResult.push_back(taskList[i]);
         }
     }
-
+	return searchResult;
     //displaySpecified(searchResult);
 }
 

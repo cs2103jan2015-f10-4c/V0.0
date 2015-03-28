@@ -24,7 +24,7 @@ public:
     //vector<Task> taskList;
     searchExecutor();
     ~searchExecutor();
-    void searchTask(string, vector<Task>&);
+    vector<Task> searchTask(string, vector<Task>&);
 	string getSearchedResult(vector<Task>);
 };
 
