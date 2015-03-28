@@ -73,10 +73,10 @@ void Logic::addTask(){
 		//cout << taskName; passed
 		string endTime = parse.getEndTime();
 		//cout << endTime; debugged
-		add.addDeadlineTask(taskName, endTime, taskType, deadlineList);
+		add.addDeadlineTask(taskName, endTime, taskType, deadlineList,taskList);
 	} else if (taskType == "floating") {
 		string taskName = parse.getTaskName();
-		add.addFloatingTask(taskName, taskType, floatingList);
+		add.addFloatingTask(taskName, taskType, floatingList, taskList);
 	}
 	history.saveOperation(taskList);
 	disp.setDefaultDisplay(taskList);
