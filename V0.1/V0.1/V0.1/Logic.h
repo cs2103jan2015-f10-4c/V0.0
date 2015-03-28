@@ -27,7 +27,7 @@ private:
 
 	Parser parse;
 
-	vector<Task> taskList;
+	
     addExecutor add;
 	deleteExecutor deleteATask;
 	editExecutor edit;
@@ -40,6 +40,7 @@ private:
 public:
 	Logic();
 	~Logic();
+	vector<Task> taskList;
 
 	enum COMMAND_TYPE {
 
@@ -57,6 +58,7 @@ public:
 	void redoTask();
 	COMMAND_TYPE determineCommandType(string);
     void executeUserCommand (string);
+
 
 };
 #endif

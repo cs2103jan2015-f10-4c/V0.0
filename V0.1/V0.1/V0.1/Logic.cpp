@@ -83,7 +83,7 @@ void Logic::addTask(){
 
 void Logic::deleteTask(){
 	int index = parse.getIndex();
-	deleteATask.deleteTask(index);
+	deleteATask.deleteTask(index, taskList);
 }
 
 void Logic::editTask(){

@@ -6,25 +6,25 @@
 #include <algorithm>
 #include <iomanip>
 #include <ios>
-#include "Storage.h"
+/*#include "Storage.h"
 #include "History.h"
 #include "Task.h"
-#include "commonExecutor.h"
+#include "commonExecutor.h"*/
 
 using namespace std;
 
 class deleteExecutor{
 private:
-    Storage storage;
+   /* Storage storage;
 	History history;
 	Task task;
-	commonExecutor executor;
+	commonExecutor executor;*/
 
 public:
-    vector<Task> taskList;
+   // vector<Task> taskList;
     deleteExecutor();
     ~deleteExecutor();
-    void deleteTask(int);
+	void deleteTask(int, vector<Task>&);
     
 };
 #endif
