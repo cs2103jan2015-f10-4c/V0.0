@@ -13,7 +13,7 @@
 class Display{
 private:
 	
-	DisplayWindow _mainDisplay;
+	static DisplayWindow _mainDisplay;
 
 	vector<Task> getFloatingTask(vector<Task>);//sorting alphabetical
 	vector<Task> getDeadlineTask(vector<Task>);//sorting according to time
