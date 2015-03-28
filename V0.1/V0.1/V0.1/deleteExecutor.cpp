@@ -4,8 +4,8 @@ deleteExecutor::deleteExecutor(void){}
 
 deleteExecutor::~deleteExecutor(void){}
 
-void deleteExecutor::deleteTask(int index){
-     taskList = storage.getTaskList();
+void deleteExecutor::deleteTask(int index, vector<Task>& taskList){
+    // taskList = storage.getTaskList();
     /*if (index > taskList.size()) {
         display::displayError();
     }
