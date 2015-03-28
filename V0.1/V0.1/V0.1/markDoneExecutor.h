@@ -8,27 +8,27 @@
 #include <algorithm>
 #include <iomanip>
 #include <ios>
-#include "Storage.h"
-#include "History.h"
+/*#include "Storage.h"
+#include "History.h"*/
 #include "Task.h"
-#include "commonExecutor.h"
+//#include "commonExecutor.h"
 
 using namespace std;
 
 class markDoneExecutor{
 private:
-    Storage storage;
-	History history;
+   // Storage storage;
+	//History history;
 	Task task;
-	commonExecutor executor;
+	//commonExecutor executor;
 
 public:
-    vector<Task> taskList;
+    /*vector<Task> taskList;
     vector<Task> deadlineList;
-    vector<Task> floatingList;
+    vector<Task> floatingList;*/
     markDoneExecutor();
     ~markDoneExecutor();
-    void markDoneTask(int);
+    void markDoneTask(int, vector<Task>&);
 };
 
 #endif

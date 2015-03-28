@@ -101,7 +101,7 @@ void Logic::searchTask(){
 
 void Logic::markDoneTask(){
 	int index = parse.getIndex();
-	mark.markDoneTask(index);
+	mark.markDoneTask(index, taskList);
 }
 
 void Logic::undoTask(){

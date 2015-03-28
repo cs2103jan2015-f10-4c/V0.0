@@ -4,14 +4,14 @@ markDoneExecutor::markDoneExecutor(void){}
 
 markDoneExecutor::~markDoneExecutor(void){}
 
-void markDoneExecutor::markDoneTask(int index){
-    taskList = storage.getTaskList();
-	deadlineList = storage.getDeadlineTaskList();
-	floatingList = storage.getFloatingTaskList();
-	string doneTaskTitle = taskList[index - 1].taskName;
+void markDoneExecutor::markDoneTask(int index, vector<Task>& taskList){
+    //taskList = storage.getTaskList();
+	//deadlineList = storage.getDeadlineTaskList();
+	//floatingList = storage.getFloatingTaskList();
+	//string doneTaskTitle = taskList[index - 1].taskName;
 	taskList[index - 1].status = "Done";
-	executor.updateStorage(taskList);
-	storage.saveOperation();
+	//executor.updateStorage(taskList);
+	//storage.saveOperation();
 
 	//update respective task in deadlineList:
 	/*for (int i = 0; i < deadlineList.size(); i++) {
