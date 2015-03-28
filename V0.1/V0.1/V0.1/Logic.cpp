@@ -132,3 +132,7 @@ void Logic::display(){
 	string displayType = parse.getTaskType();
 	disp.setVariousDisplay(taskList, displayType);
 }
+
+string Logic::tellGUI(){
+	return disp.getContent();
+}

@@ -60,6 +60,7 @@ public:
 	void display();
 	void undoTask();
 	void redoTask();
+	string tellGUI();
 	COMMAND_TYPE determineCommandType(string);
     void executeUserCommand (string);
 
