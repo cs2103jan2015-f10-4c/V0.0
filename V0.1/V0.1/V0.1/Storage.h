@@ -27,7 +27,7 @@ public:
 	~Storage();
 
 	//void storeTask(string task, string startingTime, string endingTime);
-	void saveFile(vector<Task>& taskList);
+	
 	/*vector<Task> getTimedTaskList();
 	vector<Task> getTaskList();
 	vector<Task> getDeadlineTaskList();
@@ -39,6 +39,9 @@ public:
 	void saveOperation();
 	void undo();
 	void redo();*/
+
+	void createFile();
+	void saveFile(vector<Task>& taskList);
 	void readFile(vector<Task>& taskList);
 	void loadTask(vector<string> taskLine,  vector<Task>& taskList);
 	string removeIndex(string input);
