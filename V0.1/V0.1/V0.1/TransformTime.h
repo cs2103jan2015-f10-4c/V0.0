@@ -45,6 +45,9 @@ public:
     // input the time_t. output the min
     int getMin(time_t t);
     
+    string getCurrentTime();
+    
+    string convertTime(string input);
     
 };
 
