@@ -130,10 +130,30 @@ string Parser::getCommandWord(string command){
         index = getIndex(detail);
     }else if(task == "edit"){
         index = getIndex(detail);
+		string editDetail = getDetail(detail);
+		size_t numberOfDelimiter = count(editDetail.begin(), editDetail.end(), ';');
+
+		if (numberOfDelimiter == 2) {
+            taskType = "timed";
+            taskName = getTaskName(editDetail);
+            startTime = getStartDetail2(editDetail);
+            endTime = getEndDetail(editDetail);
+        }else if (numberOfDelimiter == 1) {
+            taskType = "deadline";
+            taskName = getTaskName(editDetail);
+            endTime = getStartDetail1(editDetail);
+
+        }else {
+            taskType = "floating";
+            taskName = getTaskName(editDetail);
+            
+        }
+		
+		/*index = getIndex(detail);
         string editDetail = getDetail(detail);
         taskName = getTaskName(editDetail);
         startTime = getStartDetail2(editDetail);
-        endTime = getEndDetail(editDetail);
+        endTime = getEndDetail(editDetail);*/
         
     }else if(task == "search"){
         searchWord = detail;
