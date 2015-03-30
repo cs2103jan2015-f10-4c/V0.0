@@ -26,12 +26,12 @@ class Logic{
 private:
 
 
-	Parser parse;
+    Parser parse;
 
 	
     addExecutor add;
-	deleteExecutor deleteATask;
-	editExecutor edit;
+    deleteExecutor deleteATask;
+    editExecutor edit;
 	searchExecutor search;
 	markDoneExecutor mark;
 	Storage storage;
@@ -42,7 +42,7 @@ private:
 public:
 	Logic();
 	~Logic();
-	vector<Task> taskList;
+    vector<Task> taskList;
 	vector<Task> deadlineList;
     vector<Task> floatingList;
 
@@ -60,9 +60,9 @@ public:
 	void display();
 	void undoTask();
 	void redoTask();
-	static string tellGUI();
+	string tellGUI();
 	COMMAND_TYPE determineCommandType(string);
-    static void executeUserCommand (string);
+    void executeUserCommand (string);
 
 
 };

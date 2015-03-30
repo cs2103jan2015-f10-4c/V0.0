@@ -1,6 +1,6 @@
 #include "editExecutor.h"
 
-string editExecutor::DEFAULT_TASK_STATUS = "Ongoing";
+string editExecutor::DEFAULT_TASK_STATUS = "ongoing";
 
 editExecutor::editExecutor(void){}
 

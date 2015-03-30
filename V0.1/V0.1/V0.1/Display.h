@@ -13,7 +13,7 @@
 class Display{
 private:
 	
-	static DisplayWindow _mainDisplay;
+	DisplayWindow _mainDisplay;
 
 	vector<Task> getFloatingTask(vector<Task>);//sorting alphabetical
 	vector<Task> getDeadlineTask(vector<Task>);//sorting according to time
@@ -38,7 +38,7 @@ public:
 	Sorter sorter;
 	void setDefaultDisplay(vector<Task>&);
 	void setVariousDisplay(vector<Task>&, string);
-	static string getContent();
+    string getContent();
 
 };
 #endif

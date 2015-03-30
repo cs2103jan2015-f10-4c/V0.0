@@ -11,7 +11,7 @@ class DisplayWindow{
 
 private:
 
-	static string _content;
+	 string _content;
 
 public:
 
@@ -19,7 +19,7 @@ public:
 	~DisplayWindow();
 
 	void setContent(vector<Task>);
-	static string getContent();
+	string getContent();
 
 };
 

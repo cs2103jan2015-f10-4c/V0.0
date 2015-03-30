@@ -18,7 +18,7 @@ void Logic::executeUserCommand(string userInput){
 	commandType = determineCommandType(commandWord);
 	switch (commandType) {
 	case _ADD:
-		return addTask();
+		 return addTask();
 	case _DELETE:
 		return deleteTask();
 	case _EDIT:

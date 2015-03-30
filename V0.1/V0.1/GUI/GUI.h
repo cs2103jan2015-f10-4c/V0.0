@@ -7,6 +7,8 @@
 #include "DisplayWindow.h"
 #using <mscorlib.dll>
 
+Logic logic;
+
 namespace GUI {
 
 	using namespace System;
@@ -114,10 +116,10 @@ namespace GUI {
 			// 
 			// SystemResponse
 			// 
-			this->SystemResponse->AutoSize = true;
+			this->SystemResponse->ImageAlign = System::Drawing::ContentAlignment::TopLeft;
 			this->SystemResponse->Location = System::Drawing::Point(24, 309);
 			this->SystemResponse->Name = L"SystemResponse";
-			this->SystemResponse->Size = System::Drawing::Size(89, 12);
+			this->SystemResponse->Size = System::Drawing::Size(514, 25);
 			this->SystemResponse->TabIndex = 4;
 			this->SystemResponse->Text = L"SystemResponse";
 			this->SystemResponse->Click += gcnew System::EventHandler(this, &MyForm::label1_Click);
@@ -171,6 +173,7 @@ namespace GUI {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
 			this->ClientSize = System::Drawing::Size(748, 343);
 			this->Controls->Add(this->DisplayContent);
 			this->Controls->Add(this->SystemResponse);
@@ -190,14 +193,14 @@ namespace GUI {
 		     string instruction;//initialise the feedbackwindow with aceptable inputs
 			 int count = 0;
 			 size_t tempStart=0;
-			 size_t tempEnd=0;
+			 size_t tempEnd=-1;
 			 String^ temp;
 			 string componentInfo;
 			// storage.readFile(); Logic loadfile to be added;
 	
-		     this->SystemResponse->Text = "Hello Jim. Welcome to RushHour!\r\n\r\nWhat would you like to do?";
+		     this->SystemResponse->Text = "Hello Jim. Welcome to RushHour! What would you like to do?";
 			 this->feedbackWindow->Text = gcnew String(instruction.c_str());
-			 string returnInfo = Logic::tellGUI();
+			 string returnInfo =logic.tellGUI();
 			 String^ tempString = gcnew String(returnInfo.c_str());
 
 			 for (int i = 0; i < returnInfo.size(); i++){
@@ -208,31 +211,31 @@ namespace GUI {
 			 }
 			 while (count > 0) {
 				 /****Index****/		
-				 tempStart = tempEnd + 1;
+				 tempStart = tempEnd + 2;
 				 tempEnd = returnInfo.find_first_of("]", tempStart);
 				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 				 temp = gcnew String(componentInfo.c_str());
 				 listViewItems = gcnew Windows::Forms::ListViewItem(temp);
 				 /****Task Name****/
-				 tempStart = tempEnd + 1;
+				 tempStart = tempEnd + 2;
 				 tempEnd = returnInfo.find_first_of("]", tempStart);
 				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 				 temp = gcnew String(componentInfo.c_str());
 				 listViewItems->SubItems->Add(temp);
 				 /****Starting Time****/
-				 tempStart = tempEnd + 1;
+				 tempStart = tempEnd + 2;
 				 tempEnd = returnInfo.find_first_of("]", tempStart);
 				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 				 temp = gcnew String(componentInfo.c_str());
 				 listViewItems->SubItems->Add(temp);
 				 /****Ending Time***/
-				 tempStart = tempEnd + 1;
+				 tempStart = tempEnd + 2;
 				 tempEnd = returnInfo.find_first_of("]", tempStart);
 				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 				 temp = gcnew String(componentInfo.c_str());
 				 listViewItems->SubItems->Add(temp);
 				 /****Status****/
-				 tempStart = tempEnd + 1;
+				 tempStart = tempEnd + 2;
 				 tempEnd = returnInfo.find_first_of("]", tempStart);
 				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 				 temp = gcnew String(componentInfo.c_str());
@@ -247,13 +250,13 @@ namespace GUI {
 
 	private: System::Void inputBox_KeyUp(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 		     if (e->KeyCode == Keys::Enter) {
-			 comfirmButton->PerformClick();
+			 comfirmButton->PerformClick();//dosen't work???
 		}
 	}
 	private: System::Void comfirmButton_Click(System::Object^  sender, System::EventArgs^  e) {
 		     int count = 0;
 		     size_t tempStart = 0;
-		     size_t tempEnd = 0;
+		     size_t tempEnd = -1;
 		     String^ temp;
 		     string componentInfo;
 		     string userInput = msclr::interop::marshal_as<string>(inputBox->Text);
@@ -261,8 +264,8 @@ namespace GUI {
 		     inputBox -> Clear();
 			 DisplayContent->Items->Clear();
 
-		     Logic::executeUserCommand(userInput);
-			 string returnInfo = Logic::tellGUI();
+		     logic.executeUserCommand(userInput);
+			 string returnInfo = logic.tellGUI();
 			 String^ tempString = gcnew String(returnInfo.c_str());
 			 
 			 for (int i = 0; i < returnInfo.size(); i++){
@@ -279,25 +282,25 @@ namespace GUI {
 				 temp = gcnew String(componentInfo.c_str());
 				 listViewItems = gcnew Windows::Forms::ListViewItem(temp);
 				 /****Task Name****/
-				 tempStart = tempEnd + 1;
+				 tempStart = tempEnd + 2;
 				 tempEnd = returnInfo.find_first_of("]", tempStart);
 				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 				 temp = gcnew String(componentInfo.c_str());
 				 listViewItems->SubItems->Add(temp);
 				 /****Starting Time****/
-				 tempStart = tempEnd + 1;
+				 tempStart = tempEnd + 2;
 				 tempEnd = returnInfo.find_first_of("]", tempStart);
 				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 				 temp = gcnew String(componentInfo.c_str());
 				 listViewItems->SubItems->Add(temp);
 				 /****Ending Time***/
-				 tempStart = tempEnd + 1;
+				 tempStart = tempEnd + 2;
 				 tempEnd = returnInfo.find_first_of("]", tempStart);
 				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 				 temp = gcnew String(componentInfo.c_str());
 				 listViewItems->SubItems->Add(temp);
 				 /****Status****/
-				 tempStart = tempEnd + 1;
+				 tempStart = tempEnd + 2;
 				 tempEnd = returnInfo.find_first_of("]", tempStart);
 				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 				 temp = gcnew String(componentInfo.c_str());
