@@ -55,7 +55,7 @@ void Storage::saveFile(vector<Task>& taskList){
 	ofstream writeFile(TEXTFILENAME);
 	writeFile << " Tasklist: "<< endl;
 
-	for (int i = 0; i < taskList.size(); i++){
+	for (unsigned i = 0; i < taskList.size(); i++){
 		
 		if(taskList[i].type == "timed"){
 			writeFile << i + 1 << ". ";
@@ -134,7 +134,7 @@ void Storage::readFile(vector<Task>& taskList){
 
 void Storage::loadTask (vector<string> taskLine, vector<Task>& taskList){
 
-	for (int i = 0; i<taskLine.size(); i++){
+	for (unsigned i = 0; i<taskLine.size(); i++){
 		
 		string line = taskLine[i];
 		string taskDetail = removeIndex(line);

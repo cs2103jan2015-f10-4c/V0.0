@@ -57,7 +57,7 @@ Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 	} else if (commandWord == "Redo" || commandWord == "redo") {
 		return COMMAND_TYPE::_REDO;
 	}
-}
+}// take not of default return type ??? exceptions 
 
 
 void Logic::addTask(){

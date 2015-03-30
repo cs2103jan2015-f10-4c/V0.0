@@ -3,7 +3,7 @@
 
 
 bool cmpName(Task a, Task b){
-	int i = 0;
+	unsigned i = 0;
 	while ((i < a.taskName.length()) && (i < b.taskName.length()))
 	{
 		if (tolower(a.taskName[i]) < tolower(b.taskName[i])) 

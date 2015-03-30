@@ -31,7 +31,7 @@ vector<Task> History::undo(){
         
         return updatedTaskList;
     }
-    
+    // else ?  take note of exceptions and assertiona failure
 };
 
 
@@ -49,7 +49,7 @@ vector<Task> History::redo(){
 		return updatedTaskList;
 	}
 	
-
+	//else return?  take note of exceptions and assertion failure 
 };
 
 

@@ -42,7 +42,7 @@ void Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 vector<Task>Display::getFloatingTask(vector<Task> taskList){
 	vector<Task> sortedFloatingTaskList;
 	vector<Task> floatingTaskList;
-	for (int i = 0; i < taskList.size(); i++){
+	for (unsigned i = 0; i < taskList.size(); i++){
 		if (taskList[i].type == FLOATING_TASK){
 			floatingTaskList.push_back(taskList[i]);
 		}
@@ -57,7 +57,7 @@ vector<Task>Display::getFloatingTask(vector<Task> taskList){
 vector<Task>Display::getDeadlineTask(vector<Task> taskList){
 	vector<Task> deadlineTaskList;
 	vector<Task> sortedDeadlineTaskList;
-	for (int i = 0; i < taskList.size(); i++){
+	for (unsigned i = 0; i < taskList.size(); i++){
 		if (taskList[i].type == DEADLINE_TASK){
 			deadlineTaskList.push_back(taskList[i]);
 		}
@@ -70,7 +70,7 @@ vector<Task>Display::getDeadlineTask(vector<Task> taskList){
 vector<Task>Display::getTimedTask(vector<Task> taskList){
 	vector<Task> timedTaskList;
 	vector<Task> sortedTimedTaskList;
-	for (int i = 0; i < taskList.size(); i++){
+	for (unsigned i = 0; i < taskList.size(); i++){
 		if (taskList[i].type == TIMED_TASK){
 			timedTaskList.push_back(taskList[i]);
 		}
@@ -85,7 +85,7 @@ vector<Task>Display::getOverdueTask(vector<Task> tasklist){
 	vector<Task> overdueTaskList;
 	vector<Task> sortedOverdueTaskList;
 
-	for (int i = 0; i < tasklist.size(); i++){
+	for (unsigned i = 0; i < tasklist.size(); i++){
 		if (tasklist[i].status == OVERDUE_TASK)
 			overdueTaskList.push_back(tasklist[i]);
 	}
@@ -98,7 +98,7 @@ vector<Task>Display::getDoneTask(vector<Task> tasklist){
 	vector<Task> doneTaskList;
 	vector<Task> sortedDoneTaskList;
 
-	for (int i = 0; i < tasklist.size(); i++){
+	for (unsigned i = 0; i < tasklist.size(); i++){
 		if (tasklist[i].status == DONE_TASK)
 			doneTaskList.push_back(tasklist[i]);
 	}
@@ -111,7 +111,7 @@ vector<Task>Display::getOngoingTask(vector<Task> tasklist){
 	vector<Task> ongoingTaskList;
 	vector<Task> sortedOngoingTaskList;
 
-	for (int i = 0; i < tasklist.size(); i++){
+	for (unsigned i = 0; i < tasklist.size(); i++){
 		if (tasklist[i].status == ONGOING_TASK)
 			ongoingTaskList.push_back(tasklist[i]);
 	}

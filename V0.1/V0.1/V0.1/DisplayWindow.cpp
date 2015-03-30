@@ -7,7 +7,7 @@ DisplayWindow::~DisplayWindow(){}
 void DisplayWindow::setContent(vector<Task> tasklist){
 
    ostringstream oss;
-   for (int i = 0; i < tasklist.size(); i++){
+   for (unsigned i = 0; i < tasklist.size(); i++){
 	   oss << '[' << i + 1 << '.' << ']'
 		   << '['<<tasklist[i].taskName<<']';
 		   if (tasklist[i].type == "deadline" || "floating"){
@@ -19,7 +19,8 @@ void DisplayWindow::setContent(vector<Task> tasklist){
 				   oss << '['<<tasklist[i].endingTime<<']';
 			   }
 		   }
-		   else{ oss << '[' << tasklist[i].startingTime << ']'
+		   else if(tasklist[i].type == "timed"){ 
+			   oss << '[' << tasklist[i].startingTime << ']'
 			         << '[' << tasklist[i].endingTime<<']';
 		   }
 		  
