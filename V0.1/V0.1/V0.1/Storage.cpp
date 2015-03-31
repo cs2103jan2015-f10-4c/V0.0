@@ -251,7 +251,7 @@ string Storage::getEndingTime(string input){
 string Storage::getStatus(string input){
 	size_t p1 = 0;
 	size_t p2 = input.size();
-	p1 = input.find_last_of(";") + 1;
+	p1 = input.find_last_of(";") + 2;
 	string task = input.substr(p1,p2-p1);
 	return task;
 }
