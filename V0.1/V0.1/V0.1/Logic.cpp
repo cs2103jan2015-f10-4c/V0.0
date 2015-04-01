@@ -139,15 +139,29 @@ void Logic::markDoneTask(){
 }
 
 void Logic::undoTask(){
-	taskList = history.undo();
-	disp.setDefaultDisplay(taskList);
-	storage.saveFile(taskList);
+	bool isSuccessful = false;
+	isSuccessful = history.checkUndoEmpty();
+	if (isSuccessful) {
+		taskList = history.undo();
+		response.undoResponse(isSuccessful);
+	    disp.setDefaultDisplay(taskList);
+	    storage.saveFile(taskList);
+	} else {
+		response.undoResponse(isSuccessful);
+	}
 }
 
 void Logic::redoTask(){
-	taskList = history.redo();
-	disp.setDefaultDisplay(taskList);
-	storage.saveFile(taskList);
+	bool isSuccessful = false;
+	isSuccessful = history.checkRedoEmpty();
+	if (isSuccessful) {
+		taskList = history.redo();
+		response.redoResponse(isSuccessful);
+	    disp.setDefaultDisplay(taskList);
+	    storage.saveFile(taskList);
+	} else {
+		response.redoResponse(isSuccessful);
+	}
 }
 
 void Logic::display(){
