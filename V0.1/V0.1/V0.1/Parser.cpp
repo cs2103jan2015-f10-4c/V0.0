@@ -11,101 +11,6 @@ Parser::~Parser(){
     
 }
 
-/*
-bool Parser::determineCommand(string userCommand){
-	//assert(userCommand != "");
-	//if (userCommand == "") {
-	//	throw invalid_argument("Invalid user input!");
-	//}
-    
-    // Divide two string 1) Type of the task 2) Content of the task
-    string task = getCommandType(userCommand);
-    string detail = getDetail(userCommand);
-    
-    bool systemFeedback = false;
-    
-    // The type of the task is ADD
-    if (task == "add") {
-        systemFeedback = true;
-        size_t task = std::count(detail.begin(), detail.end(), ';');
-        if (task == 2) {
-            string taskName;
-            string startTime;
-            string endTime;
-            taskName = getTaskName(detail);
-            startTime = getStartDetail2(detail);
-            endTime = getEndDetail(detail);
-            logic.addTask(taskName, startTime, endTime);
-        }else if (task == 1) {
-            string taskName;
-            string startTime;
-            taskName = getTaskName(detail);
-            startTime = getStartDetail1(detail);
-            logic.addDeadlineTask(taskName, startTime);
-        }else {
-            string taskName;
-            taskName = getTaskName(detail);
-            logic.addFloatingTask(taskName);
-        }
-    }
-    // The type of the task is DELETE
-    else if (task == "delete"){
-        systemFeedback = true;
-        int index;
-        index = getIndex(detail);
-        logic.deleteTask(index);
-    }
-    // The type of the task is SEARCH
-    else if (task == "search"){
-        systemFeedback = true;
-        string keyWord = detail;
-        logic.searchTask(keyWord);
-    }
-    // The type of the task is EDIT
-    else if (task == "edit"){
-        systemFeedback = true;
-        int index;
-        index = getIndex(detail);
-        string editDetail = getDetail(detail);
-        string taskName;
-        string startTime;
-        string endTime;
-        
-        taskName = getTaskName(editDetail);
-        startTime = getStartDetail2(editDetail);
-        endTime = getEndDetail(editDetail);
-        logic.editTask(index,taskName, startTime, endTime);
-    }
-    // The type of the task is DISPLAY
-    else if (task == "display"){
-        systemFeedback = true;
-        string type = detail;
-        if ( type == "all"){
-            logic.displayAll();
-        }
-        else if ( type == "dl"){
-            logic.displayDeadline();
-        }
-        else if( type == "ft"){
-            logic.displayFloating();
-        }else{}
-    }
-    // The type of the task is MARKDONE
-    else if (task == "markdone"){
-        systemFeedback = true;
-        int index;
-        index = getIndex(detail);
-        logic.markdone(index);
-    }
-	else if (task == "undo") {
-		systemFeedback = true;
-		history.undoTaskStorage
-    else return false;
-    
-    return systemFeedback;
-}
-*/
-
 string Parser::getCommandWord(string command){
     string task = getCommandType(command);
     string detail = getDetail(command);
@@ -148,12 +53,6 @@ string Parser::getCommandWord(string command){
             taskName = getTaskName(editDetail);
             
         }
-		
-		/*index = getIndex(detail);
-        string editDetail = getDetail(detail);
-        taskName = getTaskName(editDetail);
-        startTime = getStartDetail2(editDetail);
-        endTime = getEndDetail(editDetail);*/
         
     }else if(task == "search"){
         searchWord = detail;
@@ -165,6 +64,8 @@ string Parser::getCommandWord(string command){
         // Not Done
     }else if(task == "redo"){
         // Not Done
+    }else if(task == "directory"){
+        taskType = detail;
     }else {
         cout<< "Parser: worry input.\n";
     }
