@@ -166,7 +166,11 @@ void Logic::redoTask(){
 
 void Logic::display(){
 	string displayType = parse.getTaskType();
-	disp.setVariousDisplay(taskList, displayType);
+	bool isCorrectType = true;
+	isCorrectType = disp.setVariousDisplay(taskList, displayType);
+	if (!isCorrectType) {
+		response.dispVariousResponse(isCorrectType);
+	}
 }
 
 string Logic::tellGUI(){
