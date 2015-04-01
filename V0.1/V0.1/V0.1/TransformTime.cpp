@@ -110,29 +110,33 @@ string TransformTime::getCurrentTime(){
     return currentTime;
 }
 
+size_t getSize(char *ptr){
+	return sizeof(ptr);
+}
+
 
 string TransformTime::convertTime(string input){
 
-    
-    char year[5];                                 // YEAR
-    char month[3];                                // MONTH
-    char day[3];                                  // DAY
-    char hour[3];                                 // HOUR
-    char minute[3];                               // MINUTE
-    ///////////////////////////////////////////
-    // Set the Default time is current time
-    time_t rawtime;
-    struct tm * timeinfo;
-    time (&rawtime);
-    timeinfo = localtime (&rawtime);
-    strftime(year,4,"%Y", timeinfo);
-    strftime(month,2,"%m", timeinfo);
-    strftime(day,2,"%d", timeinfo);
-    strftime(hour,2,"%H", timeinfo);
-    strftime(minute,2,"%M", timeinfo);
-    //////////////////////////////////////////
-    
-    char inputTime[input.length()]; // creat the char to store the input
+	char year[5];                                 // YEAR
+	char month[3];                                // MONTH
+	char day[3];                                  // DAY
+	char hour[3];                                 // HOUR
+	char minute[3];                               // MINUTE
+	///////////////////////////////////////////
+	// Set the Default time is current time
+	time_t rawtime;
+	struct tm * timeinfo;
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+	strftime(year, 4, "%Y", timeinfo);
+	strftime(month, 2, "%m", timeinfo);
+	strftime(day, 2, "%d", timeinfo);
+	strftime(hour, 2, "%H", timeinfo);
+	strftime(minute, 2, "%M", timeinfo);
+	//////////////////////////////////////////
+	
+
+	char *inputTime = new char[input.length()]; // creat the char to store the input
     strcpy(inputTime, input.c_str()); // convert string to char[]
     
     bool HasTimeDay = false; // check the input who has time and day
@@ -149,8 +153,8 @@ string TransformTime::convertTime(string input){
         }
     }
     
-    int sizeOfTime = 0;
-    int sizeOfDay = 0;
+    int sizeOfTime ;
+    int sizeOfDay ;
     
     if(HasTimeDay){
         sizeOfDay = space;
@@ -184,8 +188,8 @@ string TransformTime::convertTime(string input){
     //cout << " sizeOfTime " <<  sizeOfTime << endl;
     //cout << " sizeOfDay " <<  sizeOfDay << endl;
     
-    char Theday[sizeOfDay];
-    char Thetime[sizeOfTime];
+    char *Theday = new char[sizeOfDay];
+    char *Thetime = new char[sizeOfTime];
     
     if (HasTimeDay){
         int i;
@@ -264,21 +268,21 @@ string TransformTime::convertTime(string input){
     
     if (HasTime)
     {
-        if (sizeof(Thetime) < 4) //the format: HMM
+        if (getSize(Thetime) < 4) //the format: HMM
         {
             hour[0] = '0';
             hour[1] = Thetime[0];
             minute[0] = Thetime[1];
             minute[1] = Thetime[2];
             //cout<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
-        }else if(sizeof(Thetime) < 5) //the format: HHMM
+        }else if(getSize(Thetime) < 5) //the format: HHMM
         {
             hour[0] = Thetime[0];
             hour[1] = Thetime[1];
             minute[0] = Thetime[2];
             minute[1] = Thetime[3];
             //cout<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
-        }else if(sizeof(Thetime) < 6 && (Thetime[2]==58||Thetime[2]==46)) //the format: HH:MM
+        }else if(getSize(Thetime) < 6 && (Thetime[2]==58||Thetime[2]==46)) //the format: HH:MM
         {
             hour[0] = Thetime[0];
             hour[1] = Thetime[1];
@@ -288,22 +292,22 @@ string TransformTime::convertTime(string input){
         }
         else
         {
-            if(Thetime[sizeof(Thetime)-1] == 'h') //the format: XX:XXh XX:.XXh XXXXh
+            if(Thetime[getSize(Thetime)-1] == 'h') //the format: XX:XXh XX:.XXh XXXXh
             {
                 hour[0] = Thetime[0];
                 hour[1] = Thetime[1];
-                minute[0] = Thetime[sizeof(Thetime)-3];
-                minute[1] = Thetime[sizeof(Thetime)-2];
+                minute[0] = Thetime[getSize(Thetime)-3];
+                minute[1] = Thetime[getSize(Thetime)-2];
                 //cout<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
             }
-            else if(Thetime[sizeof(Thetime)-1] == 'm') //the format:am/apm
+            else if(Thetime[getSize(Thetime)-1] == 'm') //the format:am/apm
             {
-                if(Thetime[sizeof(Thetime)-2] == 'a') //the format: XX:XXam XX:.XXam XXXXam
+                if(Thetime[getSize(Thetime)-2] == 'a') //the format: XX:XXam XX:.XXam XXXXam
                 {
                     hour[0] = Thetime[0];
                     hour[1] = Thetime[1];
-                    minute[0] = Thetime[sizeof(Thetime)-4];
-                    minute[1] = Thetime[sizeof(Thetime)-3];
+                    minute[0] = Thetime[getSize(Thetime)-4];
+                    minute[1] = Thetime[getSize(Thetime)-3];
                     //cout<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
                 }
                 else //the format: XX:XXpm XX:.XXpm XXXXpm
@@ -513,7 +517,7 @@ string TransformTime::convertTime(string input){
             {
                 day[0] = Theday[0];
                 day[1] = Theday[1];
-                year[0] = Theday[sizeof(Theday)-4];
+                year[0] = Theday[((int)sizeof(Theday))-4];
                 year[1] = Theday[sizeof(Theday)-3];
                 year[2] = Theday[sizeof(Theday)-2];
                 year[3] = Theday[sizeof(Theday)-1];

@@ -46,7 +46,9 @@ public:
     int getMin(time_t t);
     
     string getCurrentTime();
-    
+	
+	
+		
     string convertTime(string input);
     
 };
