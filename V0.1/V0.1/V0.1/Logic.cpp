@@ -108,7 +108,8 @@ void Logic::editTask(){
 	    string newTaskName = parse.getTaskName();
 	    string newStartTime = parse.getStartTime();
 	    string newEndTime = parse.getEndTime();
-	    edit.editTask(index, newTaskName, newStartTime, newEndTime, taskList);
+		string newTaskType = parse.getTaskType();
+	    edit.editTask(index, newTaskName, newStartTime, newEndTime, newTaskType, taskList);
 	    history.saveOperation(taskList);
 		response.editResponse(isCorrectIndex, index);
 	    disp.setDefaultDisplay(taskList);

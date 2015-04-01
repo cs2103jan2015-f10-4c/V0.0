@@ -27,7 +27,7 @@ public:
    // vector<Task> taskList;
     editExecutor();
     ~editExecutor();
-    void editTask(int, string, string, string, vector<Task>&);
+    void editTask(int, string, string, string, string, vector<Task>&);
 };
 
 #endif
