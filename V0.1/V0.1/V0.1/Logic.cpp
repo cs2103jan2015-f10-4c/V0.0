@@ -79,27 +79,42 @@ void Logic::addTask(){
 		add.addFloatingTask(taskName, taskType, floatingList, taskList);
 	}
 	history.saveOperation(taskList);
+	response.addResponse();
 	disp.setDefaultDisplay(taskList);
 	storage.saveFile(taskList);
 }
 
-void Logic::deleteTask(){
+void Logic::deleteTask() {
+	bool isCorrectIndex = false;
 	int index = parse.getIndex();
-	deleteATask.deleteTask(index, taskList);
-	history.saveOperation(taskList);
-	disp.setDefaultDisplay(taskList);
-	storage.saveFile(taskList);
+	if (checkIndex(index)) {
+		isCorrectIndex = true;
+	    deleteATask.deleteTask(index, taskList);
+	    history.saveOperation(taskList);
+		response.deleteResponse(isCorrectIndex, index);
+	    disp.setDefaultDisplay(taskList);
+	    storage.saveFile(taskList);
+	} else {
+		response.deleteResponse(isCorrectIndex, index);
+	}
 }
 
 void Logic::editTask(){
+	bool isCorrectIndex = false;
 	int index = parse.getIndex();
-	string newTaskName = parse.getTaskName();
-	string newStartTime = parse.getStartTime();
-	string newEndTime = parse.getEndTime();
-	edit.editTask(index, newTaskName, newStartTime, newEndTime, taskList);
-	history.saveOperation(taskList);
-	disp.setDefaultDisplay(taskList);
-	storage.saveFile(taskList);
+	if (checkIndex(index)) {
+		isCorrectIndex = true;
+	    string newTaskName = parse.getTaskName();
+	    string newStartTime = parse.getStartTime();
+	    string newEndTime = parse.getEndTime();
+	    edit.editTask(index, newTaskName, newStartTime, newEndTime, taskList);
+	    history.saveOperation(taskList);
+		response.editResponse(isCorrectIndex, index);
+	    disp.setDefaultDisplay(taskList);
+	    storage.saveFile(taskList);
+	} else {
+		response.editResponse(isCorrectIndex, index);
+	}
 }
 
 void Logic::searchTask(){
@@ -109,11 +124,18 @@ void Logic::searchTask(){
 }
 
 void Logic::markDoneTask(){
+	bool isCorrectIndex = false;
 	int index = parse.getIndex();
-	mark.markDoneTask(index, taskList);
-	history.saveOperation(taskList);
-	disp.setDefaultDisplay(taskList);
-	storage.saveFile(taskList);
+	if (checkIndex(index)) {
+		isCorrectIndex = true;
+	    mark.markDoneTask(index, taskList);
+	    history.saveOperation(taskList);
+		response.markDoneResponse(isCorrectIndex, index);
+	    disp.setDefaultDisplay(taskList);
+	    storage.saveFile(taskList);
+	} else {
+		response.markDoneResponse(isCorrectIndex, index);
+	}
 }
 
 void Logic::undoTask(){
@@ -135,4 +157,14 @@ void Logic::display(){
 
 string Logic::tellGUI(){
 	return disp.getContent();
+}
+
+bool checkIndex(int index) {
+	for (int i = 0; i < taskList.size(); i++) {
+		if (index == i + 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

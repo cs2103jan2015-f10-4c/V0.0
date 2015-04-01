@@ -19,6 +19,7 @@
 #include "Display.h"
 #include "Storage.h"
 #include "History.h"
+#include "SystemResponse.h"
 #include <stdio.h>
 
 class Logic{
@@ -37,6 +38,7 @@ private:
 	Storage storage;
 	Display disp;
 	History history;
+	SystemResponse response;
 
 
 public:
@@ -60,6 +62,7 @@ public:
 	void display();
 	void undoTask();
 	void redoTask();
+	bool checkIndex(int);
 	string tellGUI();
 	COMMAND_TYPE determineCommandType(string);
     void executeUserCommand (string);
