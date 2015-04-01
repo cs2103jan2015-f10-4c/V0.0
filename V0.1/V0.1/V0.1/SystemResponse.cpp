@@ -88,10 +88,8 @@ string SystemResponse::redoResponse(bool isPerformed) {
 	return outputBuffer;
 }
 
-string SystemResponse::dispVariousResponse(bool isDisplayed) {
-	if (!isDisplayed) {
-		sprintf_s(outputBuffer, MESSAGE_FAIL_TO_DISPLAY_VARIOUS.c_str());
-	}
+string SystemResponse::dispVariousResponse(string message) {
+	sprintf_s(outputBuffer, message.c_str());
 	return outputBuffer;
 }
 
