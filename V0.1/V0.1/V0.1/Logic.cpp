@@ -11,6 +11,7 @@ Logic::~Logic(){}
 	storage.readFile();
 }*/
 void Logic::executeUserCommand(string userInput){
+	response.welcomeMessage();
 	string commandWord;
 	commandWord = parse.getCommandWord(userInput);
 	//cout << commandWord; test passed
