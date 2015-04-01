@@ -40,7 +40,7 @@ public:
 	void undo();
 	void redo();*/
 
-	void createFile();
+	string createFile();
 	void saveFile(vector<Task>& taskList);
 	void readFile(vector<Task>& taskList);
 	void loadTask(vector<string> taskLine,  vector<Task>& taskList);

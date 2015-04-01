@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <sys/stat.h>
 #include "Storage.h"
 #include "Task.h"
 
@@ -52,7 +53,8 @@ Storage::~Storage(void){}
 
 void Storage::saveFile(vector<Task>& taskList){
 	
-	ofstream writeFile(TEXTFILENAME);
+	string filePath = createFile();
+	ofstream writeFile(filePath);
 	writeFile << " Tasklist: "<< endl;
 
 	for (unsigned i = 0; i < taskList.size(); i++){
@@ -106,19 +108,55 @@ void Storage::saveFile(vector<Task>& taskList){
 //	return floatingTaskList;
 //};
 
-void Storage::createFile(){
-	ofstream file(TEXTFILENAME);
-	file << " Welcome to RushHour" << endl;
-	file.close();
+string Storage::createFile(){
+	const char kPathSeparator =
+#ifdef _WIN32
+	'\\';
+#else
+	'/';
+#endif
+
+	string configPath = "myAppConfig.txt"; //this is a Configuration file, inside should only store one line, the path to actual save file
+	string outFilePath = "";
+	ifstream configIn (configPath.c_str());
+	if (configIn.is_open())
+	{
+		string line;
+		if ( getline (configIn,line) )
+		{
+			outFilePath = line;
+		}
+		configIn.close();
+	}
+	else
+	{
+		cout << "no config is given\n"; 
+		struct stat sb;
+		string pathname;
+		do {
+			cout << "Please type the path you want to save: ";
+			cin >> pathname;
+		}
+		while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode));
+		outFilePath = pathname + kPathSeparator+ TEXTFILENAME;
+		// save this path to configFile
+		ofstream configOut;
+		configOut.open(configPath.c_str());
+		configOut << outFilePath;
+		configOut.close();
+	}
+	return outFilePath;
 }
 
 void Storage::readFile(vector<Task>& taskList){
+	
+	string filePath = createFile();
 	ifstream file;
 	string taskLine;
 	string titleLine;
 
+	file.open(filePath.c_str());
 	tempTask.clear();
-	file.open(TEXTFILENAME);
 
 	getline(file, titleLine);
 	
