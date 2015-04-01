@@ -15,10 +15,16 @@ const string SystemResponse::MESSAGE_UNDO = "Undo successful.";
 const string SystemResponse::MESSAGE_UNDO_FAIL = "Failed to undo. Exceed number of actions performed.";
 const string SystemResponse::MESSAGE_REDO = "Redo successful.";
 const string SystemResponse::MESSAGE_REDO_FAIL = "Failed to redo. No undo action performed.";
+const string SystemResponse::MESSAGE_FAIL_TO_DISPLAY_VARIOUS = "Failed to display due to incorrect type specified.";
 
 SystemResponse::SystemResponse(void) {}
 
 SystemResponse::~SystemResponse(void) {}
+
+string SystemResponse::welcomeMessage() {
+	sprintf_s(outputBuffer, MESSAGE_WELCOME.c_str());
+	return outputBuffer;
+}
 
 string SystemResponse::addResponse(bool isAdded) {
 	if (isAdded) {
@@ -35,6 +41,7 @@ string SystemResponse::deleteResponse(bool isDeleted, int index) {
 	} else {
 		sprintf_s(outputBuffer,MESSAGE_DELETE_FAIL.c_str());
 	}
+	return outputBuffer;
 }
 
 string SystemResponse::editResponse(bool isEditted, int index) {
@@ -43,6 +50,7 @@ string SystemResponse::editResponse(bool isEditted, int index) {
 	} else {
 		sprintf_s(outputBuffer, MESSAGE_EDIT_FAIL.c_str(), index);
 	}
+	return outputBuffer;
 }
 
 string SystemResponse::markDoneResponse(bool isMarked, int index) {
@@ -51,12 +59,14 @@ string SystemResponse::markDoneResponse(bool isMarked, int index) {
 	} else {
 		sprintf_s(outputBuffer, MESSAGE_MARK_DONE_FAIL.c_str(), index); //Not complete yet, different fail cases.
 	}
+	return outputBuffer;
 }
 
 string SystemResponse::searchResponse(bool isFound) {
 	if (!isFound) {
 		sprintf_s(outputBuffer, MESSAGE_SEARCH_FAIL.c_str());
 	}
+	return outputBuffer;
 }
 
 string SystemResponse::undoResponse(bool isPerformed) {
@@ -65,6 +75,7 @@ string SystemResponse::undoResponse(bool isPerformed) {
 	} else {
 		sprintf_s(outputBuffer, MESSAGE_UNDO_FAIL.c_str());
 	}
+	return outputBuffer;
 }
 
 string SystemResponse::redoResponse(bool isPerformed) {
@@ -73,5 +84,13 @@ string SystemResponse::redoResponse(bool isPerformed) {
 	} else {
 		sprintf_s(outputBuffer,MESSAGE_REDO_FAIL.c_str());
 	}
+	return outputBuffer;
+}
+
+string SystemResponse::dispVariousResponse(bool isDisplayed) {
+	if (!isDisplayed) {
+		sprintf_s(outputBuffer, MESSAGE_FAIL_TO_DISPLAY_VARIOUS.c_str());
+	}
+	return outputBuffer;
 }
 

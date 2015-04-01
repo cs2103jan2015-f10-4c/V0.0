@@ -29,12 +29,13 @@ private:
 	static const string MESSAGE_UNDO_FAIL;
 	static const string MESSAGE_REDO;
 	static const string MESSAGE_REDO_FAIL;
-	//const string MESSAGE_
+	static const string MESSAGE_FAIL_TO_DISPLAY_VARIOUS;
 	//const string MESSAGE_
 	static char outputBuffer[MAX_CHAR];
 public:
 	SystemResponse();
 	~SystemResponse();
+	string welcomeMessage();
 	string addResponse(bool);
 	string deleteResponse(bool, int);
 	string editResponse(bool, int);
@@ -42,5 +43,6 @@ public:
 	string markDoneResponse(bool, int);
 	string undoResponse(bool);
 	string redoResponse(bool);
+	string dispVariousResponse(bool);
 };
 #endif
