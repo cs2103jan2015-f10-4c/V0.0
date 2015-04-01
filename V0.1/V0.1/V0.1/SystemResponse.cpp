@@ -1,6 +1,7 @@
 #include "SystemResponse.h"
 
 const string SystemResponse::MESSAGE_WELCOME = "Welcome to RushHour!";
+const string SystemResponse::MESSAGE_WELCOME_EXISTING_USER = "Hi! Welcome back!";
 const string SystemResponse::MESSAGE_ADD = "The task is added successfully.";
 const string SystemResponse::MESSAGE_ADD_FAIL = "Failed to add task. Please enter in the correct format.";
 const string SystemResponse::MESSAGE_DELETE = "The task %s is deleted successfully.";

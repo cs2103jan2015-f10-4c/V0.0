@@ -15,6 +15,7 @@ using namespace std;
 class SystemResponse{
 private:
 	static const string MESSAGE_WELCOME;
+    static const string MESSAGE_WELCOME_EXISTING_USER;
 	static const string MESSAGE_ADD;
 	static const string MESSAGE_ADD_FAIL;
 	static const string MESSAGE_DELETE;
@@ -30,7 +31,7 @@ private:
 	static const string MESSAGE_REDO;
 	static const string MESSAGE_REDO_FAIL;
 	static const string MESSAGE_FAIL_TO_DISPLAY_VARIOUS;
-	//const string MESSAGE_
+
 	static char outputBuffer[MAX_CHAR];
 public:
 	SystemResponse();
@@ -43,6 +44,6 @@ public:
 	string markDoneResponse(bool, int);
 	string undoResponse(bool);
 	string redoResponse(bool);
-	string dispVariousResponse(bool);
+	string dispVariousResponse(string);
 };
 #endif

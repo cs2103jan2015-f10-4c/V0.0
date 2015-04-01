@@ -11,7 +11,8 @@ Logic::~Logic(){}
 	storage.readFile();
 }*/
 void Logic::executeUserCommand(string userInput){
-	response.welcomeMessage();
+	//response.welcomeMessage();
+	//bool hasDirectory = 
 	string commandWord;
 	commandWord = parse.getCommandWord(userInput);
 	//cout << commandWord; test passed
@@ -62,6 +63,7 @@ Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 
 
 void Logic::addTask(){
+	bool isAdded = true;
 	string taskType = parse.getTaskType();
 	//cout << taskType; test passed
 	if (taskType == "timed") {
@@ -80,7 +82,7 @@ void Logic::addTask(){
 		add.addFloatingTask(taskName, taskType, floatingList, taskList);
 	}
 	history.saveOperation(taskList);
-	response.addResponse();
+	response.addResponse(isAdded);
 	disp.setDefaultDisplay(taskList);
 	storage.saveFile(taskList);
 }
@@ -168,18 +170,16 @@ void Logic::redoTask(){
 
 void Logic::display(){
 	string displayType = parse.getTaskType();
-	bool isCorrectType = true;
-	isCorrectType = disp.setVariousDisplay(taskList, displayType);
-	if (!isCorrectType) {
-		response.dispVariousResponse(isCorrectType);
-	}
+	//bool isCorrectType = true;
+	string outputMsg = disp.setVariousDisplay(taskList, displayType);
+	response.dispVariousResponse(outputMsg);
 }
 
 string Logic::tellGUI(){
 	return disp.getContent();
 }
 
-bool checkIndex(int index) {
+bool Logic::checkIndex(int index) {
 	for (int i = 0; i < taskList.size(); i++) {
 		if (index == i + 1) {
 			return true;
