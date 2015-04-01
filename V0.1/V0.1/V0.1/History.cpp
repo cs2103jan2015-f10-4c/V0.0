@@ -21,7 +21,7 @@ vector<Task> History::undo(){
     
     vector<Task> updatedTaskList;
     
-	if (!undoStorageList.empty()){
+	if (checkUndoEmpty() == true){
         redoStorageList.push(undoStorageList.top());
         
             undoStorageList.pop();
@@ -38,7 +38,7 @@ vector<Task> History::undo(){
 vector<Task> History::redo(){
 	vector<Task> updatedTaskList;
 
-	if (!redoStorageList.empty()){
+	if (checkRedoEmpty() == true){
 		
 		updatedTaskList = redoStorageList.top();
 		
@@ -60,5 +60,31 @@ stack <vector<Task>> History::getUndoStorageList(){
 stack <vector<Task>> History::getRedoStorageList(){
 	return redoStorageList;
 }
+
+bool History::checkUndoEmpty(){
+	bool undoStatus = false;
+
+	if(!undoStorageList.empty()){
+		undoStatus = true;
+		return undoStatus;
+	}
+	else{
+		return undoStatus;
+	}
+}
+
+bool History::checkRedoEmpty(){
+	bool redoStatus = false;
+
+	if(!redoStorageList.empty()){
+		redoStatus = true;
+		return redoStatus;
+	}
+	else{
+		return redoStatus;
+	}
+}
+
+
 
 

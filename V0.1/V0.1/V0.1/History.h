@@ -27,6 +27,8 @@ public:
 	vector<Task> redo();
 	stack <vector<Task>> getUndoStorageList();
 	stack <vector<Task>> getRedoStorageList();
+	bool checkUndoEmpty();
+	bool checkRedoEmpty();
 };
 
 #endif
