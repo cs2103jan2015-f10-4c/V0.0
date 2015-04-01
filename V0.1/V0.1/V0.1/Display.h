@@ -29,6 +29,7 @@ private:
 	static const string OVERDUE_TASK;
 	static const string DONE_TASK;
 	static const string ONGOING_TASK;
+	static const string ALL_TASK;
 	
 
 public:
@@ -37,7 +38,7 @@ public:
 	~Display();
 	Sorter sorter;
 	void setDefaultDisplay(vector<Task>&);
-	void setVariousDisplay(vector<Task>&, string);
+	bool setVariousDisplay(vector<Task>&, string);
     string getContent();
 
 };

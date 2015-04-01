@@ -6,6 +6,7 @@ const string Display::TIMED_TASK="timed";
 const string Display::OVERDUE_TASK="overdue";
 const string Display::DONE_TASK="done";
 const string Display::ONGOING_TASK="ongoing";
+const string Display::ALL_TASK = "all";
 
 Display::Display(){}
 
@@ -17,26 +18,38 @@ void Display::setDefaultDisplay(vector<Task> &taskList){
 	return;
 }
 
-void Display::setVariousDisplay(vector<Task>& taskList,string displayType){
+bool Display::setVariousDisplay(vector<Task>& taskList,string displayType){
+	bool isDisplayTypeValid = false;
 	
 	if (displayType ==FLOATING_TASK){
+		isDisplayTypeValid = true;
 		_mainDisplay.setContent(getFloatingTask(taskList));
 	}
 	else if (displayType ==DEADLINE_TASK){
+		isDisplayTypeValid = true;
 		_mainDisplay.setContent(getDeadlineTask(taskList));
 	}
 	else if (displayType == TIMED_TASK){
+		isDisplayTypeValid = true;
 		_mainDisplay.setContent(getTimedTask(taskList));
 	}
 	else if (displayType == OVERDUE_TASK){
+		isDisplayTypeValid = true;
 		_mainDisplay.setContent(getOverdueTask(taskList));
 	}
 	else if (displayType == DONE_TASK){
+		isDisplayTypeValid = true;
 		_mainDisplay.setContent(getDoneTask(taskList));
 	}
-	else if (displayType ==ONGOING_TASK){
+	else if (displayType == ONGOING_TASK){
+		isDisplayTypeValid = true;
 		_mainDisplay.setContent(getOngoingTask(taskList));
 	}
+	else if (displayType == ALL_TASK){
+		isDisplayTypeValid = true;
+		_mainDisplay.setContent(taskList);
+	}
+	return isDisplayTypeValid;
 }
 
 vector<Task>Display::getFloatingTask(vector<Task> taskList){
