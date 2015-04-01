@@ -53,7 +53,7 @@ Storage::~Storage(void){}
 
 void Storage::saveFile(vector<Task>& taskList){
 	
-	string filePath = createFile();
+	string filePath = getOutfilePath();
 	ofstream writeFile(filePath);
 	writeFile << " Tasklist: "<< endl;
 
@@ -107,17 +107,24 @@ void Storage::saveFile(vector<Task>& taskList){
 //vector<Task> Storage::getFloatingTaskList(){
 //	return floatingTaskList;
 //};
+string Storage::getOutfilePath(){
+	return outFilePath;
+}
 
-string Storage::createFile(){
-	const char kPathSeparator =
-#ifdef _WIN32
-	'\\';
-#else
-	'/';
-#endif
+string Storage::getUserInputPath(){
+	return _userInputPath;
+}
 
-	string configPath = "myAppConfig.txt"; //this is a Configuration file, inside should only store one line, the path to actual save file
-	string outFilePath = "";
+void Storage::setUserInputPath(string userInputPath){
+	_userInputPath = userInputPath;
+}
+
+bool Storage::hasDirectory(){
+	bool directory;
+	
+	//this is a Configuration file, inside should only store one line, the path to actual save file
+	string configPath = "myAppConfig.txt"; 
+	
 	ifstream configIn (configPath.c_str());
 	if (configIn.is_open())
 	{
@@ -127,47 +134,110 @@ string Storage::createFile(){
 			outFilePath = line;
 		}
 		configIn.close();
+		directory = true;
 	}
-	else
-	{
-		cout << "no config is given\n"; 
+	else{
+		directory = false;
+	}
+	return directory;
+}
+
+string Storage::createFilePath(){
+		const char kPathSeparator =
+#ifdef _WIN32
+	'\\';
+#else
+	'/';
+#endif
+		string configPath = "myAppConfig.txt"; 
 		struct stat sb;
 		string pathname;
 		do {
-			cout << "Please type the path you want to save: ";
-			cin >> pathname;
+			pathname = getUserInputPath();
 		}
 		while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode));
 		outFilePath = pathname + kPathSeparator+ TEXTFILENAME;
+
 		// save this path to configFile
 		ofstream configOut;
 		configOut.open(configPath.c_str());
 		configOut << outFilePath;
 		configOut.close();
-	}
-	return outFilePath;
+
+		return outFilePath;
+
 }
+//string Storage::createFile(){
+//	const char kPathSeparator =
+//#ifdef _WIN32
+//	'\\';
+//#else
+//	'/';
+//#endif
+//
+//	string configPath = "myAppConfig.txt"; //this is a Configuration file, inside should only store one line, the path to actual save file
+//	string outFilePath = "";
+//	ifstream configIn (configPath.c_str());
+//	if (configIn.is_open())
+//	{
+//		string line;
+//		if ( getline (configIn,line) )
+//		{
+//			outFilePath = line;
+//		}
+//		configIn.close();
+//	}
+//	else
+//	{
+//		cout << "no config is given\n"; 
+//		struct stat sb;
+//		string pathname;
+//		do {
+//			cout << "Please type the path you want to save: ";
+//			cin >> pathname;
+//		}
+//		while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode));
+//		outFilePath = pathname + kPathSeparator+ TEXTFILENAME;
+//		// save this path to configFile
+//		ofstream configOut;
+//		configOut.open(configPath.c_str());
+//		configOut << outFilePath;
+//		configOut.close();
+//	}
+//	return outFilePath;
+//}
 
 void Storage::readFile(vector<Task>& taskList){
+	string filePath;
 	
-	string filePath = createFile();
-	ifstream file;
-	string taskLine;
-	string titleLine;
+	if(hasDirectory() == true){
+		filePath = getOutfilePath();
+		ifstream file;
+		string taskLine;
+		string titleLine;
 
-	file.open(filePath.c_str());
-	tempTask.clear();
+		file.open(filePath.c_str());
+		tempTask.clear();
 
-	getline(file, titleLine);
+		getline(file, titleLine);
 	
-	while (getline(file, taskLine)){
-		tempTask.push_back(taskLine);
+		while (getline(file, taskLine)){
+			tempTask.push_back(taskLine);
 	
+		}
+	
+		loadTask(tempTask, taskList);
+	
+		file.close();
+	}
+	else{
+		string filePath = createFilePath();
+		ofstream outputFile;
+		outputFile.open(filePath.c_str());
+		outputFile << "Welcome";
+		outputFile.close();
 	}
 	
-	loadTask(tempTask, taskList);
-	
-	file.close();
 }
 
 void Storage::loadTask (vector<string> taskLine, vector<Task>& taskList){

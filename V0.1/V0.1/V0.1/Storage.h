@@ -20,6 +20,8 @@ private:
 	/*History historyStorage;*/
 	
 	vector<string> tempTask;
+	string outFilePath;
+	string _userInputPath;
 	
 
 public:
@@ -51,7 +53,11 @@ public:
 	string getStatus(string input);
 	string getDueTime(string input);
 	void test();
-
+	string getOutfilePath();
+	bool hasDirectory();
+	string getUserInputPath();
+	void setUserInputPath(string userInputPath);
+	string createFilePath();
 };
 
 #endif
