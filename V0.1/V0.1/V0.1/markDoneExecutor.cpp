@@ -9,7 +9,7 @@ void markDoneExecutor::markDoneTask(int index, vector<Task>& taskList){
 	//deadlineList = storage.getDeadlineTaskList();
 	//floatingList = storage.getFloatingTaskList();
 	//string doneTaskTitle = taskList[index - 1].taskName;
-	taskList[index - 1].status = "Done";
+	taskList[index - 1].status = "done";
 	//cout << "Task number " << index << " is set as done.";
 	//executor.updateStorage(taskList);
 	//storage.saveOperation();
