@@ -26,8 +26,7 @@ void DisplayWindow::setContent(vector<Task> tasklist){
 		  
 		   oss << '[' << tasklist[i].status <<']'<< endl;
    }
-       // _content = oss.str();       due to change to command window
-       cout << oss.str();
+        _content = oss.str();
 }
 
 string DisplayWindow::getContent(){
