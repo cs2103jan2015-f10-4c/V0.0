@@ -30,6 +30,7 @@ string SystemResponse::welcomeExistingMessage() {
 
 string SystemResponse::noDirectoryResponse() {
 	sprintf_s(outputBuffer, MESSAGE_NO_DIRECTORY.c_str());
+	return outputBuffer;
 }
 
 string SystemResponse::addResponse(bool isAdded) {
