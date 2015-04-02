@@ -212,13 +212,13 @@ void Logic::getDirectory() {
 }
 
 bool Logic::checkIndex(int index) {
-	for (unsigned i = 0; i < taskList.size(); i++) {
-		if (i == index-1) {
+	
+		if (index > 0 && index <= taskList.size()) {
 			return true;
 		} else {
 			return false;
 		}
-	}
+	
 }
 
 void Logic::refreshStatus() {
