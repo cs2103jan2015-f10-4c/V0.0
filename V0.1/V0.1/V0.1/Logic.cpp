@@ -208,8 +208,8 @@ void Logic::getDirectory() {
 }
 
 bool Logic::checkIndex(int index) {
-	for (int i = 0; i < taskList.size(); i++) {
-		if (index - 1 == i) {
+	for (unsigned i = 0; i < taskList.size(); i++) {
+		if (i == index-1) {
 			return true;
 		} else {
 			return false;
