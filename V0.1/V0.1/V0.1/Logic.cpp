@@ -216,3 +216,7 @@ bool Logic::checkIndex(int index) {
 		}
 	}
 }
+
+void Logic::refreshStatus() {
+	checker.updateStatus(taskList);
+}

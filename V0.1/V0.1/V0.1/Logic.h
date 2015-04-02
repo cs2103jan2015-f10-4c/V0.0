@@ -10,6 +10,7 @@
 #include <string>
 #include <algorithm>
 #include <sys/stat.h>
+#include "timeChecker.h"
 #include "Task.h"
 #include "Parser.h"
 #include "addExecutor.h"
@@ -40,6 +41,7 @@ private:
 	Display disp;
 	History history;
 	SystemResponse response;
+	TimeChecker checker;
 
 
 public:
@@ -68,6 +70,7 @@ public:
 	string tellGUI();
 	string tellGUIResponse();
 	void checkDirectory();
+	void refreshStatus();
 	COMMAND_TYPE determineCommandType(string);
     void executeUserCommand (string);
 
