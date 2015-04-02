@@ -201,6 +201,8 @@ void Logic::getDirectory() {
 	do {
 		response.noDirectoryResponse();
 		pathname = parse.getTaskType();
+		storage.setUserInputPath(pathname);
+		storage.readFile(taskList);
 		}
 		while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode));
 }
