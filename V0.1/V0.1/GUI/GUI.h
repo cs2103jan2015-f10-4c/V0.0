@@ -3,8 +3,6 @@
 #include <iostream>
 #include <cliext/vector>
 #include "Logic.h"
-#include "Storage.h"
-#include "DisplayWindow.h"
 #using <mscorlib.dll>
 
 Logic logic;
@@ -48,7 +46,7 @@ namespace GUI {
 
 	private: System::Windows::Forms::TextBox^  inputBox;
 
-	private: System::Windows::Forms::TextBox^  feedbackWindow;
+
 	private: System::Windows::Forms::Label^  SystemResponse;
 	private: System::Windows::Forms::ListView^  DisplayContent;
 
@@ -60,6 +58,11 @@ namespace GUI {
 
 
 	protected:System::Windows::Forms::ListViewItem^ listViewItems;
+	private: System::Windows::Forms::Timer^  timer1;
+	private: System::Windows::Forms::RichTextBox^  feedbackWindow;
+
+
+	protected:
 
 	protected:
 	private: System::ComponentModel::IContainer^  components;
@@ -77,9 +80,9 @@ namespace GUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->comfirmButton = (gcnew System::Windows::Forms::Button());
 			this->inputBox = (gcnew System::Windows::Forms::TextBox());
-			this->feedbackWindow = (gcnew System::Windows::Forms::TextBox());
 			this->SystemResponse = (gcnew System::Windows::Forms::Label());
 			this->DisplayContent = (gcnew System::Windows::Forms::ListView());
 			this->Index = (gcnew System::Windows::Forms::ColumnHeader());
@@ -87,40 +90,32 @@ namespace GUI {
 			this->Start = (gcnew System::Windows::Forms::ColumnHeader());
 			this->End = (gcnew System::Windows::Forms::ColumnHeader());
 			this->Status = (gcnew System::Windows::Forms::ColumnHeader());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->feedbackWindow = (gcnew System::Windows::Forms::RichTextBox());
 			this->SuspendLayout();
 			// 
 			// comfirmButton
 			// 
-			this->comfirmButton->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->comfirmButton->Font = (gcnew System::Drawing::Font(L"Arial", 10.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->comfirmButton->Location = System::Drawing::Point(667, 24);
+			this->comfirmButton->Location = System::Drawing::Point(488, 24);
 			this->comfirmButton->Name = L"comfirmButton";
-			this->comfirmButton->Size = System::Drawing::Size(60, 21);
-			this->comfirmButton->TabIndex = 0;
+			this->comfirmButton->Size = System::Drawing::Size(57, 28);
+			this->comfirmButton->TabIndex = 1;
 			this->comfirmButton->Text = L"Enter";
 			this->comfirmButton->UseVisualStyleBackColor = true;
 			this->comfirmButton->Click += gcnew System::EventHandler(this, &MyForm::comfirmButton_Click);
 			// 
 			// inputBox
 			// 
-			this->inputBox->Location = System::Drawing::Point(24, 24);
+			this->inputBox->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->inputBox->Location = System::Drawing::Point(27, 24);
 			this->inputBox->Multiline = true;
 			this->inputBox->Name = L"inputBox";
-			this->inputBox->Size = System::Drawing::Size(637, 21);
-			this->inputBox->TabIndex = 1;
+			this->inputBox->Size = System::Drawing::Size(456, 28);
+			this->inputBox->TabIndex = 0;
 			this->inputBox->TextChanged += gcnew System::EventHandler(this, &MyForm::inputBox_TextChanged);
-			// 
-			// feedbackWindow
-			// 
-			this->feedbackWindow->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->feedbackWindow->Location = System::Drawing::Point(544, 69);
-			this->feedbackWindow->Multiline = true;
-			this->feedbackWindow->Name = L"feedbackWindow";
-			this->feedbackWindow->ScrollBars = System::Windows::Forms::ScrollBars::Both;
-			this->feedbackWindow->Size = System::Drawing::Size(183, 237);
-			this->feedbackWindow->TabIndex = 3;
-			this->feedbackWindow->TextChanged += gcnew System::EventHandler(this, &MyForm::feedbackWindow_TextChanged);
 			// 
 			// SystemResponse
 			// 
@@ -145,9 +140,9 @@ namespace GUI {
 				static_cast<System::Byte>(0)));
 			this->DisplayContent->FullRowSelect = true;
 			this->DisplayContent->GridLines = true;
-			this->DisplayContent->Location = System::Drawing::Point(26, 69);
+			this->DisplayContent->Location = System::Drawing::Point(26, 58);
 			this->DisplayContent->Name = L"DisplayContent";
-			this->DisplayContent->Size = System::Drawing::Size(512, 237);
+			this->DisplayContent->Size = System::Drawing::Size(512, 248);
 			this->DisplayContent->TabIndex = 5;
 			this->DisplayContent->UseCompatibleStateImageBehavior = false;
 			this->DisplayContent->View = System::Windows::Forms::View::Details;
@@ -181,16 +176,34 @@ namespace GUI {
 			this->Status->Text = L"Status";
 			this->Status->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
+			// timer1
+			// 
+			this->timer1->Interval = 6000;
+			// 
+			// feedbackWindow
+			// 
+			this->feedbackWindow->BackColor = System::Drawing::SystemColors::MenuBar;
+			this->feedbackWindow->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->feedbackWindow->Location = System::Drawing::Point(551, 24);
+			this->feedbackWindow->Name = L"feedbackWindow";
+			this->feedbackWindow->ScrollBars = System::Windows::Forms::RichTextBoxScrollBars::ForcedBoth;
+			this->feedbackWindow->Size = System::Drawing::Size(373, 311);
+			this->feedbackWindow->TabIndex = 6;
+			this->feedbackWindow->Text = L"";
+			this->feedbackWindow->WordWrap = false;
+			this->feedbackWindow->TextChanged += gcnew System::EventHandler(this, &MyForm::feedbackWindow_TextChanged_1);
+			// 
 			// MyForm
 			// 
 			this->AcceptButton = this->comfirmButton;
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
-			this->ClientSize = System::Drawing::Size(748, 343);
+			this->ClientSize = System::Drawing::Size(946, 347);
+			this->Controls->Add(this->feedbackWindow);
 			this->Controls->Add(this->DisplayContent);
 			this->Controls->Add(this->SystemResponse);
-			this->Controls->Add(this->feedbackWindow);
 			this->Controls->Add(this->inputBox);
 			this->Controls->Add(this->comfirmButton);
 			this->Name = L"MyForm";
@@ -203,47 +216,49 @@ namespace GUI {
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
+		this->inputBox->Focus();
+
 		ostringstream instruction;//initialise the feedbackwindow with aceptable inputs
 		int count = 0;
 		size_t tempStart = 0;
-		size_t tempEnd = -1;
+		size_t tempEnd = -2;
 		String^ temp;
 		string componentInfo;
 
-		instruction << "Please read the instructions for supported functionalities below:\n"
+		instruction << "Please read the instructions for supported functionalities below:\n\n"
 			<< "ADD:to add a new task, three types are supported\n"
-			<< "Floating:add;task\n"
-			<< "Timed:add;task;start(time);end(time)\n"
-			<< "Deadine:add;task(time);end(time)\n"
-			<< "Time format supported:\n"
+			<< "1.Floating: add;task\n"
+			<< "2.Timed:    add;task;start(time);end(time)\n"
+			<< "3.Deadine:  add;task(time);end(time)\n\n"
+			<< "Time format supported:\n\n"
 
 			<< "DELETE:to delete a task by specify the index of it in the overall tasklist\n"
-			<< "delete;index\n"
+			<< "1.delete;index\n\n"
 
 			<< "EDIT:to modify a task by specify the index and the modified information,\nplease note the task type will change accordingly\n"
-			<< "Type changed to floating:edit;index;task(modified)\n"
-			<< "Type changed to timed:edit;index;task(modified);start(modified);end(modified)\n"
-			<< "Type changed to deadline:edit;index;task(modified);end(modified)\n"
+			<< "1.Type changed to floating:   edit;index;task(modified)\n"
+			<< "2.Type changed to timed:      edit;index;task(modified);start(modified);end(modified)\n"
+			<< "3.Type changed to deadline:   edit;index;task(modified);end(modified)\n\n"
 
 			<< "SEARCH:to search by keywords\n"
-			<< "search;keyword\n"
+			<< "1.search;keyword\n\n"
 
 			<< "DISPLAY:to adjust the display window \n"
-			<< "display;all\n"
-			<< "display;timed\n"
-			<< "display;floating\n"
-			<< "display;deadline\n"
-			<< "display;ongoing\n"
-			<< "display;done\n"
-			<< "display;overdue\n"
+			<< "1.display;all\n"
+			<< "2.display;timed\n"
+			<< "3.display;floating\n"
+			<< "4.display;deadline\n"
+			<< "5.display;ongoing\n"
+			<< "6.display;done\n"
+			<< "7.display;overdue\n\n"
 
 			<< "MARK DONE: to change the status of a task to done by index\n"
-			<< "mark done;index\n"
+			<< "1.mark done;index\n\n"
 
 			<< "UNDO: to undo the previous command\n"
-			<< "undo\n"
+			<< "1.undo\n\n"
 			<< "REDO: to undo the previous undo command\n"
-			<< "redo\n";//initialise the feedbackwindow with aceptable inputs
+			<< "1.redo\n";//initialise the feedbackwindow with aceptable inputs
 		string format = instruction.str();
 
 
@@ -254,7 +269,7 @@ namespace GUI {
 		string responseMessage = logic.tellGUIResponse();
 		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
 
-		//logic.refreshStatus();
+		logic.refreshStatus();
 		string returnInfo = logic.tellGUI();
 		String^ tempString = gcnew String(returnInfo.c_str());
 
@@ -266,7 +281,7 @@ namespace GUI {
 		}
 		while (count > 0) {
 			/****Index****/
-			tempStart = tempEnd + 2;
+			tempStart = tempEnd + 3;
 			tempEnd = returnInfo.find_first_of("]", tempStart);
 			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 			temp = gcnew String(componentInfo.c_str());
@@ -305,20 +320,20 @@ namespace GUI {
 
 	private: System::Void inputBox_KeyUp(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 		if (e->KeyCode == Keys::Enter) {
-			comfirmButton->PerformClick();//dosen't work???
+			comfirmButton->PerformClick();
 		}
 	}
 	private: System::Void comfirmButton_Click(System::Object^  sender, System::EventArgs^  e) {
 		int count = 0;
 		size_t tempStart = 0;
-		size_t tempEnd = -1;
+		size_t tempEnd = -2;
 		String^ temp;
 		string componentInfo;
 		string userInput = msclr::interop::marshal_as<string>(inputBox->Text);
 
 		inputBox->Clear();
 		DisplayContent->Items->Clear();
-
+		inputBox->Select(0, 0);
 		logic.executeUserCommand(userInput);
 		string returnInfo = logic.tellGUI();
 		String^ tempString = gcnew String(returnInfo.c_str());
@@ -331,7 +346,7 @@ namespace GUI {
 		}
 		while (count > 0) {
 			/****Index****/
-			tempStart = tempEnd + 1;
+			tempStart = tempEnd + 3;
 			tempEnd = returnInfo.find_first_of("]", tempStart);
 			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
 			temp = gcnew String(componentInfo.c_str());
@@ -381,8 +396,10 @@ namespace GUI {
 	private: System::Void listView1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 	}
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
-		//logic.refreshStatus();
+		logic.refreshStatus();
 
 	}
-	};
+	private: System::Void feedbackWindow_TextChanged_1(System::Object^  sender, System::EventArgs^  e) {
+	}
+};
 }
