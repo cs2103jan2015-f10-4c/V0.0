@@ -19,6 +19,7 @@ string UI::getUserCommand(){
 	cout << WELCOME_MESSAGE;
 	//logic.retriveStorage();
 	while (true){
+		logic.checkDirectory();
 		cout << "command: ";
 		getline(cin, command);
 		logic.executeUserCommand(command);
