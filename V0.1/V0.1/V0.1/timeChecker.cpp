@@ -1,0 +1,34 @@
+#include "timeChecker.h"
+
+const string NON_TARGET_TYPE = "floating";
+const string STATUS_OVERDUE = "overdue";
+
+
+TimeChecker::TimeChecker(){};
+TimeChecker::~TimeChecker(){};
+
+
+void TimeChecker::updateStatus(vector<Task>& tasklist){
+
+	for (unsigned i = 0; i < tasklist.size(); i++){
+		if (tasklist[i].type != NON_TARGET_TYPE){
+			if (checkStatus(tasklist[i].endingTime)){
+				tasklist[i].status = STATUS_OVERDUE;
+			}
+		}
+	}
+
+
+}
+
+bool TimeChecker::checkStatus(string endingTime){
+
+	bool isOverdue = false;
+	string currentTime = transformTime.getCurrentTime();
+	if (currentTime > endingTime){
+		isOverdue = true;
+	}
+	return isOverdue;
+}    
+
+

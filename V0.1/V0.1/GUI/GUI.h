@@ -98,6 +98,8 @@ namespace GUI {
 			// 
 			// comfirmButton
 			// 
+			this->comfirmButton->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->comfirmButton->Location = System::Drawing::Point(667, 24);
 			this->comfirmButton->Name = L"comfirmButton";
 			this->comfirmButton->Size = System::Drawing::Size(60, 21);
@@ -132,6 +134,8 @@ namespace GUI {
 			// 
 			// SystemResponse
 			// 
+			this->SystemResponse->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 7.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->SystemResponse->ImageAlign = System::Drawing::ContentAlignment::TopLeft;
 			this->SystemResponse->Location = System::Drawing::Point(24, 300);
 			this->SystemResponse->Name = L"SystemResponse";
@@ -147,6 +151,8 @@ namespace GUI {
 				this->Index, this->TaskName,
 					this->Start, this->End, this->Status
 			});
+			this->DisplayContent->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->DisplayContent->FullRowSelect = true;
 			this->DisplayContent->GridLines = true;
 			this->DisplayContent->Location = System::Drawing::Point(26, 51);
