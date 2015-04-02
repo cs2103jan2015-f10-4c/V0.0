@@ -3,8 +3,8 @@
 #include <iostream>
 #include <cliext/vector>
 #include "Logic.h"
-//#include "Storage.h"
-//#include "DisplayWindow.h"
+#include "Storage.h"
+#include "DisplayWindow.h"
 #using <mscorlib.dll>
 
 Logic logic;
@@ -31,7 +31,7 @@ namespace GUI {
 			//TODO: Add the constructor code here
 			//
 		}
-	
+
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -57,14 +57,10 @@ namespace GUI {
 	private: System::Windows::Forms::ColumnHeader^  Start;
 	private: System::Windows::Forms::ColumnHeader^  End;
 	private: System::Windows::Forms::ColumnHeader^  Status;
-    
-   
+
+
 	protected:System::Windows::Forms::ListViewItem^ listViewItems;
-	private: System::Windows::Forms::Timer^  timer;
-
-
-	protected:
-
+	private: System::Windows::Forms::Timer^  timer1;
 	protected:
 	private: System::ComponentModel::IContainer^  components;
 
@@ -82,7 +78,6 @@ namespace GUI {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->comfirmButton = (gcnew System::Windows::Forms::Button());
 			this->inputBox = (gcnew System::Windows::Forms::TextBox());
 			this->feedbackWindow = (gcnew System::Windows::Forms::TextBox());
@@ -93,13 +88,11 @@ namespace GUI {
 			this->Start = (gcnew System::Windows::Forms::ColumnHeader());
 			this->End = (gcnew System::Windows::Forms::ColumnHeader());
 			this->Status = (gcnew System::Windows::Forms::ColumnHeader());
-			this->timer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->SuspendLayout();
 			// 
 			// comfirmButton
 			// 
-			this->comfirmButton->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
 			this->comfirmButton->Location = System::Drawing::Point(667, 24);
 			this->comfirmButton->Name = L"comfirmButton";
 			this->comfirmButton->Size = System::Drawing::Size(60, 21);
@@ -119,25 +112,18 @@ namespace GUI {
 			// 
 			// feedbackWindow
 			// 
-			this->feedbackWindow->BackColor = System::Drawing::SystemColors::Control;
-			this->feedbackWindow->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->feedbackWindow->ForeColor = System::Drawing::SystemColors::WindowFrame;
-			this->feedbackWindow->Location = System::Drawing::Point(544, 51);
+			this->feedbackWindow->Location = System::Drawing::Point(544, 69);
 			this->feedbackWindow->Multiline = true;
 			this->feedbackWindow->Name = L"feedbackWindow";
 			this->feedbackWindow->ScrollBars = System::Windows::Forms::ScrollBars::Both;
 			this->feedbackWindow->Size = System::Drawing::Size(183, 237);
 			this->feedbackWindow->TabIndex = 3;
-			this->feedbackWindow->Text = resources->GetString(L"feedbackWindow.Text");
 			this->feedbackWindow->TextChanged += gcnew System::EventHandler(this, &MyForm::feedbackWindow_TextChanged);
 			// 
 			// SystemResponse
 			// 
-			this->SystemResponse->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 7.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
 			this->SystemResponse->ImageAlign = System::Drawing::ContentAlignment::TopLeft;
-			this->SystemResponse->Location = System::Drawing::Point(24, 300);
+			this->SystemResponse->Location = System::Drawing::Point(24, 309);
 			this->SystemResponse->Name = L"SystemResponse";
 			this->SystemResponse->Size = System::Drawing::Size(514, 25);
 			this->SystemResponse->TabIndex = 4;
@@ -151,11 +137,9 @@ namespace GUI {
 				this->Index, this->TaskName,
 					this->Start, this->End, this->Status
 			});
-			this->DisplayContent->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
 			this->DisplayContent->FullRowSelect = true;
 			this->DisplayContent->GridLines = true;
-			this->DisplayContent->Location = System::Drawing::Point(26, 51);
+			this->DisplayContent->Location = System::Drawing::Point(26, 69);
 			this->DisplayContent->Name = L"DisplayContent";
 			this->DisplayContent->Size = System::Drawing::Size(512, 237);
 			this->DisplayContent->TabIndex = 5;
@@ -191,10 +175,10 @@ namespace GUI {
 			this->Status->Text = L"Status";
 			this->Status->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
-			// timer
+			// timer1
 			// 
-			this->timer->Interval = 6000;
-			this->timer->Tick += gcnew System::EventHandler(this, &MyForm::Refresh_Click);
+			this->timer1->Interval = 6000;
+			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 			// 
 			// MyForm
 			// 
@@ -218,146 +202,187 @@ namespace GUI {
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
-		    
-			 int count = 0;
-			 size_t tempStart=0;
-			 size_t tempEnd=-1;
-			 String^ temp;
-			 string componentInfo;
-			 logic.checkDirectory();
-			 string responseMessage = logic.tellGUIResponse();
-			 this->SystemResponse->Text = gcnew String(responseMessage.c_str());
-			 logic.refreshStatus();
-			 string returnInfo =logic.tellGUI();
-			 String^ tempString = gcnew String(returnInfo.c_str());
+		ostringstream instruction;//initialise the feedbackwindow with aceptable inputs
+		int count = 0;
+		size_t tempStart = 0;
+		size_t tempEnd = -1;
+		String^ temp;
+		string componentInfo;
+	
+		instruction << "Please read the instructions for supported functionalities below:\n"
+			<< "ADD:to add a new task, three types are supported\n"
+			<< "Floating:add;task\n"
+			<< "Timed:add;task;start(time);end(time)\n"
+			<< "Deadine:add;task(time);end(time)\n"
+			<< "Time format supported:\n"
 
-			 for (unsigned i = 0; i < returnInfo.size(); i++){
+			<< "DELETE:to delete a task by specify the index of it in the overall tasklist\n"
+			<< "delete;index\n"
 
-				 if (returnInfo.at(i) == ']') {
-					 count++;
-				 }
-			 }
-			 while (count > 0) {
-				 /****Index****/		
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems = gcnew Windows::Forms::ListViewItem(temp);
-				 /****Task Name****/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-				 /****Starting Time****/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-				 /****Ending Time***/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-				 /****Status****/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-				
+			<< "EDIT:to modify a task by specify the index and the modified information,\nplease note the task type will change accordingly\n"
+			<< "Type changed to floating:edit;index;task(modified)\n"
+			<< "Type changed to timed:edit;index;task(modified);start(modified);end(modified)\n"
+			<< "Type changed to deadline:edit;index;task(modified);end(modified)\n"
 
-				DisplayContent->Items->Add(this->listViewItems);
-				count -=5 ;
-			 }
-			
+			<< "SEARCH:to search by keywords\n"
+			<< "search;keyword\n"
+
+			<< "DISPLAY:to adjust the display window \n"
+			<< "display;all\n"
+			<< "display;timed\n"
+			<< "display;floating\n"
+			<< "display;deadline\n"
+			<< "display;ongoing\n"
+			<< "display;done\n"
+			<< "display;overdue\n"
+
+			<< "MARK DONE: to change the status of a task to done by index\n"
+			<< "mark done;index\n"
+
+			<< "UNDO: to undo the previous command\n"
+			<< "undo\n"
+			<< "REDO: to undo the previous undo command\n"
+			<< "redo\n";//initialise the feedbackwindow with aceptable inputs
+		string format = instruction.str();
+
+
+		this->feedbackWindow->Text = gcnew String(format.c_str());
+		string response = instruction.str();
+		this->feedbackWindow->Text = gcnew String(response.c_str());
+		logic.checkDirectory();
+		string responseMessage = logic.tellGUIResponse();
+		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
+
+		logic.refreshStatus();
+		string returnInfo = logic.tellGUI();
+		String^ tempString = gcnew String(returnInfo.c_str());
+
+		for (int i = 0; i < returnInfo.size(); i++){
+
+			if (returnInfo.at(i) == ']') {
+				count++;
+			}
+		}
+		while (count > 0) {
+			/****Index****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems = gcnew Windows::Forms::ListViewItem(temp);
+			/****Task Name****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Starting Time****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Ending Time***/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Status****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+
+
+			DisplayContent->Items->Add(this->listViewItems);
+			count -= 5;
+		}
+
 	}
 
 	private: System::Void inputBox_KeyUp(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
-		     if (e->KeyCode == Keys::Enter) {
-			 comfirmButton->PerformClick();
+		if (e->KeyCode == Keys::Enter) {
+			comfirmButton->PerformClick();//dosen't work???
 		}
 	}
 	private: System::Void comfirmButton_Click(System::Object^  sender, System::EventArgs^  e) {
-		     int count = 0;
-		     size_t tempStart = 0;
-		     size_t tempEnd = -1;
-		     String^ temp;
-		     string componentInfo;
-		     string userInput = msclr::interop::marshal_as<string>(inputBox->Text);
+		int count = 0;
+		size_t tempStart = 0;
+		size_t tempEnd = -1;
+		String^ temp;
+		string componentInfo;
+		string userInput = msclr::interop::marshal_as<string>(inputBox->Text);
 
-		     inputBox -> Clear();
-			 DisplayContent->Items->Clear();
+		inputBox->Clear();
+		DisplayContent->Items->Clear();
 
-		     logic.executeUserCommand(userInput);
+		logic.executeUserCommand(userInput);
+		string responseMessage = logic.tellGUIResponse();
+		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
 
-			 string responseMessage = logic.tellGUIResponse();
-			 this->SystemResponse->Text = gcnew String(responseMessage.c_str());
+		string returnInfo = logic.tellGUI();
+		String^ tempString = gcnew String(returnInfo.c_str());
 
-			 string returnInfo = logic.tellGUI();
-			 String^ tempString = gcnew String(returnInfo.c_str());
-			 
-			 for (unsigned i = 0; i < returnInfo.size(); i++){
+		for (int i = 0; i < returnInfo.size(); i++){
 
-				 if (returnInfo.at(i) == ']') {
-					 count++;
-				 }
-			 }
-			 while (count > 0) {
-				 /****Index****/
-				 tempStart = tempEnd + 1;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems = gcnew Windows::Forms::ListViewItem(temp);
-				 /****Task Name****/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-				 /****Starting Time****/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-				 /****Ending Time***/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-				 /****Status****/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-
-
-				 DisplayContent->Items->Add(this->listViewItems);
-				 count -= 5;
-			 }
+			if (returnInfo.at(i) == ']') {
+				count++;
+			}
+		}
+		while (count > 0) {
+			/****Index****/
+			tempStart = tempEnd + 1;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems = gcnew Windows::Forms::ListViewItem(temp);
+			/****Task Name****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Starting Time****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Ending Time***/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Status****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
 
 
-			 
+			DisplayContent->Items->Add(this->listViewItems);
+			count -= 5;
+		}
+
+
+
 
 	}
 	private: System::Void inputBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-    }
+	}
 	private: System::Void feedbackWindow_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 	}
-    private: System::Void label1_Click(System::Object^  sender, System::EventArgs^  e) {
-    }
-    private: System::Void listView1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
-    }
-    private: System::Void Refresh_Click(System::Object^  sender, System::EventArgs^  e) {// status will be updated every 60seconds
-		     logic.refreshStatus();
-    }
+	private: System::Void label1_Click(System::Object^  sender, System::EventArgs^  e) {
+	}
+	private: System::Void listView1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+	}
+	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+		logic.refreshStatus();
 
+	}
 };
 }

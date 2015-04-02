@@ -18,6 +18,7 @@ const string SystemResponse::MESSAGE_REDO = "Redo successful.";
 const string SystemResponse::MESSAGE_REDO_FAIL = "Failed to redo. No undo action performed.";
 const string SystemResponse::MESSAGE_FAIL_TO_DISPLAY_VARIOUS = "Failed to display due to incorrect type specified.";
 const string SystemResponse::MESSAGE_NO_DIRECTORY = "Please specify a valid directory.";
+const string SystemResponse::MESSAGE_INVALID_DIRECTORY = "Directory invalid, please re-enter.";
 
 SystemResponse::SystemResponse(void) {}
 
@@ -30,6 +31,11 @@ string SystemResponse::welcomeExistingMessage() {
 
 string SystemResponse::noDirectoryResponse() {
 	sprintf_s(outputBuffer, MESSAGE_NO_DIRECTORY.c_str());
+	return outputBuffer;
+}
+
+string SystemResponse::invalidDirectoryResponse() {
+	sprintf_s(outputBuffer, MESSAGE_INVALID_DIRECTORY.c_str());
 	return outputBuffer;
 }
 
