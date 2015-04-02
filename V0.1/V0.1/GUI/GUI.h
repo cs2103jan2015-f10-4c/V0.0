@@ -60,7 +60,7 @@ namespace GUI {
 
 
 	protected:System::Windows::Forms::ListViewItem^ listViewItems;
-	private: System::Windows::Forms::Timer^  timer1;
+
 	protected:
 	private: System::ComponentModel::IContainer^  components;
 
@@ -77,7 +77,6 @@ namespace GUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = (gcnew System::ComponentModel::Container());
 			this->comfirmButton = (gcnew System::Windows::Forms::Button());
 			this->inputBox = (gcnew System::Windows::Forms::TextBox());
 			this->feedbackWindow = (gcnew System::Windows::Forms::TextBox());
@@ -88,11 +87,12 @@ namespace GUI {
 			this->Start = (gcnew System::Windows::Forms::ColumnHeader());
 			this->End = (gcnew System::Windows::Forms::ColumnHeader());
 			this->Status = (gcnew System::Windows::Forms::ColumnHeader());
-			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->SuspendLayout();
 			// 
 			// comfirmButton
 			// 
+			this->comfirmButton->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->comfirmButton->Location = System::Drawing::Point(667, 24);
 			this->comfirmButton->Name = L"comfirmButton";
 			this->comfirmButton->Size = System::Drawing::Size(60, 21);
@@ -112,6 +112,8 @@ namespace GUI {
 			// 
 			// feedbackWindow
 			// 
+			this->feedbackWindow->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->feedbackWindow->Location = System::Drawing::Point(544, 69);
 			this->feedbackWindow->Multiline = true;
 			this->feedbackWindow->Name = L"feedbackWindow";
@@ -122,6 +124,8 @@ namespace GUI {
 			// 
 			// SystemResponse
 			// 
+			this->SystemResponse->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->SystemResponse->ImageAlign = System::Drawing::ContentAlignment::TopLeft;
 			this->SystemResponse->Location = System::Drawing::Point(24, 309);
 			this->SystemResponse->Name = L"SystemResponse";
@@ -137,6 +141,8 @@ namespace GUI {
 				this->Index, this->TaskName,
 					this->Start, this->End, this->Status
 			});
+			this->DisplayContent->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->DisplayContent->FullRowSelect = true;
 			this->DisplayContent->GridLines = true;
 			this->DisplayContent->Location = System::Drawing::Point(26, 69);
@@ -175,11 +181,6 @@ namespace GUI {
 			this->Status->Text = L"Status";
 			this->Status->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
-			// timer1
-			// 
-			this->timer1->Interval = 6000;
-			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
-			// 
 			// MyForm
 			// 
 			this->AcceptButton = this->comfirmButton;
@@ -208,7 +209,7 @@ namespace GUI {
 		size_t tempEnd = -1;
 		String^ temp;
 		string componentInfo;
-	
+
 		instruction << "Please read the instructions for supported functionalities below:\n"
 			<< "ADD:to add a new task, three types are supported\n"
 			<< "Floating:add;task\n"
@@ -253,7 +254,7 @@ namespace GUI {
 		string responseMessage = logic.tellGUIResponse();
 		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
 
-		logic.refreshStatus();
+		//logic.refreshStatus();
 		string returnInfo = logic.tellGUI();
 		String^ tempString = gcnew String(returnInfo.c_str());
 
@@ -319,9 +320,6 @@ namespace GUI {
 		DisplayContent->Items->Clear();
 
 		logic.executeUserCommand(userInput);
-		string responseMessage = logic.tellGUIResponse();
-		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
-
 		string returnInfo = logic.tellGUI();
 		String^ tempString = gcnew String(returnInfo.c_str());
 
@@ -369,9 +367,11 @@ namespace GUI {
 		}
 
 
-
+		string responseMessage = logic.tellGUIResponse();
+		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
 
 	}
+
 	private: System::Void inputBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 	}
 	private: System::Void feedbackWindow_TextChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -381,8 +381,8 @@ namespace GUI {
 	private: System::Void listView1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 	}
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
-		logic.refreshStatus();
+		//logic.refreshStatus();
 
 	}
-};
+	};
 }
