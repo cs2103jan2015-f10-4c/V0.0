@@ -3,8 +3,8 @@
 #include <iostream>
 #include <cliext/vector>
 #include "Logic.h"
-#include "Storage.h"
-#include "DisplayWindow.h"
+//#include "Storage.h"
+//#include "DisplayWindow.h"
 #using <mscorlib.dll>
 
 Logic logic;
@@ -60,12 +60,19 @@ namespace GUI {
     
    
 	protected:System::Windows::Forms::ListViewItem^ listViewItems;
+	private: System::Windows::Forms::Timer^  timer;
+	private: System::Diagnostics::EventLog^  Logger;
+
+	protected:
+
+	protected:
+	private: System::ComponentModel::IContainer^  components;
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -74,6 +81,8 @@ namespace GUI {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->comfirmButton = (gcnew System::Windows::Forms::Button());
 			this->inputBox = (gcnew System::Windows::Forms::TextBox());
 			this->feedbackWindow = (gcnew System::Windows::Forms::TextBox());
@@ -84,6 +93,9 @@ namespace GUI {
 			this->Start = (gcnew System::Windows::Forms::ColumnHeader());
 			this->End = (gcnew System::Windows::Forms::ColumnHeader());
 			this->Status = (gcnew System::Windows::Forms::ColumnHeader());
+			this->timer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->Logger = (gcnew System::Diagnostics::EventLog());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Logger))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// comfirmButton
@@ -107,11 +119,17 @@ namespace GUI {
 			// 
 			// feedbackWindow
 			// 
+			this->feedbackWindow->BackColor = System::Drawing::SystemColors::Control;
+			this->feedbackWindow->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->feedbackWindow->ForeColor = System::Drawing::SystemColors::WindowFrame;
 			this->feedbackWindow->Location = System::Drawing::Point(544, 69);
 			this->feedbackWindow->Multiline = true;
 			this->feedbackWindow->Name = L"feedbackWindow";
+			this->feedbackWindow->ScrollBars = System::Windows::Forms::ScrollBars::Both;
 			this->feedbackWindow->Size = System::Drawing::Size(183, 237);
 			this->feedbackWindow->TabIndex = 3;
+			this->feedbackWindow->Text = resources->GetString(L"feedbackWindow.Text");
 			this->feedbackWindow->TextChanged += gcnew System::EventHandler(this, &MyForm::feedbackWindow_TextChanged);
 			// 
 			// SystemResponse
@@ -169,8 +187,19 @@ namespace GUI {
 			this->Status->Text = L"Status";
 			this->Status->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
+			// timer
+			// 
+			this->timer->Interval = 6000;
+			this->timer->Tick += gcnew System::EventHandler(this, &MyForm::Refresh_Click);
+			// 
+			// Logger
+			// 
+			this->Logger->SynchronizingObject = this;
+			this->Logger->EntryWritten += gcnew System::Diagnostics::EntryWrittenEventHandler(this, &MyForm::eventLog1_EntryWritten);
+			// 
 			// MyForm
 			// 
+			this->AcceptButton = this->comfirmButton;
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
@@ -183,6 +212,7 @@ namespace GUI {
 			this->Name = L"MyForm";
 			this->Text = L"RushHour";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Logger))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -190,7 +220,7 @@ namespace GUI {
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
-		     string instruction;//initialise the feedbackwindow with aceptable inputs
+		    
 			 int count = 0;
 			 size_t tempStart=0;
 			 size_t tempEnd=-1;
@@ -198,8 +228,7 @@ namespace GUI {
 			 string componentInfo;
 			// storage.readFile(); Logic loadfile to be added;
 	
-		     this->SystemResponse->Text = "Hello Jim. Welcome to RushHour! What would you like to do?";
-			 this->feedbackWindow->Text = gcnew String(instruction.c_str());
+		     this->SystemResponse->Text = "Welcome to RushHour! What would you like to do?";
 			 string returnInfo =logic.tellGUI();
 			 String^ tempString = gcnew String(returnInfo.c_str());
 
@@ -250,7 +279,7 @@ namespace GUI {
 
 	private: System::Void inputBox_KeyUp(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 		     if (e->KeyCode == Keys::Enter) {
-			 comfirmButton->PerformClick();//dosen't work???
+			 comfirmButton->PerformClick();
 		}
 	}
 	private: System::Void comfirmButton_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -323,5 +352,10 @@ namespace GUI {
     }
     private: System::Void listView1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
     }
+    private: System::Void Refresh_Click(System::Object^  sender, System::EventArgs^  e) {// status will be updated every 60seconds
+		     logic.refreshStatus();
+    }
+private: System::Void eventLog1_EntryWritten(System::Object^  sender, System::Diagnostics::EntryWrittenEventArgs^  e) {
+}
 };
 }

@@ -30,7 +30,14 @@ private:
 	static const string DONE_TASK;
 	static const string ONGOING_TASK;
 	static const string ALL_TASK;
-	
+	static const string INVALID_DISPLAYTYPE;
+	static const string NO_FLOATING;
+	static const string NO_DEADLINE;
+	static const string NO_TIMED;
+	static const string NO_OVERDUE;
+	static const string NO_DONE;
+	static const string NO_ONGOING;
+	static const string DISPLAYED;
 
 public:
 
@@ -38,7 +45,7 @@ public:
 	~Display();
 	Sorter sorter;
 	void setDefaultDisplay(vector<Task>&);
-	bool setVariousDisplay(vector<Task>&, string);
+	string setVariousDisplay(vector<Task>&, string);
     string getContent();
 
 };

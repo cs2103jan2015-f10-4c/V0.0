@@ -117,4 +117,50 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="feedbackWindow.Text" xml:space="preserve">
+    <value>Please read the instructions for supported functionalities below:
+
+ADD:         to add a new task, three types are supported
+Floating:    add;task
+Timed:       add;task;start(time);end(time)
+Deadine:    add;task(time);end(time)
+
+Time format supported:
+
+
+DELETE: to delete a task by specify the index of it in the overall tasklist
+delete;index
+
+EDIT: to modify a task by specify the index and the modified information.
+Please note the task type will change accordingly.
+Type changed to floating:     edit;index;task(modified)
+Type changed to timed:        edit;index;task(modified);start(modified);end(modified)
+Type changed to deadline:    edit;index;task(modified);end(modified)
+
+SEARCH: to search by keywords
+search;keyword
+
+DISPLAY: to adjust the display window 
+Display all tasks:                  display;all
+Display timed tasks:             display;timed
+Display floating tasks:          display;floating
+Display deadline tasks:         display;deadline
+Display ongoing tasks:         display;ongoing
+Display done tasks:              display;done
+Display overdue tasks:          display;overdue
+
+MARK DONE: to change the status of a task to done by index
+mark done;index
+
+UNDO: to undo the previous command
+undo
+REDO: to undo the previous undo command
+redo</value>
+  </data>
+  <metadata name="timer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="Logger.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>100, 17</value>
+  </metadata>
 </root>

@@ -7,6 +7,15 @@ const string Display::OVERDUE_TASK="overdue";
 const string Display::DONE_TASK="done";
 const string Display::ONGOING_TASK="ongoing";
 const string Display::ALL_TASK = "all";
+const string Display::INVALID_DISPLAYTYPE= "This display type is invalid";
+const string Display::NO_DEADLINE ="There is no deadline task";
+const string Display::NO_TIMED="There is no timed task";
+const string Display::NO_FLOATING="There is no floating task";
+const string Display::NO_DONE="There is no done task";
+const string Display::NO_OVERDUE="There is no overdue task";
+const string Display::NO_ONGOING = "There is no ongoing task";
+const string Display::DISPLAYED = "The target tasklist has been displayed";
+
 
 Display::Display(){}
 
@@ -18,38 +27,59 @@ void Display::setDefaultDisplay(vector<Task> &taskList){
 	return;
 }
 
-bool Display::setVariousDisplay(vector<Task>& taskList,string displayType){
-	bool isDisplayTypeValid = false;
-	
+string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
+	vector<Task> targetTasklist;
 	if (displayType ==FLOATING_TASK){
-		isDisplayTypeValid = true;
-		_mainDisplay.setContent(getFloatingTask(taskList));
+		targetTasklist = getFloatingTask(taskList);
+		_mainDisplay.setContent(targetTasklist);
+		if (targetTasklist.empty()){
+			return NO_FLOATING;
+		}
 	}
 	else if (displayType ==DEADLINE_TASK){
-		isDisplayTypeValid = true;
-		_mainDisplay.setContent(getDeadlineTask(taskList));
+		targetTasklist = getDeadlineTask(taskList);
+		_mainDisplay.setContent(targetTasklist);
+		if (targetTasklist.empty()){
+			return NO_DEADLINE;
+		}
 	}
 	else if (displayType == TIMED_TASK){
-		isDisplayTypeValid = true;
-		_mainDisplay.setContent(getTimedTask(taskList));
+		targetTasklist = getTimedTask(taskList);
+		_mainDisplay.setContent(targetTasklist);
+		if (targetTasklist.empty()){
+			return NO_TIMED;
+		}
 	}
 	else if (displayType == OVERDUE_TASK){
-		isDisplayTypeValid = true;
-		_mainDisplay.setContent(getOverdueTask(taskList));
+		targetTasklist = getOverdueTask(taskList);
+		_mainDisplay.setContent(targetTasklist);
+		if (targetTasklist.empty()){
+			return NO_OVERDUE;
+		}
 	}
 	else if (displayType == DONE_TASK){
-		isDisplayTypeValid = true;
-		_mainDisplay.setContent(getDoneTask(taskList));
+		targetTasklist = getDoneTask(taskList);
+		_mainDisplay.setContent(targetTasklist);
+		if (targetTasklist.empty()){
+			return NO_DONE;
+		}
 	}
 	else if (displayType == ONGOING_TASK){
-		isDisplayTypeValid = true;
-		_mainDisplay.setContent(getOngoingTask(taskList));
+		targetTasklist = getOngoingTask(taskList);
+        _mainDisplay.setContent(targetTasklist);
+		if (targetTasklist.empty()){
+			return NO_ONGOING;
+		}
 	}
 	else if (displayType == ALL_TASK){
-		isDisplayTypeValid = true;
-		_mainDisplay.setContent(taskList);
+		targetTasklist = taskList;
+		_mainDisplay.setContent(targetTasklist);
+
 	}
-	return isDisplayTypeValid;
+	else{
+		return INVALID_DISPLAYTYPE;
+	}
+	return DISPLAYED;
 }
 
 vector<Task>Display::getFloatingTask(vector<Task> taskList){
