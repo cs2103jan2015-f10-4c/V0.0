@@ -11,6 +11,7 @@
 using namespace std;
 
 const string TEXTFILENAME = "rushhour.txt";
+const string CONFIG_FILE_NAME = "myAppConfig.txt";
 
 Storage::Storage(void){}
 Storage::~Storage(void){}
@@ -54,7 +55,9 @@ Storage::~Storage(void){}
 void Storage::saveFile(vector<Task>& taskList){
 	
 	string filePath = getOutfilePath();
-	ofstream writeFile(filePath);
+	ofstream writeFile;
+	writeFile.open(filePath.c_str());
+
 	writeFile << " Tasklist: "<< endl;
 
 	for (unsigned i = 0; i < taskList.size(); i++){
@@ -66,16 +69,19 @@ void Storage::saveFile(vector<Task>& taskList){
 			writeFile << taskList[i].endingTime << " ; ";
 			writeFile << taskList[i].status << endl;
 		}
-		if(taskList[i].type == "deadline"){
+		else if(taskList[i].type == "deadline"){
 			writeFile << i + 1 << ". ";
 			writeFile << taskList[i].taskName << " ; ";
 			writeFile << taskList[i].startingTime << " ; ";
 			writeFile << taskList[i].status << endl;
 		}
-		if(taskList[i].type == "floating"){
+		else if(taskList[i].type == "floating"){
 			writeFile << i + 1 << ". ";
 			writeFile << taskList[i].taskName << " ; ";
 			writeFile << taskList[i].status << endl;
+		}
+		else{
+			writeFile << "Task has not been typed" << endl;
 		}
 		
 	}
@@ -120,10 +126,10 @@ void Storage::setUserInputPath(string userInputPath){
 }
 
 bool Storage::hasDirectory(){
-	bool directory;
+	bool directory = false;
 	
 	//this is a Configuration file, inside should only store one line, the path to actual save file
-	string configPath = "myAppConfig.txt"; 
+	string configPath = CONFIG_FILE_NAME; 
 	
 	ifstream configIn (configPath.c_str());
 	if (configIn.is_open())
@@ -149,13 +155,16 @@ string Storage::createFilePath(){
 #else
 	'/';
 #endif
-		string configPath = "myAppConfig.txt"; 
-		struct stat sb;
-		string pathname;
-		do {
+		string configPath = CONFIG_FILE_NAME; 
+		//struct stat sb;
+		
+		/*do {
 			pathname = getUserInputPath();
 		}
-		while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode));
+		while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode));*/
+		
+		string pathname;
+		pathname = getUserInputPath();
 		outFilePath = pathname + kPathSeparator+ TEXTFILENAME;
 
 		// save this path to configFile
@@ -231,6 +240,7 @@ void Storage::readFile(vector<Task>& taskList){
 		file.close();
 	}
 	else{
+		
 		string filePath = createFilePath();
 		ofstream outputFile;
 		outputFile.open(filePath.c_str());
