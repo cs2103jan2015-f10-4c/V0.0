@@ -11,8 +11,7 @@ Logic::~Logic(){}
 	storage.readFile();
 }*/
 void Logic::executeUserCommand(string userInput){
-	//response.welcomeMessage();
-	//bool hasDirectory = 
+	
 	string commandWord;
 	commandWord = parse.getCommandWord(userInput);
 	//cout << commandWord; test passed
@@ -35,6 +34,8 @@ void Logic::executeUserCommand(string userInput){
 		return undoTask();
 	case _REDO:
 		return redoTask();
+	case _DIRECTORY:
+		return getDirectory();
 	default:
 		break;
 	}
@@ -177,6 +178,31 @@ void Logic::display(){
 
 string Logic::tellGUI(){
 	return disp.getContent();
+}
+
+string Logic::tellGUIResponse() {
+	return response.tellResponse();
+}
+
+void Logic::checkDirectory() {
+	bool hasDirectory;
+	hasDirectory = storage.hasDirectory();
+	if (hasDirectory) {
+		response.welcomeExistingMessage();
+		storage.readFile(taskList);
+	} else {
+		response.noDirectoryResponse();
+	}
+}
+
+void Logic::getDirectory() {
+	struct stat sb;
+		string pathname;
+	do {
+		response.noDirectoryResponse();
+		pathname = parse.getTaskType();
+		}
+		while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode));
 }
 
 bool Logic::checkIndex(int index) {

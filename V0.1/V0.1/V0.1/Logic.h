@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <sys/stat.h>
 #include "Task.h"
 #include "Parser.h"
 #include "addExecutor.h"
@@ -50,7 +51,7 @@ public:
 
 	enum COMMAND_TYPE {
 
-		_ADD, _DELETE, _EDIT, _SEARCH, _MARKDONE, _DISPLAY, _UNDO, _REDO, _ERROR
+		_ADD, _DELETE, _EDIT, _SEARCH, _MARKDONE, _DISPLAY, _UNDO, _REDO, _ERROR, _DIRECTORY
 
 	};
 	void retriveStorage();
@@ -63,7 +64,10 @@ public:
 	void undoTask();
 	void redoTask();
 	bool checkIndex(int);
+	void getDirectory();
 	string tellGUI();
+	string tellGUIResponse();
+	void checkDirectory();
 	COMMAND_TYPE determineCommandType(string);
     void executeUserCommand (string);
 

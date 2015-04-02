@@ -17,14 +17,19 @@ const string SystemResponse::MESSAGE_UNDO_FAIL = "Failed to undo. Exceed number 
 const string SystemResponse::MESSAGE_REDO = "Redo successful.";
 const string SystemResponse::MESSAGE_REDO_FAIL = "Failed to redo. No undo action performed.";
 const string SystemResponse::MESSAGE_FAIL_TO_DISPLAY_VARIOUS = "Failed to display due to incorrect type specified.";
+const string SystemResponse::MESSAGE_NO_DIRECTORY = "Please specify a valid directory.";
 
 SystemResponse::SystemResponse(void) {}
 
 SystemResponse::~SystemResponse(void) {}
 
-string SystemResponse::welcomeMessage() {
-	sprintf_s(outputBuffer, MESSAGE_WELCOME.c_str());
+string SystemResponse::welcomeExistingMessage() {
+	sprintf_s(outputBuffer, MESSAGE_WELCOME_EXISTING_USER.c_str());
 	return outputBuffer;
+}
+
+string SystemResponse::noDirectoryResponse() {
+	sprintf_s(outputBuffer, MESSAGE_NO_DIRECTORY.c_str());
 }
 
 string SystemResponse::addResponse(bool isAdded) {
@@ -93,3 +98,6 @@ string SystemResponse::dispVariousResponse(string message) {
 	return outputBuffer;
 }
 
+string SystemResponse::tellResponse() {
+	return outputBuffer;
+}

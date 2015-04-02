@@ -31,12 +31,14 @@ private:
 	static const string MESSAGE_REDO;
 	static const string MESSAGE_REDO_FAIL;
 	static const string MESSAGE_FAIL_TO_DISPLAY_VARIOUS;
+	static const string MESSAGE_NO_DIRECTORY;
 
 	static char outputBuffer[MAX_CHAR];
+
 public:
 	SystemResponse();
 	~SystemResponse();
-	string welcomeMessage();
+	string welcomeExistingMessage();
 	string addResponse(bool);
 	string deleteResponse(bool, int);
 	string editResponse(bool, int);
@@ -45,5 +47,7 @@ public:
 	string undoResponse(bool);
 	string redoResponse(bool);
 	string dispVariousResponse(string);
+	string tellResponse();
+	string noDirectoryResponse();
 };
 #endif
