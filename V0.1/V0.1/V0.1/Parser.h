@@ -8,7 +8,7 @@
 #include <fstream>
 #include <algorithm>
 #include "History.h"
-
+#include "TransformTime.h"
 
 using namespace std;
 
@@ -17,6 +17,7 @@ class Parser{
 private:
     // Logic logic;
 	History history;
+	TransformTime TransformTime;
     static const string DELIMITERS;    
     static  string USER_PROMPT_TASKNAME ;
     static  string USER_PROMPT_STARTTIME;

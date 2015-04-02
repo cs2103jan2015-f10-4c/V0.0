@@ -54,9 +54,9 @@ Storage::~Storage(void){}
 
 void Storage::saveFile(vector<Task>& taskList){
 	
-	string filePath = getOutfilePath();
+	//string filePath = getOutfilePath();
 	ofstream writeFile;
-	writeFile.open(filePath.c_str());
+	writeFile.open(TEXTFILENAME);
 
 	writeFile << " Tasklist: "<< endl;
 
@@ -72,7 +72,7 @@ void Storage::saveFile(vector<Task>& taskList){
 		else if(taskList[i].type == "deadline"){
 			writeFile << i + 1 << ". ";
 			writeFile << taskList[i].taskName << " ; ";
-			writeFile << taskList[i].startingTime << " ; ";
+			writeFile << taskList[i].endingTime << " ; ";
 			writeFile << taskList[i].status << endl;
 		}
 		else if(taskList[i].type == "floating"){
@@ -282,14 +282,14 @@ void Storage::loadTask (vector<string> taskLine, vector<Task>& taskList){
 			string taskName = getTaskName(taskDetail);
 			string dueTime = getDueTime(taskDetail);
 			string status = getStatus(taskDetail);
-			string endTime = "";
+			string startTime = "";
 			string taskType = "deadline";
 
 			Task taskStorage;
 			taskStorage.setTaskName(taskName);
-			taskStorage.setStartingTime(dueTime);
+			taskStorage.setStartingTime(startTime);
 			taskStorage.setDone(status);
-			taskStorage.setEndingTime(endTime);
+			taskStorage.setEndingTime(dueTime);
 			taskStorage.setType(taskType);
 
 			taskList.push_back(taskStorage);

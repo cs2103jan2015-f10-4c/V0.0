@@ -209,7 +209,7 @@ void Logic::getDirectory() {
 
 bool Logic::checkIndex(int index) {
 	for (int i = 0; i < taskList.size(); i++) {
-		if (index == i + 1) {
+		if (index - 1 == i) {
 			return true;
 		} else {
 			return false;
