@@ -61,7 +61,7 @@ namespace GUI {
    
 	protected:System::Windows::Forms::ListViewItem^ listViewItems;
 	private: System::Windows::Forms::Timer^  timer;
-	private: System::Diagnostics::EventLog^  Logger;
+
 
 	protected:
 
@@ -94,8 +94,6 @@ namespace GUI {
 			this->End = (gcnew System::Windows::Forms::ColumnHeader());
 			this->Status = (gcnew System::Windows::Forms::ColumnHeader());
 			this->timer = (gcnew System::Windows::Forms::Timer(this->components));
-			this->Logger = (gcnew System::Diagnostics::EventLog());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Logger))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// comfirmButton
@@ -123,7 +121,7 @@ namespace GUI {
 			this->feedbackWindow->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->feedbackWindow->ForeColor = System::Drawing::SystemColors::WindowFrame;
-			this->feedbackWindow->Location = System::Drawing::Point(544, 69);
+			this->feedbackWindow->Location = System::Drawing::Point(544, 51);
 			this->feedbackWindow->Multiline = true;
 			this->feedbackWindow->Name = L"feedbackWindow";
 			this->feedbackWindow->ScrollBars = System::Windows::Forms::ScrollBars::Both;
@@ -135,7 +133,7 @@ namespace GUI {
 			// SystemResponse
 			// 
 			this->SystemResponse->ImageAlign = System::Drawing::ContentAlignment::TopLeft;
-			this->SystemResponse->Location = System::Drawing::Point(24, 309);
+			this->SystemResponse->Location = System::Drawing::Point(24, 300);
 			this->SystemResponse->Name = L"SystemResponse";
 			this->SystemResponse->Size = System::Drawing::Size(514, 25);
 			this->SystemResponse->TabIndex = 4;
@@ -151,7 +149,7 @@ namespace GUI {
 			});
 			this->DisplayContent->FullRowSelect = true;
 			this->DisplayContent->GridLines = true;
-			this->DisplayContent->Location = System::Drawing::Point(26, 69);
+			this->DisplayContent->Location = System::Drawing::Point(26, 51);
 			this->DisplayContent->Name = L"DisplayContent";
 			this->DisplayContent->Size = System::Drawing::Size(512, 237);
 			this->DisplayContent->TabIndex = 5;
@@ -192,11 +190,6 @@ namespace GUI {
 			this->timer->Interval = 6000;
 			this->timer->Tick += gcnew System::EventHandler(this, &MyForm::Refresh_Click);
 			// 
-			// Logger
-			// 
-			this->Logger->SynchronizingObject = this;
-			this->Logger->EntryWritten += gcnew System::Diagnostics::EntryWrittenEventHandler(this, &MyForm::eventLog1_EntryWritten);
-			// 
 			// MyForm
 			// 
 			this->AcceptButton = this->comfirmButton;
@@ -212,7 +205,6 @@ namespace GUI {
 			this->Name = L"MyForm";
 			this->Text = L"RushHour";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Logger))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
