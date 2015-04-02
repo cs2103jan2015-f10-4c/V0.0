@@ -199,7 +199,7 @@ void Logic::getDirectory() {
 	struct stat sb;
 		string pathname;
 	do {
-		response.noDirectoryResponse();
+		response.invalidDirectoryResponse();
 		pathname = parse.getTaskType();
 		storage.setUserInputPath(pathname);
 		storage.readFile(taskList);
