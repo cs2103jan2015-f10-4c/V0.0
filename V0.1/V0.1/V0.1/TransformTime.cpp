@@ -40,7 +40,7 @@ time_t TransformTime::stringToTime(string t){
     when.tm_sec = 0;
     
     outputTime = mktime(&when);
-
+    
     return outputTime;
 }
 
@@ -51,11 +51,11 @@ string TransformTime::timeToString(time_t t){
     time_t inputTime = t;
     tm *timeinfo = localtime(&inputTime);
     char yyyymmddhhnn[40];
-    strftime (yyyymmddhhnn,40,"%d-%m-%Y %R",timeinfo);
+    strftime (yyyymmddhhnn,40,"%d-%m-%Y %H:%M",timeinfo);
     
-   
+    
     string outputTime(yyyymmddhhnn);
-    
+    //cout << ":) "<< outputTime;
     return outputTime;
 }
 
@@ -111,41 +111,44 @@ string TransformTime::getCurrentTime(){
 }
 
 size_t getSize(char *ptr){
-	return sizeof(ptr);
+    return sizeof(ptr);
 }
 
 
 string TransformTime::convertTime(string input){
-
-	char year[5];                                 // YEAR
-	char month[3];                                // MONTH
-	char day[3];                                  // DAY
-	char hour[3];                                 // HOUR
-	char minute[3];                               // MINUTE
-	///////////////////////////////////////////
-	// Set the Default time is current time
-	time_t rawtime;
-	struct tm * timeinfo;
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-	strftime(year, 4, "%Y", timeinfo);
-	strftime(month, 2, "%m", timeinfo);
-	strftime(day, 2, "%d", timeinfo);
-	strftime(hour, 2, "%H", timeinfo);
-	strftime(minute, 2, "%M", timeinfo);
-	//////////////////////////////////////////
-	
-
+    
+    char year[5];                                 // YEAR
+    char month[3];                                // MONTH
+    char day[3];                                  // DAY
+    char hour[3];                                 // HOUR
+    char minute[3];                               // MINUTE
+    ///////////////////////////////////////////
+    // Set the Default time is current time
+    time_t rawtime;
+    struct tm * timeinfo;
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+    strftime(year, sizeof(year), "%Y", timeinfo);
+    strftime(month, sizeof(month), "%m", timeinfo);
+    strftime(day, sizeof(day), "%d", timeinfo);
+    strftime(hour, sizeof(hour), "%H", timeinfo);
+    strftime(minute, sizeof(minute), "%M", timeinfo);
+    //////////////////////////////////////////
+    //cout<< "hh:mm"<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
+    //cout<< "dd/mm/yyyy :"<<day[0]<<day[1]<<"/"<<month[0]<<month[1]<<"/"<<year[0]<<year[1] <<year[2]<<year[3]<< endl;
+    
 	char *inputTime = new char[input.length()]; // creat the char to store the input
     strcpy(inputTime, input.c_str()); // convert string to char[]
-    
+   
+	 cout << endl<< "**strlen(inputTime)"<< strlen(inputTime)  << endl;
+
     bool HasTimeDay = false; // check the input who has time and day
     bool HasTime = false; // check the input who has time
     bool HasDay = false; // check the input who has day
     
     int space = 0; // the position of space
     
-    for (int i=0;i<sizeof(inputTime);i++){
+    for (int i=0;i<strlen(inputTime);i++){
         if (inputTime[i] == ' ')
         {// the input has day and time
             HasTimeDay = true;
@@ -153,38 +156,38 @@ string TransformTime::convertTime(string input){
         }
     }
     
-    int sizeOfTime ;
-    int sizeOfDay ;
+    int sizeOfTime = 0;
+    int sizeOfDay = 0;
     
     if(HasTimeDay){
         sizeOfDay = space;
-        sizeOfTime = sizeof(inputTime)-space-1;
+        sizeOfTime = strlen(inputTime)-space-1;
     }
     
     
     if (!HasTimeDay)
     {
-        if(sizeof(inputTime) > 7)
+        if(strlen(inputTime) > 7)
         {
-            sizeOfDay = sizeof(inputTime);
+            sizeOfDay = strlen(inputTime);
         }
         else
         {
-            for (int i=0;i<sizeof(inputTime);i++)
+            for (int i=0;i<strlen(inputTime);i++)
             {
                 if ((inputTime[i] == 47 || inputTime[i] == 45)) //the input has / - ??
                 {
-                    sizeOfDay = sizeof(inputTime);
+                    sizeOfDay = strlen(inputTime);
                 }
                 else
                 {
-                    sizeOfTime  = sizeof(inputTime);
+                    sizeOfTime  = strlen(inputTime);
                 }
             }
             
         }
     }
-    
+
     //cout << " sizeOfTime " <<  sizeOfTime << endl;
     //cout << " sizeOfDay " <<  sizeOfDay << endl;
     
@@ -201,7 +204,7 @@ string TransformTime::convertTime(string input){
         
         i++;
         int j=0;
-        for( ;i < sizeof(inputTime); i++)
+        for( ;i < strlen(inputTime); i++)
         {
             Thetime[j] = inputTime[i];
             j++;
@@ -210,38 +213,37 @@ string TransformTime::convertTime(string input){
         cout << "\n";
     }
     
-    
+   
     if (!HasTimeDay)
     {
-        if(sizeof(inputTime) > 7)
+        if(strlen(inputTime) > 7)
         {
             HasDay = true;
-            for( int i = 0 ;i < sizeof(inputTime) ; i++)
+            for( int i = 0 ;i < strlen(inputTime) ; i++)
             {
                 Theday[i] = inputTime[i];
             }
         }
         else
         {
-            for (int i=0;i<sizeof(inputTime);i++)
+            for (int i=0;i<strlen(inputTime);i++)
             {
                 if ((inputTime[i] == 47 || inputTime[i] == 45)) //the input has / - ??
                 {
                     HasDay = true ;
                 }
             }
-            
-            
+           
             if(!HasDay)
             {
                 HasTime = true ;
-                for( int i = 0 ;i < sizeof(inputTime) ; i++)
+                for( int i = 0 ;i < strlen(inputTime) ; i++)
                 {
                     Thetime[i] = inputTime[i];
                 }
             }else
             {
-                for( int i = 0 ;i < sizeof(inputTime) ; i++)
+                for( int i = 0 ;i < strlen(inputTime) ; i++)
                 {
                     Theday[i] = inputTime[i];
                 }
@@ -249,40 +251,48 @@ string TransformTime::convertTime(string input){
             
         }
     }
-
+    
     // check the analyze is correct
-     /*
-    cout << "\n\nHasTime: " << HasTime << endl;
-    cout << "HasDay: " << HasDay << endl;
-    cout << "HasTimeDay: " << HasTimeDay << endl;
-    cout << "Thetime SIZE :" <<sizeof(Thetime) << endl;
-   
-    cout << "\ninputTime: " << inputTime << endl;
-    cout << "Theday: " << Theday << endl;
-    cout << "Thetime: " << Thetime << endl;
     
-    
-    cout << "\nTheday SIZE :" <<sizeof(Theday) << endl;
-    
-    */
-    
+     cout << "\n\nHasTime: " << HasTime << endl;
+     cout << "HasDay: " << HasDay << endl;
+     cout << "HasTimeDay: " << HasTimeDay << endl;
+
+	 cout << "Theday: " << Theday << endl;
+
+	 cout<< "**sizeof(Theday)"<< sizeof(Theday);
+	 cout<< "**sizeOfDay"<< sizeOfDay;
+     /*cout << "Thetime SIZE :" << strlen(inputTime) << endl;
+     
+     cout << "\ninputTime: " << inputTime << endl;
+     cout << "Theday: " << Theday << endl;
+     cout << "Thetime: " << Thetime << endl;
+     cout << "\nTheday SIZE :" << strlen(inputTime) << endl;
+     
+     
+      cout<<  endl<< "hh:mm"<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
+
+	 cout<< "**sizeOfTime"<< sizeof(Theday);
+	 */
+
+
     if (HasTime)
     {
-        if (getSize(Thetime) < 4) //the format: HMM
+        if (sizeOfTime < 4) //the format: HMM
         {
             hour[0] = '0';
             hour[1] = Thetime[0];
             minute[0] = Thetime[1];
             minute[1] = Thetime[2];
             //cout<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
-        }else if(getSize(Thetime) < 5) //the format: HHMM
+        }else if(sizeOfTime < 5) //the format: HHMM
         {
             hour[0] = Thetime[0];
             hour[1] = Thetime[1];
             minute[0] = Thetime[2];
             minute[1] = Thetime[3];
             //cout<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
-        }else if(getSize(Thetime) < 6 && (Thetime[2]==58||Thetime[2]==46)) //the format: HH:MM
+        }else if(sizeOfTime < 6 && (Thetime[2]==58||Thetime[2]==46)) //the format: HH:MM
         {
             hour[0] = Thetime[0];
             hour[1] = Thetime[1];
@@ -292,22 +302,22 @@ string TransformTime::convertTime(string input){
         }
         else
         {
-            if(Thetime[getSize(Thetime)-1] == 'h') //the format: XX:XXh XX:.XXh XXXXh
+            if(Thetime[sizeOfTime-1] == 'h') //the format: XX:XXh XX:.XXh XXXXh
             {
                 hour[0] = Thetime[0];
                 hour[1] = Thetime[1];
-                minute[0] = Thetime[getSize(Thetime)-3];
-                minute[1] = Thetime[getSize(Thetime)-2];
+                minute[0] = Thetime[sizeOfTime-3];
+                minute[1] = Thetime[sizeOfTime-2];
                 //cout<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
             }
-            else if(Thetime[getSize(Thetime)-1] == 'm') //the format:am/apm
+            else if(Thetime[sizeOfTime-1] == 'm') //the format:am/apm
             {
-                if(Thetime[getSize(Thetime)-2] == 'a') //the format: XX:XXam XX:.XXam XXXXam
+                if(Thetime[sizeOfTime-2] == 'a') //the format: XX:XXam XX:.XXam XXXXam
                 {
                     hour[0] = Thetime[0];
                     hour[1] = Thetime[1];
-                    minute[0] = Thetime[getSize(Thetime)-4];
-                    minute[1] = Thetime[getSize(Thetime)-3];
+                    minute[0] = Thetime[sizeOfTime-4];
+                    minute[1] = Thetime[sizeOfTime-3];
                     //cout<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
                 }
                 else //the format: XX:XXpm XX:.XXpm XXXXpm
@@ -377,19 +387,20 @@ string TransformTime::convertTime(string input){
                         hour[0] = '2';
                         hour[1] = '2';
                     }
-                    minute[0] = Thetime[sizeof(Thetime)-4];
-                    minute[1] = Thetime[sizeof(Thetime)-3];
+                    minute[0] = Thetime[sizeOfTime-4];
+                    minute[1] = Thetime[sizeOfTime-3];
                     //cout<< hour[0] << hour[1] << ":" << minute[0] <<minute[1] << endl;
                 }
             }
         }
     }
-    
+   //sizeof(Theday)
+	   //sizeOfDay
     if (HasDay){
         int i=0;
         int j=0;
         int number=0;
-        for(int x=0;x<sizeof(Theday);x++)
+        for(int x=0;x<sizeOfDay;x++)
         {
             if (!(Theday[x] >= 48 && Theday[x] <= 57))
             {
@@ -412,14 +423,14 @@ string TransformTime::convertTime(string input){
         {
             if(i==1)
             {
-                if (sizeof(Theday)==3)
+                if (sizeOfDay==3)
                 {
                     day[0] = '0';
                     day[1] = Theday[0];
                     month[0] = '0';
                     month[1] = Theday[2];
                 }
-                else if(sizeof(Theday)==4)
+                else if(sizeOfDay==4)
                 {
                     day[0] = '0';
                     day[1] = Theday[0];
@@ -429,14 +440,14 @@ string TransformTime::convertTime(string input){
             }
             else if(i==2)
             {
-                if (sizeof(Theday)==4)
+                if (sizeOfDay==4)
                 {
                     day[0] = Theday[0];
                     day[1] = Theday[1];
                     month[0] = '0';
                     month[1] = Theday[3];
                 }
-                else if(sizeof(Theday)==5)
+                else if(sizeOfDay==5)
                 {
                     day[0] = Theday[0];
                     day[1] = Theday[1];
@@ -502,82 +513,101 @@ string TransformTime::convertTime(string input){
             {
                 day[0] = '0';
                 day[1] = Theday[0];
-                year[0] = Theday[sizeof(Theday)-4];
-                year[1] = Theday[sizeof(Theday)-3];
-                year[2] = Theday[sizeof(Theday)-2];
-                year[3] = Theday[sizeof(Theday)-1];
+                year[0] = Theday[sizeOfDay-4];
+                year[1] = Theday[sizeOfDay-3];
+                year[2] = Theday[sizeOfDay-2];
+                year[3] = Theday[sizeOfDay-1];
                 
                 temp[0]=Theday[1];
                 temp[1]=Theday[2];
-                temp[2]=Theday[3];
-                tempMonth = temp;
-                
+                temp[2]=Theday[3];  
             }
             else if(i==2)
             {
                 day[0] = Theday[0];
                 day[1] = Theday[1];
-                year[0] = Theday[((int)sizeof(Theday))-4];
-                year[1] = Theday[sizeof(Theday)-3];
-                year[2] = Theday[sizeof(Theday)-2];
-                year[3] = Theday[sizeof(Theday)-1];
+                year[0] = Theday[sizeOfDay-4];
+                year[1] = Theday[sizeOfDay-3];
+                year[2] = Theday[sizeOfDay-2];
+                year[3] = Theday[sizeOfDay-1];
                 
                 temp[0]=Theday[2];
                 temp[1]=Theday[3];
                 temp[2]=Theday[4];
-                tempMonth = temp;
-                
             }
-            
-            if((tempMonth=="jan")||(tempMonth=="Jan")||(tempMonth=="JAN"))
-            {
-                month[0] = '0';
-                month[1] = '1';
-            }else if((tempMonth=="feb")||(tempMonth=="Feb")||(tempMonth=="FEB"))
-            {
-                month[0] = '0';
-                month[1] = '2';
-            }else if((tempMonth=="mar")||(tempMonth=="Mar")||(tempMonth=="MAR"))
-            {
-                month[0] = '0';
-                month[1] = '3';
-            }else if((tempMonth=="apr")||(tempMonth=="Apr")||(tempMonth=="APR"))
-            {
-                month[0] = '0';
-                month[1] = '4';
-            }else if((tempMonth=="may")||(tempMonth=="May")||(tempMonth=="MAY"))
-            {
-                month[0] = '0';
-                month[1] = '5';
-            }else if((tempMonth=="jun")||(tempMonth=="Jun")||(tempMonth=="JUN"))
-            {
-                month[0] = '0';
-                month[1] = '6';
-            }else if((tempMonth=="jul")||(tempMonth=="Jul")||(tempMonth=="JUL"))
-            {
-                month[0] = '0';
-                month[1] = '7';
-            }else if((tempMonth=="aug")||(tempMonth=="Aug")||(tempMonth=="AUG"))
-            {
-                month[0] = '0';
-                month[1] = '8';
-            }else if((tempMonth=="sep")||(tempMonth=="Sep")||(tempMonth=="SEP"))
-            {
-                month[0] = '0';
+           
+			if ( (temp[0]=='J' )||(temp[0]=='j') )
+			{
+				if ( (temp[1]=='A' )||(temp[1]=='a') )
+				{
+					month[0] = '0';
+					month[1] = '3';
+				}
+				else if ( (temp[2]=='L') ||(temp[2]=='l') )
+				{
+					month[0] = '0';
+					month[1] = '7';
+				}
+				else
+				{
+					month[0] = '0';
+					month[1] = '6';
+				}
+			}
+			else if ( (temp[0]=='F' )||(temp[0]=='f') )
+			{
+				month[0] = '0';
+				month[1] = '2';
+			}
+			else if ( (temp[0]=='M') ||(temp[0]=='m') )
+			{
+				if ( (temp[2]=='R') ||(temp[2]=='r') )
+				{
+					month[0] = '0';
+					month[1] = '3';
+				}
+				else
+				{
+					month[0] = '0';
+					month[1] = '5';
+				}
+			}
+			else if ( (temp[0]=='A') ||(temp[0]=='a') )
+			{
+				if ( (temp[1]=='P') ||(temp[1]=='p') )
+				{
+					month[0] = '0';
+					month[1] = '4';
+				}
+				else
+				{
+					month[0] = '0';
+					month[1] = '8';
+				}
+			}
+			else if ( (temp[0]=='S') ||(temp[0]=='s') )
+			{
+				month[0] = '0';
                 month[1] = '9';
-            }else if((tempMonth=="oct")||(tempMonth=="Oct")||(tempMonth=="OCT"))
-            {
-                month[0] = '1';
+			}
+			else if ( (temp[0]=='O') ||(temp[0]=='o') )
+			{
+				month[0] = '1';
                 month[1] = '0';
-            }else if((tempMonth=="nov")||(tempMonth=="Nov")||(tempMonth=="NOV"))
-            {
-                month[0] = '1';
+			}
+			else if ( (temp[0]=='N' )||(temp[0]=='n') )
+			{
+				month[0] = '1';
                 month[1] = '1';
-            }else if((tempMonth=="dec")||(tempMonth=="Dec")||(tempMonth=="DEC"))
-            {
-                month[0] = '1';
+			}
+			else if ( (temp[0]=='D') ||(temp[0]=='d') )
+			{
+				month[0] = '1';
                 month[1] = '2';
-            }
+			}
+
+
+
             
             //cout<< "dd/mm/yyyy :"<<day[0]<<day[1]<<"/"<<month[0]<<month[1]<<"/"<<year[0]<<year[1] <<year[2]<<year[3]<< endl;
             
@@ -585,10 +615,11 @@ string TransformTime::convertTime(string input){
         
         
     }
+   // cout<<  endl<< "hh:mm"<<  hour[0] <<  hour[1] << ":" << minute[0] <<minute[1] << endl;
+   // cout<< "dd/mm/yyyy :"<<day[0]<<day[1]<<"/"<<month[0]<<month[1]<<"/"<<year[0]<<year[1] <<year[2]<<year[3]<< endl;
     
     
     
-  
     
     struct tm when;
     time_t outputTime = mktime(&when);
@@ -602,7 +633,7 @@ string TransformTime::convertTime(string input){
     outputTime = mktime(&when);
     
     string output = timeToString(outputTime);
-    
+    cout <<  endl << "TransformTime ::output" << output << endl;
     return output;
     
 }

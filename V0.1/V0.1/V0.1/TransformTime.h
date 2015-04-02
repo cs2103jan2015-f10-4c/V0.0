@@ -26,7 +26,7 @@ public:
     string endingTime;
     time_t sTime;
     time_t eTime;
-    
+    string output; 
     TransformTime();
     ~TransformTime();
     
