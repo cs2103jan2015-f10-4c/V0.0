@@ -124,8 +124,12 @@ void Logic::editTask(){
 
 void Logic::searchTask(){
 	string keyPhrase = parse.getSearchWord();
-	disp.setDefaultDisplay(search.searchTask(keyPhrase, taskList));
-	
+	bool isEmptyList = checkFoundList(search.searchTask(keyPhrase, taskList));
+	if (isEmptyList) {
+		response.searchResponse(isEmptyList);
+	} else {
+		disp.setDefaultDisplay(search.searchTask(keyPhrase, taskList));
+	}
 }
 
 void Logic::markDoneTask(){
@@ -219,4 +223,12 @@ bool Logic::checkIndex(int index) {
 
 void Logic::refreshStatus() {
 	checker.updateStatus(taskList);
+}
+
+bool Logic::checkFoundList(vector<Task> foundList) {
+	if (foundList.size() == 0) {
+		return true;
+	} else {
+		return false;
+	}
 }

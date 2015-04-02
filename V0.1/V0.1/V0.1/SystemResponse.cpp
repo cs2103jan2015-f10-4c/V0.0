@@ -78,8 +78,8 @@ string SystemResponse::markDoneResponse(bool isMarked, int index) {
 	return outputBuffer;
 }
 
-string SystemResponse::searchResponse(bool isFound) {
-	if (!isFound) {
+string SystemResponse::searchResponse(bool isEmpty) {
+	if (isEmpty) {
 		sprintf_s(outputBuffer, MESSAGE_SEARCH_FAIL.c_str());
 	}
 	return outputBuffer;

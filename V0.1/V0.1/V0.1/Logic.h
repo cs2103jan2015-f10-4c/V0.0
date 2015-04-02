@@ -71,6 +71,7 @@ public:
 	string tellGUIResponse();
 	void checkDirectory();
 	void refreshStatus();
+	bool checkFoundList(vector<Task>);
 	COMMAND_TYPE determineCommandType(string);
     void executeUserCommand (string);
 
