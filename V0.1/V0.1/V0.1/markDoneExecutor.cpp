@@ -10,7 +10,7 @@ void markDoneExecutor::markDoneTask(int index, vector<Task>& taskList){
 	//floatingList = storage.getFloatingTaskList();
 	//string doneTaskTitle = taskList[index - 1].taskName;
 	taskList[index - 1].status = "Done";
-	cout << "Task number " << index << " is set as done.";
+	//cout << "Task number " << index << " is set as done.";
 	//executor.updateStorage(taskList);
 	//storage.saveOperation();
 

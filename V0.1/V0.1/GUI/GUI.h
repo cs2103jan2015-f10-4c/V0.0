@@ -224,7 +224,7 @@ namespace GUI {
 		size_t tempEnd = -2;
 		String^ temp;
 		string componentInfo;
-
+		logic.checkDirectory();
 		instruction << "Please read the instructions for supported functionalities below:\n\n"
 			<< "ADD:to add a new task, three types are supported\n"
 			<< "1.Floating: add;task\n"
@@ -265,7 +265,7 @@ namespace GUI {
 		this->feedbackWindow->Text = gcnew String(format.c_str());
 		string response = instruction.str();
 		this->feedbackWindow->Text = gcnew String(response.c_str());
-		logic.checkDirectory();
+
 		string responseMessage = logic.tellGUIResponse();
 		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
 

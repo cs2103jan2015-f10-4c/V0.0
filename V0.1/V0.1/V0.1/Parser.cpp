@@ -60,7 +60,7 @@ string Parser::getCommandWord(string command){
         
     }else if(task == "search"){
         searchWord = detail;
-    }else if(task == "markdone"){
+    }else if(task == "mark done"){
         index = getIndex(detail);
     }else if(task == "display"){
         taskType = detail;
