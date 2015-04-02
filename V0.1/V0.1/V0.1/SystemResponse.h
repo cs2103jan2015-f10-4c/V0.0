@@ -33,9 +33,12 @@ private:
 	static const string MESSAGE_FAIL_TO_DISPLAY_VARIOUS;
 	static const string MESSAGE_NO_DIRECTORY;
 
-	static char outputBuffer[MAX_CHAR];
+	//static char outputBuffer[MAX_CHAR];
 
 public:
+
+	char outputBuffer[MAX_CHAR];
+
 	SystemResponse();
 	~SystemResponse();
 	string welcomeExistingMessage();
