@@ -21,11 +21,13 @@ string Parser::getCommandWord(string command){
             taskName = getTaskName(detail);
             startTime = getStartDetail2(detail);
             endTime = getEndDetail(detail);
+			startTime = TransformTime.convertTime(startTime);
+			endTime = TransformTime.convertTime(endTime);
         }else if (type == 1) {
             taskType = "deadline";
             taskName = getTaskName(detail);
             endTime = getStartDetail1(detail);
-
+			endTime = TransformTime.convertTime(endTime);
         }else {
             taskType = "floating";
             taskName = getTaskName(detail);
@@ -42,12 +44,14 @@ string Parser::getCommandWord(string command){
             taskType = "timed";
             taskName = getTaskName(editDetail);
             startTime = getStartDetail2(editDetail);
+			startTime = TransformTime.convertTime(startTime);
             endTime = getEndDetail(editDetail);
+			endTime = TransformTime.convertTime(endTime);
         }else if (numberOfDelimiter == 1) {
             taskType = "deadline";
             taskName = getTaskName(editDetail);
             endTime = getStartDetail1(editDetail);
-
+			endTime = TransformTime.convertTime(endTime);
         }else {
             taskType = "floating";
             taskName = getTaskName(editDetail);
