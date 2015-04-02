@@ -124,8 +124,12 @@ void Logic::editTask(){
 
 void Logic::searchTask(){
 	string keyPhrase = parse.getSearchWord();
-	disp.setDefaultDisplay(search.searchTask(keyPhrase, taskList));
-	
+	bool isEmptyList = checkFoundList(search.searchTask(keyPhrase, taskList));
+	if (isEmptyList) {
+		response.searchResponse(isEmptyList);
+	} else {
+		disp.setDefaultDisplay(search.searchTask(keyPhrase, taskList));
+	}
 }
 
 void Logic::markDoneTask(){
@@ -199,7 +203,7 @@ void Logic::getDirectory() {
 	struct stat sb;
 		string pathname;
 	do {
-		response.noDirectoryResponse();
+		response.invalidDirectoryResponse();
 		pathname = parse.getTaskType();
 		storage.setUserInputPath(pathname);
 		storage.readFile(taskList);
@@ -208,15 +212,23 @@ void Logic::getDirectory() {
 }
 
 bool Logic::checkIndex(int index) {
-	for (int i = 0; i < taskList.size(); i++) {
-		if (index == i + 1) {
+	
+		if (index > 0 && index <= taskList.size()) {
 			return true;
 		} else {
 			return false;
 		}
-	}
+	
 }
 
 void Logic::refreshStatus() {
 	checker.updateStatus(taskList);
+}
+
+bool Logic::checkFoundList(vector<Task> foundList) {
+	if (foundList.size() == 0) {
+		return true;
+	} else {
+		return false;
+	}
 }

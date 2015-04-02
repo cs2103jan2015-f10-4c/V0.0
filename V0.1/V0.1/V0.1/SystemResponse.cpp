@@ -4,11 +4,11 @@ const string SystemResponse::MESSAGE_WELCOME = "Welcome to RushHour!";
 const string SystemResponse::MESSAGE_WELCOME_EXISTING_USER = "Hi! Welcome back!";
 const string SystemResponse::MESSAGE_ADD = "The task is added successfully.";
 const string SystemResponse::MESSAGE_ADD_FAIL = "Failed to add task. Please enter in the correct format.";
-const string SystemResponse::MESSAGE_DELETE = "The task %s is deleted successfully.";
-const string SystemResponse::MESSAGE_DELETE_FAIL = "Failed to delete task. Task \"%s\" is not in the list.";
-const string SystemResponse::MESSAGE_EDIT = "The task %s is editeed successfully.";
+const string SystemResponse::MESSAGE_DELETE = "Task %s is deleted successfully.";
+const string SystemResponse::MESSAGE_DELETE_FAIL = "Failed to delete the task. Task \"%s\" is not in the list.";
+const string SystemResponse::MESSAGE_EDIT = "Task %s is edited successfully.";
 const string SystemResponse::MESSAGE_EDIT_FAIL = "Fail to edit task %s due to unsupported input format.";
-const string SystemResponse::MESSAGE_MARK_DONE = "The task %s is done.";
+const string SystemResponse::MESSAGE_MARK_DONE = "Task %s is done.";
 const string SystemResponse::MESSAGE_MARK_DONE_FAIL = "Failed to mark done the task. Task\"%s\" is not in the list.";
 const string SystemResponse::MESSAGE_MARK_DONE_FAIL_ALREADY_DONE = "Task %s is already done.";
 const string SystemResponse::MESSAGE_SEARCH_FAIL = "There is no result found.";
@@ -49,8 +49,9 @@ string SystemResponse::addResponse(bool isAdded) {
 }
 
 string SystemResponse::deleteResponse(bool isDeleted, int index) {
+	string indexString = to_string(index);
 	if (isDeleted) {
-		sprintf_s(outputBuffer, MESSAGE_DELETE.c_str(), index);
+		sprintf_s(outputBuffer, MESSAGE_DELETE.c_str(), indexString.c_str());
 	} else {
 		sprintf_s(outputBuffer,MESSAGE_DELETE_FAIL.c_str());
 	}
@@ -58,25 +59,27 @@ string SystemResponse::deleteResponse(bool isDeleted, int index) {
 }
 
 string SystemResponse::editResponse(bool isEditted, int index) {
+	string indexString = to_string(index);
 	if (isEditted) {
-		sprintf_s(outputBuffer, MESSAGE_EDIT.c_str(), index);
+		sprintf_s(outputBuffer, MESSAGE_EDIT.c_str(), indexString.c_str());
 	} else {
-		sprintf_s(outputBuffer, MESSAGE_EDIT_FAIL.c_str(), index);
+		sprintf_s(outputBuffer, MESSAGE_EDIT_FAIL.c_str(), indexString.c_str());
 	}
 	return outputBuffer;
 }
 
 string SystemResponse::markDoneResponse(bool isMarked, int index) {
+	string indexString = to_string(index);
 	if (isMarked) {
-		sprintf_s(outputBuffer, MESSAGE_MARK_DONE.c_str(), index);
+		sprintf_s(outputBuffer, MESSAGE_MARK_DONE.c_str(), indexString.c_str());
 	} else {
-		sprintf_s(outputBuffer, MESSAGE_MARK_DONE_FAIL.c_str(), index); //Not complete yet, different fail cases.
+		sprintf_s(outputBuffer, MESSAGE_MARK_DONE_FAIL.c_str(), indexString.c_str()); //Not complete yet, different fail cases.
 	}
 	return outputBuffer;
 }
 
-string SystemResponse::searchResponse(bool isFound) {
-	if (!isFound) {
+string SystemResponse::searchResponse(bool isEmpty) {
+	if (isEmpty) {
 		sprintf_s(outputBuffer, MESSAGE_SEARCH_FAIL.c_str());
 	}
 	return outputBuffer;

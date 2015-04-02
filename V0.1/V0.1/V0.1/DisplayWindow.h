@@ -18,7 +18,7 @@ public:
 	DisplayWindow();
 	~DisplayWindow();
 
-	void setContent(vector<Task>);
+	void setContent(vector<Task>&);
 	string getContent();
 
 };

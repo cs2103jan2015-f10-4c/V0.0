@@ -8,7 +8,8 @@ vector<Task> searchExecutor::searchTask(string  keyPhrase, vector<Task>& taskLis
 	vector<Task> searchResult;
    // taskList = storage.getTaskList();
     for (unsigned i=0; i < taskList.size(); i++) {
-        if (taskList[i].taskName.compare(keyPhrase) == 0) {
+		size_t found = taskList[i].taskName.find(keyPhrase);
+		if (found != std::string::npos){
             searchResult.push_back(taskList[i]);
         }
     }
