@@ -123,9 +123,22 @@
 ADD:         to add a new task, three types are supported
 Floating:    add;task
 Timed:       add;task;start(time);end(time)
-Deadine:    add;task(time);end(time)
+Deadine:    add;task;end(time)
+
+If specify time only, default date as current date will be provided;
+If specify date only,  default time as current time will be provided;
+If specify date + time, a white space will be needed to seperate date and time;  
 
 Time format supported:
+1852; 254; 1042am; 11:08am; 09:13pm; 
+07.12am; 05.21pm; 1544h; 2133h; 23:43h;
+
+Date fomate supported: dd-mm-yy
+6/11; 3-12; 6/11/2011; 3-12-2011; 
+6sep2013; 7Sep2013; 8SEP2013;
+
+
+
 
 
 DELETE: to delete a task by specify the index of it in the overall tasklist

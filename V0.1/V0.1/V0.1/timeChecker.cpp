@@ -1,7 +1,7 @@
 #include "timeChecker.h"
 
-const string NON_TARGET_TYPE = "floating";
-const string STATUS_OVERDUE = "overdue";
+const string TimeChecker::NON_TARGET_TYPE = "floating";
+const string TimeChecker::STATUS_OVERDUE = "overdue";
 
 
 TimeChecker::TimeChecker(){};

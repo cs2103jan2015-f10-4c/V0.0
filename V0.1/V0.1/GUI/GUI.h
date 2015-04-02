@@ -224,9 +224,10 @@ namespace GUI {
 			 size_t tempEnd=-1;
 			 String^ temp;
 			 string componentInfo;
-			// storage.readFile(); Logic loadfile to be added;
-	
-		     this->SystemResponse->Text = "Welcome to RushHour! What would you like to do?";
+			 logic.checkDirectory();
+			 string responseMessage = logic.tellGUIResponse();
+			 this->SystemResponse->Text = gcnew String(responseMessage.c_str());
+			 logic.refreshStatus();
 			 string returnInfo =logic.tellGUI();
 			 String^ tempString = gcnew String(returnInfo.c_str());
 
@@ -292,6 +293,10 @@ namespace GUI {
 			 DisplayContent->Items->Clear();
 
 		     logic.executeUserCommand(userInput);
+
+			 string responseMessage = logic.tellGUIResponse();
+			 this->SystemResponse->Text = gcnew String(responseMessage.c_str());
+
 			 string returnInfo = logic.tellGUI();
 			 String^ tempString = gcnew String(returnInfo.c_str());
 			 
@@ -353,7 +358,6 @@ namespace GUI {
     private: System::Void Refresh_Click(System::Object^  sender, System::EventArgs^  e) {// status will be updated every 60seconds
 		     logic.refreshStatus();
     }
-private: System::Void eventLog1_EntryWritten(System::Object^  sender, System::Diagnostics::EntryWrittenEventArgs^  e) {
-}
+
 };
 }
