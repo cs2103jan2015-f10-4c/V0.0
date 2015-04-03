@@ -59,6 +59,8 @@ Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 		return COMMAND_TYPE::_UNDO;
 	} else if (commandWord == "redo") {
 		return COMMAND_TYPE::_REDO;
+	}else if (commandWord == "directory") {
+		return COMMAND_TYPE::_DIRECTORY;
 	}else {
 		return COMMAND_TYPE::_INVALID;
 	}

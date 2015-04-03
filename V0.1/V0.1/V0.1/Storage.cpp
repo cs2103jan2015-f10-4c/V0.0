@@ -54,9 +54,10 @@ Storage::~Storage(void){}
 
 void Storage::saveFile(vector<Task>& taskList){
 	
-	//string filePath = getOutfilePath();
+	string filePath = getOutfilePath();
 	ofstream writeFile;
-	writeFile.open(TEXTFILENAME);
+	//writeFile.open(TEXTFILENAME);
+	writeFile.open(filePath.c_str());
 
 	writeFile << " Tasklist: "<< endl;
 
