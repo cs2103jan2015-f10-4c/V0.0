@@ -130,6 +130,7 @@ void Logic::searchTask(){
 	if (isEmptyList) {
 		response.searchResponse(isEmptyList);
 	} else {
+		response.searchResponse(isEmptyList);
 		disp.setDefaultDisplay(search.searchTask(keyPhrase, taskList));
 	}
 }
