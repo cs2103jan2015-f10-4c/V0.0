@@ -34,6 +34,7 @@ private:
 	static const string MESSAGE_FAIL_TO_DISPLAY_VARIOUS;
 	static const string MESSAGE_NO_DIRECTORY;
 	static const string MESSAGE_INVALID_DIRECTORY;
+	static const string MESSAGE_VALID_DIRECTORY;
 	static const string MESSAGE_INVALID_COMMAND;
 	//static char outputBuffer[MAX_CHAR];
 
@@ -54,7 +55,7 @@ public:
 	string dispVariousResponse(string);
 	string tellResponse();
 	string noDirectoryResponse();
-	string invalidDirectoryResponse();
+	string DirectoryResponse(bool);
 	string invalidResponse();
 };
 #endif
