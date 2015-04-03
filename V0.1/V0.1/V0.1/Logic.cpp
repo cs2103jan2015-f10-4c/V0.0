@@ -140,7 +140,7 @@ void Logic::markDoneTask(){
 	int index = parse.getIndex();
 	if (checkIndex(index)) {
 		isCorrectIndex = true;
-		if (taskList[index].status != "done"){
+		if (taskList[index-1].status != "done"){
 			mark.markDoneTask(index, taskList);
 			history.saveOperation(taskList);
 			response.markDoneResponse(isCorrectIndex,isDone, index);
@@ -235,6 +235,7 @@ bool Logic::checkIndex(int index) {
 
 void Logic::refreshStatus() {
 	checker.updateStatus(taskList);
+	disp.setDefaultDisplay(taskList);
 }
 
 bool Logic::checkFoundList(vector<Task> foundList) {

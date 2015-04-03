@@ -12,7 +12,7 @@ void TimeChecker::updateStatus(vector<Task>& tasklist){
 
 	for (unsigned i = 0; i < tasklist.size(); i++){
 		if (tasklist[i].type != NON_TARGET_TYPE){
-			if (checkStatus(tasklist[i].endingTime)){
+			if (checkStatus(tasklist[i].endingTime) && tasklist[i].status!="done"){
 				tasklist[i].status = STATUS_OVERDUE;
 			}
 		}
