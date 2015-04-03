@@ -12,6 +12,7 @@ const string SystemResponse::MESSAGE_MARK_DONE = "Task %s is done.";
 const string SystemResponse::MESSAGE_MARK_DONE_FAIL = "Failed to mark done the task. Task\"%s\" is not in the list.";
 const string SystemResponse::MESSAGE_MARK_DONE_FAIL_ALREADY_DONE = "Task %s is already done.";
 const string SystemResponse::MESSAGE_SEARCH_FAIL = "There is no result found.";
+const string SystemResponse::MESSAGE_SEARCH_SUCCESSFUL = "Search Result is displayed.";
 const string SystemResponse::MESSAGE_UNDO = "Undo successful.";
 const string SystemResponse::MESSAGE_UNDO_FAIL = "Failed to undo. Exceed number of actions performed.";
 const string SystemResponse::MESSAGE_REDO = "Redo successful.";
@@ -19,6 +20,8 @@ const string SystemResponse::MESSAGE_REDO_FAIL = "Failed to redo. No undo action
 const string SystemResponse::MESSAGE_FAIL_TO_DISPLAY_VARIOUS = "Failed to display due to incorrect type specified.";
 const string SystemResponse::MESSAGE_NO_DIRECTORY = "Please specify a valid directory.";
 const string SystemResponse::MESSAGE_INVALID_DIRECTORY = "Directory invalid, please re-enter.";
+const string SystemResponse::MESSAGE_INVALID_COMMAND = "Command invalid, please re-enter.";
+
 
 SystemResponse::SystemResponse(void) {}
 
@@ -68,11 +71,15 @@ string SystemResponse::editResponse(bool isEditted, int index) {
 	return outputBuffer;
 }
 
-string SystemResponse::markDoneResponse(bool isMarked, int index) {
+string SystemResponse::markDoneResponse(bool isCorrectIndex,bool isDone, int index) {
 	string indexString = to_string(index);
-	if (isMarked) {
+	if (isCorrectIndex && !isDone) {
 		sprintf_s(outputBuffer, MESSAGE_MARK_DONE.c_str(), indexString.c_str());
-	} else {
+	}
+	else if (isCorrectIndex && isDone){
+		sprintf_s(outputBuffer, MESSAGE_MARK_DONE_FAIL_ALREADY_DONE.c_str(), indexString.c_str());
+	}
+	else{
 		sprintf_s(outputBuffer, MESSAGE_MARK_DONE_FAIL.c_str(), indexString.c_str()); //Not complete yet, different fail cases.
 	}
 	return outputBuffer;
@@ -81,6 +88,9 @@ string SystemResponse::markDoneResponse(bool isMarked, int index) {
 string SystemResponse::searchResponse(bool isEmpty) {
 	if (isEmpty) {
 		sprintf_s(outputBuffer, MESSAGE_SEARCH_FAIL.c_str());
+	}
+	else{
+		sprintf_s(outputBuffer, MESSAGE_SEARCH_SUCCESSFUL.c_str());
 	}
 	return outputBuffer;
 }
@@ -105,6 +115,11 @@ string SystemResponse::redoResponse(bool isPerformed) {
 
 string SystemResponse::dispVariousResponse(string message) {
 	sprintf_s(outputBuffer, message.c_str());
+	return outputBuffer;
+}
+
+string SystemResponse::invalidResponse(){
+	sprintf_s(outputBuffer, MESSAGE_INVALID_COMMAND.c_str());
 	return outputBuffer;
 }
 

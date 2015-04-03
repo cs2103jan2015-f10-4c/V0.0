@@ -7,7 +7,7 @@ addExecutor::addExecutor(void){}
 
 addExecutor::~addExecutor(void){}
 
-void addExecutor::addTask(string taskTitle, string startTime, string endTime, string taskType, vector<Task>& taskList) {
+void addExecutor::addTimedTask(string taskTitle, string startTime, string endTime, string taskType, vector<Task>& taskList) {
     //taskList = storage.getTaskList();
     Task tempStorage;
     tempStorage.taskName = taskTitle;

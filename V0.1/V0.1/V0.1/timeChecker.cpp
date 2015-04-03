@@ -25,7 +25,9 @@ bool TimeChecker::checkStatus(string endingTime){
 
 	bool isOverdue = false;
 	string currentTime = transformTime.getCurrentTime();
-	if (currentTime > endingTime){
+	time_t currentT = transformTime.stringToTime(currentTime);
+	time_t endTime = transformTime.stringToTime(endingTime);
+	if (currentT > endTime){
 		isOverdue = true;
 	}
 	return isOverdue;

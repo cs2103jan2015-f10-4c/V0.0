@@ -30,7 +30,7 @@ public:
     vector<Task> floatingList;*/
 	addExecutor();
 	~addExecutor();
-	void addTask(string, string, string, string, vector<Task>&);
+	void addTimedTask(string, string, string, string, vector<Task>&);
 	void addDeadlineTask(string, string, string, vector<Task>&, vector<Task>&);
 	void addFloatingTask(string, string, vector<Task>&, vector<Task>&);
 

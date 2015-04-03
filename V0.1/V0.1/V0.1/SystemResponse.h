@@ -26,6 +26,7 @@ private:
 	static const string MESSAGE_MARK_DONE_FAIL;
 	static const string MESSAGE_MARK_DONE_FAIL_ALREADY_DONE;
 	static const string MESSAGE_SEARCH_FAIL;
+	static const string MESSAGE_SEARCH_SUCCESSFUL;
 	static const string MESSAGE_UNDO;
 	static const string MESSAGE_UNDO_FAIL;
 	static const string MESSAGE_REDO;
@@ -33,6 +34,7 @@ private:
 	static const string MESSAGE_FAIL_TO_DISPLAY_VARIOUS;
 	static const string MESSAGE_NO_DIRECTORY;
 	static const string MESSAGE_INVALID_DIRECTORY;
+	static const string MESSAGE_INVALID_COMMAND;
 	//static char outputBuffer[MAX_CHAR];
 
 public:
@@ -46,12 +48,13 @@ public:
 	string deleteResponse(bool, int);
 	string editResponse(bool, int);
 	string searchResponse(bool);
-	string markDoneResponse(bool, int);
+	string markDoneResponse(bool,bool, int);
 	string undoResponse(bool);
 	string redoResponse(bool);
 	string dispVariousResponse(string);
 	string tellResponse();
 	string noDirectoryResponse();
 	string invalidDirectoryResponse();
+	string invalidResponse();
 };
 #endif

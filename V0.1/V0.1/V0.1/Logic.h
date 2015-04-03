@@ -53,7 +53,7 @@ public:
 
 	enum COMMAND_TYPE {
 
-		_ADD, _DELETE, _EDIT, _SEARCH, _MARKDONE, _DISPLAY, _UNDO, _REDO, _ERROR, _DIRECTORY
+		_ADD, _DELETE, _EDIT, _SEARCH, _MARKDONE, _DISPLAY, _UNDO, _REDO, _INVALID, _DIRECTORY
 
 	};
 	void retriveStorage();
@@ -67,6 +67,8 @@ public:
 	void redoTask();
 	bool checkIndex(int);
 	void getDirectory();
+	void showUserInvalidResponse();
+
 	string tellGUI();
 	string tellGUIResponse();
 	void checkDirectory();

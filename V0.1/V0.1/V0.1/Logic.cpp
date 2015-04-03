@@ -37,28 +37,30 @@ void Logic::executeUserCommand(string userInput){
 	case _DIRECTORY:
 		return getDirectory();
 	default:
-		break;
+		return showUserInvalidResponse();
 	}
 }
 
 
 Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
-	if (commandWord == "Add" || commandWord == "add") {
+	if (commandWord == "add") {
 		return COMMAND_TYPE::_ADD;
-	} else if (commandWord == "Delete" || commandWord == "delete") {
+	} else if (commandWord == "delete") {
 		return COMMAND_TYPE::_DELETE;
-	} else if (commandWord == "Edit" || commandWord == "edit") {
+	} else if (commandWord == "edit") {
 		return COMMAND_TYPE::_EDIT;
-	} else if (commandWord == "Search" || commandWord == "search") {
+	} else if (commandWord == "search") {
 		return COMMAND_TYPE::_SEARCH;
-	} else if (commandWord == "Mark done" || commandWord == "mark done" || commandWord == "mark") {
+	} else if (commandWord == "mark done") {
 		return COMMAND_TYPE::_MARKDONE;
-	} else if (commandWord == "Display" || commandWord == "display") {
+	} else if (commandWord == "display") {
 		return COMMAND_TYPE::_DISPLAY;
-	} else if (commandWord == "Undo" || commandWord == "undo") {
+	} else if (commandWord == "undo") {
 		return COMMAND_TYPE::_UNDO;
-	} else if (commandWord == "Redo" || commandWord == "redo") {
+	} else if (commandWord == "redo") {
 		return COMMAND_TYPE::_REDO;
+	}else {
+		return COMMAND_TYPE::_INVALID;
 	}
 }// take not of default return type ??? exceptions 
 
@@ -71,7 +73,7 @@ void Logic::addTask(){
 		string taskName = parse.getTaskName();
 		string startTime = parse.getStartTime();
 		string endTime = parse.getEndTime();
-		add.addTask(taskName, startTime, endTime, taskType, taskList);
+		add.addTimedTask(taskName, startTime, endTime, taskType, taskList);
 	} else if (taskType == "deadline") {
 		string taskName = parse.getTaskName();
 		//cout << taskName; passed
@@ -134,16 +136,23 @@ void Logic::searchTask(){
 
 void Logic::markDoneTask(){
 	bool isCorrectIndex = false;
+	bool isDone = false;
 	int index = parse.getIndex();
 	if (checkIndex(index)) {
 		isCorrectIndex = true;
-	    mark.markDoneTask(index, taskList);
-	    history.saveOperation(taskList);
-		response.markDoneResponse(isCorrectIndex, index);
-	    disp.setDefaultDisplay(taskList);
-	    storage.saveFile(taskList);
+		if (taskList[index].status != "done"){
+			mark.markDoneTask(index, taskList);
+			history.saveOperation(taskList);
+			response.markDoneResponse(isCorrectIndex,isDone, index);
+			disp.setDefaultDisplay(taskList); 
+			storage.saveFile(taskList);
+		}
+		else{
+            isDone = true; 
+			response.markDoneResponse(isCorrectIndex, isDone, index);
+		}	
 	} else {
-		response.markDoneResponse(isCorrectIndex, index);
+		response.markDoneResponse(isCorrectIndex,isDone,index);
 	}
 }
 
@@ -180,6 +189,9 @@ void Logic::display(){
 	response.dispVariousResponse(outputMsg);
 }
 
+void Logic::showUserInvalidResponse(){
+	response.invalidResponse();
+}
 string Logic::tellGUI(){
 	return disp.getContent();
 }

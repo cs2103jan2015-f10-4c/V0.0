@@ -71,7 +71,8 @@ string Parser::getCommandWord(string command){
     }else if(task == "directory"){
         taskType = detail;
     }else {
-        cout<< "Parser: worry input.\n";
+        //cout<< "Parser: worry input.\n";//task should be made invalid command;
+		task = "invalid Command";
     }
     
     return task;
