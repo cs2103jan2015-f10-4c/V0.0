@@ -26,11 +26,14 @@ string Parser::getCommandWord(string command){
         }else if (type == 1) {
             taskType = "deadline";
             taskName = getTaskName(detail);
+			startTime = "";
             endTime = getStartDetail1(detail);
 			endTime = TransformTime.convertTime(endTime);
         }else {
             taskType = "floating";
             taskName = getTaskName(detail);
+			startTime = "";
+			endTime = "";
             
         }
     }else if(task == "delete"){
@@ -50,12 +53,14 @@ string Parser::getCommandWord(string command){
         }else if (numberOfDelimiter == 1) {
             taskType = "deadline";
             taskName = getTaskName(editDetail);
+			startTime = "";
             endTime = getStartDetail1(editDetail);
 			endTime = TransformTime.convertTime(endTime);
         }else {
             taskType = "floating";
             taskName = getTaskName(editDetail);
-            
+			startTime = "";
+			endTime = "";
         }
         
     }else if(task == "search"){
