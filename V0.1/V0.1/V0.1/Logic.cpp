@@ -215,15 +215,19 @@ void Logic::checkDirectory() {
 }
 
 void Logic::getDirectory() {
+	bool isValid = false;
 	struct stat sb;
-		string pathname;
-	do {
-		response.invalidDirectoryResponse();
+	string pathname;
+	pathname = parse.getTaskType();
+	while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode)){
+		response.DirectoryResponse(isValid);
 		pathname = parse.getTaskType();
-		storage.setUserInputPath(pathname);
-		storage.readFile(taskList);
-		}
-		while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode));
+	}
+	isValid = true;
+	response.DirectoryResponse(isValid);
+	storage.setUserInputPath(pathname);
+	storage.readFile(taskList);
+
 }
 
 bool Logic::checkIndex(int index) {
