@@ -99,9 +99,9 @@ namespace GUI {
 			// 
 			this->comfirmButton->Font = (gcnew System::Drawing::Font(L"Arial", 10.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->comfirmButton->Location = System::Drawing::Point(488, 24);
+			this->comfirmButton->Location = System::Drawing::Point(462, 24);
 			this->comfirmButton->Name = L"comfirmButton";
-			this->comfirmButton->Size = System::Drawing::Size(57, 28);
+			this->comfirmButton->Size = System::Drawing::Size(62, 28);
 			this->comfirmButton->TabIndex = 1;
 			this->comfirmButton->Text = L"Enter";
 			this->comfirmButton->UseVisualStyleBackColor = true;
@@ -111,10 +111,10 @@ namespace GUI {
 			// 
 			this->inputBox->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->inputBox->Location = System::Drawing::Point(27, 24);
+			this->inputBox->Location = System::Drawing::Point(12, 24);
 			this->inputBox->Multiline = true;
 			this->inputBox->Name = L"inputBox";
-			this->inputBox->Size = System::Drawing::Size(456, 28);
+			this->inputBox->Size = System::Drawing::Size(444, 28);
 			this->inputBox->TabIndex = 0;
 			this->inputBox->TextChanged += gcnew System::EventHandler(this, &MyForm::inputBox_TextChanged);
 			// 
@@ -122,8 +122,9 @@ namespace GUI {
 			// 
 			this->SystemResponse->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->SystemResponse->ForeColor = System::Drawing::Color::Red;
 			this->SystemResponse->ImageAlign = System::Drawing::ContentAlignment::TopLeft;
-			this->SystemResponse->Location = System::Drawing::Point(24, 309);
+			this->SystemResponse->Location = System::Drawing::Point(12, 309);
 			this->SystemResponse->Name = L"SystemResponse";
 			this->SystemResponse->Size = System::Drawing::Size(432, 26);
 			this->SystemResponse->TabIndex = 4;
@@ -141,7 +142,7 @@ namespace GUI {
 				static_cast<System::Byte>(0)));
 			this->DisplayContent->FullRowSelect = true;
 			this->DisplayContent->GridLines = true;
-			this->DisplayContent->Location = System::Drawing::Point(26, 58);
+			this->DisplayContent->Location = System::Drawing::Point(12, 58);
 			this->DisplayContent->Name = L"DisplayContent";
 			this->DisplayContent->Size = System::Drawing::Size(512, 248);
 			this->DisplayContent->TabIndex = 5;
@@ -188,10 +189,10 @@ namespace GUI {
 			this->feedbackWindow->BackColor = System::Drawing::SystemColors::MenuBar;
 			this->feedbackWindow->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->feedbackWindow->Location = System::Drawing::Point(551, 24);
+			this->feedbackWindow->Location = System::Drawing::Point(12, 338);
 			this->feedbackWindow->Name = L"feedbackWindow";
 			this->feedbackWindow->ScrollBars = System::Windows::Forms::RichTextBoxScrollBars::ForcedBoth;
-			this->feedbackWindow->Size = System::Drawing::Size(373, 311);
+			this->feedbackWindow->Size = System::Drawing::Size(512, 183);
 			this->feedbackWindow->TabIndex = 6;
 			this->feedbackWindow->Text = L"";
 			this->feedbackWindow->WordWrap = false;
@@ -203,13 +204,14 @@ namespace GUI {
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
-			this->ClientSize = System::Drawing::Size(946, 347);
+			this->ClientSize = System::Drawing::Size(541, 533);
 			this->Controls->Add(this->feedbackWindow);
 			this->Controls->Add(this->DisplayContent);
 			this->Controls->Add(this->SystemResponse);
 			this->Controls->Add(this->inputBox);
 			this->Controls->Add(this->comfirmButton);
 			this->Name = L"MyForm";
+			this->ShowIcon = false;
 			this->Text = L"RushHour";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->ResumeLayout(false);
@@ -228,6 +230,8 @@ namespace GUI {
 		string componentInfo;
 		logic.checkDirectory();
 		instruction << "Please read the instructions for supported functionalities below:\n\n"
+			<< "If you are reqired a directory, please specify a directory as following:\n"
+			<< "directory; file path you want\n\n"
 			<< "ADD:to add a new task, three types are supported\n"
 			<< "1.Floating: add;task\n"
 			<< "2.Timed:    add;task;start(time);end(time)\n"
