@@ -75,9 +75,13 @@ string Parser::getCommandWord(string command){
         // Not Done
     }else if(task == "directory"){
         taskType = detail;
+    }else if(task == "clear"){
+        
+    }else if(task == "exit"){
+
     }else {
         //cout<< "Parser: worry input.\n";//task should be made invalid command;
-		task = "invalid Command";
+		task = "Invalid Command";
     }
     
     return task;
