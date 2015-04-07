@@ -17,7 +17,8 @@ private:
 	static const string MESSAGE_WELCOME;
     static const string MESSAGE_WELCOME_EXISTING_USER;
 	static const string MESSAGE_ADD;
-	static const string MESSAGE_ADD_FAIL;
+	static const string MESSAGE_ADD_FAIL_INVALID_TIME;
+	static const string MESSAGE_ADD_FAIL_INCORRECT_FORMAT;
 	static const string MESSAGE_DELETE;
 	static const string MESSAGE_DELETE_FAIL;
 	static const string MESSAGE_EDIT;
@@ -46,7 +47,7 @@ public:
 	SystemResponse();
 	~SystemResponse();
 	string welcomeExistingMessage();
-	string addResponse(bool);
+	string addResponse(bool,bool);
 	string deleteResponse(bool, int);
 	string editResponse(bool, int);
 	string searchResponse(bool);
