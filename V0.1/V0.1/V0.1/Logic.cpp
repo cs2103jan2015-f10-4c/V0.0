@@ -38,6 +38,8 @@ void Logic::executeUserCommand(string userInput){
 		return getDirectory();
 	case _CLEAR:
 		return clearTaskList();
+	case _EXIT:
+		return exitProgram();
 	default:
 		return showUserInvalidResponse();
 	}
@@ -65,6 +67,8 @@ Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 		return COMMAND_TYPE::_DIRECTORY;
 	}else if (commandWord == "clear") {
 		return COMMAND_TYPE::_CLEAR;
+	}else if (commandWord == "exit") {
+		return COMMAND_TYPE::_EXIT;
 	}else {
 		return COMMAND_TYPE::_INVALID;
 	}
@@ -263,4 +267,8 @@ void Logic::clearTaskList() {
     response.clearAllResponse();
 	disp.setDefaultDisplay(taskList);
 	storage.saveFile(taskList);
+}
+
+void Logic::exitProgram() {
+	exit(EXIT_SUCCESS);
 }

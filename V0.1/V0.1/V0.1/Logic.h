@@ -68,6 +68,7 @@ public:
 	bool checkIndex(int);
 	void getDirectory();
 	void clearTaskList();
+	void exitProgram();
 	void showUserInvalidResponse();
 
 	string tellGUI();
