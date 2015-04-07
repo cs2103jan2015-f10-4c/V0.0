@@ -3,7 +3,8 @@
 const string SystemResponse::MESSAGE_WELCOME = "Welcome to RushHour!";
 const string SystemResponse::MESSAGE_WELCOME_EXISTING_USER = "Hi! Welcome back!";
 const string SystemResponse::MESSAGE_ADD = "The task is added successfully.";
-const string SystemResponse::MESSAGE_ADD_FAIL = "Failed to add task. Please enter in the correct format.";
+const string SystemResponse::MESSAGE_ADD_FAIL_INCORRECT_FORMAT = "Failed to add task. Please enter in the correct format.";
+const string SystemResponse::MESSAGE_ADD_FAIL_INVALID_TIME = "Failed to add task. Starting time is later than ending time.";
 const string SystemResponse::MESSAGE_DELETE = "Task %s is deleted successfully.";
 const string SystemResponse::MESSAGE_DELETE_FAIL = "Failed to delete the task. Task \"%s\" is not in the list.";
 const string SystemResponse::MESSAGE_EDIT = "Task %s is edited successfully.";
@@ -50,11 +51,13 @@ string SystemResponse::DirectoryResponse(bool isValid) {
 	return outputBuffer;
 }
 
-string SystemResponse::addResponse(bool isAdded) {
-	if (isAdded) {
+string SystemResponse::addResponse(bool isValidTime, bool isValidFormat) {
+	if (isValidTime && isValidFormat) {
 		sprintf_s(outputBuffer, MESSAGE_ADD.c_str());
-	} else {
-		sprintf_s(outputBuffer, MESSAGE_ADD_FAIL.c_str());
+	} else if (!isValidTime) {
+		sprintf_s(outputBuffer, MESSAGE_ADD_FAIL_INVALID_TIME.c_str());
+	} else if (!isValidFormat) {
+		sprintf_s(outputBuffer, MESSAGE_ADD_FAIL_INCORRECT_FORMAT.c_str());
 	}
 	return outputBuffer;
 }
