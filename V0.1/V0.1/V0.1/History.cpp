@@ -23,12 +23,14 @@ vector<Task> History::undo(){
     
 	if (checkUndoEmpty() == true){
         redoStorageList.push(undoStorageList.top());
-        
-            undoStorageList.pop();
-            
-            updatedTaskList = undoStorageList.top();
-        
-        
+		undoStorageList.pop();
+			if (checkUndoEmpty() == false){
+				return updatedTaskList;
+			}
+			else{
+				updatedTaskList = undoStorageList.top();
+			}
+			
         return updatedTaskList;
     }
 	else{
