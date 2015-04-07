@@ -16,39 +16,36 @@ string Parser::getCommandWord(string command){
     string detail = getDetail(command);
     if(task == "add"){
         size_t type = count(detail.begin(), detail.end(), ';');
+        if (detail=="" )
+        {
+            isCorrectFormat = false;
+        }
         if (type == 2) {
             taskType = "timed";
+            isCorrectFormat = true;
             taskName = getTaskName(detail);
             startTime = getStartDetail2(detail);
             endTime = getEndDetail(detail);
 			startTime = TransformTime.convertTime(startTime);
 			endTime = TransformTime.convertTime(endTime);
             validTime = TransformTime.checkTime(startTime,endTime);
-            if (taskName=="")
-                isCorrectFormat = false;
-            else
-                isCorrectFormat = true;
         }else if (type == 1) {
             taskType = "deadline";
+            isCorrectFormat = true;
             taskName = getTaskName(detail);
 			startTime = "";
             endTime = getStartDetail1(detail);
 			endTime = TransformTime.convertTime(endTime);
             validTime = true;
-            if (taskName=="")
-                isCorrectFormat = false;
-            else
-                isCorrectFormat = true;
-        }else {
+        }else if (type == 0){
             taskType = "floating";
+            isCorrectFormat = true;
             taskName = getTaskName(detail);
 			startTime = "";
 			endTime = "";
             validTime = true;
-            if (taskName=="")
-                isCorrectFormat = false;
-            else
-                isCorrectFormat = true;
+        }else
+        {
             
         }
     }else if(task == "delete"){
