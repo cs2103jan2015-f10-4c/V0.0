@@ -16,65 +16,71 @@ string Parser::getCommandWord(string command){
     string detail = getDetail(command);
     if(task == "add"){
         size_t type = count(detail.begin(), detail.end(), ';');
-        if (detail=="" )
-        {
-            isCorrectFormat = false;
-        }
         if (type == 2) {
             taskType = "timed";
             isCorrectFormat = true;
             taskName = getTaskName(detail);
             startTime = getStartDetail2(detail);
             endTime = getEndDetail(detail);
-			startTime = TransformTime.convertTime(startTime);
-			endTime = TransformTime.convertTime(endTime);
+            startTime = TransformTime.convertTime(startTime);
+            endTime = TransformTime.convertTime(endTime);
             validTime = TransformTime.checkTime(startTime,endTime);
         }else if (type == 1) {
             taskType = "deadline";
             isCorrectFormat = true;
             taskName = getTaskName(detail);
-			startTime = "";
+            startTime = "";
             endTime = getStartDetail1(detail);
-			endTime = TransformTime.convertTime(endTime);
+            endTime = TransformTime.convertTime(endTime);
             validTime = true;
+        }else if (detail=="add" && type == 0)
+        {
+         isCorrectFormat = false;
         }else if (type == 0){
             taskType = "floating";
             isCorrectFormat = true;
             taskName = getTaskName(detail);
-			startTime = "";
-			endTime = "";
+            startTime = "";
+            endTime = "";
             validTime = true;
         }else
         {
             
         }
+        
+        if (detail=="")
+        {
+            isCorrectFormat = false;
+        }
+        
+        cout << "isCorrectFormat" << isCorrectFormat <<endl;
     }else if(task == "delete"){
         index = getIndex(detail);
     }else if(task == "edit"){
         index = getIndex(detail);
-		string editDetail = getDetail(detail);
-		size_t numberOfDelimiter = count(editDetail.begin(), editDetail.end(), ';');
-
-		if (numberOfDelimiter == 2) {
+        string editDetail = getDetail(detail);
+        size_t numberOfDelimiter = count(editDetail.begin(), editDetail.end(), ';');
+        
+        if (numberOfDelimiter == 2) {
             taskType = "timed";
             taskName = getTaskName(editDetail);
             startTime = getStartDetail2(editDetail);
-			startTime = TransformTime.convertTime(startTime);
+            startTime = TransformTime.convertTime(startTime);
             endTime = getEndDetail(editDetail);
-			endTime = TransformTime.convertTime(endTime);
+            endTime = TransformTime.convertTime(endTime);
             validTime = TransformTime.checkTime(startTime,endTime);
         }else if (numberOfDelimiter == 1) {
             taskType = "deadline";
             taskName = getTaskName(editDetail);
-			startTime = "";
+            startTime = "";
             endTime = getStartDetail1(editDetail);
-			endTime = TransformTime.convertTime(endTime);
+            endTime = TransformTime.convertTime(endTime);
             validTime = true;
         }else {
             taskType = "floating";
             taskName = getTaskName(editDetail);
-			startTime = "";
-			endTime = "";
+            startTime = "";
+            endTime = "";
             validTime = true;
         }
         
@@ -93,10 +99,10 @@ string Parser::getCommandWord(string command){
     }else if(task == "clear"){
         
     }else if(task == "exit"){
-
+        
     }else {
         //cout<< "Parser: worry input.\n";//task should be made invalid command;
-		task = "Invalid Command";
+        task = "Invalid Command";
     }
     
     return task;
@@ -207,5 +213,5 @@ string Parser::getEndDetail(string input){
     positionA = temp.find_first_of(DELIMITERS) + 1;
     time = temp.substr(positionB, positionC - positionB);
     return time;
-
+    
 }
