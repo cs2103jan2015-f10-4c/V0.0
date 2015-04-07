@@ -23,17 +23,32 @@ string Parser::getCommandWord(string command){
             endTime = getEndDetail(detail);
 			startTime = TransformTime.convertTime(startTime);
 			endTime = TransformTime.convertTime(endTime);
+            validTime = TransformTime.checkTime(startTime,endTime);
+            if (taskName=="")
+                failureCase = true;
+            else
+                failureCase = false;
         }else if (type == 1) {
             taskType = "deadline";
             taskName = getTaskName(detail);
 			startTime = "";
             endTime = getStartDetail1(detail);
 			endTime = TransformTime.convertTime(endTime);
+            validTime = true;
+            if (taskName=="")
+                failureCase = true;
+            else
+                failureCase = false;
         }else {
             taskType = "floating";
             taskName = getTaskName(detail);
 			startTime = "";
 			endTime = "";
+            validTime = true;
+            if (taskName=="")
+                failureCase = true;
+            else
+                failureCase = false;
             
         }
     }else if(task == "delete"){
@@ -50,17 +65,20 @@ string Parser::getCommandWord(string command){
 			startTime = TransformTime.convertTime(startTime);
             endTime = getEndDetail(editDetail);
 			endTime = TransformTime.convertTime(endTime);
+            validTime = TransformTime.checkTime(startTime,endTime);
         }else if (numberOfDelimiter == 1) {
             taskType = "deadline";
             taskName = getTaskName(editDetail);
 			startTime = "";
             endTime = getStartDetail1(editDetail);
 			endTime = TransformTime.convertTime(endTime);
+            validTime = true;
         }else {
             taskType = "floating";
             taskName = getTaskName(editDetail);
 			startTime = "";
 			endTime = "";
+            validTime = true;
         }
         
     }else if(task == "search"){
@@ -111,6 +129,16 @@ int Parser::getIndex(){
 string Parser::getSearchWord(){
     return searchWord;
 }
+
+bool Parser::getvalidTime(){
+    return validTime;
+}
+
+bool Parser::getfailureCase(){
+    return failureCase;
+}
+
+
 
 string Parser::getCommandType(string input){
     size_t positionA = 0;

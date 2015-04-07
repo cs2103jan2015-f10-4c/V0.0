@@ -44,7 +44,18 @@ time_t TransformTime::stringToTime(string t){
     return outputTime;
 }
 
+bool TransformTime::checkTime(string startTime,string endTime){
+    time_t start = stringToTime(startTime);
+    time_t end = stringToTime(endTime);
+    
+    if (start < end)
+    {
+        return true;
+    }else{
+        return false;
+    }
 
+}
 
 
 string TransformTime::timeToString(time_t t){

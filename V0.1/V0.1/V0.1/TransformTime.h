@@ -47,10 +47,10 @@ public:
     int getMin(time_t t);
     
     string getCurrentTime();
-	
-	
-		
+
     string convertTime(string input);
+    
+    bool checkTime(string startTime,string endTime);
     
 };
 
