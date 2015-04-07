@@ -23,6 +23,7 @@ string Parser::getCommandWord(string command){
             endTime = getEndDetail(detail);
 			startTime = TransformTime.convertTime(startTime);
 			endTime = TransformTime.convertTime(endTime);
+            validTime = TransformTime.checkTime(startTime,endTime);
         }else if (type == 1) {
             taskType = "deadline";
             taskName = getTaskName(detail);
@@ -50,6 +51,7 @@ string Parser::getCommandWord(string command){
 			startTime = TransformTime.convertTime(startTime);
             endTime = getEndDetail(editDetail);
 			endTime = TransformTime.convertTime(endTime);
+            validTime = TransformTime.checkTime(startTime,endTime);
         }else if (numberOfDelimiter == 1) {
             taskType = "deadline";
             taskName = getTaskName(editDetail);
@@ -111,6 +113,13 @@ int Parser::getIndex(){
 string Parser::getSearchWord(){
     return searchWord;
 }
+
+bool Parser::getvalidTime(){
+    return validTime;
+}
+
+
+
 
 string Parser::getCommandType(string input){
     size_t positionA = 0;
