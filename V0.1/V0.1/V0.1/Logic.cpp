@@ -110,7 +110,7 @@ void Logic::deleteTask() {
 		response.deleteResponse(isCorrectIndex, index);
 	    disp.setDefaultDisplay(taskList);
 	    storage.saveFile(taskList);
-	} else {
+	} else if (!checkIndex(index)) {
 		response.deleteResponse(isCorrectIndex, index);
 	}
 }
