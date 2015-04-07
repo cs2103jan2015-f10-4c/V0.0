@@ -1,3 +1,5 @@
+// @author A0116363L
+
 #include "timeChecker.h"
 
 const string TimeChecker::NON_TARGET_TYPE = "floating";

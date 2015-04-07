@@ -1,3 +1,5 @@
+// @ author A0116363L
+
 #include "Logger.h"
 
 const string LOG_FILENAME = "logFile.txt";

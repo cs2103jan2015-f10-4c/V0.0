@@ -1,4 +1,4 @@
-
+// @author A0116363L
 #ifndef LOGGER_H
 #define LOGGER_H
 
