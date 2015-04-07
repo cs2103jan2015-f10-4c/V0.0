@@ -187,8 +187,8 @@ namespace GUI {
 			// feedbackWindow
 			// 
 			this->feedbackWindow->BackColor = System::Drawing::SystemColors::MenuBar;
-			this->feedbackWindow->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
+			this->feedbackWindow->Font = (gcnew System::Drawing::Font(L"SimSun-ExtB", 10.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(134)));
 			this->feedbackWindow->Location = System::Drawing::Point(12, 338);
 			this->feedbackWindow->Name = L"feedbackWindow";
 			this->feedbackWindow->ScrollBars = System::Windows::Forms::RichTextBoxScrollBars::ForcedBoth;
@@ -210,8 +210,9 @@ namespace GUI {
 			this->Controls->Add(this->SystemResponse);
 			this->Controls->Add(this->inputBox);
 			this->Controls->Add(this->comfirmButton);
+			this->Font = (gcnew System::Drawing::Font(L"SimSun-ExtB", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->Name = L"MyForm";
-			this->ShowIcon = false;
 			this->Text = L"RushHour";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->ResumeLayout(false);
@@ -229,14 +230,26 @@ namespace GUI {
 		String^ temp;
 		string componentInfo;
 		logic.checkDirectory();
-		instruction << "Please read the instructions for supported functionalities below:\n\n"
+		instruction << "Please read the instructions for supported functionalities below\n and note that the software is case sensitive:\n\n"
 			<< "If you are reqired a directory, please specify a directory as following:\n"
 			<< "directory; file path you want\n\n"
 			<< "ADD:to add a new task, three types are supported\n"
 			<< "1.Floating: add;task\n"
 			<< "2.Timed:    add;task;start(time);end(time)\n"
 			<< "3.Deadine:  add;task(time);end(time)\n\n"
-			<< "Time format supported:\n\n"
+			<< "Time format supported:\n"
+			<< "Time::\n"
+	        <<"1852->18:52  245->02:45  1042am->10:42  0152pm->13:52  11:08am->11:08\n"
+			<< "09:13pm->21:13	07.12am->07:12  05.21pm->17:21  1544h->15:44\n"
+			<< "21:33h->21:33  23:43h->23:43\n"
+			<< "Date:\n"
+			<< "6/11->06-11-2015  3-12->03-12-2015  5/6/2017->05-06-2017  \n"
+			<< "7-9-2018->07-09-2018  6Sep2013->06-11-2013  7sep2013->07-09-2013  8SEP2014->08-09-2013\n"
+			<< "if only Time specified, today¡¯s date + time will be displayed.\n"
+			<< "if only Day specified£¬date + current time will be displayed.\n"
+            << "if user want to specify Day£«Time, type Day + space + Time.\n"
+			<< "E.g. 3MAY2016 18.43h  6dec2013 0900\n"
+		    << "All the time will be standardized before display.\n\n"
 
 			<< "DELETE:to delete a task by specify the index of it in the overall tasklist\n"
 			<< "1.delete;index\n\n"
