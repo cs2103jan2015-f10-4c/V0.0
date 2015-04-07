@@ -76,9 +76,13 @@ Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 
 
 void Logic::addTask(){
-	bool isAdded = true;
+	bool isAddedValidTime = false;
+	isAddedValidTime = parse.getvalidTime();
+	bool isAddedCorrectFormat = false;
+	isAddedCorrectFormat = parse.getfailureCase();
+
+	if (isAddedValidTime && isAddedCorrectFormat) {
 	string taskType = parse.getTaskType();
-	//cout << taskType; test passed
 	if (taskType == "timed") {
 		string taskName = parse.getTaskName();
 		string startTime = parse.getStartTime();
@@ -95,9 +99,14 @@ void Logic::addTask(){
 		add.addFloatingTask(taskName, taskType, floatingList, taskList);
 	}
 	history.saveOperation(taskList);
-	response.addResponse(isAdded);
+	response.addResponse(isAddedValidTime, isAddedCorrectFormat);
 	disp.setDefaultDisplay(taskList);
 	storage.saveFile(taskList);
+	}else if (!isAddedValidTime) {
+		response.addResponse(isAddedValidTime, true);
+	}else if (!isAddedCorrectFormat) {
+		response.addResponse(true, isAddedCorrectFormat);
+	}
 }
 
 void Logic::deleteTask() {
