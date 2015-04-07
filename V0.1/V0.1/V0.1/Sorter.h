@@ -16,7 +16,6 @@ private:
 
 public:
 
-	//TransformTime time;
 	vector<Task> sortFloatingTaskList(vector<Task>);
 	vector<Task> sortDeadlineTaskList(vector<Task>);
 	vector<Task> sortTimedTaskList(vector<Task>);

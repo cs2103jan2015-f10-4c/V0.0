@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "V0.1", "V0.1\V0.1.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GUI", "GUI\GUI.vcxproj", "{AFD10415-CD3E-4A99-B593-82A30F1F6D5C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTestForCommand\UnitTestForCommand.vcxproj", "{4717E393-402F-4660-BA14-66778C7B03BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{AFD10415-CD3E-4A99-B593-82A30F1F6D5C}.Debug|Win32.Build.0 = Debug|Win32
 		{AFD10415-CD3E-4A99-B593-82A30F1F6D5C}.Release|Win32.ActiveCfg = Release|Win32
 		{AFD10415-CD3E-4A99-B593-82A30F1F6D5C}.Release|Win32.Build.0 = Release|Win32
+		{4717E393-402F-4660-BA14-66778C7B03BA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4717E393-402F-4660-BA14-66778C7B03BA}.Debug|Win32.Build.0 = Debug|Win32
+		{4717E393-402F-4660-BA14-66778C7B03BA}.Release|Win32.ActiveCfg = Release|Win32
+		{4717E393-402F-4660-BA14-66778C7B03BA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

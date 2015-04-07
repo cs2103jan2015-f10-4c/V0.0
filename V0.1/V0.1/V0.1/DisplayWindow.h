@@ -11,7 +11,10 @@ class DisplayWindow{
 
 private:
 
-	 string _content;
+	string _content;
+	static const char OPEN_BRACKET;
+	static const char CLOSE_BRACKET;
+	static const char FULL_STOP;
 
 public:
 
@@ -20,10 +23,8 @@ public:
 
 	void setContent(vector<Task>&);
 	string getContent();
+	
 
 };
-
-
-
 
 #endif
