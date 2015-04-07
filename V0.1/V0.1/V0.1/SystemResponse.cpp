@@ -51,12 +51,12 @@ string SystemResponse::DirectoryResponse(bool isValid) {
 	return outputBuffer;
 }
 
-string SystemResponse::addResponse(bool isValidTime, bool isValidFormat) {
-	if (isValidTime && isValidFormat) {
+string SystemResponse::addResponse(bool isValidTime, bool isCorrectFormat) {
+	if (isValidTime && isCorrectFormat) {
 		sprintf_s(outputBuffer, MESSAGE_ADD.c_str());
 	} else if (!isValidTime) {
 		sprintf_s(outputBuffer, MESSAGE_ADD_FAIL_INVALID_TIME.c_str());
-	} else if (!isValidFormat) {
+	} else if (!isCorrectFormat) {
 		sprintf_s(outputBuffer, MESSAGE_ADD_FAIL_INCORRECT_FORMAT.c_str());
 	}
 	return outputBuffer;
@@ -67,7 +67,7 @@ string SystemResponse::deleteResponse(bool isDeleted, int index) {
 	if (isDeleted) {
 		sprintf_s(outputBuffer, MESSAGE_DELETE.c_str(), indexString.c_str());
 	} else {
-		sprintf_s(outputBuffer,MESSAGE_DELETE_FAIL.c_str());
+		sprintf_s(outputBuffer,MESSAGE_DELETE_FAIL.c_str(), indexString.c_str() );
 	}
 	return outputBuffer;
 }
