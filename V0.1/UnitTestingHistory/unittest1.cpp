@@ -98,5 +98,54 @@ namespace UnitTesthistory
 			Assert::AreEqual(size4, 2);
 		}
 
+		TEST_METHOD(checkUndoEmpty)
+		{
+			vector<Task> newTaskList;
+			
+			Task testTask1;
+			testTask1.setTaskName("ABC");
+			testTask1.setStartingTime ("0000");
+			testTask1.setEndingTime ("2359");
+			testTask1.setDone ("DONE");
+			newTaskList.push_back(testTask1);
+			
+			History historyStorage;
+			Assert::IsTrue(historyStorage.checkUndoEmpty() == false);
+
+			historyStorage.saveOperation(newTaskList);
+			Assert::IsTrue(historyStorage.checkUndoEmpty() == true);
+			
+		}
+
+		TEST_METHOD(checkRedoEmpty)
+		{
+			History historyStorage;
+			Assert::IsTrue (historyStorage.checkRedoEmpty() == false);
+
+			vector<Task> testTaskList1;
+			vector<Task> testTaskList2;
+			Task testTask1;
+			testTask1.setTaskName("ABC");
+			testTask1.setStartingTime ("0000");
+			testTask1.setEndingTime ("2359");
+			testTask1.setDone ("DONE");
+			testTaskList1.push_back(testTask1);
+			historyStorage.saveOperation(testTaskList1);
+
+			Task testTask2;
+			testTask2.setTaskName("AAA");
+			testTask2.setStartingTime ("1111");
+			testTask2.setEndingTime ("2200");
+			testTask2.setDone ("DONE");
+			testTaskList2.push_back(testTask1);
+			testTaskList2.push_back(testTask2);
+			historyStorage.saveOperation(testTaskList2);
+			
+			vector<Task> newTaskList;
+			newTaskList = historyStorage.undo();
+			Assert::IsTrue (historyStorage.checkRedoEmpty() == true);
+		
+		}
+
 	};
 }
