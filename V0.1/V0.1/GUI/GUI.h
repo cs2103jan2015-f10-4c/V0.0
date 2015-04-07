@@ -279,7 +279,7 @@ namespace GUI {
 		string returnInfo = logic.tellGUI();
 		String^ tempString = gcnew String(returnInfo.c_str());
 
-		for (int i = 0; i < returnInfo.size(); i++){
+		for (unsigned i = 0; i < returnInfo.size(); i++){
 
 			if (returnInfo.at(i) == ']') {
 				count++;
@@ -345,7 +345,7 @@ namespace GUI {
 		string returnInfo = logic.tellGUI();
 		String^ tempString = gcnew String(returnInfo.c_str());
 
-		for (int i = 0; i < returnInfo.size(); i++){
+		for (unsigned i = 0; i < returnInfo.size(); i++){
 
 			if (returnInfo.at(i) == ']') {
 				count++;
@@ -415,7 +415,7 @@ namespace GUI {
 			 string returnInfo = logic.tellGUI();
 			 String^ tempString = gcnew String(returnInfo.c_str());
 
-			 for (int i = 0; i < returnInfo.size(); i++){
+			 for (unsigned i = 0; i < returnInfo.size(); i++){
 
 				 if (returnInfo.at(i) == ']') {
 					 count++;

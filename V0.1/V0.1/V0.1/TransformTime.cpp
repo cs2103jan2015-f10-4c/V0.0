@@ -148,7 +148,7 @@ string TransformTime::convertTime(string input){
     
     int space = 0; // the position of space
     
-    for (int i=0;i<strlen(inputTime);i++){
+    for (unsigned i=0;i<strlen(inputTime);i++){
         if (inputTime[i] == ' ')
         {// the input has day and time
             HasTimeDay = true;
@@ -173,7 +173,7 @@ string TransformTime::convertTime(string input){
         }
         else
         {
-            for (int i=0;i<strlen(inputTime);i++)
+            for (unsigned i=0;i<strlen(inputTime);i++)
             {
                 if ((inputTime[i] == 47 || inputTime[i] == 45)) //the input has / - ??
                 {
@@ -195,8 +195,8 @@ string TransformTime::convertTime(string input){
     char *Thetime = new char[sizeOfTime];
     
     if (HasTimeDay){
-        int i;
-        for( i = 0 ;i < space ; i++)
+		unsigned i;
+        for( i=0;i < space ; i++)
         {
             Theday[i] = inputTime[i];
         }
@@ -219,14 +219,14 @@ string TransformTime::convertTime(string input){
         if(strlen(inputTime) > 7)
         {
             HasDay = true;
-            for( int i = 0 ;i < strlen(inputTime) ; i++)
+            for( unsigned i = 0 ;i < strlen(inputTime) ; i++)
             {
                 Theday[i] = inputTime[i];
             }
         }
         else
         {
-            for (int i=0;i<strlen(inputTime);i++)
+            for (unsigned i=0;i<strlen(inputTime);i++)
             {
                 if ((inputTime[i] == 47 || inputTime[i] == 45)) //the input has / - ??
                 {
@@ -237,13 +237,13 @@ string TransformTime::convertTime(string input){
             if(!HasDay)
             {
                 HasTime = true ;
-                for( int i = 0 ;i < strlen(inputTime) ; i++)
+                for( unsigned i = 0 ;i < strlen(inputTime) ; i++)
                 {
                     Thetime[i] = inputTime[i];
                 }
             }else
             {
-                for( int i = 0 ;i < strlen(inputTime) ; i++)
+                for( unsigned  i = 0 ;i < strlen(inputTime) ; i++)
                 {
                     Theday[i] = inputTime[i];
                 }
