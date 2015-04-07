@@ -19,7 +19,7 @@ vector<Task> searchExecutor::searchTask(string  keyPhrase, vector<Task>& taskLis
 
 string searchExecutor::getSearchedResult(vector<Task> searchResult){
 	if (searchResult.size() == 0) {
-		return NULL;//return something else instead;
+		return "";//return something else instead;
 	} else {
 		for (unsigned i = 0; i < searchResult.size(); i++) {
 			return searchResult[i].ToString();
