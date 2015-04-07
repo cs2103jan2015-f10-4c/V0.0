@@ -34,6 +34,7 @@ string Parser::getCommandWord(string command){
 			startTime = "";
             endTime = getStartDetail1(detail);
 			endTime = TransformTime.convertTime(endTime);
+            validTime = true;
             if (taskName=="")
                 failureCase = true;
             else
@@ -43,6 +44,7 @@ string Parser::getCommandWord(string command){
             taskName = getTaskName(detail);
 			startTime = "";
 			endTime = "";
+            validTime = true;
             if (taskName=="")
                 failureCase = true;
             else
@@ -70,11 +72,13 @@ string Parser::getCommandWord(string command){
 			startTime = "";
             endTime = getStartDetail1(editDetail);
 			endTime = TransformTime.convertTime(endTime);
+            validTime = true;
         }else {
             taskType = "floating";
             taskName = getTaskName(editDetail);
 			startTime = "";
 			endTime = "";
+            validTime = true;
         }
         
     }else if(task == "search"){
