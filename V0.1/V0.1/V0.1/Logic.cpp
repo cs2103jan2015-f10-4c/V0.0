@@ -36,6 +36,8 @@ void Logic::executeUserCommand(string userInput){
 		return redoTask();
 	case _DIRECTORY:
 		return getDirectory();
+	case _CLEAR:
+		return clearTaskList();
 	default:
 		return showUserInvalidResponse();
 	}
@@ -61,6 +63,8 @@ Logic:: COMMAND_TYPE Logic::determineCommandType(string commandWord){
 		return COMMAND_TYPE::_REDO;
 	}else if (commandWord == "directory") {
 		return COMMAND_TYPE::_DIRECTORY;
+	}else if (commandWord == "clear") {
+		return COMMAND_TYPE::_CLEAR;
 	}else {
 		return COMMAND_TYPE::_INVALID;
 	}
@@ -251,4 +255,12 @@ bool Logic::checkFoundList(vector<Task> foundList) {
 	} else {
 		return false;
 	}
+}
+
+void Logic::clearTaskList() {
+	taskList.clear();
+	history.saveOperation(taskList);
+    response.clearAllResponse();
+	disp.setDefaultDisplay(taskList);
+	storage.saveFile(taskList);
 }
