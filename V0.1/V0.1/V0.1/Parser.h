@@ -38,6 +38,7 @@ private:
     int index;
     string searchWord;
     bool validTime;
+    bool failureCase;
     
     
     string getCommandType(string);
@@ -71,6 +72,7 @@ public:
     string getSearchWord();
     
     bool getvalidTime();
+    bool getfailureCase();
 };
 
 #endif

@@ -24,17 +24,29 @@ string Parser::getCommandWord(string command){
 			startTime = TransformTime.convertTime(startTime);
 			endTime = TransformTime.convertTime(endTime);
             validTime = TransformTime.checkTime(startTime,endTime);
+            if (taskName=="")
+                failureCase = true;
+            else
+                failureCase = false;
         }else if (type == 1) {
             taskType = "deadline";
             taskName = getTaskName(detail);
 			startTime = "";
             endTime = getStartDetail1(detail);
 			endTime = TransformTime.convertTime(endTime);
+            if (taskName=="")
+                failureCase = true;
+            else
+                failureCase = false;
         }else {
             taskType = "floating";
             taskName = getTaskName(detail);
 			startTime = "";
 			endTime = "";
+            if (taskName=="")
+                failureCase = true;
+            else
+                failureCase = false;
             
         }
     }else if(task == "delete"){
@@ -118,6 +130,9 @@ bool Parser::getvalidTime(){
     return validTime;
 }
 
+bool Parser::getfailureCase(){
+    return failureCase;
+}
 
 
 
