@@ -1,6 +1,12 @@
 #include "DisplayWindow.h"
 #include <iomanip>
 
+const char DisplayWindow::OPEN_BRACKET='[';
+const char DisplayWindow::CLOSE_BRACKET=']';
+const char DisplayWindow::FULL_STOP='.';
+
+
+
 DisplayWindow::DisplayWindow(){}
 DisplayWindow::~DisplayWindow(){}
 
@@ -8,23 +14,11 @@ void DisplayWindow::setContent(vector<Task>& tasklist){
 
    ostringstream oss;
    for (unsigned i = 0; i < tasklist.size(); i++){
-	   oss << '[' << i + 1 << '.' << ']'
-		   << '['<<tasklist[i].taskName<<']';
-		 //  if (tasklist[i].type == "deadline" || "floating"){
-		//	   oss << "[N/A]";
-		//	   if (tasklist[i].type == "floating"){
-		//		   oss << "[N/A]";
-		//	   }
-		//	   else{
-		//		   oss << '['<<tasklist[i].endingTime<<']';
-		//	   }
-		 //  }
-		 //  else if(tasklist[i].type == "timed"){ 
-			   oss << '[' << tasklist[i].startingTime << ']'
-			         << '[' << tasklist[i].endingTime<<']';
-		 //  }
-		  
-		   oss << '[' << tasklist[i].status <<']'<< endl;
+	   oss << OPEN_BRACKET << i + 1 << FULL_STOP << CLOSE_BRACKET
+		   << OPEN_BRACKET<<tasklist[i].taskName<<CLOSE_BRACKET
+		   << OPEN_BRACKET << tasklist[i].startingTime << CLOSE_BRACKET
+		   << OPEN_BRACKET << tasklist[i].endingTime<<CLOSE_BRACKET
+		   << OPEN_BRACKET << tasklist[i].status <<CLOSE_BRACKET<< endl;
    }
         _content = oss.str();
 }
