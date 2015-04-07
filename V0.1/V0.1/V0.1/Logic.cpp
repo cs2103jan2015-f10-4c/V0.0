@@ -79,7 +79,7 @@ void Logic::addTask(){
 	bool isAddedValidTime = false;
 	isAddedValidTime = parse.getvalidTime();
 	bool isAddedCorrectFormat = false;
-	isAddedCorrectFormat = parse.getfailureCase();
+	isAddedCorrectFormat = parse.getIsCorrectFormat();
 
 	if (isAddedValidTime && isAddedCorrectFormat) {
 	string taskType = parse.getTaskType();
@@ -227,6 +227,7 @@ void Logic::checkDirectory() {
 	if (hasDirectory) {
 		response.welcomeExistingMessage();
 		storage.readFile(taskList);
+		history.saveOperation(taskList);
 	} else {
 		response.noDirectoryResponse();
 	}
