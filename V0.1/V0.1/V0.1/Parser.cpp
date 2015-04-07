@@ -25,9 +25,9 @@ string Parser::getCommandWord(string command){
 			endTime = TransformTime.convertTime(endTime);
             validTime = TransformTime.checkTime(startTime,endTime);
             if (taskName=="")
-                failureCase = true;
+                isCorrectFormat = false;
             else
-                failureCase = false;
+                isCorrectFormat = true;
         }else if (type == 1) {
             taskType = "deadline";
             taskName = getTaskName(detail);
@@ -36,9 +36,9 @@ string Parser::getCommandWord(string command){
 			endTime = TransformTime.convertTime(endTime);
             validTime = true;
             if (taskName=="")
-                failureCase = true;
+                isCorrectFormat = false;
             else
-                failureCase = false;
+                isCorrectFormat = true;
         }else {
             taskType = "floating";
             taskName = getTaskName(detail);
@@ -46,9 +46,9 @@ string Parser::getCommandWord(string command){
 			endTime = "";
             validTime = true;
             if (taskName=="")
-                failureCase = true;
+                isCorrectFormat = false;
             else
-                failureCase = false;
+                isCorrectFormat = true;
             
         }
     }else if(task == "delete"){
@@ -134,8 +134,8 @@ bool Parser::getvalidTime(){
     return validTime;
 }
 
-bool Parser::getfailureCase(){
-    return failureCase;
+bool Parser::getIsCorrectFormat(){
+    return isCorrectFormat;
 }
 
 
