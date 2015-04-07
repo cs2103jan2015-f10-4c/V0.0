@@ -53,7 +53,7 @@ string Parser::getCommandWord(string command){
             isCorrectFormat = false;
         }
         
-        cout << "isCorrectFormat" << isCorrectFormat <<endl;
+        //cout << "isCorrectFormat" << isCorrectFormat <<endl;
     }else if(task == "delete"){
         index = getIndex(detail);
     }else if(task == "edit"){
