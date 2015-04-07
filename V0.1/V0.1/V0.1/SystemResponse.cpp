@@ -22,6 +22,7 @@ const string SystemResponse::MESSAGE_NO_DIRECTORY = "Please specify a valid dire
 const string SystemResponse::MESSAGE_INVALID_DIRECTORY = "Directory invalid, please re-enter.";
 const string SystemResponse::MESSAGE_VALID_DIRECTORY = "Directory valid, file created.";
 const string SystemResponse::MESSAGE_INVALID_COMMAND = "Command invalid, please re-enter.";
+const string SystemResponse::MESSAGE_CLEAR_SUCCESSFUL = "The task list has been cleared.";
 
 
 SystemResponse::SystemResponse(void) {}
@@ -127,6 +128,11 @@ string SystemResponse::dispVariousResponse(string message) {
 
 string SystemResponse::invalidResponse(){
 	sprintf_s(outputBuffer, MESSAGE_INVALID_COMMAND.c_str());
+	return outputBuffer;
+}
+
+string SystemResponse::clearAllResponse() {
+	sprintf_s(outputBuffer, MESSAGE_CLEAR_SUCCESSFUL.c_str());
 	return outputBuffer;
 }
 

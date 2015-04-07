@@ -36,6 +36,7 @@ private:
 	static const string MESSAGE_INVALID_DIRECTORY;
 	static const string MESSAGE_VALID_DIRECTORY;
 	static const string MESSAGE_INVALID_COMMAND;
+	static const string MESSAGE_CLEAR_SUCCESSFUL;
 	//static char outputBuffer[MAX_CHAR];
 
 public:
@@ -57,5 +58,6 @@ public:
 	string noDirectoryResponse();
 	string DirectoryResponse(bool);
 	string invalidResponse();
+	string clearAllResponse();
 };
 #endif
