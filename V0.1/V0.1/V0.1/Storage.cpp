@@ -5,6 +5,7 @@
 #include <fstream>
 #include <algorithm>
 #include <sys/stat.h>
+#include <assert.h>
 #include "Storage.h"
 #include "Task.h"
 
@@ -115,7 +116,7 @@ void Storage::saveFile(vector<Task>& taskList){
 //	return floatingTaskList;
 //};
 string Storage::getOutfilePath(){
-	return outFilePath;
+	return _outFilePath;
 }
 
 string Storage::getUserInputPath(){
@@ -138,7 +139,7 @@ bool Storage::hasDirectory(){
 		string line;
 		if ( getline (configIn,line) )
 		{
-			outFilePath = line;
+			_outFilePath = line;
 		}
 		configIn.close();
 		directory = true;
@@ -157,65 +158,21 @@ string Storage::createFilePath(){
 	'/';
 #endif
 		string configPath = CONFIG_FILE_NAME; 
-		//struct stat sb;
-		
-		/*do {
-			pathname = getUserInputPath();
-		}
-		while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode));*/
-		
+	
 		string pathname;
 		pathname = getUserInputPath();
-		outFilePath = pathname + kPathSeparator+ TEXTFILENAME;
+		_outFilePath = pathname + kPathSeparator+ TEXTFILENAME;
 
 		// save this path to configFile
 		ofstream configOut;
 		configOut.open(configPath.c_str());
-		configOut << outFilePath;
+		configOut << _outFilePath;
 		configOut.close();
 
-		return outFilePath;
+		return _outFilePath;
 
 }
-//string Storage::createFile(){
-//	const char kPathSeparator =
-//#ifdef _WIN32
-//	'\\';
-//#else
-//	'/';
-//#endif
-//
-//	string configPath = "myAppConfig.txt"; //this is a Configuration file, inside should only store one line, the path to actual save file
-//	string outFilePath = "";
-//	ifstream configIn (configPath.c_str());
-//	if (configIn.is_open())
-//	{
-//		string line;
-//		if ( getline (configIn,line) )
-//		{
-//			outFilePath = line;
-//		}
-//		configIn.close();
-//	}
-//	else
-//	{
-//		cout << "no config is given\n"; 
-//		struct stat sb;
-//		string pathname;
-//		do {
-//			cout << "Please type the path you want to save: ";
-//			cin >> pathname;
-//		}
-//		while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode));
-//		outFilePath = pathname + kPathSeparator+ TEXTFILENAME;
-//		// save this path to configFile
-//		ofstream configOut;
-//		configOut.open(configPath.c_str());
-//		configOut << outFilePath;
-//		configOut.close();
-//	}
-//	return outFilePath;
-//}
+
 
 void Storage::readFile(vector<Task>& taskList){
 	string filePath;
@@ -227,16 +184,16 @@ void Storage::readFile(vector<Task>& taskList){
 		string titleLine;
 
 		file.open(filePath.c_str());
-		tempTask.clear();
+		_tempTask.clear();
 
 		getline(file, titleLine);
 	
 		while (getline(file, taskLine)){
-			tempTask.push_back(taskLine);
+			_tempTask.push_back(taskLine);
 	
 		}
 	
-		loadTask(tempTask, taskList);
+		loadTask(_tempTask, taskList);
 	
 		file.close();
 	}
@@ -261,8 +218,16 @@ void Storage::loadTask (vector<string> taskLine, vector<Task>& taskList){
 		int numberOfDelimiter = count(taskDetail.begin(), taskDetail.end(), ';');
 
 		if (numberOfDelimiter == 3){
-	
-			string taskName = getTaskName(taskDetail);
+			string taskName;
+			//try{
+			 taskName = getTaskName(taskDetail);
+			//}catch(string& abc){
+				//ofstream logFile;
+//logFile.open("logfile.txt");
+			//logFile<<abc;}
+			//catch(...){}
+
+			
 			string startingTime = getStartingTime(taskDetail);
 			string endingTime = getEndingTime(taskDetail);
 			string status = getStatus(taskDetail);
@@ -333,6 +298,10 @@ string Storage::getTaskName(string input){
 	size_t positionEnd = 0;
 	string task;
 	positionEnd = input.find_first_of(";") - 1;
+	assert(positionEnd > 0);
+	//int number = 1;
+	//if (number == 1){
+		//throw "number is 1";}
 	task = input.substr(positionStart, positionEnd - positionStart);
 	return task;
 }

@@ -14,8 +14,8 @@
 
 class History{
 private:
-	stack <vector<Task>> undoStorageList;
-	stack <vector<Task>> redoStorageList;
+	stack <vector<Task>> _undoStorageList;
+	stack <vector<Task>> _redoStorageList;
 	
 
 public:

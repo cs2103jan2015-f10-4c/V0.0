@@ -13,7 +13,7 @@ History::~History(){};
 
 
 void History::saveOperation(vector<Task>& taskStorage){
-	undoStorageList.push(taskStorage);
+	_undoStorageList.push(taskStorage);
 
 };
 
@@ -22,13 +22,13 @@ vector<Task> History::undo(){
     vector<Task> updatedTaskList;
     
 	if (checkUndoEmpty() == true){
-        redoStorageList.push(undoStorageList.top());
-		undoStorageList.pop();
+        _redoStorageList.push(_undoStorageList.top());
+		_undoStorageList.pop();
 			if (checkUndoEmpty() == false){
 				return updatedTaskList;
 			}
 			else{
-				updatedTaskList = undoStorageList.top();
+				updatedTaskList = _undoStorageList.top();
 			}
 			
         return updatedTaskList;
@@ -44,11 +44,11 @@ vector<Task> History::redo(){
 
 	if (checkRedoEmpty() == true){
 		
-		updatedTaskList = redoStorageList.top();
+		updatedTaskList = _redoStorageList.top();
 		
 
-		undoStorageList.push(redoStorageList.top());
-		redoStorageList.pop();
+		_undoStorageList.push(_redoStorageList.top());
+		_redoStorageList.pop();
 
 		return updatedTaskList;
 	}
@@ -59,17 +59,17 @@ vector<Task> History::redo(){
 
 
 stack <vector<Task>> History::getUndoStorageList(){
-	return undoStorageList;
+	return _undoStorageList;
 }
 
 stack <vector<Task>> History::getRedoStorageList(){
-	return redoStorageList;
+	return _redoStorageList;
 }
 
 bool History::checkUndoEmpty(){
 	bool undoStatus = false;
 
-	if(!undoStorageList.empty()){
+	if(!_undoStorageList.empty()){
 		undoStatus = true;
 		return undoStatus;
 	}
@@ -81,7 +81,7 @@ bool History::checkUndoEmpty(){
 bool History::checkRedoEmpty(){
 	bool redoStatus = false;
 
-	if(!redoStorageList.empty()){
+	if(!_redoStorageList.empty()){
 		redoStatus = true;
 		return redoStatus;
 	}

@@ -14,8 +14,8 @@ class Storage{
 private:
 
 	
-	vector<string> tempTask;
-	string outFilePath;
+	vector<string> _tempTask;
+	string _outFilePath;
 	string _userInputPath;
 	
 
@@ -23,9 +23,6 @@ public:
 	Storage();
 	~Storage();
 
-	
-
-	string createFile();
 	void saveFile(vector<Task>& taskList);
 	void readFile(vector<Task>& taskList);
 	void loadTask(vector<string> taskLine,  vector<Task>& taskList);
@@ -35,7 +32,6 @@ public:
 	string getEndingTime(string input);
 	string getStatus(string input);
 	string getDueTime(string input);
-	void test();
 	string getOutfilePath();
 	bool hasDirectory();
 	string getUserInputPath();
