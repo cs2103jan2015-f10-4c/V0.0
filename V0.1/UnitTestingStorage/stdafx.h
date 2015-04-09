@@ -9,8 +9,7 @@
 
 // Headers for CppUnitTest
 #include "CppUnitTest.h"
-
-// TODO: reference additional headers your program requires here
 #include "Storage.h"
 #include "Task.h"
-#include "Logic.h"
+
+// TODO: reference additional headers your program requires here
