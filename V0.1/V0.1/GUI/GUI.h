@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cliext/vector>
 #include "Logic.h"
+#include "Logger.h"
 #using <mscorlib.dll>
 
 Logic logic;
@@ -59,7 +60,9 @@ namespace GUI {
 
 	protected:System::Windows::Forms::ListViewItem^ listViewItems;
 	private: System::Windows::Forms::Timer^  timer1;
-	private: System::Windows::Forms::RichTextBox^  feedbackWindow;
+	private: System::Windows::Forms::Button^  HelpButton;
+
+
 
 
 
@@ -92,14 +95,14 @@ namespace GUI {
 			this->End = (gcnew System::Windows::Forms::ColumnHeader());
 			this->Status = (gcnew System::Windows::Forms::ColumnHeader());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
-			this->feedbackWindow = (gcnew System::Windows::Forms::RichTextBox());
+			this->HelpButton = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// comfirmButton
 			// 
 			this->comfirmButton->Font = (gcnew System::Drawing::Font(L"Arial", 10.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->comfirmButton->Location = System::Drawing::Point(462, 24);
+			this->comfirmButton->Location = System::Drawing::Point(461, 23);
 			this->comfirmButton->Name = L"comfirmButton";
 			this->comfirmButton->Size = System::Drawing::Size(62, 28);
 			this->comfirmButton->TabIndex = 1;
@@ -114,7 +117,7 @@ namespace GUI {
 			this->inputBox->Location = System::Drawing::Point(12, 24);
 			this->inputBox->Multiline = true;
 			this->inputBox->Name = L"inputBox";
-			this->inputBox->Size = System::Drawing::Size(444, 28);
+			this->inputBox->Size = System::Drawing::Size(443, 28);
 			this->inputBox->TabIndex = 0;
 			this->inputBox->TextChanged += gcnew System::EventHandler(this, &MyForm::inputBox_TextChanged);
 			// 
@@ -124,7 +127,7 @@ namespace GUI {
 				static_cast<System::Byte>(0)));
 			this->SystemResponse->ForeColor = System::Drawing::Color::Red;
 			this->SystemResponse->ImageAlign = System::Drawing::ContentAlignment::TopLeft;
-			this->SystemResponse->Location = System::Drawing::Point(12, 309);
+			this->SystemResponse->Location = System::Drawing::Point(9, 498);
 			this->SystemResponse->Name = L"SystemResponse";
 			this->SystemResponse->Size = System::Drawing::Size(432, 26);
 			this->SystemResponse->TabIndex = 4;
@@ -144,7 +147,7 @@ namespace GUI {
 			this->DisplayContent->GridLines = true;
 			this->DisplayContent->Location = System::Drawing::Point(12, 58);
 			this->DisplayContent->Name = L"DisplayContent";
-			this->DisplayContent->Size = System::Drawing::Size(512, 248);
+			this->DisplayContent->Size = System::Drawing::Size(512, 437);
 			this->DisplayContent->TabIndex = 5;
 			this->DisplayContent->UseCompatibleStateImageBehavior = false;
 			this->DisplayContent->View = System::Windows::Forms::View::Details;
@@ -184,19 +187,19 @@ namespace GUI {
 			this->timer1->Interval = 60000;
 			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick_1);
 			// 
-			// feedbackWindow
+			// HelpButton
 			// 
-			this->feedbackWindow->BackColor = System::Drawing::SystemColors::MenuBar;
-			this->feedbackWindow->Font = (gcnew System::Drawing::Font(L"SimSun-ExtB", 10.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(134)));
-			this->feedbackWindow->Location = System::Drawing::Point(12, 338);
-			this->feedbackWindow->Name = L"feedbackWindow";
-			this->feedbackWindow->ScrollBars = System::Windows::Forms::RichTextBoxScrollBars::ForcedBoth;
-			this->feedbackWindow->Size = System::Drawing::Size(512, 183);
-			this->feedbackWindow->TabIndex = 6;
-			this->feedbackWindow->Text = L"";
-			this->feedbackWindow->WordWrap = false;
-			this->feedbackWindow->TextChanged += gcnew System::EventHandler(this, &MyForm::feedbackWindow_TextChanged_1);
+			this->HelpButton->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->HelpButton->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->HelpButton->ForeColor = System::Drawing::Color::Red;
+			this->HelpButton->Location = System::Drawing::Point(448, 500);
+			this->HelpButton->Name = L"HelpButton";
+			this->HelpButton->Size = System::Drawing::Size(75, 23);
+			this->HelpButton->TabIndex = 6;
+			this->HelpButton->Text = L"Help";
+			this->HelpButton->UseVisualStyleBackColor = true;
+			this->HelpButton->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
 			// MyForm
 			// 
@@ -205,7 +208,7 @@ namespace GUI {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
 			this->ClientSize = System::Drawing::Size(541, 533);
-			this->Controls->Add(this->feedbackWindow);
+			this->Controls->Add(this->HelpButton);
 			this->Controls->Add(this->DisplayContent);
 			this->Controls->Add(this->SystemResponse);
 			this->Controls->Add(this->inputBox);
@@ -223,67 +226,14 @@ namespace GUI {
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
 		this->inputBox->Focus();
-		ostringstream instruction;
+
 		int count = 0;
 		size_t tempStart = 0;
 		size_t tempEnd = -2;
 		String^ temp;
 		string componentInfo;
 		logic.checkDirectory();
-		instruction << "Please read the instructions for supported functionalities below\n and note that the software is case sensitive:\n\n"
-			<< "If you are reqired a directory, please specify a directory as following:\n"
-			<< "directory; file path you want\n\n"
-			<< "ADD:to add a new task, three types are supported\n"
-			<< "1.Floating: add;task\n"
-			<< "2.Timed:    add;task;start(time);end(time)\n"
-			<< "3.Deadine:  add;task(time);end(time)\n\n"
-			<< "Time format supported:\n"
-			<< "Time::\n"
-	        <<"1852->18:52  245->02:45  1042am->10:42  0152pm->13:52  11:08am->11:08\n"
-			<< "09:13pm->21:13	07.12am->07:12  05.21pm->17:21  1544h->15:44\n"
-			<< "21:33h->21:33  23:43h->23:43\n"
-			<< "Date:\n"
-			<< "6/11->06-11-2015  3-12->03-12-2015  5/6/2017->05-06-2017  \n"
-			<< "7-9-2018->07-09-2018  6Sep2013->06-11-2013  7sep2013->07-09-2013  8SEP2014->08-09-2013\n"
-			<< "if only Time specified, today¡¯s date + time will be displayed.\n"
-			<< "if only Day specified£¬date + current time will be displayed.\n"
-            << "if user want to specify Day£«Time, type Day + space + Time.\n"
-			<< "E.g. 3MAY2016 18.43h  6dec2013 0900\n"
-		    << "All the time will be standardized before display.\n\n"
-
-			<< "DELETE:to delete a task by specify the index of it in the overall tasklist\n"
-			<< "1.delete;index\n\n"
-
-			<< "EDIT:to modify a task by specify the index and the modified information,\nplease note the task type will change accordingly\n"
-			<< "1.Type changed to floating:   edit;index;task(modified)\n"
-			<< "2.Type changed to timed:      edit;index;task(modified);start(modified);end(modified)\n"
-			<< "3.Type changed to deadline:   edit;index;task(modified);end(modified)\n\n"
-
-			<< "SEARCH:to search by keywords\n"
-			<< "1.search;keyword\n\n"
-
-			<< "DISPLAY:to adjust the display window \n"
-			<< "1.display;all\n"
-			<< "2.display;timed\n"
-			<< "3.display;floating\n"
-			<< "4.display;deadline\n"
-			<< "5.display;ongoing\n"
-			<< "6.display;done\n"
-			<< "7.display;overdue\n\n"
-
-			<< "MARK DONE: to change the status of a task to done by index\n"
-			<< "1.mark done;index\n\n"
-
-			<< "UNDO: to undo the previous command\n"
-			<< "1.undo\n\n"
-			<< "REDO: to undo the previous undo command\n"
-			<< "1.redo\n";//initialise the feedbackwindow with aceptable inputs
-		string format = instruction.str();
-
-
-		this->feedbackWindow->Text = gcnew String(format.c_str());
-		string response = instruction.str();
-		this->feedbackWindow->Text = gcnew String(response.c_str());
+	
 
 		string responseMessage = logic.tellGUIResponse();
 		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
@@ -473,5 +423,40 @@ namespace GUI {
 	         
     }
 
+               private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+
+				   ostringstream instruction;
+			instruction<< "Please read the instructions for supported functionalities below\n and note that the software is case sensitive:\n\n"
+					   << "If you are reqired a directory, please specify a directory as following:\n"
+					   << "directory; file path you want\n\n"
+					   << "Supported commands:\n"
+					   << "1.add;task\n"
+					   << "2.add;task;start(time);end(time)\n"
+					   << "3.add;task(time);end(time)\n"
+					   << "4:delete;index\n"
+					   << "5.edit;index;task(modified)\n"
+					   << "6.edit;index;task(modified);start(modified);end(modified)\n"
+					   << "7.edit;index;task(modified);end(modified)\n"
+					   << "8.search;keyword\n"
+					   << "9.display;all\n"
+					   << "10.display;timed\n"
+					   << "11.display;floating\n"
+					   << "12.display;deadline\n"
+					   << "13.display;ongoing\n"
+					   << "14.display;done\n"
+					   << "15.display;overdue\n"
+					   << "16.mark done;index\n"
+					   << "17.undo\n"
+					   << "18.redo\n"
+					   << "Time format supported:\n"
+					   << "1852->18:52    1042am->10:42    09:13pm->21:13\n"	
+					   << "21:33h->21:33  07.12am->07:12   1544h->15:44\n"
+					   << "6/11->06-11-2015  3-12->03-12-2015  5/6/2017->05-06-2017 \n"
+					   << "7-9-2018->07-09-2018  6Sep2013->06-11-2013  7sep2013->07-09-2013  8SEP2014->08-09-2013\n"
+					   << "3MAY2016 18.43h   6dec2013 0900\n";
+
+				   string format = instruction.str();
+				   System::Windows::Forms::MessageBox::Show(gcnew String(format.c_str()));
+               }
 };
 }

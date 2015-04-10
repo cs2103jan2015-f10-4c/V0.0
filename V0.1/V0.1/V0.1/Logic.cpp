@@ -90,9 +90,7 @@ void Logic::addTask(){
 		add.addTimedTask(taskName, startTime, endTime, taskType, taskList);
 	} else if (taskType == "deadline") {
 		string taskName = parse.getTaskName();
-		//cout << taskName; passed
 		string endTime = parse.getEndTime();
-		//cout << endTime; debugged
 		add.addDeadlineTask(taskName, endTime, taskType, deadlineList,taskList);
 	} else if (taskType == "floating") {
 		string taskName = parse.getTaskName();
@@ -100,7 +98,7 @@ void Logic::addTask(){
 	}
 	history.saveOperation(taskList);
 	response.addResponse(isAddedValidTime, isAddedCorrectFormat);
-	disp.setDefaultDisplay(taskList);
+	removeDoneTaskForDisplayDefault();
 	storage.saveFile(taskList);
 	}else if (!isAddedValidTime) {
 		response.addResponse(isAddedValidTime, true);
@@ -117,7 +115,7 @@ void Logic::deleteTask() {
 	    deleteATask.deleteTask(index, taskList);
 	    history.saveOperation(taskList);
 		response.deleteResponse(isCorrectIndex, index);
-	    disp.setDefaultDisplay(taskList);
+	    removeDoneTaskForDisplayDefault();
 	    storage.saveFile(taskList);
 	} else if (!checkIndex(index)) {
 		response.deleteResponse(isCorrectIndex, index);
@@ -136,7 +134,7 @@ void Logic::editTask(){
 	    edit.editTask(index, newTaskName, newStartTime, newEndTime, newTaskType, taskList);
 	    history.saveOperation(taskList);
 		response.editResponse(isCorrectIndex, index);
-	    disp.setDefaultDisplay(taskList);
+	    removeDoneTaskForDisplayDefault();
 	    storage.saveFile(taskList);
 	} else {
 		response.editResponse(isCorrectIndex, index);
@@ -260,8 +258,8 @@ bool Logic::checkIndex(int index) {
 }
 
 void Logic::refreshStatus() {
-	checker.updateStatus(taskList);
-	disp.setDefaultDisplay(taskList);
+	checker.updateStatus(taskListWithoutDone);
+	disp.setDefaultDisplay(taskListWithoutDone);
 }
 
 bool Logic::checkFoundList(vector<Task> foundList) {
@@ -282,4 +280,13 @@ void Logic::clearTaskList() {
 
 void Logic::exitProgram() {
 	exit(EXIT_SUCCESS);
+}
+
+void Logic::removeDoneTaskForDisplayDefault() {
+	for (int i = 0; i < taskList.size(); i++) {
+		if (taskList[i].status != "done") {
+			taskListWithoutDone.push_back(taskList[i]);
+		}
+	}
+	disp.setDefaultDisplay(taskListWithoutDone);
 }
