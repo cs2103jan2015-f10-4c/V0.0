@@ -26,6 +26,9 @@ public:
 	void readFile(vector<Task>&);
 	void loadTask(vector<string>,  vector<Task>&);
 	void setUserInputPath(string);
+	void retrieveTimedTask(string, vector<Task>&);
+	void retrieveDeadlineTask(string, vector<Task>&);
+	void retrieveFloatingTask(string, vector<Task>&);
 	string removeIndex(string);
 	string getTaskName(string);
 	string getStartingTime(string);
