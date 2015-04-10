@@ -132,7 +132,7 @@ void Storage::readFile(vector<Task>& taskList){
 	
 	//there is an existing file
 	if(hasDirectory() == true){
-		assert(hasDirectory() == true);
+		//assert(hasDirectory() == true);
 		filePath = getOutfilePath();
 		ifstream file;
 		string taskLine;
@@ -155,7 +155,7 @@ void Storage::readFile(vector<Task>& taskList){
 	}
 	//there is no existing file
 	else{
-		assert(hasDirectory() == false);
+		//assert(hasDirectory() == false);
 		string filePath = createFilePath();
 		ofstream outputFile;
 		outputFile.open(filePath.c_str());
@@ -201,19 +201,8 @@ void Storage::loadTask (vector<string> taskLineList, vector<Task>& taskList){
 		int numberOfDelimiter = count(taskDetail.begin(), taskDetail.end(), ';');
 
 		if (numberOfDelimiter == 3){
-			retrieveTimedTask(taskDetail, taskList);
-		}
-		if (numberOfDelimiter == 2){
-			retrieveDeadlineTask(taskDetail, taskList);
-		}
-		if (numberOfDelimiter == 1){
-			retrieveFloatingTask(taskDetail, taskList);	
-		}
-	}
-}
-
-void Storage::retrieveTimedTask(string taskDetail, vector<Task>& taskList){
-	string taskName = getTaskName(taskDetail);
+			//retrieveTimedTask(taskDetail, taskList);
+			string taskName = getTaskName(taskDetail);
 	string startingTime = getStartingTime(taskDetail);
 	string endingTime = getEndingTime(taskDetail);
 	string status = getStatus(taskDetail);
@@ -227,10 +216,10 @@ void Storage::retrieveTimedTask(string taskDetail, vector<Task>& taskList){
 	taskStorage.setType(taskType);
 
 	taskList.push_back(taskStorage);
-}
-
-void Storage::retrieveDeadlineTask(string taskDetail, vector<Task>& taskList){
-	string taskName = getTaskName(taskDetail);
+		}
+		if (numberOfDelimiter == 2){
+			//retrieveDeadlineTask(taskDetail, taskList);
+			string taskName = getTaskName(taskDetail);
 	string dueTime = getDueTime(taskDetail);
 	string status = getStatus(taskDetail);
 	string startTime = "";
@@ -244,10 +233,10 @@ void Storage::retrieveDeadlineTask(string taskDetail, vector<Task>& taskList){
 	taskStorage.setType(taskType);
 
 	taskList.push_back(taskStorage);
-}
-
-void Storage::retrieveFloatingTask(string taskDetail, vector<Task>& taskList){
-	string taskName = getTaskName(taskDetail);
+		}
+		if (numberOfDelimiter == 1){
+			//retrieveFloatingTask(taskDetail, taskList);
+			string taskName = getTaskName(taskDetail);
 	string status = getStatus(taskDetail);
 	string startingTime = "";
 	string endingTime = "";
@@ -261,8 +250,61 @@ void Storage::retrieveFloatingTask(string taskDetail, vector<Task>& taskList){
 	taskStorage.setType(taskType);
 
 	taskList.push_back(taskStorage);
+		}
+	}
 }
-			
+
+//void Storage::retrieveTimedTask(string taskDetail, vector<Task>& taskList){
+//	string taskName = getTaskName(taskDetail);
+//	string startingTime = getStartingTime(taskDetail);
+//	string endingTime = getEndingTime(taskDetail);
+//	string status = getStatus(taskDetail);
+//	string taskType = DEFAULT_TIMED_TASK_TYPE;
+//
+//	Task taskStorage;
+//	taskStorage.setTaskName(taskName);
+//	taskStorage.setStartingTime(startingTime);
+//	taskStorage.setEndingTime(endingTime);
+//	taskStorage.setDone(status);
+//	taskStorage.setType(taskType);
+//
+//	taskList.push_back(taskStorage);
+//}
+//
+//void Storage::retrieveDeadlineTask(string taskDetail, vector<Task>& taskList){
+//	string taskName = getTaskName(taskDetail);
+//	string dueTime = getDueTime(taskDetail);
+//	string status = getStatus(taskDetail);
+//	string startTime = "";
+//	string taskType = DEFAULT_DEADLINE_TASK_TYPE;
+//
+//	Task taskStorage;
+//	taskStorage.setTaskName(taskName);
+//	taskStorage.setStartingTime(startTime);
+//	taskStorage.setDone(status);
+//	taskStorage.setEndingTime(dueTime);
+//	taskStorage.setType(taskType);
+//
+//	taskList.push_back(taskStorage);
+//}
+//
+//void Storage::retrieveFloatingTask(string taskDetail, vector<Task>& taskList){
+//	string taskName = getTaskName(taskDetail);
+//	string status = getStatus(taskDetail);
+//	string startingTime = "";
+//	string endingTime = "";
+//	string taskType = DEFAULT_FLOATING_TASK_TYPE;
+//
+//	Task taskStorage;
+//	taskStorage.setTaskName(taskName);
+//	taskStorage.setDone(status);
+//	taskStorage.setStartingTime(startingTime);
+//	taskStorage.setEndingTime(endingTime);
+//	taskStorage.setType(taskType);
+//
+//	taskList.push_back(taskStorage);
+//}
+//			
 string Storage::removeIndex(string input){
 	size_t positionStart = 0;
     size_t positionEnd = input.size();
