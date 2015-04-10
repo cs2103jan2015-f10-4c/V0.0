@@ -258,8 +258,8 @@ bool Logic::checkIndex(int index) {
 }
 
 void Logic::refreshStatus() {
-	checker.updateStatus(taskList);
-	disp.setDefaultDisplay(taskList);
+	checker.updateStatus(taskListWithoutDone);
+	disp.setDefaultDisplay(taskListWithoutDone);
 }
 
 bool Logic::checkFoundList(vector<Task> foundList) {

@@ -69,7 +69,7 @@ namespace UnitTest
 			testTask1.setStartingTime("");
 			testTask1.setEndingTime("");
 			testTask1.setDone("done");
-			testTask1.setType(FLOATING_TASK);
+			testTask1.setType("floating");
 			//floating & done type
 
 			Task testTask2;
@@ -77,7 +77,7 @@ namespace UnitTest
 			testTask2.setStartingTime("1111");
 			testTask2.setEndingTime("2200");
 			testTask2.setDone("overdue");
-			testTask1.setType(TIMED_TASK);
+			testTask2.setType("timed");
 			//timed & overdue
 
 			Task testTask3;
@@ -85,7 +85,7 @@ namespace UnitTest
 			testTask3.setStartingTime("");
 			testTask3.setEndingTime("10/5");
 			testTask3.setDone("ongoing");
-			testTask1.setType(DEADLINE_TASK);
+			testTask3.setType("deadline");
 			//deadline& ongoing
 
 			vector<Task> taskList;
@@ -131,9 +131,7 @@ namespace UnitTest
 			Assert::AreEqual(expectedOutput, actualOutput);
 		}
 
-			////////////////////////////////////////////////////////////////////////
-			//Assertion failed
-
+		
 			TEST_METHOD(display_various){
 
             Display display;
@@ -142,7 +140,7 @@ namespace UnitTest
 			testTask1.setStartingTime("");
 			testTask1.setEndingTime("");
 			testTask1.setDone("done");
-			testTask1.type ="floating";
+			testTask1.setType("floating");
 			//floating & done type
 
 			Task testTask2;
@@ -150,7 +148,7 @@ namespace UnitTest
 			testTask2.setStartingTime("1111");
 			testTask2.setEndingTime("2200");
 			testTask2.setDone("overdue");
-			testTask1.type="timed";
+			testTask2.setType("timed");
 			//timed & overdue
 
 			Task testTask3;
@@ -158,7 +156,7 @@ namespace UnitTest
 			testTask3.setStartingTime("");
 			testTask3.setEndingTime("10/5");
 			testTask3.setDone("ongoing");
-			testTask1.type="deadline";
+			testTask3.setType("deadline");
 			//deadline& ongoing
 
 			vector<Task> taskList;
@@ -166,6 +164,7 @@ namespace UnitTest
 			taskList.push_back(testTask2);
 			taskList.push_back(testTask3);
 
+			
 			string FLOATING_TASK = "floating";
 			string DEADLINE_TASK = "deadline";
 			string TIMED_TASK = "timed";
