@@ -1,7 +1,6 @@
-#include <iostream>
+//@author A0114946B
+
 #include <sstream>
-#include <string>
-#include <vector>
 #include <fstream>
 #include <algorithm>
 #include <sys/stat.h>
@@ -14,50 +13,18 @@ using namespace std;
 const string TEXTFILENAME = "rushhour.txt";
 const string CONFIG_FILE_NAME = "myAppConfig.txt";
 
-Storage::Storage(void){}
-Storage::~Storage(void){}
+Storage::Storage(){
+}
 
-//void Storage::test(){
-//	if (_taskList.empty()){
-//		cout << "empty";// vector is now empty
-//	}
-//}
-/*void Storage::storeTask(string task, string startingTime, string endingTime){
-	Task tempStorage;
-	tempStorage.taskName = task;
-	tempStorage.startingTime = startingTime;
-	tempStorage.endingTime = endingTime;
-	//tempStorage.date = date;
-	taskList.push_back(tempStorage);
-};*/
-
-//void Storage::undo(){
-//	_taskList = historyStorage.undo();
-//}
-//
-//void Storage::redo(){
-//	_taskList = historyStorage.redo();
-//}
-//
-//void Storage::saveOperation(){
-//	historyStorage.saveOperation(_taskList);
-//}
-
-//void Storage::updateTaskList(vector<Task>& taskStorage){
-//	_taskList.clear();
-//	for (int i = 0; i < taskStorage.size(); i++){
-//		_taskList.push_back(taskStorage[i]);
-//	}
-//	//cout << _taskList[0].taskName; //successful correctlly cout
-//	test();
-//};
+Storage::~Storage(){
+}
 
 
 void Storage::saveFile(vector<Task>& taskList){
 	
 	string filePath = getOutfilePath();
 	ofstream writeFile;
-	//writeFile.open(TEXTFILENAME);
+	
 	writeFile.open(filePath.c_str());
 
 	writeFile << " Tasklist: "<< endl;
@@ -89,32 +56,8 @@ void Storage::saveFile(vector<Task>& taskList){
 	}
 	
 	writeFile.close();
-};
+}
 
-//vector<Task> Storage::getOverallTaskList(){
-//	overallTaskList.reserve(taskList.size() + deadlineTaskList.size() + floatingTaskList.size());
-//	overallTaskList.insert(overallTaskList.end(), taskList.begin(), taskList.end());
-//	overallTaskList.insert(overallTaskList.end(), deadlineTaskList.begin(), deadlineTaskList.end());
-//	overallTaskList.insert(overallTaskList.end(), floatingTaskList.begin(), floatingTaskList.end());
-//	
-//	return overallTaskList; 
-//}
-
-//vector<Task> Storage::getTaskList(){
-//	return _taskList;
-//};
-//
-//vector<Task> Storage::getTimedTaskList(){
-//	return timedTaskList;
-//};
-//
-//vector<Task> Storage::getDeadlineTaskList(){
-//	return deadlineTaskList;
-//};
-//
-//vector<Task> Storage::getFloatingTaskList(){
-//	return floatingTaskList;
-//};
 string Storage::getOutfilePath(){
 	return _outFilePath;
 }
@@ -176,7 +119,8 @@ string Storage::createFilePath(){
 
 void Storage::readFile(vector<Task>& taskList){
 	string filePath;
-	
+	vector<string> tempTask;
+
 	if(hasDirectory() == true){
 		filePath = getOutfilePath();
 		ifstream file;
@@ -184,16 +128,16 @@ void Storage::readFile(vector<Task>& taskList){
 		string titleLine;
 
 		file.open(filePath.c_str());
-		_tempTask.clear();
+		tempTask.clear();
 
 		getline(file, titleLine);
 	
 		while (getline(file, taskLine)){
-			_tempTask.push_back(taskLine);
+			tempTask.push_back(taskLine);
 	
 		}
 	
-		loadTask(_tempTask, taskList);
+		loadTask(tempTask, taskList);
 	
 		file.close();
 	}
@@ -357,3 +301,63 @@ string Storage::getDueTime(string input){
 	return task;
 }
 
+//void Storage::test(){
+//	if (_taskList.empty()){
+//		cout << "empty";// vector is now empty
+//	}
+//}
+/*void Storage::storeTask(string task, string startingTime, string endingTime){
+	Task tempStorage;
+	tempStorage.taskName = task;
+	tempStorage.startingTime = startingTime;
+	tempStorage.endingTime = endingTime;
+	//tempStorage.date = date;
+	taskList.push_back(tempStorage);
+};*/
+
+//void Storage::undo(){
+//	_taskList = historyStorage.undo();
+//}
+//
+//void Storage::redo(){
+//	_taskList = historyStorage.redo();
+//}
+//
+//void Storage::saveOperation(){
+//	historyStorage.saveOperation(_taskList);
+//}
+
+//void Storage::updateTaskList(vector<Task>& taskStorage){
+//	_taskList.clear();
+//	for (int i = 0; i < taskStorage.size(); i++){
+//		_taskList.push_back(taskStorage[i]);
+//	}
+//	//cout << _taskList[0].taskName; //successful correctlly cout
+//	test();
+//};
+
+
+//vector<Task> Storage::getOverallTaskList(){
+//	overallTaskList.reserve(taskList.size() + deadlineTaskList.size() + floatingTaskList.size());
+//	overallTaskList.insert(overallTaskList.end(), taskList.begin(), taskList.end());
+//	overallTaskList.insert(overallTaskList.end(), deadlineTaskList.begin(), deadlineTaskList.end());
+//	overallTaskList.insert(overallTaskList.end(), floatingTaskList.begin(), floatingTaskList.end());
+//	
+//	return overallTaskList; 
+//}
+
+//vector<Task> Storage::getTaskList(){
+//	return _taskList;
+//};
+//
+//vector<Task> Storage::getTimedTaskList(){
+//	return timedTaskList;
+//};
+//
+//vector<Task> Storage::getDeadlineTaskList(){
+//	return deadlineTaskList;
+//};
+//
+//vector<Task> Storage::getFloatingTaskList(){
+//	return floatingTaskList;
+//};
