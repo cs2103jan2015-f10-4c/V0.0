@@ -1,7 +1,7 @@
 //@author A0116363L
 
 #include "Display.h"
-
+#include "Logger.h"
 const string Display::FLOATING_TASK ="floating";
 const string Display::DEADLINE_TASK="deadline";
 const string Display::TIMED_TASK="timed";
@@ -31,10 +31,15 @@ void Display::setDefaultDisplay(vector<Task> &taskList){
 
 string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 	vector<Task> targetTasklist;
+	Logger logger = Logger::getInstance();
+
+	
 	if (displayType ==FLOATING_TASK){
 		targetTasklist = getFloatingTask(taskList);
 		_mainDisplay.setContent(targetTasklist);
 		if (targetTasklist.empty()){
+			logger.addLog(NO_FLOATING);
+			logger.saveLog();
 			return NO_FLOATING;
 		}
 	}
@@ -42,6 +47,8 @@ string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 		targetTasklist = getDeadlineTask(taskList);
 		_mainDisplay.setContent(targetTasklist);
 		if (targetTasklist.empty()){
+			logger.addLog(NO_DEADLINE);
+			logger.saveLog();
 			return NO_DEADLINE;
 		}
 	}
@@ -49,6 +56,8 @@ string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 		targetTasklist = getTimedTask(taskList);
 		_mainDisplay.setContent(targetTasklist);
 		if (targetTasklist.empty()){
+			logger.addLog(NO_TIMED);
+			logger.saveLog();
 			return NO_TIMED;
 		}
 	}
@@ -56,6 +65,8 @@ string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 		targetTasklist = getOverdueTask(taskList);
 		_mainDisplay.setContent(targetTasklist);
 		if (targetTasklist.empty()){
+			logger.addLog(NO_OVERDUE);
+			logger.saveLog();
 			return NO_OVERDUE;
 		}
 	}
@@ -63,6 +74,8 @@ string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 		targetTasklist = getDoneTask(taskList);
 		_mainDisplay.setContent(targetTasklist);
 		if (targetTasklist.empty()){
+			logger.addLog(NO_DONE);
+			logger.saveLog();
 			return NO_DONE;
 		}
 	}
@@ -70,6 +83,8 @@ string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 		targetTasklist = getOngoingTask(taskList);
         _mainDisplay.setContent(targetTasklist);
 		if (targetTasklist.empty()){
+			logger.addLog(NO_ONGOING);
+			logger.saveLog();
 			return NO_ONGOING;
 		}
 	}
@@ -79,8 +94,12 @@ string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 
 	}
 	else{
+		logger.addLog(INVALID_DISPLAYTYPE);
+		logger.saveLog();
 		return INVALID_DISPLAYTYPE;
 	}
+	logger.addLog(DISPLAYED);
+	logger.saveLog();
 	return DISPLAYED;
 }
 
