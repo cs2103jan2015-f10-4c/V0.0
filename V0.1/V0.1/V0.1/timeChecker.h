@@ -12,6 +12,7 @@
 #include "TransformTime.h"
 //#include 
 
+#define MAX_CHAR 255
 
 class TimeChecker{
 
@@ -19,10 +20,10 @@ private:
 	TransformTime transformTime;
 	static const string NON_TARGET_TYPE;
 	static const string STATUS_OVERDUE;
-	static const string STATUS_DONE;
-
+	static const string STATUS_ONGOING;
+	static const string MESSAGE_MARKOVERDUE;
 public:
-
+	char outputBuffer[MAX_CHAR];
 	void updateStatus(vector<Task>&);
 	bool checkStatus(string);
 

@@ -30,6 +30,12 @@ private:
 	static const string NO_DONE;
 	static const string NO_ONGOING;
 	static const string DISPLAYED;
+	static const string FLOATING_RETRIVED_SORTED;
+	static const string DEADLINE_RETRIVED_SORTED; 
+	static const string TIMED_RETRIVED_SORTED; 
+	static const string OVERDUE_RETRIVED_SORTED;
+	static const string ONGOING_RETRIVED_SORTED;
+	static const string DONE_RETRIVED_SORTED;
 
 public:
 
@@ -40,10 +46,10 @@ public:
 	string setVariousDisplay(vector<Task>&, string);
     string getContent();
 
-	vector<Task> getFloatingTask(vector<Task>);//sorting alphabetical
-	vector<Task> getDeadlineTask(vector<Task>);//sorting according to time
+	vector<Task> getFloatingTask(vector<Task>);//sorting alphabetically
+	vector<Task> getDeadlineTask(vector<Task>);//sorting according to endingtime
 	vector<Task> getTimedTask(vector<Task>);//sorting according  to starting time
-	vector<Task> getOverdueTask(vector<Task>);//soring Floating +deadline +timed 
+	vector<Task> getOverdueTask(vector<Task>);//soring alphabetically
 	vector<Task> getDoneTask(vector<Task>);//sorting same as above
 	vector<Task> getOngoingTask(vector<Task>);//sorting same as above
 };

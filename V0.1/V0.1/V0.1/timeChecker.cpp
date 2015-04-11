@@ -1,19 +1,27 @@
 // @author A0116363L
 
 #include "timeChecker.h"
+#include "Logger.h"
 
 const string TimeChecker::NON_TARGET_TYPE = "floating";
 const string TimeChecker::STATUS_OVERDUE = "overdue";
-const string TimeChecker::STATUS_DONE = "done";
+const string TimeChecker::STATUS_ONGOING = "ongoing";
+const string TimeChecker::MESSAGE_MARKOVERDUE = "Task\"%s\" is marked as overdue";
 
 TimeChecker::TimeChecker(){};
 TimeChecker::~TimeChecker(){};
 
 void TimeChecker::updateStatus(vector<Task>& tasklist){
+	Logger logger = Logger::getInstance();
+
 	for (unsigned i = 0; i < tasklist.size(); i++){
 		if (tasklist[i].type != NON_TARGET_TYPE){
-			if (checkStatus(tasklist[i].endingTime) && tasklist[i].status!=STATUS_DONE){
+			if (checkStatus(tasklist[i].endingTime) && tasklist[i].status == STATUS_ONGOING){
 				tasklist[i].status = STATUS_OVERDUE;
+				string indexString = to_string(i);
+				sprintf_s(outputBuffer, MESSAGE_MARKOVERDUE.c_str(), indexString.c_str());
+				logger.addLog(outputBuffer);
+				logger.saveLog();
 			}
 		}
 	}

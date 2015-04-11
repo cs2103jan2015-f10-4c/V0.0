@@ -17,7 +17,12 @@ const string Display::NO_DONE="There is no done task";
 const string Display::NO_OVERDUE="There is no overdue task";
 const string Display::NO_ONGOING = "There is no ongoing task";
 const string Display::DISPLAYED = "The target tasklist has been displayed";
-
+const string Display::FLOATING_RETRIVED_SORTED = "Floating tasks are retrived and sorted successfully";
+const string Display::DEADLINE_RETRIVED_SORTED = "Deadline tasks are retrived and sorted successfully";
+const string Display::TIMED_RETRIVED_SORTED = "Timed tasks are retrived and sorted successfully";
+const string Display::OVERDUE_RETRIVED_SORTED = "Overdue tasks are retrived and sorted successfully";
+const string Display::ONGOING_RETRIVED_SORTED = "Ongoing tasks are retrived and sorted successfully";
+const string Display::DONE_RETRIVED_SORTED = "Done tasks are retrived and sorted successfully";
 
 Display::Display(){}
 
@@ -30,6 +35,7 @@ void Display::setDefaultDisplay(vector<Task> &taskList){
 }
 
 string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
+
 	vector<Task> targetTasklist;
 	Logger logger = Logger::getInstance();
 
@@ -112,7 +118,9 @@ vector<Task>Display::getFloatingTask(vector<Task> taskList){
 		}
 	}
 	sortedFloatingTaskList = sorter.sortFloatingTaskList(floatingTaskList);
-
+	Logger logger = Logger::getInstance();
+	logger.addLog(FLOATING_RETRIVED_SORTED);
+	logger.saveLog();
 	return sortedFloatingTaskList;
 }
 
@@ -127,6 +135,9 @@ vector<Task>Display::getDeadlineTask(vector<Task> taskList){
 		}
 	}
 	sortedDeadlineTaskList = sorter.sortDeadlineTaskList(deadlineTaskList);
+	Logger logger = Logger::getInstance();
+	logger.addLog(DEADLINE_RETRIVED_SORTED);
+	logger.saveLog();
 
 	return sortedDeadlineTaskList;
 }
@@ -140,6 +151,9 @@ vector<Task>Display::getTimedTask(vector<Task> taskList){
 		}
 	}
 	sortedTimedTaskList = sorter.sortTimedTaskList(timedTaskList);
+	Logger logger = Logger::getInstance();
+	logger.addLog(TIMED_RETRIVED_SORTED);
+	logger.saveLog();
 
 	return sortedTimedTaskList;
 
@@ -154,6 +168,9 @@ vector<Task>Display::getOverdueTask(vector<Task> tasklist){
 			overdueTaskList.push_back(tasklist[i]);
 	}
 	sortedOverdueTaskList = sorter.sortOverdueTaskList(overdueTaskList);
+	Logger logger = Logger::getInstance();
+	logger.addLog(OVERDUE_RETRIVED_SORTED);
+	logger.saveLog();
 
 	return sortedOverdueTaskList;
 }
@@ -168,6 +185,10 @@ vector<Task>Display::getDoneTask(vector<Task> tasklist){
 	}
 	sortedDoneTaskList = sorter.sortDoneTaskList(doneTaskList);
 
+	Logger logger = Logger::getInstance();
+	logger.addLog(DONE_RETRIVED_SORTED);
+	logger.saveLog();
+
 	return sortedDoneTaskList;
 }
 
@@ -180,6 +201,10 @@ vector<Task>Display::getOngoingTask(vector<Task> tasklist){
 			ongoingTaskList.push_back(tasklist[i]);
 	}
 	sortedOngoingTaskList = sorter.sortOngoingTaskList(ongoingTaskList);
+
+	Logger logger = Logger::getInstance();
+	logger.addLog(ONGOING_RETRIVED_SORTED);
+	logger.saveLog();
 
 	return sortedOngoingTaskList;
 }
