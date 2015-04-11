@@ -7,9 +7,7 @@ Logic::Logic(){}
 Logic::~Logic(){}
 
 
-/*void Logic::retriveStorage(){
-	storage.readFile();
-}*/
+
 void Logic::executeUserCommand(string userInput){
 	
 	string commandWord;
@@ -29,7 +27,7 @@ void Logic::executeUserCommand(string userInput){
 	case _MARKDONE:
 		return markDoneTask();
 	case _DISPLAY:
-		return display();
+		return displayVariousType();
 	case _UNDO:
 		return undoTask();
 	case _REDO:
@@ -201,9 +199,8 @@ void Logic::redoTask(){
 	}
 }
 
-void Logic::display(){
+void Logic::displayVariousType(){                                             //change the function name to be more readable
 	string displayType = parse.getTaskType();
-	//bool isCorrectType = true;
 	string outputMsg = disp.setVariousDisplay(taskList, displayType);
 	response.dispVariousResponse(outputMsg);
 }

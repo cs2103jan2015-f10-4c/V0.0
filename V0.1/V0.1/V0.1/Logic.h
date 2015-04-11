@@ -28,11 +28,8 @@ class Logic{
 
 private:
 
-
     Parser parse;
-
-	
-    addExecutor add;
+	addExecutor add;
     deleteExecutor deleteATask;
     editExecutor edit;
 	searchExecutor search;
@@ -57,13 +54,13 @@ public:
 		_ADD, _DELETE, _EDIT, _SEARCH, _MARKDONE, _DISPLAY, _UNDO, _REDO, _INVALID, _DIRECTORY, _CLEAR, _EXIT 
 
 	};
-	void retriveStorage();
+	
     void addTask();
 	void deleteTask();
 	void editTask();
 	void searchTask();
 	void markDoneTask();
-	void display();
+	void displayVariousType();
 	void undoTask();
 	void redoTask();
 	bool checkIndex(int);
