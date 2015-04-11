@@ -37,12 +37,23 @@ Storage::Storage(){
 Storage::~Storage(){
 }
 
+///////////////////
+// Getter Method //
+///////////////////
 string Storage::getOutfilePath(){
 	return _outFilePath;
 }
 
 string Storage::getUserInputPath(){
 	return _userInputPath;
+}
+
+
+///////////////////
+// Setter Method //
+///////////////////
+void Storage::setOutFilePath(string outFilePath){
+	_outFilePath = outFilePath;
 }
 
 //used to set user key-in input received by Logic as file path to be saved 
@@ -176,7 +187,7 @@ string Storage::createFilePath(){
 		pathname = getUserInputPath();
 		_outFilePath = pathname + filePathSeparator+ TEXT_FILE_NAME;
 
-		// save this file path to configuration file
+		// save this file path to the configuration file
 		ofstream configOut;
 		configOut.open(configPath.c_str());
 		configOut << _outFilePath;
@@ -201,8 +212,61 @@ void Storage::loadTask (vector<string> taskLineList, vector<Task>& taskList){
 		int numberOfDelimiter = count(taskDetail.begin(), taskDetail.end(), ';');
 
 		if (numberOfDelimiter == 3){
-			//retrieveTimedTask(taskDetail, taskList);
-			string taskName = getTaskName(taskDetail);
+			retrieveTimedTask(taskDetail, taskList);
+	/*		string taskName = getTaskName(taskDetail);
+	string startingTime = getStartingTime(taskDetail);
+	string endingTime = getEndingTime(taskDetail);
+	string status = getStatus(taskDetail);
+	string taskType = DEFAULT_TIMED_TASK_TYPE;
+
+	Task taskStorage;
+	taskStorage.setTaskName(taskName);
+	taskStorage.setStartingTime(startingTime);
+	taskStorage.setEndingTime(endingTime);
+	taskStorage.setDone(status);
+	taskStorage.setType(taskType);
+
+	taskList.push_back(taskStorage);*/
+		}
+		if (numberOfDelimiter == 2){
+			retrieveDeadlineTask(taskDetail, taskList);
+			/*string taskName = getTaskName(taskDetail);
+	string dueTime = getDueTime(taskDetail);
+	string status = getStatus(taskDetail);
+	string startTime = "";
+	string taskType = DEFAULT_DEADLINE_TASK_TYPE;
+
+	Task taskStorage;
+	taskStorage.setTaskName(taskName);
+	taskStorage.setStartingTime(startTime);
+	taskStorage.setDone(status);
+	taskStorage.setEndingTime(dueTime);
+	taskStorage.setType(taskType);
+
+	taskList.push_back(taskStorage);*/
+		}
+		if (numberOfDelimiter == 1){
+			retrieveFloatingTask(taskDetail, taskList);
+			/*string taskName = getTaskName(taskDetail);
+	string status = getStatus(taskDetail);
+	string startingTime = "";
+	string endingTime = "";
+	string taskType = DEFAULT_FLOATING_TASK_TYPE;
+
+	Task taskStorage;
+	taskStorage.setTaskName(taskName);
+	taskStorage.setDone(status);
+	taskStorage.setStartingTime(startingTime);
+	taskStorage.setEndingTime(endingTime);
+	taskStorage.setType(taskType);
+
+	taskList.push_back(taskStorage);*/
+		}
+	}
+}
+
+void Storage::retrieveTimedTask(string taskDetail, vector<Task>& taskList){
+	string taskName = getTaskName(taskDetail);
 	string startingTime = getStartingTime(taskDetail);
 	string endingTime = getEndingTime(taskDetail);
 	string status = getStatus(taskDetail);
@@ -216,10 +280,10 @@ void Storage::loadTask (vector<string> taskLineList, vector<Task>& taskList){
 	taskStorage.setType(taskType);
 
 	taskList.push_back(taskStorage);
-		}
-		if (numberOfDelimiter == 2){
-			//retrieveDeadlineTask(taskDetail, taskList);
-			string taskName = getTaskName(taskDetail);
+}
+
+void Storage::retrieveDeadlineTask(string taskDetail, vector<Task>& taskList){
+	string taskName = getTaskName(taskDetail);
 	string dueTime = getDueTime(taskDetail);
 	string status = getStatus(taskDetail);
 	string startTime = "";
@@ -233,10 +297,10 @@ void Storage::loadTask (vector<string> taskLineList, vector<Task>& taskList){
 	taskStorage.setType(taskType);
 
 	taskList.push_back(taskStorage);
-		}
-		if (numberOfDelimiter == 1){
-			//retrieveFloatingTask(taskDetail, taskList);
-			string taskName = getTaskName(taskDetail);
+}
+
+void Storage::retrieveFloatingTask(string taskDetail, vector<Task>& taskList){
+	string taskName = getTaskName(taskDetail);
 	string status = getStatus(taskDetail);
 	string startingTime = "";
 	string endingTime = "";
@@ -250,61 +314,8 @@ void Storage::loadTask (vector<string> taskLineList, vector<Task>& taskList){
 	taskStorage.setType(taskType);
 
 	taskList.push_back(taskStorage);
-		}
-	}
 }
-
-//void Storage::retrieveTimedTask(string taskDetail, vector<Task>& taskList){
-//	string taskName = getTaskName(taskDetail);
-//	string startingTime = getStartingTime(taskDetail);
-//	string endingTime = getEndingTime(taskDetail);
-//	string status = getStatus(taskDetail);
-//	string taskType = DEFAULT_TIMED_TASK_TYPE;
-//
-//	Task taskStorage;
-//	taskStorage.setTaskName(taskName);
-//	taskStorage.setStartingTime(startingTime);
-//	taskStorage.setEndingTime(endingTime);
-//	taskStorage.setDone(status);
-//	taskStorage.setType(taskType);
-//
-//	taskList.push_back(taskStorage);
-//}
-//
-//void Storage::retrieveDeadlineTask(string taskDetail, vector<Task>& taskList){
-//	string taskName = getTaskName(taskDetail);
-//	string dueTime = getDueTime(taskDetail);
-//	string status = getStatus(taskDetail);
-//	string startTime = "";
-//	string taskType = DEFAULT_DEADLINE_TASK_TYPE;
-//
-//	Task taskStorage;
-//	taskStorage.setTaskName(taskName);
-//	taskStorage.setStartingTime(startTime);
-//	taskStorage.setDone(status);
-//	taskStorage.setEndingTime(dueTime);
-//	taskStorage.setType(taskType);
-//
-//	taskList.push_back(taskStorage);
-//}
-//
-//void Storage::retrieveFloatingTask(string taskDetail, vector<Task>& taskList){
-//	string taskName = getTaskName(taskDetail);
-//	string status = getStatus(taskDetail);
-//	string startingTime = "";
-//	string endingTime = "";
-//	string taskType = DEFAULT_FLOATING_TASK_TYPE;
-//
-//	Task taskStorage;
-//	taskStorage.setTaskName(taskName);
-//	taskStorage.setDone(status);
-//	taskStorage.setStartingTime(startingTime);
-//	taskStorage.setEndingTime(endingTime);
-//	taskStorage.setType(taskType);
-//
-//	taskList.push_back(taskStorage);
-//}
-//			
+			
 string Storage::removeIndex(string input){
 	size_t positionStart = 0;
     size_t positionEnd = input.size();

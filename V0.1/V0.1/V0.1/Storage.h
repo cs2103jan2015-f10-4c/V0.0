@@ -25,6 +25,7 @@ public:
 	void saveFile(vector<Task>&);
 	void readFile(vector<Task>&);
 	void loadTask(vector<string>,  vector<Task>&);
+	void setOutFilePath(string);
 	void setUserInputPath(string);
 	void retrieveTimedTask(string, vector<Task>&);
 	void retrieveDeadlineTask(string, vector<Task>&);
