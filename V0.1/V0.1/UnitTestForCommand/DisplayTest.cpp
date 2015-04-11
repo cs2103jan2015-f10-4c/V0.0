@@ -212,7 +212,6 @@ namespace UnitTest
 			expectedOutput = "[1.][buy breakfast][][10/5][ongoing]\n";
 			Assert::AreEqual(expectedOutput, actualOutput);
 
-			//Tasktypes are not working.....why???
 
 			//to display ongoing
 			actualResp = display.setVariousDisplay(taskList, ONGOING_TASK);
@@ -295,12 +294,123 @@ namespace UnitTest
 			Assert::AreEqual(expectedOutput, actualOutput);
 		}
 
-		TEST_METHOD(getfunction_test){
+		TEST_METHOD(getfunction_test){ 
+			// tasklist will be autometically sorted in get functions
+			// all time format must be standardised
+			Display display;
+			Task testTask1;
+			testTask1.setTaskName("buy milk");
+			testTask1.setStartingTime("");
+			testTask1.setEndingTime("");
+			testTask1.setDone("done");
+			testTask1.setType("floating");
+			//floating & done type
+
+			Task testTask2;
+			testTask2.setTaskName("tutorial");
+			testTask2.setStartingTime("03-04-2014 09:00");
+			testTask2.setEndingTime("07-04-2014 22:00");
+			testTask2.setDone("overdue");
+			testTask2.setType("timed");
+			//timed & overdue
+
+			Task testTask3;
+			testTask3.setTaskName("buy breakfast");
+			testTask3.setStartingTime("");
+			testTask3.setEndingTime("10-05-2015 23:59");
+			testTask3.setDone("ongoing");
+			testTask3.setType("deadline");
+			//deadline& ongoing
+
+			Task testTask4;
+			testTask4.setTaskName("drink milk");
+			testTask4.setStartingTime("");
+			testTask4.setEndingTime("");
+			testTask4.setDone("done");
+			testTask4.setType("floating");
+			//floating & done type
+
+			Task testTask5;
+			testTask5.setTaskName("finish tutorial");
+			testTask5.setStartingTime("03-04-2014 09:23");
+			testTask5.setEndingTime("06-04-2015 23:59");
+			testTask5.setDone("overdue");
+			testTask5.setType("timed");
+			//timed & overdue
+
+			Task testTask6;
+			testTask6.setTaskName("eat breakfast");
+			testTask6.setStartingTime("");
+			testTask6.setEndingTime("10-06-2015 08:00");
+			testTask6.setDone("ongoing");
+			testTask6.setType("deadline");
+			//deadline& ongoing
+			
+
+			vector<Task> taskList;
+			taskList.push_back(testTask1);
+			taskList.push_back(testTask2);
+			taskList.push_back(testTask3);
+			taskList.push_back(testTask4);
+			taskList.push_back(testTask5);
+			taskList.push_back(testTask6);
+
+			vector<Task> expectedTasklist;
+			vector<Task> actualTasklist;
+			//test getDeadline
+			actualTasklist= display.getDeadlineTask(taskList);
+			//should be sorted according to ascending endingTime
+			expectedTasklist.push_back(testTask3);
+			expectedTasklist.push_back(testTask6);
+
+			Assert::IsTrue(expectedTasklist[0].endingTime == actualTasklist[0].endingTime);
+			Assert::IsTrue(expectedTasklist[1].endingTime == actualTasklist[1].endingTime);
+
+			//test getTimed
+			actualTasklist = display.getTimedTask(taskList);
+			//should be sorted according to ascending startingTime
+			expectedTasklist.clear();
+			expectedTasklist.push_back(testTask2);
+			expectedTasklist.push_back(testTask5);
+			Assert::IsTrue(expectedTasklist[0].startingTime == actualTasklist[0].startingTime);
+			Assert::IsTrue(expectedTasklist[1].startingTime == actualTasklist[1].startingTime);
+
+			//test getFloating
+			actualTasklist = display.getFloatingTask(taskList);
+			//should be sorted according alphabetical order of taskName
+			expectedTasklist.clear();
+			expectedTasklist.push_back(testTask1);
+			expectedTasklist.push_back(testTask4);
+			Assert::IsTrue(expectedTasklist[0].taskName == actualTasklist[0].taskName);
+			Assert::IsTrue(expectedTasklist[1].taskName == actualTasklist[1].taskName);
 
 
+			//test getOverdue
+			actualTasklist = display.getOverdueTask(taskList);
+			//should be sorted according alphabetical order of taskName
+			expectedTasklist.clear();
+			expectedTasklist.push_back(testTask5);
+			expectedTasklist.push_back(testTask2);
+			Assert::IsTrue(expectedTasklist[0].taskName == actualTasklist[0].taskName);
+			Assert::IsTrue(expectedTasklist[1].taskName == actualTasklist[1].taskName);
 
+			//test getOngoing
+			actualTasklist = display.getOngoingTask(taskList);
+			//should be sorted according alphabetical order of taskName
+			expectedTasklist.clear();
+			expectedTasklist.push_back(testTask3);
+			expectedTasklist.push_back(testTask6);
+			Assert::IsTrue(expectedTasklist[0].taskName == actualTasklist[0].taskName);
+			Assert::IsTrue(expectedTasklist[1].taskName == actualTasklist[1].taskName);
 
-
+			//test getDone
+			actualTasklist = display.getDoneTask(taskList);
+			//should be sorted according alphabetical order of taskName
+			expectedTasklist.clear();
+			expectedTasklist.push_back(testTask1);
+			expectedTasklist.push_back(testTask4);
+			Assert::IsTrue(expectedTasklist[0].taskName == actualTasklist[0].taskName);
+			Assert::IsTrue(expectedTasklist[1].taskName == actualTasklist[1].taskName);
 		}
 
 	};

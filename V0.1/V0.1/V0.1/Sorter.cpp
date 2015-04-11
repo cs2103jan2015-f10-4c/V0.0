@@ -2,9 +2,10 @@
 
 #include "Sorter.h"
 #include "TransformTime.h"
-
+#include <assert.h>
 
 bool cmpName(Task a, Task b){
+
 	unsigned i = 0;
 	while ((i < a.taskName.length()) && (i < b.taskName.length()))
 	{
@@ -55,32 +56,56 @@ bool cmpStartingTime(Task a, Task b){
 vector<Task> Sorter::sortFloatingTaskList(vector<Task> tasklist){
 
 	sort(tasklist.begin(), tasklist.end(), cmpName);
+	for (unsigned i = 1; i < tasklist.size() ; i++){
+		assert(tasklist[i-1].taskName < tasklist[i].taskName);
+		//make sure the list is properly sorted
+	}
 	return tasklist;
 }
 
 vector<Task> Sorter::sortDeadlineTaskList(vector<Task> tasklist){
 	sort(tasklist.begin(), tasklist.end(), cmpEndingTime);
+	for (unsigned i = 1; i < tasklist.size(); i++){
+		assert(tasklist[i-1].endingTime < tasklist[i].endingTime);
+		//make sure the list is properly sorted
+	}
 	return tasklist;
 }
 
 vector<Task> Sorter::sortTimedTaskList(vector<Task> tasklist){
 	sort(tasklist.begin(), tasklist.end(), cmpStartingTime);
+	for (unsigned i = 1; i < tasklist.size(); i++){
+		assert(tasklist[i-1].startingTime < tasklist[i].startingTime);
+		//make sure the list is properly sorted
+	}
 	return tasklist;
 }
 
 
 vector<Task> Sorter::sortOverdueTaskList(vector<Task> tasklist){
 	sort(tasklist.begin(), tasklist.end(), cmpName);
+	for (unsigned i = 1; i < tasklist.size(); i++){
+		assert(tasklist[i-1].taskName < tasklist[i].taskName);
+		//make sure the list is properly sorted
+	}
 	return tasklist;
 }
 
 
 vector<Task> Sorter::sortDoneTaskList(vector<Task> tasklist){
 	sort(tasklist.begin(), tasklist.end(), cmpName);
+	for (unsigned i = 1; i < tasklist.size(); i++){
+		assert(tasklist[i-1].taskName < tasklist[i].taskName);
+		//make sure the list is properly sorted
+	}
 	return tasklist;
 }
 
 vector<Task> Sorter::sortOngoingTaskList(vector<Task> tasklist){
 	sort(tasklist.begin(), tasklist.end(), cmpName);
+	for (unsigned i = 1; i < tasklist.size(); i++){
+		assert(tasklist[i-1].taskName < tasklist[i].taskName);
+		//make sure the list is properly sorted
+	}
 	return tasklist;
 }

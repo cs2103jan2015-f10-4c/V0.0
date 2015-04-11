@@ -21,8 +21,8 @@ namespace IntegrationTesting
 			userCommand = "add;tutorial;01-01-2015 0900;01-01-2015 1000";
 			logic->executeUserCommand(userCommand);
 			string taskName = "tutorial";
-			string startTime = "01-01-2015 0900";
-			string endTime = "01-01-2015 1000";
+			string startTime = "01-01-2015 09:00";
+			string endTime = "01-01-2015 10:00";
 			string type = DEFAULT_TYPE_ONE;
 			Assert::IsTrue(logic->taskList[0].taskName == taskName);
 			Assert::IsTrue(logic->taskList[0].startingTime == startTime);
@@ -33,12 +33,12 @@ namespace IntegrationTesting
 			logic->executeUserCommand(userCommand);
 			taskName = "assignment";
 			startTime = "";
-			endTime = "02-02-2015 2359";
+			endTime = "02-02-2015 23:59";
 			type = DEFAULT_TYPE_TWO;
-			Assert::IsTrue(logic->taskList[0].taskName == taskName);
-			Assert::IsTrue(logic->taskList[0].startingTime == startTime);
-			Assert::IsTrue(logic->taskList[0].endingTime == endTime);
-			Assert::IsTrue(logic->taskList[0].type == type);
+			Assert::IsTrue(logic->taskList[1].taskName == taskName);
+			Assert::IsTrue(logic->taskList[1].startingTime == startTime);
+			Assert::IsTrue(logic->taskList[1].endingTime == endTime);
+			Assert::IsTrue(logic->taskList[1].type == type);
 
 			userCommand = "add;meeting";
 			logic->executeUserCommand(userCommand);
@@ -46,10 +46,10 @@ namespace IntegrationTesting
 			startTime = "";
 			endTime = "";
 			type = DEFAULT_TYPE_THREE;
-			Assert::IsTrue(logic->taskList[0].taskName == taskName);
-			Assert::IsTrue(logic->taskList[0].startingTime == startTime);
-			Assert::IsTrue(logic->taskList[0].endingTime == endTime);
-			Assert::IsTrue(logic->taskList[0].type == type);
+			Assert::IsTrue(logic->taskList[2].taskName == taskName);
+			Assert::IsTrue(logic->taskList[2].startingTime == startTime);
+			Assert::IsTrue(logic->taskList[2].endingTime == endTime);
+			Assert::IsTrue(logic->taskList[2].type == type);
 
 			
 		}
