@@ -9,9 +9,7 @@ const string TimeChecker::STATUS_DONE = "done";
 TimeChecker::TimeChecker(){};
 TimeChecker::~TimeChecker(){};
 
-
 void TimeChecker::updateStatus(vector<Task>& tasklist){
-
 	for (unsigned i = 0; i < tasklist.size(); i++){
 		if (tasklist[i].type != NON_TARGET_TYPE){
 			if (checkStatus(tasklist[i].endingTime) && tasklist[i].status!=STATUS_DONE){
@@ -19,8 +17,6 @@ void TimeChecker::updateStatus(vector<Task>& tasklist){
 			}
 		}
 	}
-
-
 }
 
 bool TimeChecker::checkStatus(string endingTime){

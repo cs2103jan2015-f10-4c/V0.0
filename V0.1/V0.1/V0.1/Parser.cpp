@@ -25,7 +25,8 @@ string Parser::getCommandWord(string command){
             startTime = TransformTime.convertTime(startTime);
             endTime = TransformTime.convertTime(endTime);
             validTime = TransformTime.checkTime(startTime,endTime);
-        }else if (type == 1) {
+        }
+        else if (type == 1){
             taskType = "deadline";
             isCorrectFormat = true;
             taskName = getTaskName(detail);
@@ -33,35 +34,34 @@ string Parser::getCommandWord(string command){
             endTime = getStartDetail1(detail);
             endTime = TransformTime.convertTime(endTime);
             validTime = true;
-        }else if (detail=="add" && type == 0)
-        {
+        }
+        else if (detail=="add" && type == 0){
          isCorrectFormat = false;
-        }else if (type == 0){
+        }
+        else if (type == 0){
             taskType = "floating";
             isCorrectFormat = true;
             taskName = getTaskName(detail);
             startTime = "";
             endTime = "";
             validTime = true;
-        }else
-        {
-            
         }
-        
-        if (detail=="")
-        {
+        else{
+        }
+        if (detail==""){
             isCorrectFormat = false;
         }
         
-        //cout << "isCorrectFormat" << isCorrectFormat <<endl;
-    }else if(task == "delete"){
+    }
+    else if(task == "delete"){
         index = getIndex(detail);
-    }else if(task == "edit"){
+    }
+    else if(task == "edit"){
         index = getIndex(detail);
         string editDetail = getDetail(detail);
         size_t numberOfDelimiter = count(editDetail.begin(), editDetail.end(), ';');
         
-        if (numberOfDelimiter == 2) {
+        if (numberOfDelimiter == 2){
             taskType = "timed";
             taskName = getTaskName(editDetail);
             startTime = getStartDetail2(editDetail);
@@ -69,14 +69,16 @@ string Parser::getCommandWord(string command){
             endTime = getEndDetail(editDetail);
             endTime = TransformTime.convertTime(endTime);
             validTime = TransformTime.checkTime(startTime,endTime);
-        }else if (numberOfDelimiter == 1) {
+        }
+        else if (numberOfDelimiter == 1){
             taskType = "deadline";
             taskName = getTaskName(editDetail);
             startTime = "";
             endTime = getStartDetail1(editDetail);
             endTime = TransformTime.convertTime(endTime);
             validTime = true;
-        }else {
+        }
+        else{
             taskType = "floating";
             taskName = getTaskName(editDetail);
             startTime = "";
@@ -91,9 +93,9 @@ string Parser::getCommandWord(string command){
     }else if(task == "display"){
         taskType = detail;
     }else if(task == "undo"){
-        // Not Done
+        
     }else if(task == "redo"){
-        // Not Done
+        
     }else if(task == "directory"){
         taskType = detail;
     }else if(task == "clear"){
@@ -101,10 +103,8 @@ string Parser::getCommandWord(string command){
     }else if(task == "exit"){
         
     }else {
-        //cout<< "Parser: worry input.\n";//task should be made invalid command;
         task = "Invalid Command";
     }
-    
     return task;
 }
 
@@ -162,7 +162,7 @@ string Parser::getDetail(string input){
 }
 
 int Parser::getIndex(string input){
-    int index = atoi(input.c_str()); // String to Integer
+    int index = atoi(input.c_str());
     return index;
 }
 
@@ -213,5 +213,4 @@ string Parser::getEndDetail(string input){
     positionA = temp.find_first_of(DELIMITERS) + 1;
     time = temp.substr(positionB, positionC - positionB);
     return time;
-    
 }
