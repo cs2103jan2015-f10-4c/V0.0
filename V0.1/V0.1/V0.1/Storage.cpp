@@ -7,9 +7,13 @@
 #include <assert.h>
 #include "Storage.h"
 #include "Task.h"
+#include "Logger.h"
 
 using namespace std;
 
+const string SAVE_FILE_MSG = "file is saved successfully";
+const string READ_FILE_MSG = "file is retrieved successfully";
+const string CREATE_FILE_MSG = "new file is created successfully";
 const string TEXT_FILE_NAME = "rushhour.txt";
 const string CONFIG_FILE_NAME = "myAppConfig.txt";
 const string FILE_TITLE = " Tasklist: ";
@@ -28,6 +32,7 @@ const char filePathSeparator =
 #else
 	'/';
 #endif
+
 
 //constructor
 Storage::Storage(){
@@ -97,6 +102,7 @@ bool Storage::hasDirectory(){
 //taskList is saved in user-defined location which stored in _outFilePath
 void Storage::saveFile(vector<Task>& taskList){
 	
+	Logger logFile = Logger::getInstance();
 	string filePath = getOutfilePath();
 	
 	//write file into user-defined location
@@ -131,6 +137,8 @@ void Storage::saveFile(vector<Task>& taskList){
 		
 	}
 	
+	logFile.addLog(SAVE_FILE_MSG);
+	logFile.saveLog();
 	writeFile.close();
 }
 
@@ -140,11 +148,14 @@ void Storage::readFile(vector<Task>& taskList){
 	
 	string filePath;
 	vector<string> tempTask;
+	Logger logFile = Logger::getInstance();
 	
 	//there is an existing file
 	if(hasDirectory() == true){
-		//assert(hasDirectory() == true);
+		
+		assert(hasDirectory() == true);
 		filePath = getOutfilePath();
+		
 		ifstream file;
 		string taskLine;
 		string titleLine;
@@ -162,15 +173,22 @@ void Storage::readFile(vector<Task>& taskList){
 		
 		//partition the whole string accordingly and pass to Logic to store in taskList
 		loadTask(tempTask, taskList);
+
+		logFile.addLog(READ_FILE_MSG);
+		logFile.saveLog();
 		file.close();
 	}
 	//there is no existing file
 	else{
-		//assert(hasDirectory() == false);
+		assert(hasDirectory() == false);
 		string filePath = createFilePath();
+		
 		ofstream outputFile;
 		outputFile.open(filePath.c_str());
 		outputFile << NEW_FILE_MSG;
+
+		logFile.addLog(CREATE_FILE_MSG);
+		logFile.saveLog();
 		outputFile.close();
 	}
 	
@@ -213,54 +231,15 @@ void Storage::loadTask (vector<string> taskLineList, vector<Task>& taskList){
 
 		if (numberOfDelimiter == 3){
 			retrieveTimedTask(taskDetail, taskList);
-	/*		string taskName = getTaskName(taskDetail);
-	string startingTime = getStartingTime(taskDetail);
-	string endingTime = getEndingTime(taskDetail);
-	string status = getStatus(taskDetail);
-	string taskType = DEFAULT_TIMED_TASK_TYPE;
-
-	Task taskStorage;
-	taskStorage.setTaskName(taskName);
-	taskStorage.setStartingTime(startingTime);
-	taskStorage.setEndingTime(endingTime);
-	taskStorage.setDone(status);
-	taskStorage.setType(taskType);
-
-	taskList.push_back(taskStorage);*/
 		}
-		if (numberOfDelimiter == 2){
+		else if (numberOfDelimiter == 2){
 			retrieveDeadlineTask(taskDetail, taskList);
-			/*string taskName = getTaskName(taskDetail);
-	string dueTime = getDueTime(taskDetail);
-	string status = getStatus(taskDetail);
-	string startTime = "";
-	string taskType = DEFAULT_DEADLINE_TASK_TYPE;
-
-	Task taskStorage;
-	taskStorage.setTaskName(taskName);
-	taskStorage.setStartingTime(startTime);
-	taskStorage.setDone(status);
-	taskStorage.setEndingTime(dueTime);
-	taskStorage.setType(taskType);
-
-	taskList.push_back(taskStorage);*/
 		}
-		if (numberOfDelimiter == 1){
+		else if (numberOfDelimiter == 1){
 			retrieveFloatingTask(taskDetail, taskList);
-			/*string taskName = getTaskName(taskDetail);
-	string status = getStatus(taskDetail);
-	string startingTime = "";
-	string endingTime = "";
-	string taskType = DEFAULT_FLOATING_TASK_TYPE;
-
-	Task taskStorage;
-	taskStorage.setTaskName(taskName);
-	taskStorage.setDone(status);
-	taskStorage.setStartingTime(startingTime);
-	taskStorage.setEndingTime(endingTime);
-	taskStorage.setType(taskType);
-
-	taskList.push_back(taskStorage);*/
+		}
+		else{
+			string trashLine = taskDetail;
 		}
 	}
 }

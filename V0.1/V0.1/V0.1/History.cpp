@@ -2,8 +2,14 @@
 
 #include <assert.h>
 #include "History.h"
+#include "Logger.h"
 
 using namespace std;
+
+const string UNABLE_UNDO = "it is unable to undo further";
+const string ABLE_UNDO = "undo is successful";
+const string UNABLE_REDO = "it is unable to redo further";
+const string ABLE_REDO = "redo is successful";
 
 //constructor
 History::History(){
@@ -13,6 +19,9 @@ History::History(){
 History::~History(){
 }
 
+///////////////////
+// Getter Method //
+///////////////////
 stack <vector<Task>> History::getUndoStorageList(){
 	return _undoStorageList;
 }
@@ -35,6 +44,7 @@ void History::saveOperation(vector<Task>& taskStorage){
 vector<Task> History::undo(){
     
     vector<Task> updatedTaskList;
+	Logger logFile = Logger::getInstance();
     
 	//whether the undo stack is empty, undo is only available when it is not empty
 	if (checkUndoEmpty() == true){
@@ -46,16 +56,23 @@ vector<Task> History::undo(){
 			//if only one operation made, undo returns empty
 			//if not only one operation made, undo return tasklist of previous state
 			if (checkUndoEmpty() == false){
+				logFile.addLog(UNABLE_UNDO);
+				logFile.saveLog();
+
 				return updatedTaskList;
 			}
 			else{
 				updatedTaskList = _undoStorageList.top();
 			}
-			
+		logFile.addLog(ABLE_UNDO);
+		logFile.saveLog();	
         return updatedTaskList;
     }
 	else{
 		assert(checkUndoEmpty() == false);
+		logFile.addLog(UNABLE_UNDO);
+		logFile.saveLog();
+
 		return updatedTaskList;
 	}
 }
@@ -64,7 +81,9 @@ vector<Task> History::undo(){
 //if redo is available, returns tasklist of state before last undo
 //if redo is not availble, returns empty tasklist
 vector<Task> History::redo(){
+	
 	vector<Task> updatedTaskList;
+	Logger logFile = Logger::getInstance();
 
 	//redo is available only when redo stack is not empty
 	if (checkRedoEmpty() == true){
@@ -75,10 +94,14 @@ vector<Task> History::redo(){
 		_undoStorageList.push(_redoStorageList.top());
 		_redoStorageList.pop();
 
+		logFile.addLog(ABLE_REDO);
+		logFile.saveLog();
 		return updatedTaskList;
 	}
 	else{
 		assert(checkRedoEmpty() == false);
+		logFile.addLog(UNABLE_REDO);
+		logFile.saveLog();
 		return updatedTaskList;
 	}
 }
