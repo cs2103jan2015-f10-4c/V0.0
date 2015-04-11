@@ -19,8 +19,6 @@ void TimeChecker::updateStatus(vector<Task>& tasklist){
 			}
 		}
 	}
-
-
 }
 
 bool TimeChecker::checkStatus(string endingTime){
