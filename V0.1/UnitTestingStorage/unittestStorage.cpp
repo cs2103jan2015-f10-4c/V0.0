@@ -1,3 +1,5 @@
+//@author A0114946B
+
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
@@ -13,6 +15,7 @@ const string TEST_TIMED_TASK = "1. meeting ; 2012-01-01 1000 ; 2012-01-01 1300 ;
 const string TEST_DEADLINE_TASK = "2. assignment ; 2012-01-01 1300 ; Ongoing";
 const string TEST_FLOATING_TASK = "3. reply email ; Ongoing";
 
+
 namespace UnitTeststorage
 {		
 	TEST_CLASS(UnitTestStorage)
@@ -20,7 +23,7 @@ namespace UnitTeststorage
 	public:
 		
 	
-		TEST_METHOD(removeIndexMethod)
+		TEST_METHOD(testRemoveIndex)
 		{
 			Storage fileStorage;
 
@@ -40,7 +43,7 @@ namespace UnitTeststorage
 
 		}
 		
-		TEST_METHOD(getTaskName)
+		TEST_METHOD(testGetTaskName)
 		{
 			Storage fileStorage;
 
@@ -64,7 +67,7 @@ namespace UnitTeststorage
 
 		}
 
-		TEST_METHOD(getStartingTime)
+		TEST_METHOD(testGetStartingTime)
 		{
 			Storage fileStorage;
 
@@ -77,7 +80,7 @@ namespace UnitTeststorage
 			Assert::IsTrue(testOutput == "2012-01-01 1000");
 		}
 
-		TEST_METHOD(getEndingTime)
+		TEST_METHOD(testGetEndingTime)
 		{
 			Storage fileStorage;
 
@@ -90,7 +93,7 @@ namespace UnitTeststorage
 			Assert::IsTrue(testOutput == "2012-01-01 1300");
 		}
 
-		TEST_METHOD(getDueTime)
+		TEST_METHOD(testGetDueTime)
 		{
 			Storage fileStorage;
 
@@ -103,7 +106,7 @@ namespace UnitTeststorage
 			Assert::IsTrue(testOutput == "2012-01-01 1300");
 		}
 
-		TEST_METHOD(getStatus)
+		TEST_METHOD(testGetStatus)
 		{
 			Storage fileStorage;
 
@@ -126,19 +129,21 @@ namespace UnitTeststorage
 			Assert::IsTrue(testOutput == "Ongoing");
 		}
 
-		TEST_METHOD(loadTask)
+		TEST_METHOD(testLoadTask)
 		{
 			Storage fileStorage;
 			vector<string> testTaskLine;
 			vector<Task> testTaskList;
+			string trashTask = "Task has not been typed";
 
 			testTaskLine.push_back(TEST_TIMED_TASK);
 			testTaskLine.push_back(TEST_DEADLINE_TASK);
 			testTaskLine.push_back(TEST_FLOATING_TASK);
+			testTaskLine.push_back(trashTask);
 
+			//trash task should not be retrieved into taskList
 			fileStorage.loadTask(testTaskLine,testTaskList);
-			int tasklistSize; 
-			tasklistSize = testTaskList.size();
+			int tasklistSize = testTaskList.size();
 			int expectedSize = 3;
 			Assert::IsTrue(tasklistSize == expectedSize);
 
@@ -173,59 +178,278 @@ namespace UnitTeststorage
 			Assert::IsTrue(testTaskList[2].type == expectedFloatingTaskType);
 
 		}
-	};
-}
 
-	/*TEST_METHOD(getTaskList)
+		TEST_METHOD(testGetOutFilePath)
 		{
-			Storage Storage;
-			vector<Task> testTasklist;
-			testTasklist = Storage.getTaskList();
-			int size = testTasklist.size();
-			Assert::AreEqual(size, 0);
-
-			Task testTask;
-			testTask.setTaskName(TASK_NAME);
-			testTask.setStartingTime(STARTING_TIME);
-			testTask.setEndingTime(ENDING_TIME);
-			testTask.setDone(STATUS);
-
+			Storage testStorage;
 			
-			vector<Task> newTasklist;
-			newTasklist = Storage.getTaskList();
-			int size1 = newTasklist.size();
-			Assert::AreEqual(size1, 1);
+			string outFilePath;
+			outFilePath = "abc";
 			
-			Assert::IsTrue(newTasklist[0].taskName == TASK_NAME);
-			Assert::IsTrue(newTasklist[0].startingTime == STARTING_TIME);
-			Assert::IsTrue(newTasklist[0].endingTime == ENDING_TIME);
-			Assert::IsTrue(newTasklist[0].status == STATUS);
+			testStorage.setOutFilePath(outFilePath);
+			string expectedOutFilePath = testStorage.getOutfilePath();
+			Assert::IsTrue(outFilePath == expectedOutFilePath);
+
+		}
+
+		
+		TEST_METHOD(testGetUserInputPath)
+		{
+			Storage testStorage;
+			
+			string userInputPath;
+			userInputPath = "abc";
+			
+			testStorage.setUserInputPath(userInputPath);
+			string expecteduserInputPath = testStorage.getUserInputPath();
+			Assert::IsTrue(userInputPath == expecteduserInputPath);
+
+		}
+
+		TEST_METHOD(testHasDirectory)
+		{
+			Storage testStorage;
+			
+			string testPath1 = "myAppConfig.txt";
+			ifstream readFile;
+			readFile.open(testPath1.c_str());
+			string testLine1;
+			getline(readFile, testLine1);
+
+			if(testStorage.hasDirectory() == true){
+				string testPath2 = "myAppConfig.txt";
+				ifstream file;
+				file.open(testPath2.c_str());
+				string testLine2;
+				getline(file, testLine2);
+
+				Assert::IsTrue(testLine1 == testLine2);
+			}
+			else{
+				bool test = testStorage.hasDirectory();
+				bool expectedOutcome = false;
+				
+				Assert::IsTrue(test == expectedOutcome);
+			}
+
+		}
+
+		TEST_METHOD(testRetrieveTimedTask)
+		{
+			Storage testStorage;
+
+			string task1 = " project ; 04-03-2015 1400 ; 04-03-2015 1600 ; Ongoing";
+			string task2 = " lunch with Jim ; 10-03-2015 1800 ; 10-03-2015 2100 ; Done";
+			string task3 = " lecture ; 03-03-2015 1000 ; 03-03-2015 1200 ; Overdue";
+
+			vector<Task> testTaskList; 
+			testStorage.retrieveTimedTask(task1, testTaskList);
+
+			string expectedTimedTaskName = "project";
+			string expectedTimedTaskStartTime = "04-03-2015 1400";
+			string expectedTimedTaskEndTime = "04-03-2015 1600";
+			string expectedTimedTaskStatus = "Ongoing";
+			string expectedTimedTaskType = "timed";
+			
+			Assert::IsTrue(testTaskList[0].taskName == expectedTimedTaskName);
+			Assert::IsTrue(testTaskList[0].startingTime == expectedTimedTaskStartTime);
+			Assert::IsTrue(testTaskList[0].endingTime == expectedTimedTaskEndTime);
+			Assert::IsTrue(testTaskList[0].status == expectedTimedTaskStatus);
+			Assert::IsTrue(testTaskList[0].type == expectedTimedTaskType);
+
+			testStorage.retrieveTimedTask(task2, testTaskList);
+
+			expectedTimedTaskName = "lunch with Jim";
+			expectedTimedTaskStartTime = "10-03-2015 1800";
+			expectedTimedTaskEndTime = "10-03-2015 2100";
+			expectedTimedTaskStatus = "Done";
+			expectedTimedTaskType = "timed";
+			
+			Assert::IsTrue(testTaskList[1].taskName == expectedTimedTaskName);
+			Assert::IsTrue(testTaskList[1].startingTime == expectedTimedTaskStartTime);
+			Assert::IsTrue(testTaskList[1].endingTime == expectedTimedTaskEndTime);
+			Assert::IsTrue(testTaskList[1].status == expectedTimedTaskStatus);
+			Assert::IsTrue(testTaskList[1].type == expectedTimedTaskType);
+
+			testStorage.retrieveTimedTask(task3, testTaskList);
+
+			expectedTimedTaskName = "lecture";
+			expectedTimedTaskStartTime = "03-03-2015 1000";
+			expectedTimedTaskEndTime = "03-03-2015 1200";
+			expectedTimedTaskStatus = "Overdue";
+			expectedTimedTaskType = "timed";
+			
+			Assert::IsTrue(testTaskList[2].taskName == expectedTimedTaskName);
+			Assert::IsTrue(testTaskList[2].startingTime == expectedTimedTaskStartTime);
+			Assert::IsTrue(testTaskList[2].endingTime == expectedTimedTaskEndTime);
+			Assert::IsTrue(testTaskList[2].status == expectedTimedTaskStatus);
+			Assert::IsTrue(testTaskList[2].type == expectedTimedTaskType);
+
+		}
+
+		TEST_METHOD(testRetrieveDeadlineTask)
+		{
+			Storage testStorage;
+
+			string task1 = " assignment ; 04-03-2015 1400 ; Done";
+			string task2 = " tutorial ; 10-03-2015 2100 ; Ongoing";
+			string task3 = " IE presentation ; 03-03-2015 1200 ; Overdue";
+
+			vector<Task> testTaskList; 
+			testStorage.retrieveDeadlineTask(task1, testTaskList);
+
+			string expectedDeadlineTaskName = "assignment";
+			string expectedDeadlineTaskStartTime = "";
+			string expectedDeadlinedTaskEndTime = "04-03-2015 1400";
+			string expectedDeadlineTaskStatus = "Done";
+			string expectedDeadlineTaskType = "deadline";
+
+			Assert::IsTrue(testTaskList[0].taskName == expectedDeadlineTaskName);
+			Assert::IsTrue(testTaskList[0].startingTime == expectedDeadlineTaskStartTime);
+			Assert::IsTrue(testTaskList[0].endingTime == expectedDeadlinedTaskEndTime);
+			Assert::IsTrue(testTaskList[0].status == expectedDeadlineTaskStatus);
+			Assert::IsTrue(testTaskList[0].type == expectedDeadlineTaskType);
+
+			testStorage.retrieveDeadlineTask(task2, testTaskList);
+			expectedDeadlineTaskName = "tutorial";
+			expectedDeadlineTaskStartTime = "";
+			expectedDeadlinedTaskEndTime = "10-03-2015 2100";
+			expectedDeadlineTaskStatus = "Ongoing";
+			expectedDeadlineTaskType = "deadline";
+
+			Assert::IsTrue(testTaskList[1].taskName == expectedDeadlineTaskName);
+			Assert::IsTrue(testTaskList[1].startingTime == expectedDeadlineTaskStartTime);
+			Assert::IsTrue(testTaskList[1].endingTime == expectedDeadlinedTaskEndTime);
+			Assert::IsTrue(testTaskList[1].status == expectedDeadlineTaskStatus);
+			Assert::IsTrue(testTaskList[1].type == expectedDeadlineTaskType);
+
+			testStorage.retrieveDeadlineTask(task3, testTaskList);
+			expectedDeadlineTaskName = "IE presentation";
+			expectedDeadlineTaskStartTime = "";
+			expectedDeadlinedTaskEndTime = "03-03-2015 1200";
+			expectedDeadlineTaskStatus = "Overdue";
+			expectedDeadlineTaskType = "deadline";
+
+			Assert::IsTrue(testTaskList[2].taskName == expectedDeadlineTaskName);
+			Assert::IsTrue(testTaskList[2].startingTime == expectedDeadlineTaskStartTime);
+			Assert::IsTrue(testTaskList[2].endingTime == expectedDeadlinedTaskEndTime);
+			Assert::IsTrue(testTaskList[2].status == expectedDeadlineTaskStatus);
+			Assert::IsTrue(testTaskList[2].type == expectedDeadlineTaskType);
+		}
+
+		TEST_METHOD(testRetrieveFloatingTask)
+		{
+			Storage testStorage;
+
+			string task1 = " abc ; Done";
+			string task2 = " 123 ; Ongoing";
+			string task3 = " YYY ; Overdue";
+
+			vector<Task> testTaskList;
+			testStorage.retrieveFloatingTask(task1, testTaskList);
+			
+			string expectedFloatingTaskName = "abc";
+			string expectedFloatingTaskStatus = "Done";
+			string expectedFloatingTaskType = "floating";
+			string expectedFloatingStartTime = "";
+			string expectedFloatingEndTime = "";
+
+			Assert::IsTrue(testTaskList[0].taskName == expectedFloatingTaskName);
+			Assert::IsTrue(testTaskList[0].status == expectedFloatingTaskStatus);
+			Assert::IsTrue(testTaskList[0].type == expectedFloatingTaskType);
+			Assert::IsTrue(testTaskList[0].startingTime == expectedFloatingStartTime);
+			Assert::IsTrue(testTaskList[0].endingTime == expectedFloatingEndTime);
+
+			testStorage.retrieveFloatingTask(task2, testTaskList);
+			expectedFloatingTaskName = "123";
+			expectedFloatingTaskStatus = "Ongoing";
+			expectedFloatingTaskType = "floating";
+			expectedFloatingStartTime = "";
+			expectedFloatingEndTime = "";
+
+			Assert::IsTrue(testTaskList[1].taskName == expectedFloatingTaskName);
+			Assert::IsTrue(testTaskList[1].status == expectedFloatingTaskStatus);
+			Assert::IsTrue(testTaskList[1].type == expectedFloatingTaskType);
+			Assert::IsTrue(testTaskList[1].startingTime == expectedFloatingStartTime);
+			Assert::IsTrue(testTaskList[1].endingTime == expectedFloatingEndTime);
+
+			testStorage.retrieveFloatingTask(task3, testTaskList);
+			expectedFloatingTaskName = "YYY";
+			expectedFloatingTaskStatus = "Overdue";
+			expectedFloatingTaskType = "floating";
+			expectedFloatingStartTime = "";
+			expectedFloatingEndTime = "";
+
+			Assert::IsTrue(testTaskList[2].taskName == expectedFloatingTaskName);
+			Assert::IsTrue(testTaskList[2].status == expectedFloatingTaskStatus);
+			Assert::IsTrue(testTaskList[2].type == expectedFloatingTaskType);
+			Assert::IsTrue(testTaskList[2].startingTime == expectedFloatingStartTime);
+			Assert::IsTrue(testTaskList[2].endingTime == expectedFloatingEndTime);
 
 		}
 		
-		
-		TEST_METHOD(updateTaskList)
+		TEST_METHOD(testSaveFile)
 		{
-			Task task;
-			task.taskName = TASK_NAME;
-			task.startingTime = STARTING_TIME;
-			task.endingTime = ENDING_TIME;
-			task.status = STATUS;
+			Storage testStorage;
+			string testFilePath = "testFile.txt";
+			testStorage.setOutFilePath(testFilePath);
+			
+			//timed task
+			Task testTask1;
+			testTask1.setTaskName("ABC");
+			testTask1.setStartingTime ("0000");
+			testTask1.setEndingTime ("2359");
+			testTask1.setDone ("DONE");
+			testTask1.setType("timed");
 
-			Storage storage;
-			vector<Task> tasklist;
-			vector<Task> storageTasklist;
-			tasklist.push_back(task);
+			//deadline task
+			Task testTask2;
+			testTask2.setTaskName("AAA");
+			testTask2.setStartingTime ("");
+			testTask2.setEndingTime ("2200");
+			testTask2.setDone ("DONE");
+			testTask2.setType("deadline");
 
-			storage.updateTaskList(tasklist);
-			storageTasklist = storage.getTaskList();
+			//floating task
+			Task testTask3;
+			testTask3.setTaskName("BBB");
+			testTask3.setStartingTime ("");
+			testTask3.setEndingTime ("");
+			testTask3.setDone ("ONGOING");
+			testTask3.setType("floating");
 
-			int size = storageTasklist.size();
-			Assert::AreEqual(size,1);
+			//task has not been specified type
+			Task testTask4;
+			testTask4.setTaskName("meeting");
+			testTask3.setStartingTime ("");
+			testTask3.setEndingTime ("");
+			testTask3.setDone ("ONGOING");
 
-			Assert::IsTrue(storageTasklist[0].taskName == "ABC");
-			Assert::IsTrue(storageTasklist[0].startingTime == "0001");
-			Assert::IsTrue(storageTasklist[0].endingTime == "2359");
-			Assert::IsTrue(storageTasklist[0].status == "DONE");
+			vector<Task> testTaskList;
+			testTaskList.push_back(testTask1);
+			testTaskList.push_back(testTask2);
+			testTaskList.push_back(testTask3);
+			testTaskList.push_back(testTask4);
 
-		}*/
+			testStorage.saveFile(testTaskList);
+			
+			ifstream file(testFilePath.c_str());
+			vector<string> testLine;
+			string line;
+			while(getline(file,line)){
+				testLine.push_back(line);
+			}
+			int expectedSize = 5;
+			
+			Assert::IsTrue(testLine.size() == expectedSize);
+			Assert::IsTrue(testLine[0] == " Tasklist: ");
+			Assert::IsTrue(testLine[1] == "1. ABC ; 0000 ; 2359 ; DONE");
+			Assert::IsTrue(testLine[2] == "2. AAA ; 2200 ; DONE");
+			Assert::IsTrue(testLine[3] == "3. BBB ; ONGOING");
+			Assert::IsTrue(testLine[4] == "Task has not been typed");
+
+		}
+	};
+}
+
+	
