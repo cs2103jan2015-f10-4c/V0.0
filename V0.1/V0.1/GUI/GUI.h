@@ -26,6 +26,7 @@ namespace GUI {
 		MyForm(void)
 		{
 			InitializeComponent();
+			
 			//
 			//TODO: Add the constructor code here
 			//
@@ -197,7 +198,7 @@ namespace GUI {
 			this->HelpButton->Name = L"HelpButton";
 			this->HelpButton->Size = System::Drawing::Size(75, 23);
 			this->HelpButton->TabIndex = 6;
-			this->HelpButton->Text = L"Help";
+			this->HelpButton->Text = L"Help ( F1 )";
 			this->HelpButton->UseVisualStyleBackColor = true;
 			this->HelpButton->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
@@ -225,7 +226,9 @@ namespace GUI {
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
-		this->inputBox->Focus();
+
+		this->KeyPreview = true;
+		this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyDown);
 
 		int count = 0;
 		size_t tempStart = 0;
@@ -287,13 +290,16 @@ namespace GUI {
 
 	}
 
-	private: System::Void inputBox_KeyUp(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
-		if (e->KeyCode == Keys::Enter) {
-			comfirmButton->PerformClick();
+
+
+	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+		if (e->KeyCode == System::Windows::Forms::Keys::F1) {
+			this->HelpButton->PerformClick();
 		}
 	}
+
 	private: System::Void comfirmButton_Click(System::Object^  sender, System::EventArgs^  e) {
-		//logic.refreshStatus();
+
 		int count = 0;
 		size_t tempStart = 0;
 		size_t tempEnd = -2;
@@ -426,7 +432,8 @@ namespace GUI {
                private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 
 				   ostringstream instruction;
-			instruction<< "Please read the instructions for supported functionalities below\n and note that the software is case sensitive:\n\n"
+			       instruction<< "Please read the instructions for supported functionalities below\n"
+					   << "and note that the software is case sensitive:\n\n"
 					   << "If you are reqired a directory, please specify a directory as following:\n"
 					   << "directory; file path you want\n\n"
 					   << "Supported commands:\n"
