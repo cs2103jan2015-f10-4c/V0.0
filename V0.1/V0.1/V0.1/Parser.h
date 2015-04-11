@@ -7,7 +7,6 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
-//#include "History.h"
 #include "TransformTime.h"
 
 using namespace std;
@@ -15,8 +14,6 @@ using namespace std;
 class Parser{
     
 private:
-    //Logic logic;
-	//History history;
 	TransformTime TransformTime;
     static const string DELIMITERS;    
     static  string USER_PROMPT_TASKNAME ;
@@ -28,9 +25,6 @@ private:
     static  string USER_PROMPT_NEWSTARTTIME ;
     static  string USER_PROMPT_NEWENDTIME ;
     
-    
-    
-    
     string taskType;
     string taskName;
     string startTime;
@@ -39,7 +33,6 @@ private:
     string searchWord;
     bool validTime;
     bool isCorrectFormat;
-    
     
     string getCommandType(string);
     string getDetail(string);
@@ -51,12 +44,9 @@ private:
     
     
 public:
-    
     Parser();
+    
     ~Parser();
-    
-    //bool determineCommand(string command);
-    
     string getCommandWord(string command);
     
     string getTaskType();
@@ -72,6 +62,7 @@ public:
     string getSearchWord();
     
     bool getvalidTime();
+    
     bool getIsCorrectFormat();
 };
 

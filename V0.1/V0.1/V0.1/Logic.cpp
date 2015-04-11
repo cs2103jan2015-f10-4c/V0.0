@@ -96,7 +96,8 @@ void Logic::addTask(){
 	}
 	history.saveOperation(taskList);
 	response.addResponse(isAddedValidTime, isAddedCorrectFormat);
-	removeDoneTaskForDisplayDefault();
+	disp.setDefaultDisplay(taskList);
+	//removeDoneTaskForDisplayDefault();
 	storage.saveFile(taskList);
 	}else if (!isAddedValidTime) {
 		response.addResponse(isAddedValidTime, true);
@@ -113,7 +114,8 @@ void Logic::deleteTask() {
 	    deleteATask.deleteTask(index, taskList);
 	    history.saveOperation(taskList);
 		response.deleteResponse(isCorrectIndex, index);
-	    removeDoneTaskForDisplayDefault();
+		disp.setDefaultDisplay(taskList);
+		// removeDoneTaskForDisplayDefault();
 	    storage.saveFile(taskList);
 	} else if (!checkIndex(index)) {
 		response.deleteResponse(isCorrectIndex, index);
@@ -132,7 +134,8 @@ void Logic::editTask(){
 	    edit.editTask(index, newTaskName, newStartTime, newEndTime, newTaskType, taskList);
 	    history.saveOperation(taskList);
 		response.editResponse(isCorrectIndex, index);
-	    removeDoneTaskForDisplayDefault();
+		disp.setDefaultDisplay(taskList);
+	    //removeDoneTaskForDisplayDefault();
 	    storage.saveFile(taskList);
 	} else {
 		response.editResponse(isCorrectIndex, index);
@@ -222,6 +225,7 @@ void Logic::checkDirectory() {
 	if (hasDirectory) {
 		response.welcomeExistingMessage();
 		storage.readFile(taskList);
+		//disp.setDefaultDisplay(taskList);
 		history.saveOperation(taskList);
 	} else {
 		response.noDirectoryResponse();
@@ -255,8 +259,8 @@ bool Logic::checkIndex(int index) {
 }
 
 void Logic::refreshStatus() {
-	checker.updateStatus(taskListWithoutDone);
-	disp.setDefaultDisplay(taskListWithoutDone);
+	checker.updateStatus(taskList);
+	disp.setDefaultDisplay(taskList);
 }
 
 bool Logic::checkFoundList(vector<Task> foundList) {
