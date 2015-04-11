@@ -295,5 +295,13 @@ namespace UnitTest
 			Assert::AreEqual(expectedOutput, actualOutput);
 		}
 
+		TEST_METHOD(getfunction_test){
+
+
+
+
+
+		}
+
 	};
 }
