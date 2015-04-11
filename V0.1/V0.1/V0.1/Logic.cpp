@@ -225,6 +225,7 @@ void Logic::checkDirectory() {
 	if (hasDirectory) {
 		response.welcomeExistingMessage();
 		storage.readFile(taskList);
+		//disp.setDefaultDisplay(taskList);
 		history.saveOperation(taskList);
 	} else {
 		response.noDirectoryResponse();
@@ -258,8 +259,8 @@ bool Logic::checkIndex(int index) {
 }
 
 void Logic::refreshStatus() {
-	checker.updateStatus(taskListWithoutDone);
-	disp.setDefaultDisplay(taskListWithoutDone);
+	checker.updateStatus(taskList);
+	disp.setDefaultDisplay(taskList);
 }
 
 bool Logic::checkFoundList(vector<Task> foundList) {
