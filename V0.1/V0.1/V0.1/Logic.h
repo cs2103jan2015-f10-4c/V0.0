@@ -47,6 +47,7 @@ public:
     vector<Task> taskList;
 	vector<Task> deadlineList;
     vector<Task> floatingList;
+	vector<Task> taskListWithoutDone;
 
 	enum COMMAND_TYPE {
 
@@ -67,6 +68,7 @@ public:
 	void clearTaskList();
 	void exitProgram();
 	void showUserInvalidResponse();
+	void removeDoneTaskForDisplayDefault();
 
 	string tellGUI();
 	string tellGUIResponse();
