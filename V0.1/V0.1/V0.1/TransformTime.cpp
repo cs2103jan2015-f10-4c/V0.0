@@ -431,7 +431,7 @@ string TransformTime::convertTime(string input){
 			if ((temp[0]=='J')||(temp[0]=='j')){
 				if ((temp[1]=='A')||(temp[1]=='a')){
 					month[0] = '0';
-					month[1] = '3';
+					month[1] = '1';
 				}
 				else if ((temp[2]=='L')||(temp[2]=='l')){
 					month[0] = '0';
