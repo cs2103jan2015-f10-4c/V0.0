@@ -1,4 +1,4 @@
-// @ author A0116363L
+//@author A0097547M-reused
 
 #include "Logger.h"
 
@@ -11,6 +11,7 @@ void Logger::addLog(string newLog) {
 	_logContent.push_back(newLog);
 }
 
+//write log entries into the file named "logFile.txt"
 void Logger::saveLog() {
 	ofstream writeFile(LOG_FILENAME.c_str());
 

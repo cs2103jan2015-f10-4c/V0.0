@@ -1,3 +1,4 @@
+//@author generated
 #include "GUI.h"
 
 using namespace System;

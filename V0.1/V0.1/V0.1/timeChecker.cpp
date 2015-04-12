@@ -1,4 +1,4 @@
-// @author A0116363L
+//@author A0116363L
 
 #include "timeChecker.h"
 #include "Logger.h"
@@ -11,6 +11,9 @@ const string TimeChecker::MESSAGE_MARKOVERDUE = "Task\"%s\" is marked as overdue
 TimeChecker::TimeChecker(){};
 TimeChecker::~TimeChecker(){};
 
+
+//To update non-floating and ongoing task's status if it is overdue
+//logger is used to keep track which task is marked as overdue 
 void TimeChecker::updateStatus(vector<Task>& tasklist){
 	Logger logger = Logger::getInstance();
 
@@ -27,6 +30,8 @@ void TimeChecker::updateStatus(vector<Task>& tasklist){
 	}
 }
 
+//To compare current time with endingTime of a task
+//If the time is passed, the task is said to be overdue
 bool TimeChecker::checkStatus(string endingTime){
 
 	bool isOverdue = false;

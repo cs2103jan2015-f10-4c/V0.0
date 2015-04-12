@@ -1,5 +1,5 @@
 
-// @author A0116363L
+//@author A0116363L
 
 #ifndef DISPLAYWINDOW_H
 #define DISPLAYWINDOW_H

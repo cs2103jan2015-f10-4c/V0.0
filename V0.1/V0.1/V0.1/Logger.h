@@ -1,4 +1,4 @@
-// @author A0116363L
+//@author A0097547M-reused
 #ifndef LOGGER_H
 #define LOGGER_H
 
@@ -9,7 +9,14 @@
 
 using namespace std;
 class Logger{
+
+
+private:
+    vector<string> _logContent;
+
 public:
+	//This method is to return the current status 
+	//of the logger object and allows modification in any otehr class
 	static Logger& getInstance() {
 		static Logger instance;
 		return instance;
@@ -17,12 +24,11 @@ public:
 
 	void addLog(string);
 	void saveLog();
+    Logger();
 
 
-private:
-    vector<string> _logContent;
 
-	Logger();
+	
 };
 
 #endif

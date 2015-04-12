@@ -1,3 +1,4 @@
+//@author A0116363L
 #pragma once
 #include <msclr/marshal_cppstd.h>
 #include <iostream>
@@ -226,7 +227,7 @@ namespace GUI {
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 
-
+		//To register hotkeys in  the inetrface
 		this->KeyPreview = true;
 		this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyDown);
 
@@ -235,13 +236,19 @@ namespace GUI {
 		size_t tempEnd = -2;
 		String^ temp;
 		string componentInfo;
+		//To check whether user is a first-time user
+		//We assume there is only one user for this software on each computer
 		logic.checkDirectory();
 	
-
+		//To display the feedback message which is the user prompt for a file directory
+		//or a welcome message for second-time user
 		string responseMessage = logic.tellGUIResponse();
 		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
 
+		//To update the status of any ouverdue tasks
 		logic.refreshStatus();
+
+		//To prepare the display window 
 		string returnInfo = logic.tellGUI();
 		String^ tempString = gcnew String(returnInfo.c_str());
 
@@ -291,13 +298,15 @@ namespace GUI {
 	}
 
 
-
+    //To register F1 as a hotkey for Help Button
 	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 		if (e->KeyCode == System::Windows::Forms::Keys::F1) {
 			this->HelpButton->PerformClick();
 		}
 	}
+	
 
+    //Specify the following procedures when the Enter button is clicked
 	private: System::Void comfirmButton_Click(System::Object^  sender, System::EventArgs^  e) {
 
 		int count = 0;
@@ -305,12 +314,20 @@ namespace GUI {
 		size_t tempEnd = -2;
 		String^ temp;
 		string componentInfo;
+		//To extract the user input from the input textbox
 		string userInput = msclr::interop::marshal_as<string>(inputBox->Text);
-		
+
+		//Clear the input box for next input and set the focus at the beginning of input textbox
 		inputBox->Clear();
-		DisplayContent->Items->Clear();
 		inputBox->Select(0, 0);
+
+		//clear the display window for updated tasklist
+		DisplayContent->Items->Clear();
+		
+		//Pass the user input for further actions
 		logic.executeUserCommand(userInput);
+
+		//To prepare the display Window with the updated tasklist
 		string returnInfo = logic.tellGUI();
 		String^ tempString = gcnew String(returnInfo.c_str());
 
@@ -357,7 +374,7 @@ namespace GUI {
 			count -= 5;
 		}
 
-
+		//To display feedback or user prompt
 		string responseMessage = logic.tellGUIResponse();
 		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
 
@@ -372,6 +389,9 @@ namespace GUI {
 
 	private: System::Void feedbackWindow_TextChanged_1(System::Object^  sender, System::EventArgs^  e) {
 	}
+
+	//To automatically refresh the display Window every 60 seconds
+    //The overdue tasks will be updated
     private: System::Void timer1_Tick_1(System::Object^  sender, System::EventArgs^  e) {
 		     int count = 0;
 		     size_t tempStart = 0;
@@ -429,7 +449,9 @@ namespace GUI {
 	         
     }
 
-               private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+    //To display the message box containing information
+	//to assist user with command format when help button is clicked
+    private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 
 				   ostringstream instruction;
 			       instruction<< "Please read the instructions for supported functionalities below\n"

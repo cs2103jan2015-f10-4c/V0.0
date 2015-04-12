@@ -34,9 +34,11 @@ void Display::setDefaultDisplay(vector<Task> &taskList){
 	return;
 }
 
+//Tos set up display content when display type is specified
 string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 
 	vector<Task> targetTasklist;
+	//Logger is meant to track the progress of displaying the target list
 	Logger logger = Logger::getInstance();
 
 	
