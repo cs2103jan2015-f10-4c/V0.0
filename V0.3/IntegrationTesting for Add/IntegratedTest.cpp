@@ -1,3 +1,5 @@
+//@author A0114946B
+
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
@@ -8,16 +10,18 @@ const string DEFAULT_TYPE_TWO = "deadline";
 const string DEFAULT_TYPE_THREE = "floating";
 
 
-namespace IntegrationTesting
+namespace sysTest
 {		
 	TEST_CLASS(IntegrationTest)
 	{
 	public:
 		
-		TEST_METHOD(addTask)
+		TEST_METHOD(addTask1)
 		{
 			Logic* logic = new Logic();
 			string userCommand;
+			
+			//test for timed task
 			userCommand = "add;tutorial;01-01-2015 0900;01-01-2015 1000";
 			logic->executeUserCommand(userCommand);
 			string taskName = "tutorial";
@@ -29,6 +33,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(logic->taskList[0].endingTime == endTime);
 			Assert::IsTrue(logic->taskList[0].type == type);
 
+			//test for deadline task
 			userCommand = "add;assignment;02-02-2015 2359";
 			logic->executeUserCommand(userCommand);
 			taskName = "assignment";
@@ -40,6 +45,7 @@ namespace IntegrationTesting
 			Assert::IsTrue(logic->taskList[1].endingTime == endTime);
 			Assert::IsTrue(logic->taskList[1].type == type);
 
+			//test for floating task
 			userCommand = "add;meeting";
 			logic->executeUserCommand(userCommand);
 			taskName = "meeting";
@@ -51,8 +57,21 @@ namespace IntegrationTesting
 			Assert::IsTrue(logic->taskList[2].endingTime == endTime);
 			Assert::IsTrue(logic->taskList[2].type == type);
 
-			
 		}
+
+		//TEST_METHOD(addTask2)
+		//{
+		//	Logic testLogic;
+		//	SystemResponse test;
+		//	string userCommand;
+
+		//	//add command invalid
+		//	userCommand = "add;meeting;11/04/2015;10/04/2015";
+		//	testLogic.executeUserCommand(userCommand);
+		//	
+		//	
+
+		//}
 
 	};
 }
