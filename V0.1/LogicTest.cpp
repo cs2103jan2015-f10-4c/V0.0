@@ -1,3 +1,5 @@
+//@author A0115404W
+
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
@@ -195,16 +197,6 @@ namespace LogicTest
 			string expectedResult1 = oss.str();
 			string actualResult1 = logic.tellGUI();
 			Assert::AreEqual(expectedResult1, actualResult1);
-		}
-
-		TEST_METHOD(TestDisplayVariousType) //not finished
-		{
-			Logic logic;
-			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
-			logic.executeUserCommand("add;meeting;15/4 10:00");
-			logic.executeUserCommand("add;work;15/4 9:00;15/4 10:00");
-			logic.executeUserCommand("add;presentation;12/4 10:00");
-
 		}
 
 	};
