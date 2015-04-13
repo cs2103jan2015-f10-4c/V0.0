@@ -47,7 +47,6 @@ string SystemResponse::DirectoryResponse(bool isValid) {
 	else{
 		sprintf_s(outputBuffer, MESSAGE_INVALID_DIRECTORY.c_str());
 	}
-	
 	return outputBuffer;
 }
 
@@ -140,5 +139,8 @@ string SystemResponse::clearAllResponse() {
 }
 
 string SystemResponse::tellResponse() {
+	RHLogger logger = RHLogger::getInstance();
+	logger.addLog(outputBuffer);
+	logger.saveLog();
 	return outputBuffer;
 }
