@@ -5,8 +5,13 @@
 #define DISPLAYWINDOW_H
 #include <vector>
 #include <string>
-#include "Task.h"
 #include <sstream>
+#include "Task.h"
+
+
+//This class to format the tasklist and prepare it ready for display in GUI
+//When the content is required, the formatted string of the tasks will be returned
+
 class DisplayWindow{
 
 private:

@@ -8,9 +8,15 @@
 #include <vector>
 #include "TransformTime.h"
 using namespace std;
+
+
+//Logger class is defined to keep track of the internal process of the running program.
+//When ever an important action is made in the program, 
+//a sentence will be stored in the logger file.
+//This file can help us to check the progress of the program.
+//Whenever a failure is incurred, user or developer can always refer to it for the elapsed point.
+
 class RHLogger{
-
-
 private:
     vector<string> _logContent;
 
