@@ -237,14 +237,15 @@ void Logic::getDirectory() {
 	struct stat sb;
 	string pathname;
 	pathname = parse.getTaskType();
-	while (stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode)){
+	if(stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode)){
 		response.DirectoryResponse(isValid);
-		pathname = parse.getTaskType();
 	}
-	isValid = true;
-	response.DirectoryResponse(isValid);
-	storage.setUserInputPath(pathname);
-	storage.readFile(taskList);
+	else{
+		isValid = true;
+		response.DirectoryResponse(isValid);
+		storage.setUserInputPath(pathname);
+		storage.readFile(taskList);
+	}
 
 }
 
