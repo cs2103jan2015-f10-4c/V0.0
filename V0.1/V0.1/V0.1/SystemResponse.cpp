@@ -1,3 +1,5 @@
+//@author A0115404W
+
 #include "SystemResponse.h"
 
 const string SystemResponse::MESSAGE_WELCOME = "Welcome to RushHour!";
@@ -31,16 +33,19 @@ SystemResponse::SystemResponse(void) {}
 SystemResponse::~SystemResponse(void) {}
 
 string SystemResponse::welcomeExistingMessage() {
+
 	sprintf_s(outputBuffer, MESSAGE_WELCOME_EXISTING_USER.c_str());
 	return outputBuffer;
 }
 
 string SystemResponse::noDirectoryResponse() {
+
 	sprintf_s(outputBuffer, MESSAGE_NO_DIRECTORY.c_str());
 	return outputBuffer;
 }
 
 string SystemResponse::DirectoryResponse(bool isValid) {
+
 	if (isValid){
 		sprintf_s(outputBuffer, MESSAGE_VALID_DIRECTORY.c_str());
 	}
@@ -51,6 +56,7 @@ string SystemResponse::DirectoryResponse(bool isValid) {
 }
 
 string SystemResponse::addResponse(bool isValidTime, bool isCorrectFormat) {
+
 	if (isValidTime && isCorrectFormat) {
 		sprintf_s(outputBuffer, MESSAGE_ADD.c_str());
 	} else if (!isValidTime) {
@@ -62,6 +68,7 @@ string SystemResponse::addResponse(bool isValidTime, bool isCorrectFormat) {
 }
 
 string SystemResponse::deleteResponse(bool isDeleted, int index) {
+
 	string indexString = to_string(index);
 	if (isDeleted) {
 		sprintf_s(outputBuffer, MESSAGE_DELETE.c_str(), indexString.c_str());
@@ -72,6 +79,7 @@ string SystemResponse::deleteResponse(bool isDeleted, int index) {
 }
 
 string SystemResponse::editResponse(bool isEditted, int index) {
+
 	string indexString = to_string(index);
 	if (isEditted) {
 		sprintf_s(outputBuffer, MESSAGE_EDIT.c_str(), indexString.c_str());
@@ -82,6 +90,7 @@ string SystemResponse::editResponse(bool isEditted, int index) {
 }
 
 string SystemResponse::markDoneResponse(bool isCorrectIndex,bool isDone, int index) {
+
 	string indexString = to_string(index);
 	if (isCorrectIndex && !isDone) {
 		sprintf_s(outputBuffer, MESSAGE_MARK_DONE.c_str(), indexString.c_str());
@@ -90,12 +99,13 @@ string SystemResponse::markDoneResponse(bool isCorrectIndex,bool isDone, int ind
 		sprintf_s(outputBuffer, MESSAGE_MARK_DONE_FAIL_ALREADY_DONE.c_str(), indexString.c_str());
 	}
 	else{
-		sprintf_s(outputBuffer, MESSAGE_MARK_DONE_FAIL.c_str(), indexString.c_str()); //Not complete yet, different fail cases.
+		sprintf_s(outputBuffer, MESSAGE_MARK_DONE_FAIL.c_str(), indexString.c_str()); 
 	}
 	return outputBuffer;
 }
 
 string SystemResponse::searchResponse(bool isEmpty) {
+
 	if (isEmpty) {
 		sprintf_s(outputBuffer, MESSAGE_SEARCH_FAIL.c_str());
 	}
@@ -106,6 +116,7 @@ string SystemResponse::searchResponse(bool isEmpty) {
 }
 
 string SystemResponse::undoResponse(bool isPerformed) {
+
 	if (isPerformed) {
 		sprintf_s(outputBuffer, MESSAGE_UNDO.c_str());
 	} else {
@@ -115,6 +126,7 @@ string SystemResponse::undoResponse(bool isPerformed) {
 }
 
 string SystemResponse::redoResponse(bool isPerformed) {
+
 	if (isPerformed) {
 		sprintf_s(outputBuffer, MESSAGE_REDO.c_str());
 	} else {
@@ -124,21 +136,25 @@ string SystemResponse::redoResponse(bool isPerformed) {
 }
 
 string SystemResponse::dispVariousResponse(string message) {
+
 	sprintf_s(outputBuffer, message.c_str());
 	return outputBuffer;
 }
 
 string SystemResponse::invalidResponse(){
+
 	sprintf_s(outputBuffer, MESSAGE_INVALID_COMMAND.c_str());
 	return outputBuffer;
 }
 
 string SystemResponse::clearAllResponse() {
+
 	sprintf_s(outputBuffer, MESSAGE_CLEAR_SUCCESSFUL.c_str());
 	return outputBuffer;
 }
 
 string SystemResponse::tellResponse() {
+
 	RHLogger logger = RHLogger::getInstance();
 	logger.addLog(outputBuffer);
 	logger.saveLog();
