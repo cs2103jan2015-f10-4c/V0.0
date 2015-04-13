@@ -12,13 +12,18 @@
 
 using namespace std;
 
-class markDoneExecutor{
+//MarkDoneExecutor class is used to perform actions related to mark done
+//This class takes in index of the task to be marked done and the taskList from the logic
+//Status of the task specified will be modified directly in the list.
+
+class MarkDoneExecutor {
+
 private:
    
 public:
    
-    markDoneExecutor();
-    ~markDoneExecutor();
+    MarkDoneExecutor();
+    ~MarkDoneExecutor();
     void markDoneTask(int, vector<Task>&);
 };
 

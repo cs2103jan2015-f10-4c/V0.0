@@ -1,10 +1,10 @@
 #include "markDoneExecutor.h"
 
-markDoneExecutor::markDoneExecutor(void){}
+MarkDoneExecutor::MarkDoneExecutor(void) {}
 
-markDoneExecutor::~markDoneExecutor(void){}
+MarkDoneExecutor::~MarkDoneExecutor(void) {}
 
-void markDoneExecutor::markDoneTask(int index, vector<Task>& taskList){
+void MarkDoneExecutor::markDoneTask(int index, vector<Task>& taskList) {
    
 	taskList[index - 1].status = "done";
 	
