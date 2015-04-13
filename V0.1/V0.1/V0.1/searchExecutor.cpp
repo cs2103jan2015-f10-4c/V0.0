@@ -1,3 +1,5 @@
+//@author A0115404W
+
 #include "searchExecutor.h"
 
 SearchExecutor::SearchExecutor(void) {}

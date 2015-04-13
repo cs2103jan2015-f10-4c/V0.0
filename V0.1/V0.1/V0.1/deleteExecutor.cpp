@@ -1,3 +1,5 @@
+//@author A0115404W
+
 #include "deleteExecutor.h"
 
 DeleteExecutor::DeleteExecutor(void) {}
