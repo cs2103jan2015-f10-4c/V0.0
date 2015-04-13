@@ -59,18 +59,46 @@ namespace sysTest
 
 		}
 
-		//TEST_METHOD(addTask2)
-		//{
-		//	Logic testLogic;
-		//	string userCommand;
+		TEST_METHOD(addTask2)
+		{
+			Logic testLogic;
+			string userCommand;
 
-		//	//add command invalid
-		//	userCommand = "add;meeting;11/04/2015;10/04/2015";
-		//	testLogic.executeUserCommand(userCommand);
-		//	
-		//	
+			//add command invalid
+			userCommand = "add2";
+			testLogic.executeUserCommand(userCommand);
+			int size = testLogic.taskList.size();
+			int expectedSize = 0;
 
-		//}
+			Assert::AreEqual(size, expectedSize);
+			string output = testLogic.tellGUIResponse();
+			string expectedOutput = "Command invalid, please re-enter.";
+			Assert::AreEqual(output, expectedOutput);
+
+			//add format invalid
+			userCommand = "add;";
+			testLogic.executeUserCommand(userCommand);
+			size = testLogic.taskList.size();
+			expectedSize = 0;
+
+			Assert::AreEqual(size, expectedSize);
+			output = testLogic.tellGUIResponse();
+			expectedOutput = "Failed to add task. Please enter in the correct format.";
+			Assert::AreEqual(output, expectedOutput);
+
+			//add timing invalid
+			userCommand = "add;meeting;11may;10may";
+			testLogic.executeUserCommand(userCommand);
+			size = testLogic.taskList.size();
+			expectedSize = 0;
+			Assert::AreEqual(size, expectedSize);
+
+			output = testLogic.tellGUIResponse();
+			expectedOutput = "Failed to add task. Starting time is later than ending time.";
+			Assert::AreEqual(output, expectedOutput);
+
+			
+		}
 
 		TEST_METHOD(deleteTask)
 		{
@@ -83,12 +111,20 @@ namespace sysTest
 			testLogic.executeUserCommand(task2);
 			testLogic.executeUserCommand(task3);
 
+			//delete index is out of range
+			string userCommand = "delete;10";
+			testLogic.executeUserCommand(userCommand);
+			
+			int size = testLogic.taskList.size();
+			int expectedSize = 3;
+			Assert::AreEqual(size, expectedSize);
+			
 			//delete deadline task
-			string userCommand = "delete;1";
+			userCommand = "delete;1";
 			testLogic.executeUserCommand(userCommand);
 
-			int size = testLogic.taskList.size();
-			int expectedSize = 2;
+			size = testLogic.taskList.size();
+			expectedSize = 2;
 			Assert::AreEqual(size, expectedSize);
 
 			Assert::IsTrue(testLogic.taskList[0].taskName == "reply email");
@@ -168,20 +204,23 @@ namespace sysTest
 			Assert::IsTrue(testLogic.taskList[1].taskName == "reply email");
 			Assert::IsTrue(testLogic.taskList[1].type == DEFAULT_TYPE_THREE);
 
-		}
-
-		TEST_METHOD(addDirectory)
-		{
-			Logic testLogic;
-			string userCommand;
-
-			userCommand = "directory;C:\\Users\\Jason\\Desktop";
+			userCommand = "undo";
+			testLogic.executeUserCommand(userCommand);
+			
+			//test for redo
+			userCommand = "redo";
 			testLogic.executeUserCommand(userCommand);
 
-			ifstream read("myAppConfig.txt");
-			string line;
-			getline(read, line);
-			Assert::IsTrue(line == "C:\Users\Jason\Desktop\rushhour.txt");
+			size = testLogic.taskList.size();
+			expectedSize = 2;
+			Assert::AreEqual(size, expectedSize);
+
+			Assert::IsTrue(testLogic.taskList[0].taskName == "assignment");
+			Assert::IsTrue(testLogic.taskList[0].endingTime == "11-05-2015 23:59");
+			Assert::IsTrue(testLogic.taskList[0].type == DEFAULT_TYPE_TWO);
+
+			Assert::IsTrue(testLogic.taskList[1].taskName == "reply email");
+			Assert::IsTrue(testLogic.taskList[1].type == DEFAULT_TYPE_THREE);
 
 		}
 	};

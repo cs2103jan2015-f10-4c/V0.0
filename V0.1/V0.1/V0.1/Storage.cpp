@@ -42,6 +42,7 @@ Storage::Storage(){
 Storage::~Storage(){
 }
 
+
 ///////////////////
 // Getter Method //
 ///////////////////
@@ -388,64 +389,68 @@ string Storage::getDueTime(string input){
 }
 
 
+//@author A0114946B-unused
+//code written in v0.3 
+//discarded due to change of architecture
 
-//void Storage::test(){
-//	if (_taskList.empty()){
-//		cout << "empty";// vector is now empty
-//	}
-//}
-/*void Storage::storeTask(string task, string startingTime, string endingTime){
+/*void Storage::test(){
+	if (_taskList.empty()){
+		cout << "empty";// vector is now empty
+	}
+}
+void Storage::storeTask(string task, string startingTime, string endingTime){
 	Task tempStorage;
 	tempStorage.taskName = task;
 	tempStorage.startingTime = startingTime;
 	tempStorage.endingTime = endingTime;
-	//tempStorage.date = date;
+	tempStorage.date = date;
 	taskList.push_back(tempStorage);
-};*/
+};
 
-//void Storage::undo(){
-//	_taskList = historyStorage.undo();
-//}
-//
-//void Storage::redo(){
-//	_taskList = historyStorage.redo();
-//}
-//
-//void Storage::saveOperation(){
-//	historyStorage.saveOperation(_taskList);
-//}
+void Storage::undo(){
+	_taskList = historyStorage.undo();
+}
 
-//void Storage::updateTaskList(vector<Task>& taskStorage){
-//	_taskList.clear();
-//	for (int i = 0; i < taskStorage.size(); i++){
-//		_taskList.push_back(taskStorage[i]);
-//	}
-//	//cout << _taskList[0].taskName; //successful correctlly cout
-//	test();
-//};
+void Storage::redo(){
+	_taskList = historyStorage.redo();
+}
+
+void Storage::saveOperation(){
+	historyStorage.saveOperation(_taskList);
+}
+
+void Storage::updateTaskList(vector<Task>& taskStorage){
+	_taskList.clear();
+	for (int i = 0; i < taskStorage.size(); i++){
+		_taskList.push_back(taskStorage[i]);
+	}
+	//cout << _taskList[0].taskName; //successful correctlly cout
+	test();
+};
 
 
-//vector<Task> Storage::getOverallTaskList(){
-//	overallTaskList.reserve(taskList.size() + deadlineTaskList.size() + floatingTaskList.size());
-//	overallTaskList.insert(overallTaskList.end(), taskList.begin(), taskList.end());
-//	overallTaskList.insert(overallTaskList.end(), deadlineTaskList.begin(), deadlineTaskList.end());
-//	overallTaskList.insert(overallTaskList.end(), floatingTaskList.begin(), floatingTaskList.end());
-//	
-//	return overallTaskList; 
-//}
+vector<Task> Storage::getOverallTaskList(){
+	overallTaskList.reserve(taskList.size() + deadlineTaskList.size() + floatingTaskList.size());
+	overallTaskList.insert(overallTaskList.end(), taskList.begin(), taskList.end());
+	overallTaskList.insert(overallTaskList.end(), deadlineTaskList.begin(), deadlineTaskList.end());
+	overallTaskList.insert(overallTaskList.end(), floatingTaskList.begin(), floatingTaskList.end());
+	
+	return overallTaskList; 
+}
 
-//vector<Task> Storage::getTaskList(){
-//	return _taskList;
-//};
-//
-//vector<Task> Storage::getTimedTaskList(){
-//	return timedTaskList;
-//};
-//
-//vector<Task> Storage::getDeadlineTaskList(){
-//	return deadlineTaskList;
-//};
-//
-//vector<Task> Storage::getFloatingTaskList(){
-//	return floatingTaskList;
-//};
+vector<Task> Storage::getTaskList(){
+	return _taskList;
+};
+
+vector<Task> Storage::getTimedTaskList(){
+	return timedTaskList;
+};
+
+vector<Task> Storage::getDeadlineTaskList(){
+	return deadlineTaskList;
+};
+
+vector<Task> Storage::getFloatingTaskList(){
+	return floatingTaskList;
+};
+*/
