@@ -3,9 +3,9 @@
 string AddExecutor::DEFAULT_TASK_STATUS = "ongoing";
 string AddExecutor::EMPTY_STRING = "";
 
-AddExecutor::AddExecutor(void){}
+AddExecutor::AddExecutor(void) {}
 
-AddExecutor::~AddExecutor(void){}
+AddExecutor::~AddExecutor(void) {}
 
 void AddExecutor::addTimedTask(string taskTitle, string startTime, string endTime, string taskType, vector<Task>& taskList) {
     Task tempStorage;

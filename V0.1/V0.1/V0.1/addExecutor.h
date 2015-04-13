@@ -12,6 +12,12 @@
 
 using namespace std;
 
+//AddExecutor class is used to perform actions related to add.
+//This class includes add functions of three different types of tasks: timed, deadline and floating
+//Each of these functions has return type: void 
+//All of them take in respective informations related to a task such as taskName, startingTime, endingTime, taskType from logic
+//All of them taske in taskList from logic and make direct modifications in taskList.
+
 class AddExecutor{
 private:
 	
