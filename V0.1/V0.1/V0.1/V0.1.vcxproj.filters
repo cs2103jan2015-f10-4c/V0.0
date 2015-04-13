@@ -60,10 +60,10 @@
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="timeChecker.h">
+    <ClInclude Include="SystemResponse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SystemResponse.h">
+    <ClInclude Include="TimeChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,10 +113,10 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="timeChecker.cpp">
+    <ClCompile Include="SystemResponse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SystemResponse.cpp">
+    <ClCompile Include="TimeChecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

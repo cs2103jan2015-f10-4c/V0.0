@@ -10,6 +10,10 @@
 #include "DisplayWindow.h"
 #include "Sorter.h"
 
+//Display class is used to prepare the DisplayWindow with the target tasklist
+//The tasklist is prepared either by default or according to the specified display type
+//When the DisplayWindow is set up, Display can retrieve the content from DisplayWindow and return to Logic
+
 class Display{
 private:
 	

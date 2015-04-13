@@ -327,5 +327,81 @@ namespace sysTest
 			Assert::AreEqual(size, expectedSize);
 
 		}
+
+//@author A0134921L
+		TEST_METHOD(editTask)
+		{
+			Logic* logic = new Logic();
+			string userCommand;
+			
+
+			userCommand = "add;tutorial;01-01-2015 0900;01-01-2015 1000";
+			logic->executeUserCommand(userCommand);
+			userCommand = "add;assignment;02-02-2015 2359";
+			logic->executeUserCommand(userCommand);
+			userCommand = "add;meeting";
+			logic->executeUserCommand(userCommand);
+
+			//test for edit fail
+			userCommand = "edit;5;meeting;01-02-2013 11:30;02-11-2013 12:00";
+			logic->executeUserCommand(userCommand);
+			string output = logic->tellGUIResponse();
+			string expectedOutput = "Fail to edit task. Task \"5\" is not in the list.";
+			Assert::AreEqual(output, expectedOutput);
+
+			//test for timed task
+			userCommand = "edit;1;meeting;01-02-2013 11:30;02-11-2013 12:00";
+			logic->executeUserCommand(userCommand);
+			string taskName = "meeting";
+			string startTime = "01-02-2013 11:30";
+			string endTime = "02-11-2013 12:00";
+			string type = DEFAULT_TYPE_ONE;
+			Assert::IsTrue(logic->taskList[0].taskName == taskName);
+			Assert::IsTrue(logic->taskList[0].startingTime == startTime);
+			Assert::IsTrue(logic->taskList[0].endingTime == endTime);
+			Assert::IsTrue(logic->taskList[0].type == type);
+
+			output = logic->tellGUIResponse();
+			expectedOutput = "Task 1 is edited successfully.";
+			Assert::AreEqual(output, expectedOutput);
+
+			//test for deadline task
+			userCommand = "edit;2;project deadline;03-03-2015 1159";
+			logic->executeUserCommand(userCommand);
+			taskName = "project deadline";
+			startTime = "";
+			endTime = "03-03-2015 11:59";
+			type = DEFAULT_TYPE_TWO;
+			Assert::IsTrue(logic->taskList[1].taskName == taskName);
+			Assert::IsTrue(logic->taskList[1].startingTime == startTime);
+			Assert::IsTrue(logic->taskList[1].endingTime == endTime);
+			Assert::IsTrue(logic->taskList[1].type == type);
+
+			output = logic->tellGUIResponse();
+			expectedOutput = "Task 2 is edited successfully.";
+			Assert::AreEqual(output, expectedOutput);
+			
+			//test for floating task
+			userCommand = "edit;3;studing";
+			logic->executeUserCommand(userCommand);
+			taskName = "studing";
+			startTime = "";
+			endTime = "";
+			type = DEFAULT_TYPE_THREE;
+			Assert::IsTrue(logic->taskList[2].taskName == taskName);
+			Assert::IsTrue(logic->taskList[2].startingTime == startTime);
+			Assert::IsTrue(logic->taskList[2].endingTime == endTime);
+			Assert::IsTrue(logic->taskList[2].type == type);
+
+			output = logic->tellGUIResponse();
+			expectedOutput = "Task 3 is edited successfully.";
+			Assert::AreEqual(output, expectedOutput);
+
+
+
+
+
+		}
+
 	};
 }

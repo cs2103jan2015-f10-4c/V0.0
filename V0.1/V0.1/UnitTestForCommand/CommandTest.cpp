@@ -39,14 +39,14 @@ namespace UnitTestForCommand
 
 			//invalid index deletion
 			logic.executeUserCommand("delete;0");
-			string expectedResp = "Failed to delete the task. Task 0 is not in the list.";
+			string expectedResp = "Failed to delete the task. Task \"0\" is not in the list.";
 			string actualResp = logic.tellGUIResponse();
 			Assert::AreEqual(expectedResp, actualResp);
 			Assert::IsTrue(logic.taskList[0].taskName == "buy milk");
 
 			logic.executeUserCommand("delete;4");
 			Assert::IsTrue(logic.taskList[0].taskName == "buy milk");
-			expectedResp = "Failed to delete the task. Task 4 is not in the list.";
+			expectedResp = "Failed to delete the task. Task \"4\" is not in the list.";
 			actualResp = logic.tellGUIResponse();
 			Assert::AreEqual(expectedResp, actualResp);
 
@@ -66,7 +66,7 @@ namespace UnitTestForCommand
 			string expectedResp = "The target tasklist has been displayed";
 			Assert::AreEqual(expectedResp, actualResp);
 			string actualOutput = logic.tellGUI();
-			string expectedOutput = "[1.][buy milk][][][ongoing]\n[2.][complete tutorial][][04-05-2015 09:00][done]\n[3.][have breakfast][02-03-2015 09:00][04-06-2015 10:00]\n";
+			string expectedOutput = "[1.][buy milk][][][ongoing]\n[2.][complete tutorial][][04-05-2015 09:00][done]\n[3.][have breakfast][02-03-2015 09:00][04-06-2015 10:00][overdue]\n";
 			Assert::AreEqual(expectedOutput, actualOutput);
 	        
 			//test for invalid dispaly type
@@ -75,7 +75,7 @@ namespace UnitTestForCommand
 			expectedResp = "This display type is invalid";
 			Assert::AreEqual(expectedResp, actualResp);
 			actualOutput = logic.tellGUI();
-		    expectedOutput = "[1.][buy milk][][][ongoing]\n[2.][complete tutorial][][04-05-2015 09:00][done]\n[3.][have breakfast][02-03-2015 09:00][04-06-2015 10:00]\n";
+		    expectedOutput = "[1.][buy milk][][][ongoing]\n[2.][complete tutorial][][04-05-2015 09:00][done]\n[3.][have breakfast][02-03-2015 09:00][04-06-2015 10:00][overdue]\n";
 			Assert::AreEqual(expectedOutput, actualOutput);
 
 
