@@ -102,7 +102,7 @@ bool Storage::hasDirectory(){
 //taskList is saved in user-defined location which stored in _outFilePath
 void Storage::saveFile(vector<Task>& taskList){
 	
-	Logger logFile = Logger::getInstance();
+	RHLogger logFile = RHLogger::getInstance();
 	string filePath = getOutfilePath();
 	
 	//write file into user-defined location
@@ -148,7 +148,7 @@ void Storage::readFile(vector<Task>& taskList){
 	
 	string filePath;
 	vector<string> tempTask;
-	Logger logFile = Logger::getInstance();
+	RHLogger logFile = RHLogger::getInstance();
 	
 	//there is an existing file
 	if(hasDirectory() == true){

@@ -44,7 +44,7 @@ void History::saveOperation(vector<Task>& taskStorage){
 vector<Task> History::undo(){
     
     vector<Task> updatedTaskList;
-	Logger logFile = Logger::getInstance();
+	RHLogger logFile = RHLogger::getInstance();
     
 	//whether the undo stack is empty, undo is only available when it is not empty
 	if (checkUndoEmpty() == true){
@@ -83,7 +83,7 @@ vector<Task> History::undo(){
 vector<Task> History::redo(){
 	
 	vector<Task> updatedTaskList;
-	Logger logFile = Logger::getInstance();
+	RHLogger logFile = RHLogger::getInstance();
 
 	//redo is available only when redo stack is not empty
 	if (checkRedoEmpty() == true){
