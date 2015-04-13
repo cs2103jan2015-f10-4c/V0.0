@@ -79,7 +79,7 @@
     <ClInclude Include="Storage.h" />
     <ClInclude Include="SystemResponse.h" />
     <ClInclude Include="Task.h" />
-    <ClInclude Include="timeChecker.h" />
+    <ClInclude Include="TimeChecker.h" />
     <ClInclude Include="TransformTime.h" />
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +98,7 @@
     <ClCompile Include="SystemResponse.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="Storage.cpp" />
-    <ClCompile Include="timeChecker.cpp" />
+    <ClCompile Include="TimeChecker.cpp" />
     <ClCompile Include="TransformTime.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
