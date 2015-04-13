@@ -1,22 +1,26 @@
 #include "searchExecutor.h"
 
-searchExecutor::searchExecutor(void){}
+SearchExecutor::SearchExecutor(void) {}
 
-searchExecutor::~searchExecutor(void){}
+SearchExecutor::~SearchExecutor(void) {}
 
-vector<Task> searchExecutor::searchTask(string  keyPhrase, vector<Task>& taskList){
+vector<Task> SearchExecutor::searchTask(string  keyPhrase, vector<Task>& taskList) {
+
 	vector<Task> searchResult;
+
     for (unsigned i=0; i < taskList.size(); i++) {
 		size_t found = taskList[i].taskName.find(keyPhrase);
 		if (found != std::string::npos){
             searchResult.push_back(taskList[i]);
         }
     }
+
 	return searchResult;
     
 }
 
-string searchExecutor::getSearchedResult(vector<Task> searchResult){
+string SearchExecutor::getSearchedResult(vector<Task> searchResult) {
+
 	if (searchResult.size() == 0) {
 		return "";
 	} else {
