@@ -19,6 +19,7 @@ History::History(){
 History::~History(){
 }
 
+
 ///////////////////
 // Getter Method //
 ///////////////////
@@ -36,7 +37,7 @@ stack <vector<Task>> History::getRedoStorageList(){
 void History::saveOperation(vector<Task>& taskStorage){
 	_undoStorageList.push(taskStorage);
 
-};
+}
 
 //undo an operation by users
 //if undo is available, return the tasklist at previous command entered by users
@@ -54,11 +55,10 @@ vector<Task> History::undo(){
 		_undoStorageList.pop();
 			
 			//if only one operation made, undo returns empty
-			//if not only one operation made, undo return tasklist of previous state
+			//if not only one operation made, undo returns tasklist of previous state
 			if (checkUndoEmpty() == false){
 				logFile.addLog(UNABLE_UNDO);
 				logFile.saveLog();
-
 				return updatedTaskList;
 			}
 			else{
@@ -72,7 +72,6 @@ vector<Task> History::undo(){
 		assert(checkUndoEmpty() == false);
 		logFile.addLog(UNABLE_UNDO);
 		logFile.saveLog();
-
 		return updatedTaskList;
 	}
 }

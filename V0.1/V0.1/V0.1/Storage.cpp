@@ -84,12 +84,10 @@ bool Storage::hasDirectory(){
 		
 		//get and store the file path
 		string line;
-		if ( getline (configIn,line) )
-		{
+		if ( getline (configIn,line) ){
 			_outFilePath = line;
 		}
 		configIn.close();
-		
 	}
 	else{
 		directory = false;
@@ -211,7 +209,6 @@ string Storage::createFilePath(){
 		configOut.open(configPath.c_str());
 		configOut << _outFilePath;
 		configOut.close();
-
 		return _outFilePath;
 
 }
@@ -333,7 +330,6 @@ string Storage::getStartingTime(string input){
 	positionMid = temp.find_first_of(TASK_SEPERATOR)-1;
 	positionStart = temp.find_first_not_of(' ');
 	startTime = temp.substr(positionStart, positionMid-positionStart);
-	
 	return startTime;
 
 }
@@ -384,7 +380,6 @@ string Storage::getDueTime(string input){
 	positionMid = temp.find_first_of(TASK_SEPERATOR)-1;
 	positionStart = temp.find_first_not_of(' ');
 	dueTime = temp.substr(positionStart, positionMid-positionStart);
-	
 	return dueTime;
 }
 
