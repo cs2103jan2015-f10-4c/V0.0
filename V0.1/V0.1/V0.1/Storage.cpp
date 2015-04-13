@@ -306,11 +306,12 @@ string Storage::removeIndex(string input){
 
 string Storage::getTaskName(string input){
 	
-	//start after the spacing at the beginning
-	size_t positionStart = 1;
+	size_t positionStart = 0;
 	size_t positionEnd = 0;
 	string taskName;
-
+	
+	positionStart = input.find_first_not_of(' ');
+	
 	//get rid of the spacing before the first TASK_SEPERATOR
 	positionEnd = input.find_first_of(TASK_SEPERATOR) - 1;
 	taskName = input.substr(positionStart, positionEnd - positionStart);
@@ -329,7 +330,7 @@ string Storage::getStartingTime(string input){
 	//get the part of starting time
 	string startTime;
 	positionMid = temp.find_first_of(TASK_SEPERATOR)-1;
-	positionStart = 1;
+	positionStart = temp.find_first_not_of(' ');
 	startTime = temp.substr(positionStart, positionMid-positionStart);
 	
 	return startTime;
@@ -353,7 +354,7 @@ string Storage::getEndingTime(string input){
 
 	//get part of ending time
 	positionMid2 = temp2.find_first_of(TASK_SEPERATOR)-1;
-	positionStart = 1;
+	positionStart = temp2.find_first_not_of(' ');
 	string endTime = temp2.substr(positionStart, positionMid2-positionStart);
 	return endTime;
 }
@@ -380,7 +381,7 @@ string Storage::getDueTime(string input){
 	//get the part of due time
 	string dueTime;
 	positionMid = temp.find_first_of(TASK_SEPERATOR)-1;
-	positionStart = 1;
+	positionStart = temp.find_first_not_of(' ');
 	dueTime = temp.substr(positionStart, positionMid-positionStart);
 	
 	return dueTime;
