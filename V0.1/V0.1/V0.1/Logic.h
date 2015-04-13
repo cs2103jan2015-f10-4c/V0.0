@@ -1,3 +1,4 @@
+//@author A0115404W
 
 #ifndef LOGIC_H_
 #define LOGIC_H_
@@ -24,16 +25,22 @@
 #include "SystemResponse.h"
 #include <stdio.h>
 
+//Logic class employs the idea of facade pattern.
+//It is responsible for the coordination between GUI and other internal components such as parser and storage. 
+//Logic class contains public vectors such as taskList, deadlineList and floatingList which is passed to various components when the content in the taskList is modified. 
+//The main role of Logic class is to coordinate with methods in other components, 
+//to pass the information in the correct sequence and data type in which the recipient component is able to understand.   
+
 class Logic{
 
 private:
 
     Parser parse;
-	addExecutor add;
-    deleteExecutor deleteATask;
-    editExecutor edit;
-	searchExecutor search;
-	markDoneExecutor mark;
+	AddExecutor add;
+    DeleteExecutor deleteATask;
+    EditExecutor edit;
+	SearchExecutor search;
+	MarkDoneExecutor mark;
 	Storage storage;
 	Display disp;
 	History history;
@@ -47,9 +54,9 @@ public:
     vector<Task> taskList;
 	vector<Task> deadlineList;
     vector<Task> floatingList;
-	vector<Task> taskListWithoutDone;
 
-	enum COMMAND_TYPE {
+
+	enum CommandType {
 
 		_ADD, _DELETE, _EDIT, _SEARCH, _MARKDONE, _DISPLAY, _UNDO, _REDO, _INVALID, _DIRECTORY, _CLEAR, _EXIT 
 
@@ -68,16 +75,13 @@ public:
 	void clearTaskList();
 	void exitProgram();
 	void showUserInvalidResponse();
-	void removeDoneTaskForDisplayDefault();
-
 	string tellGUI();
 	string tellGUIResponse();
 	void checkDirectory();
 	void refreshStatus();
 	bool checkFoundList(vector<Task>);
-	COMMAND_TYPE determineCommandType(string);
+	CommandType determineCommandType(string);
     void executeUserCommand (string);
-
 
 };
 #endif
