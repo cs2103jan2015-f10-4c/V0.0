@@ -62,7 +62,6 @@ namespace sysTest
 		//TEST_METHOD(addTask2)
 		//{
 		//	Logic testLogic;
-		//	SystemResponse test;
 		//	string userCommand;
 
 		//	//add command invalid
@@ -73,5 +72,117 @@ namespace sysTest
 
 		//}
 
+		TEST_METHOD(deleteTask)
+		{
+			Logic testLogic;
+			string task1 = "add;assignment;11may2015 23:59";
+			string task2 = "add;reply email";
+			string task3 = "add;lecture;10may2015 1030am;10may2015 1130am";
+
+			testLogic.executeUserCommand(task1);
+			testLogic.executeUserCommand(task2);
+			testLogic.executeUserCommand(task3);
+
+			//delete deadline task
+			string userCommand = "delete;1";
+			testLogic.executeUserCommand(userCommand);
+
+			int size = testLogic.taskList.size();
+			int expectedSize = 2;
+			Assert::AreEqual(size, expectedSize);
+
+			Assert::IsTrue(testLogic.taskList[0].taskName == "reply email");
+			Assert::IsTrue(testLogic.taskList[0].type == DEFAULT_TYPE_THREE);
+
+			Assert::IsTrue(testLogic.taskList[1].taskName == "lecture");
+			Assert::IsTrue(testLogic.taskList[1].startingTime == "10-05-2015 10:30");
+			Assert::IsTrue(testLogic.taskList[1].endingTime == "10-05-2015 11:30");
+			Assert::IsTrue(testLogic.taskList[1].type == DEFAULT_TYPE_ONE);
+
+			//test for undo 
+			userCommand = "undo";
+			testLogic.executeUserCommand(userCommand);
+			size = testLogic.taskList.size();
+			expectedSize = 3;
+			Assert::AreEqual(size, expectedSize);
+
+			Assert::IsTrue(testLogic.taskList[0].taskName == "assignment");
+			Assert::IsTrue(testLogic.taskList[0].endingTime == "11-05-2015 23:59");
+			Assert::IsTrue(testLogic.taskList[0].type == DEFAULT_TYPE_TWO);
+			
+			Assert::IsTrue(testLogic.taskList[1].taskName == "reply email");
+			Assert::IsTrue(testLogic.taskList[1].type == DEFAULT_TYPE_THREE);
+
+			Assert::IsTrue(testLogic.taskList[2].taskName == "lecture");
+			Assert::IsTrue(testLogic.taskList[2].startingTime == "10-05-2015 10:30");
+			Assert::IsTrue(testLogic.taskList[2].endingTime == "10-05-2015 11:30");
+			Assert::IsTrue(testLogic.taskList[2].type == DEFAULT_TYPE_ONE);
+
+			//delete floating task
+			userCommand = "delete;2";
+			testLogic.executeUserCommand(userCommand);
+
+			size = testLogic.taskList.size();
+			expectedSize = 2;
+			Assert::AreEqual(size, expectedSize);
+
+			Assert::IsTrue(testLogic.taskList[0].taskName == "assignment");
+			Assert::IsTrue(testLogic.taskList[0].endingTime == "11-05-2015 23:59");
+			Assert::IsTrue(testLogic.taskList[0].type == DEFAULT_TYPE_TWO);
+
+			Assert::IsTrue(testLogic.taskList[1].taskName == "lecture");
+			Assert::IsTrue(testLogic.taskList[1].startingTime == "10-05-2015 10:30");
+			Assert::IsTrue(testLogic.taskList[1].endingTime == "10-05-2015 11:30");
+			Assert::IsTrue(testLogic.taskList[1].type == DEFAULT_TYPE_ONE);
+
+			userCommand = "undo";
+			testLogic.executeUserCommand(userCommand);
+			size = testLogic.taskList.size();
+			expectedSize = 3;
+			Assert::AreEqual(size, expectedSize);
+
+			Assert::IsTrue(testLogic.taskList[0].taskName == "assignment");
+			Assert::IsTrue(testLogic.taskList[0].endingTime == "11-05-2015 23:59");
+			Assert::IsTrue(testLogic.taskList[0].type == DEFAULT_TYPE_TWO);
+			
+			Assert::IsTrue(testLogic.taskList[1].taskName == "reply email");
+			Assert::IsTrue(testLogic.taskList[1].type == DEFAULT_TYPE_THREE);
+
+			Assert::IsTrue(testLogic.taskList[2].taskName == "lecture");
+			Assert::IsTrue(testLogic.taskList[2].startingTime == "10-05-2015 10:30");
+			Assert::IsTrue(testLogic.taskList[2].endingTime == "10-05-2015 11:30");
+			Assert::IsTrue(testLogic.taskList[2].type == DEFAULT_TYPE_ONE);
+
+			//delete timed task
+			userCommand = "delete;3";
+			testLogic.executeUserCommand(userCommand);
+
+			size = testLogic.taskList.size();
+			expectedSize = 2;
+			Assert::AreEqual(size, expectedSize);
+
+			Assert::IsTrue(testLogic.taskList[0].taskName == "assignment");
+			Assert::IsTrue(testLogic.taskList[0].endingTime == "11-05-2015 23:59");
+			Assert::IsTrue(testLogic.taskList[0].type == DEFAULT_TYPE_TWO);
+
+			Assert::IsTrue(testLogic.taskList[1].taskName == "reply email");
+			Assert::IsTrue(testLogic.taskList[1].type == DEFAULT_TYPE_THREE);
+
+		}
+
+		TEST_METHOD(addDirectory)
+		{
+			Logic testLogic;
+			string userCommand;
+
+			userCommand = "directory;C:\\Users\\Jason\\Desktop";
+			testLogic.executeUserCommand(userCommand);
+
+			ifstream read("myAppConfig.txt");
+			string line;
+			getline(read, line);
+			Assert::IsTrue(line == "C:\Users\Jason\Desktop\rushhour.txt");
+
+		}
 	};
 }
