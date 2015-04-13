@@ -1,4 +1,4 @@
-//@author A0097547M-reused
+//@author A0116363L
 #ifndef LOGGER_H
 #define LOGGER_H
 
@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-
+#include "TransformTime.h"
 using namespace std;
 class RHLogger{
 
