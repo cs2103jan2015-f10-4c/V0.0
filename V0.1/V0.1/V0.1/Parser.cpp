@@ -1,3 +1,5 @@
+//@author A0134921L
+
 #include "Parser.h"
 #include "assert.h"
 #include <time.h>

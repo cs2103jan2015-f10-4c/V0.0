@@ -1,3 +1,5 @@
+//@author A0134921L
+
 #ifndef StringToTime_H
 #define StringToTime_H
 
