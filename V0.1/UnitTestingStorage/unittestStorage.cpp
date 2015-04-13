@@ -11,7 +11,7 @@ const string STARTING_TIME = "0001";
 const string ENDING_TIME = "2359";
 const string STATUS = "DONE";
 
-const string TEST_TIMED_TASK = "1. meeting ; 2012-01-01 1000 ; 2012-01-01 1300 ; Done";
+const string TEST_TIMED_TASK = "1. meeting ;  2012-01-01 1000 ; 2012-01-01 1300 ; Done";
 const string TEST_DEADLINE_TASK = "2. assignment ; 2012-01-01 1300 ; Ongoing";
 const string TEST_FLOATING_TASK = "3. reply email ; Ongoing";
 
@@ -31,7 +31,7 @@ namespace UnitTeststorage
 			testInput = TEST_TIMED_TASK;
 			string testOutput;
 			testOutput = fileStorage.removeIndex(testInput);
-			Assert::IsTrue(testOutput == " meeting ; 2012-01-01 1000 ; 2012-01-01 1300 ; Done");
+			Assert::IsTrue(testOutput == " meeting ;  2012-01-01 1000 ; 2012-01-01 1300 ; Done");
 
 			testInput = TEST_DEADLINE_TASK;
 			testOutput = fileStorage.removeIndex(testInput);
