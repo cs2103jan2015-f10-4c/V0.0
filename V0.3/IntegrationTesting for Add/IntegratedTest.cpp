@@ -369,7 +369,7 @@ namespace sysTest
 			logic->executeUserCommand(userCommand);
 			taskName = "project deadline";
 			startTime = "";
-			endTime = "03-03-2015 1159";
+			endTime = "03-03-2015 11:59";
 			type = DEFAULT_TYPE_TWO;
 			Assert::IsTrue(logic->taskList[1].taskName == taskName);
 			Assert::IsTrue(logic->taskList[1].startingTime == startTime);
