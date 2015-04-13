@@ -1,0 +1,1482 @@
+//@author: a0115404w
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\LogicTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace std;
+
+
+
+
+namespace LogicTest
+{		
+	TEST_CLASS(UnitTestLogic)
+	{
+	public:
+		
+		TEST_METHOD(TestAdd) {
+			Logic logic;
+			//test case 1 to add a floating task
+			logic.executeUserCommand("add;tut");
+			Assert::IsTrue(1 == logic.taskList.size());
+			string expectedSysResp1 = "The task is added successfully.";
+			string actualSysResp1 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp1, actualSysResp1);
+			//test case 2 to add in wrong input format
+			logic.executeUserCommand("add;");
+			Assert::IsTrue(1 == logic.taskList.size());
+			//test case 3 to add in wrong input format and test respective systemResponse
+			logic.executeUserCommand("add");
+			string expectedSysResp2 = "Failed to add task. Please enter in the correct format.";
+			string actualSysResp2 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp2, actualSysResp2);
+			//test case 4 to add in wrong time sequence and test respective systemResponse
+			logic.executeUserCommand("add;meeting;20/4 12:00;20/4 9:00");
+			string expectedSysResp3 = "Failed to add task. Starting time is later than ending time.";
+			string actualSysResp3 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp3, actualSysResp3);
+			//test case 5 to add a deadline task
+			logic.executeUserCommand("add;cs submission;13/4 2359");
+			Assert::IsTrue(logic.taskList[1].type == "deadline");
+			//test case 6 to add a timed task
+			logic.executeUserCommand("add;meeting;20/4 9:00;20/4 12:00");
+			Assert::IsTrue(logic.taskList[2].type == "timed");
+		}
+
+		TEST_METHOD(TestDelete) {
+			Logic logic;
+			logic.executeUserCommand("add;tut");
+			logic.executeUserCommand("add;meeting");
+			logic.executeUserCommand("delete;1");
+			Assert::IsTrue(1 == logic.taskList.size());
+			string expectedSysResp1 = "Task 1 is deleted successfully.";
+			string actualSysResp1 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp1, actualSysResp1);
+			logic.executeUserCommand("delete;5");
+			Assert::IsTrue(1 == logic.taskList.size());
+			string expectedSysResp2 = "Failed to delete the task. Task \"5\" is not in the list."; 
+			string actualSysResp2 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp2, actualSysResp2);
+		}
+
+		TEST_METHOD(TestEdit) {
+			Logic logic;
+			logic.executeUserCommand("add;meeting");
+			logic.executeUserCommand("add;meeting");
+			logic.executeUserCommand("add;meeting");
+			//test case 1 is to test auto editing to deadline type
+			logic.executeUserCommand("edit;1;submit report;15/4 13:00");
+			Assert::IsTrue(logic.taskList[0].endingTime == "15-04-2015 13:00");   
+			Assert::IsTrue(logic.taskList[0].type == "deadline");
+			string expectedSysResp1 = "Task 1 is edited successfully.";
+			string actualSysResp1 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp1, actualSysResp1);
+		    //test case 2 is to test auto editing to timed type
+			logic.executeUserCommand("edit;2;tut;15/4 9:00;15/4 10:00");
+			Assert::IsTrue(logic.taskList[1].type == "timed");
+			//test case 3 to test index out of bound
+			logic.executeUserCommand("edit;5;exercise;14/4 14:00;14/4 15:00");
+			Assert::IsTrue(logic.taskList[0].type == "deadline");
+			Assert::IsTrue(logic.taskList[1].taskName == "tut");
+			Assert::IsTrue(logic.taskList[2].startingTime == "");
+			string expectedSysResp2 = "Fail to edit task. Task \"5\" is not in the list.";
+			string actualSysResp2 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp2, actualSysResp2);
+		}
+
+		TEST_METHOD(TestSearch) {
+			Logic logic;
+			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
+			logic.executeUserCommand("add;tut1");
+			logic.executeUserCommand("add;meeting;15/4 10:00");
+			logic.executeUserCommand("add;work;16/4 9:00;16/4 10:00");
+			logic.executeUserCommand("add;tut2;14/4 9:00;14/4 10:00");
+			//test case 1 to test partial search
+			logic.executeUserCommand("search;tut");
+			string expectedSysResp1 = "Search Result is displayed.";
+			string actualSysResp1 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp1, actualSysResp1);
+			ostringstream oss1;
+			oss1 << "[1.][tut][15-04-2015 09:00][15-04-2015 10:00][ongoing]"
+				<< endl
+				<< "[2.][tut1][][][ongoing]"
+				<< endl
+				<< "[3.][tut2][14-04-2015 09:00][14-04-2015 10:00][ongoing]"
+				<< endl;
+			string expectedResult11 = oss1.str();
+			string actualResult11 = logic.tellGUI();
+			Assert::AreEqual(expectedResult11, actualResult11);
+			//test case 2 to test partial search
+			logic.executeUserCommand("search;t");
+			ostringstream oss2;
+			oss2 << "[1.][tut][15-04-2015 09:00][15-04-2015 10:00][ongoing]"
+				<< endl
+				<< "[2.][tut1][][][ongoing]"
+				<< endl
+				<< "[3.][meeting][][15-04-2015 10:00][ongoing]"
+				<< endl
+				<< "[4.][tut2][14-04-2015 09:00][14-04-2015 10:00][ongoing]"
+				<< endl;
+			string expectedResult2 = oss2.str();
+			string actualResult2 = logic.tellGUI();
+			Assert::AreEqual(expectedResult2, actualResult2);
+			//test case 3 to test no result fund
+			logic.executeUserCommand("search;timed");
+			string expectedSysResp3 = "There is no result found.";
+			string actualSysResp3 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp3, actualSysResp3);
+			ostringstream oss3;
+			oss3 << "";
+			string expectedResult33 = oss3.str();
+			string actualResult33 = logic.tellGUI();
+			Assert::AreEqual(expectedResult33, actualResult33);
+			//test case 4 to test search in an empty list
+            logic.executeUserCommand("delete;1");
+			logic.executeUserCommand("delete;1");
+			logic.executeUserCommand("delete;1");
+			logic.executeUserCommand("delete;1");
+			logic.executeUserCommand("delete;1");
+			logic.executeUserCommand("search;tut");
+			string expectedSysResp4 = "There is no result found.";
+			string actualSysResp4 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp4, actualSysResp4);
+			ostringstream oss4;
+			oss4 << "";
+			string expectedResult44 = oss4.str();
+			string actualResult44 = logic.tellGUI();
+			Assert::AreEqual(expectedResult44, actualResult44);
+
+		}
+
+		TEST_METHOD(TestMarkDone) {
+			Logic logic;
+			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
+			logic.executeUserCommand("add;meeting;15/4 10:00");
+			//test case 1 to test mark done
+			Assert::IsTrue(logic.taskList[0].status == "ongoing");
+			logic.executeUserCommand("mark done;1");
+			Assert::IsTrue(logic.taskList[0].status == "done");
+			logic.executeUserCommand("mark done;3");
+			Assert::IsTrue(logic.taskList[1].status == "ongoing");
+		}
+
+		TEST_METHOD(TestCheckIndex) {
+			Logic logic;
+			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
+			logic.executeUserCommand("add;meeting;15/4 10:00");
+			//test case 1 to test exceed range
+			bool isInRange1 = logic.checkIndex(3);
+			Assert::IsTrue(isInRange1 == false);
+			//test case 2 to test below the range
+			bool isInRange2 = logic.checkIndex(0);
+			Assert::IsTrue(isInRange2 == false);
+			//test case 3 to test within the range
+			bool isInRange3 = logic.checkIndex(1);
+			Assert::IsTrue(isInRange3 == true);
+
+		}
+
+		TEST_METHOD(TestClear) {
+			Logic logic;
+			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
+			logic.executeUserCommand("add;meeting;15/4 10:00");
+			logic.executeUserCommand("clear");
+			string expectedSysResp = "The task list has been cleared.";
+			string actualSysResp = logic.tellGUIResponse();
+			Assert::AreEqual(expectedSysResp, actualSysResp);
+			ostringstream oss;
+			oss << "";
+			string expectedResult1 = oss.str();
+			string actualResult1 = logic.tellGUI();
+			Assert::AreEqual(expectedResult1, actualResult1);
+		}
+
+		TEST_METHOD(TestUndo) {
+			Logic logic;
+			//Test case 1 to test successful undo
+			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
+			logic.executeUserCommand("undo");
+			Assert::IsTrue(0 == logic.taskList.size());
+			string expectedResult1 = "Undo successful.";
+			string actualResult1 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedResult1, actualResult1);
+			//test case 2 to test unsuccessful undo
+			logic.executeUserCommand("undo");
+			string expectedResult2 = "Failed to undo. Exceed number of actions performed.";
+			string actualResult2 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedResult2, actualResult2);
+
+		}
+
+		TEST_METHOD(TestRedo) {
+			Logic logic;
+			//test case 1 to test unsuccessful redo
+			logic.executeUserCommand("redo");
+			string expectedResult1 = "Failed to redo. No undo action performed.";
+			string actualResult1 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedResult1, actualResult1);
+			//test case 2 to test successful redo
+			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
+			logic.executeUserCommand("undo");
+			logic.executeUserCommand("redo");
+			Assert::IsTrue(logic.taskList[0].taskName == "tut");
+			Assert::IsTrue(1 == logic.taskList.size());
+		}
+
+		TEST_METHOD(TestDisplayVariousType) {
+			Logic logic;
+			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
+			logic.executeUserCommand("add;meeting;15/4 10:00");
+			logic.executeUserCommand("add;work");
+			logic.executeUserCommand("add;call sj;16/4 22:00");
+			logic.executeUserCommand("display;all");
+			//test case 1 to test displayAll case
+			ostringstream oss1;
+			oss1 << "[1.][tut][15-04-2015 09:00][15-04-2015 10:00][ongoing]"
+				 << endl
+				 << "[2.][meeting][][15-04-2015 10:00][ongoing]"
+				 << endl
+				 << "[3.][work][][][ongoing]"
+				 << endl
+				 << "[4.][call sj][][16-04-2015 22:00][ongoing]"
+				 << endl;
+			string expectedOutput1 = oss1.str();
+			string actualOuput1 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput1,actualOuput1);
+			//test case 2 to test displayDeadline case
+			logic.executeUserCommand("display;deadline");
+			ostringstream oss2;
+			oss2 << "[1.][meeting][][15-04-2015 10:00][ongoing]"
+				 << endl
+				 << "[2.][call sj][][16-04-2015 22:00][ongoing]"
+				 << endl;
+			string expectedOutput2 = oss2.str();
+			string actualOuput2 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput2,actualOuput2);
+			//test case 3 to test displayTimed case
+			logic.executeUserCommand("display;timed");
+			ostringstream oss3;
+			oss3 << "[1.][tut][15-04-2015 09:00][15-04-2015 10:00][ongoing]"
+				 << endl;
+			string expectedOutput3 = oss3.str();
+			string actualOuput3 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput3,actualOuput3);
+			//test case 4 to test displayFloating case
+			logic.executeUserCommand("display;floating");
+			ostringstream oss4;
+			oss4 << "[1.][work][][][ongoing]"
+				 << endl;
+			string expectedOutput4 = oss4.str();
+			string actualOuput4 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput4,actualOuput4);
+			//test case 5 to test displayDone case
+			logic.executeUserCommand("mark done;1");
+			logic.executeUserCommand("mark done;3");
+			logic.executeUserCommand("display;done");
+			ostringstream oss5;
+			oss5 << "[1.][tut][15-04-2015 09:00][15-04-2015 10:00][done]"
+				 << endl
+				 << "[2.][work][][][done]"
+				 << endl;
+			string expectedOutput5 = oss5.str();
+			string actualOuput5 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput5,actualOuput5);
+			//test case 6 to test displayOngoing case
+			logic.executeUserCommand("display;ongoing");
+			ostringstream oss6;
+			oss6 << "[1.][call sj][][16-04-2015 22:00][ongoing]"
+				 << endl
+				 << "[2.][meeting][][15-04-2015 10:00][ongoing]"
+				 << endl;
+			string expectedOutput6 = oss6.str();
+			string actualOuput6 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput6,actualOuput6);
+			//test case 7 to test displayOverdue case
+			logic.executeUserCommand("display;overdue");
+			ostringstream oss7;
+			oss7 << "";
+			string expectedOutput7 = oss7.str();
+			string actualOuput7 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput7,actualOuput7);
+
+		}
+
+		TEST_METHOD(TestShowUserInvalidResponse) {
+			Logic logic;
+			//test case to test user input does not match any supported command
+			logic.executeUserCommand("lkasufhd;");
+			string expectedResult1 = "Command invalid, please re-enter.";
+			string actualResult1 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedResult1, actualResult1);
+		}
+
+		
+	};
+}
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\LogicTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\addExecutor.cpp
+	 */
+
+
+#include "addExecutor.h"
+
+string AddExecutor::DEFAULT_TASK_STATUS = "ongoing";
+string AddExecutor::EMPTY_STRING = "";
+
+AddExecutor::AddExecutor(void) {}
+
+AddExecutor::~AddExecutor(void) {}
+
+void AddExecutor::addTimedTask(string taskTitle, string startTime, string endTime, string taskType, vector<Task>& taskList) {
+    Task tempStorage;
+    tempStorage.taskName = taskTitle;
+    tempStorage.startingTime = startTime;
+    tempStorage.endingTime = endTime;
+    tempStorage.status = DEFAULT_TASK_STATUS;
+    tempStorage.type = taskType;
+    taskList.push_back(tempStorage);
+   
+}
+
+void AddExecutor::addDeadlineTask(string taskTitle, string endTime, string taskType, vector<Task>& deadlineList, vector<Task>& taskList) {
+	
+	Task tempStorage;
+	tempStorage.taskName = taskTitle;
+	tempStorage.startingTime = EMPTY_STRING;
+	tempStorage.endingTime = endTime;
+	tempStorage.status = DEFAULT_TASK_STATUS;
+	tempStorage.type = taskType;
+	deadlineList.push_back(tempStorage);
+	taskList.push_back(tempStorage);
+	
+}
+
+void AddExecutor::addFloatingTask(string taskTitle, string taskType, vector<Task>& floatingList, vector<Task>& taskList) {
+	
+	Task tempStorage;
+	tempStorage.taskName = taskTitle;
+	tempStorage.startingTime = EMPTY_STRING;
+	tempStorage.endingTime = EMPTY_STRING;
+	tempStorage.type = taskType;
+	tempStorage.status = DEFAULT_TASK_STATUS;
+	floatingList.push_back(tempStorage);
+	taskList.push_back(tempStorage);
+	
+}
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\addExecutor.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\addExecutor.h
+	 */
+
+
+#ifndef ADDEXECUTOR_H_
+#define ADDEXECUTOR_H_
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <iomanip>
+#include <ios>
+#include "Task.h"
+
+using namespace std;
+
+//AddExecutor class is used to perform actions related to add.
+//This class includes add functions of three different types of tasks: timed, deadline and floating
+//Each of these functions has return type: void 
+//All of them take in respective informations related to a task such as taskName, startingTime, endingTime, taskType from logic
+//All of them taske in taskList from logic and make direct modifications in taskList.
+
+class AddExecutor{
+private:
+	
+	static string DEFAULT_TASK_STATUS;
+	static string EMPTY_STRING;
+
+public:
+	
+	AddExecutor();
+	~AddExecutor();
+	void addTimedTask(string, string, string, string, vector<Task>&);
+	void addDeadlineTask(string, string, string, vector<Task>&, vector<Task>&);
+	void addFloatingTask(string, string, vector<Task>&, vector<Task>&);
+
+};
+#endif
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\addExecutor.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\deleteExecutor.cpp
+	 */
+
+
+#include "deleteExecutor.h"
+
+DeleteExecutor::DeleteExecutor(void) {}
+
+DeleteExecutor::~DeleteExecutor(void) {}
+
+void DeleteExecutor::deleteTask(int index, vector<Task>& taskList) {
+   
+		taskList.erase(taskList.begin() + (index - 1));
+	
+}
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\deleteExecutor.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\deleteExecutor.h
+	 */
+
+
+#ifndef DELETEEXECUTOR_H_
+#define DELETEEXECUTOR_H_
+
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <iomanip>
+#include <ios>
+#include "Task.h"
+
+using namespace std;
+
+//DeleteExecutor class is used to perform delete related actions
+//This class has function to take in index of the task to be deleted from logic
+//It also take in taskList from logic and will delete the specified task from the list directly.
+
+class DeleteExecutor{
+private:
+  
+public:
+   
+    DeleteExecutor();
+    ~DeleteExecutor();
+	void deleteTask(int, vector<Task>&);
+    
+};
+#endif
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\deleteExecutor.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\editExecutor.cpp
+	 */
+
+
+#include "editExecutor.h"
+
+string EditExecutor::DEFAULT_TASK_STATUS = "ongoing";
+
+EditExecutor::EditExecutor(void) {}
+
+EditExecutor::~EditExecutor(void) {}
+
+void EditExecutor::editTask(int index, string newTaskName, string newStartTime, string newEndTime, string newTaskType, vector<Task>& taskList) {
+	
+	taskList[index - 1].taskName = newTaskName;
+	taskList[index - 1].startingTime = newStartTime;
+	taskList[index - 1].endingTime = newEndTime;
+	taskList[index - 1].type = newTaskType;
+	taskList[index - 1].status = DEFAULT_TASK_STATUS;
+
+}
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\editExecutor.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\editExecutor.h
+	 */
+
+
+#ifndef EDITEXECUTOR_H_
+#define EDITEXECUTOR_H_
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <iomanip>
+#include <ios>
+#include "Task.h"
+
+using namespace std;
+
+//EditExecutor class is used to perform actions related to edit
+//This class has function to take in index of a task and relevant information has been modified by the user
+//This class takes in the taskList from logic and makes modification directly in the list
+
+class EditExecutor{
+private:
+   
+	static string DEFAULT_TASK_STATUS;
+
+public:
+  
+    EditExecutor();
+    ~EditExecutor();
+    void editTask(int, string, string, string, string, vector<Task>&);
+};
+
+#endif
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\editExecutor.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logic.cpp
+	 */
+
+
+#include "Logic.h"
+
+
+Logic::Logic() {}
+Logic::~Logic() {}
+
+
+void Logic::executeUserCommand(string userInput) {
+	
+	string commandWord;
+	commandWord = parse.getCommandWord(userInput);
+	CommandType commandType;
+	commandType = determineCommandType(commandWord);
+
+	switch (commandType) {
+	case _ADD:
+		 return addTask();
+	case _DELETE:
+		return deleteTask();
+	case _EDIT:
+		return editTask();
+	case _SEARCH:
+		return searchTask();
+	case _MARKDONE:
+		return markDoneTask();
+	case _DISPLAY:
+		return displayVariousType();
+	case _UNDO:
+		return undoTask();
+	case _REDO:
+		return redoTask();
+	case _DIRECTORY:
+		return getDirectory();
+	case _CLEAR:
+		return clearTaskList();
+	case _EXIT:
+		return exitProgram();
+	default:
+		return showUserInvalidResponse();
+	}
+}
+
+
+Logic:: CommandType Logic::determineCommandType(string commandWord) {
+
+	if (commandWord == "add") {
+		return CommandType::_ADD;
+	} else if (commandWord == "delete") {
+		return CommandType::_DELETE;
+	} else if (commandWord == "edit") {
+		return CommandType::_EDIT;
+	} else if (commandWord == "search") {
+		return CommandType::_SEARCH;
+	} else if (commandWord == "mark done") {
+		return CommandType::_MARKDONE;
+	} else if (commandWord == "display") {
+		return CommandType::_DISPLAY;
+	} else if (commandWord == "undo") {
+		return CommandType::_UNDO;
+	} else if (commandWord == "redo") {
+		return CommandType::_REDO;
+	}else if (commandWord == "directory") {
+		return CommandType::_DIRECTORY;
+	}else if (commandWord == "clear") {
+		return CommandType::_CLEAR;
+	}else if (commandWord == "exit") {
+		return CommandType::_EXIT;
+	}else {
+		return CommandType::_INVALID;
+	}
+}
+
+
+void Logic::addTask() {
+
+	bool isAddedValidTime = false;
+	isAddedValidTime = parse.getvalidTime();
+	bool isAddedCorrectFormat = false;
+	isAddedCorrectFormat = parse.getIsCorrectFormat();
+
+	if (isAddedValidTime && isAddedCorrectFormat) {
+	string taskType = parse.getTaskType();
+	if (taskType == "timed") {
+		string taskName = parse.getTaskName();
+		string startTime = parse.getStartTime();
+		string endTime = parse.getEndTime();
+		add.addTimedTask(taskName, startTime, endTime, taskType, taskList);
+	} else if (taskType == "deadline") {
+		string taskName = parse.getTaskName();
+		string endTime = parse.getEndTime();
+		add.addDeadlineTask(taskName, endTime, taskType, deadlineList,taskList);
+	} else if (taskType == "floating") {
+		string taskName = parse.getTaskName();
+		add.addFloatingTask(taskName, taskType, floatingList, taskList);
+	}
+
+	history.saveOperation(taskList);
+	response.addResponse(isAddedValidTime, isAddedCorrectFormat);
+	disp.setDefaultDisplay(taskList);
+	storage.saveFile(taskList);
+	}else if (!isAddedValidTime) {
+		response.addResponse(isAddedValidTime, true);
+	}else if (!isAddedCorrectFormat) {
+		response.addResponse(true, isAddedCorrectFormat);
+	}
+}
+
+void Logic::deleteTask() {
+
+	bool isCorrectIndex = false;
+	int index = parse.getIndex();
+
+	if (checkIndex(index)) {
+		isCorrectIndex = true;
+	    deleteATask.deleteTask(index, taskList);
+	    history.saveOperation(taskList);
+		response.deleteResponse(isCorrectIndex, index);
+		disp.setDefaultDisplay(taskList);
+	    storage.saveFile(taskList);
+	} else if (!checkIndex(index)) {
+		response.deleteResponse(isCorrectIndex, index);
+	}
+}
+
+void Logic::editTask() {
+
+	bool isCorrectIndex = false;
+	int index = parse.getIndex();
+
+	if (checkIndex(index)) {
+		isCorrectIndex = true;
+	    string newTaskName = parse.getTaskName();
+	    string newStartTime = parse.getStartTime();
+	    string newEndTime = parse.getEndTime();
+		string newTaskType = parse.getTaskType();
+	    edit.editTask(index, newTaskName, newStartTime, newEndTime, newTaskType, taskList);
+	    history.saveOperation(taskList);
+		response.editResponse(isCorrectIndex, index);
+		disp.setDefaultDisplay(taskList);
+	    storage.saveFile(taskList);
+	} else {
+		response.editResponse(isCorrectIndex, index);
+	}
+}
+
+void Logic::searchTask() {
+
+	string keyPhrase = parse.getSearchWord();
+	bool isEmptyList = checkFoundList(search.searchTask(keyPhrase, taskList));
+
+	if (isEmptyList) {
+		response.searchResponse(isEmptyList);
+		disp.setDefaultDisplay(search.searchTask(keyPhrase, taskList));
+	} else {
+		response.searchResponse(isEmptyList);
+		disp.setDefaultDisplay(search.searchTask(keyPhrase, taskList));
+	}
+}
+
+void Logic::markDoneTask() {
+
+	bool isCorrectIndex = false;
+	bool isDone = false;
+	int index = parse.getIndex();
+
+	if (checkIndex(index)) {
+		isCorrectIndex = true;
+		if (taskList[index-1].status != "done") {
+			mark.markDoneTask(index, taskList);
+			history.saveOperation(taskList);
+			response.markDoneResponse(isCorrectIndex,isDone, index);
+			disp.setDefaultDisplay(taskList); 
+			storage.saveFile(taskList);
+		} else {
+            isDone = true; 
+			response.markDoneResponse(isCorrectIndex, isDone, index);
+		}	
+	} else {
+		response.markDoneResponse(isCorrectIndex,isDone,index);
+	}
+}
+
+void Logic::undoTask() {
+
+	bool isSuccessful = false;
+	isSuccessful = history.checkUndoEmpty();
+
+	if (isSuccessful) {
+		taskList = history.undo();
+		response.undoResponse(isSuccessful);
+	    disp.setDefaultDisplay(taskList);
+	    storage.saveFile(taskList);
+	} else {
+		response.undoResponse(isSuccessful);
+	}
+}
+
+void Logic::redoTask() {
+
+	bool isSuccessful = false;
+	isSuccessful = history.checkRedoEmpty();
+
+	if (isSuccessful) {
+		taskList = history.redo();
+		response.redoResponse(isSuccessful);
+	    disp.setDefaultDisplay(taskList);
+	    storage.saveFile(taskList);
+	} else {
+		response.redoResponse(isSuccessful);
+	}
+}
+
+void Logic::displayVariousType() {       
+
+	string displayType = parse.getTaskType();
+	string outputMsg = disp.setVariousDisplay(taskList, displayType);
+	response.dispVariousResponse(outputMsg);
+}
+
+void Logic::showUserInvalidResponse(){
+
+	response.invalidResponse();
+}
+
+string Logic::tellGUI(){
+
+	return disp.getContent();
+}
+
+string Logic::tellGUIResponse() {
+
+	return response.tellResponse();
+}
+
+void Logic::checkDirectory() {
+
+	bool hasDirectory;
+	hasDirectory = storage.hasDirectory();
+
+	if (hasDirectory) {
+		response.welcomeExistingMessage();
+		storage.readFile(taskList);
+		history.saveOperation(taskList);
+	} else {
+		response.noDirectoryResponse();
+	}
+}
+
+void Logic::getDirectory() {
+
+	bool isValid = false;
+	struct stat sb;
+	string pathname;
+	pathname = parse.getTaskType();
+
+	if(stat(pathname.c_str(), &sb) != 0 || !(S_IFDIR & sb.st_mode)) {
+		response.DirectoryResponse(isValid);
+	} else {
+		isValid = true;
+		response.DirectoryResponse(isValid);
+		storage.setUserInputPath(pathname);
+		storage.readFile(taskList);
+	}
+}
+
+bool Logic::checkIndex(int index) {
+	
+		if (index > 0 && index <= taskList.size()) {
+			return true;
+		} else {
+			return false;
+		}
+}
+
+void Logic::refreshStatus() {
+
+	checker.updateStatus(taskList);
+	disp.setDefaultDisplay(taskList);
+}
+
+bool Logic::checkFoundList(vector<Task> foundList) {
+
+	if (foundList.size() == 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+void Logic::clearTaskList() {
+
+	taskList.clear();
+	history.saveOperation(taskList);
+    response.clearAllResponse();
+	disp.setDefaultDisplay(taskList);
+	storage.saveFile(taskList);
+}
+
+void Logic::exitProgram() {
+	exit(EXIT_SUCCESS);
+}
+
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logic.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logic.h
+	 */
+
+
+#ifndef LOGIC_H_
+#define LOGIC_H_
+
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <sys/stat.h>
+#include "timeChecker.h"
+#include "Task.h"
+#include "Parser.h"
+#include "addExecutor.h"
+#include "deleteExecutor.h"
+#include "editExecutor.h"
+#include "searchExecutor.h"
+#include "markDoneExecutor.h"
+#include "Display.h"
+#include "Storage.h"
+#include "History.h"
+#include "SystemResponse.h"
+#include <stdio.h>
+
+//Logic class employs the idea of facade pattern.
+//It is responsible for the coordination between GUI and other internal components such as parser and storage. 
+//Logic class contains public vectors such as taskList, deadlineList and floatingList which is passed to various components when the content in the taskList is modified. 
+//The main role of Logic class is to coordinate with methods in other components, 
+//to pass the information in the correct sequence and data type in which the recipient component is able to understand.   
+
+class Logic{
+
+private:
+
+    Parser parse;
+	AddExecutor add;
+    DeleteExecutor deleteATask;
+    EditExecutor edit;
+	SearchExecutor search;
+	MarkDoneExecutor mark;
+	Storage storage;
+	Display disp;
+	History history;
+	SystemResponse response;
+	TimeChecker checker;
+
+
+public:
+	Logic();
+	~Logic();
+    vector<Task> taskList;
+	vector<Task> deadlineList;
+    vector<Task> floatingList;
+
+
+	enum CommandType {
+
+		_ADD, _DELETE, _EDIT, _SEARCH, _MARKDONE, _DISPLAY, _UNDO, _REDO, _INVALID, _DIRECTORY, _CLEAR, _EXIT 
+
+	};
+	
+    void addTask();
+	void deleteTask();
+	void editTask();
+	void searchTask();
+	void markDoneTask();
+	void displayVariousType();
+	void undoTask();
+	void redoTask();
+	bool checkIndex(int);
+	void getDirectory();
+	void clearTaskList();
+	void exitProgram();
+	void showUserInvalidResponse();
+	string tellGUI();
+	string tellGUIResponse();
+	void checkDirectory();
+	void refreshStatus();
+	bool checkFoundList(vector<Task>);
+	CommandType determineCommandType(string);
+    void executeUserCommand (string);
+
+};
+#endif
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logic.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\markDoneExecutor.cpp
+	 */
+
+
+#include "markDoneExecutor.h"
+
+MarkDoneExecutor::MarkDoneExecutor(void) {}
+
+MarkDoneExecutor::~MarkDoneExecutor(void) {}
+
+void MarkDoneExecutor::markDoneTask(int index, vector<Task>& taskList) {
+   
+	taskList[index - 1].status = "done";
+	
+}
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\markDoneExecutor.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\markDoneExecutor.h
+	 */
+
+
+#ifndef MARKDONEEXECUTOR_H_
+#define MARKDONEEXECUTOR_H_
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <iomanip>
+#include <ios>
+#include "Task.h"
+
+using namespace std;
+
+//MarkDoneExecutor class is used to perform actions related to mark done
+//This class takes in index of the task to be marked done and the taskList from the logic
+//Status of the task specified will be modified directly in the list.
+
+class MarkDoneExecutor {
+
+private:
+   
+public:
+   
+    MarkDoneExecutor();
+    ~MarkDoneExecutor();
+    void markDoneTask(int, vector<Task>&);
+};
+
+#endif
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\markDoneExecutor.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\searchExecutor.cpp
+	 */
+
+
+#include "searchExecutor.h"
+
+SearchExecutor::SearchExecutor(void) {}
+
+SearchExecutor::~SearchExecutor(void) {}
+
+vector<Task> SearchExecutor::searchTask(string  keyPhrase, vector<Task>& taskList) {
+
+	vector<Task> searchResult;
+
+    for (unsigned i=0; i < taskList.size(); i++) {
+		size_t found = taskList[i].taskName.find(keyPhrase);
+		if (found != std::string::npos){
+            searchResult.push_back(taskList[i]);
+        }
+    }
+
+	return searchResult;
+    
+}
+
+string SearchExecutor::getSearchedResult(vector<Task> searchResult) {
+
+	if (searchResult.size() == 0) {
+		return "";
+	} else {
+		for (unsigned i = 0; i < searchResult.size(); i++) {
+			return searchResult[i].ToString();
+		}
+	}
+}   
+
+
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\searchExecutor.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\searchExecutor.h
+	 */
+
+
+#ifndef SEARCHEXECUTOR_H_
+#define SEARCHEXECUTOR_H_
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <iomanip>
+#include <ios>
+#include "Task.h"
+
+using namespace std;
+
+//SearchExecutor class is used to perform actions related to search.
+//This class takes in keyword that is specified by user from logic
+//This class also takes in the taskList from logic and use find function to search relevant result
+//This class only supports search according to keyword which is taskName, but not according to time
+//Partial search is supported
+
+class SearchExecutor {
+private:
+  	
+public:
+    SearchExecutor();
+    ~SearchExecutor();
+    vector<Task> searchTask(string, vector<Task>&);
+	string getSearchedResult(vector<Task>);
+};
+
+#endif
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\searchExecutor.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\SystemResponse.cpp
+	 */
+
+
+#include "SystemResponse.h"
+
+const string SystemResponse::MESSAGE_WELCOME = "Welcome to RushHour!";
+const string SystemResponse::MESSAGE_WELCOME_EXISTING_USER = "Hi! Welcome back!";
+const string SystemResponse::MESSAGE_ADD = "The task is added successfully.";
+const string SystemResponse::MESSAGE_ADD_FAIL_INCORRECT_FORMAT = "Failed to add task. Please enter in the correct format.";
+const string SystemResponse::MESSAGE_ADD_FAIL_INVALID_TIME = "Failed to add task. Starting time is later than ending time.";
+const string SystemResponse::MESSAGE_DELETE = "Task %s is deleted successfully.";
+const string SystemResponse::MESSAGE_DELETE_FAIL = "Failed to delete the task. Task \"%s\" is not in the list.";
+const string SystemResponse::MESSAGE_EDIT = "Task %s is edited successfully.";
+const string SystemResponse::MESSAGE_EDIT_FAIL = "Fail to edit task. Task \"%s\" is not in the list.";
+const string SystemResponse::MESSAGE_MARK_DONE = "Task %s is done.";
+const string SystemResponse::MESSAGE_MARK_DONE_FAIL = "Failed to mark done the task. Task\"%s\" is not in the list.";
+const string SystemResponse::MESSAGE_MARK_DONE_FAIL_ALREADY_DONE = "Task %s is already done.";
+const string SystemResponse::MESSAGE_SEARCH_FAIL = "There is no result found.";
+const string SystemResponse::MESSAGE_SEARCH_SUCCESSFUL = "Search Result is displayed.";
+const string SystemResponse::MESSAGE_UNDO = "Undo successful.";
+const string SystemResponse::MESSAGE_UNDO_FAIL = "Failed to undo. Exceed number of actions performed.";
+const string SystemResponse::MESSAGE_REDO = "Redo successful.";
+const string SystemResponse::MESSAGE_REDO_FAIL = "Failed to redo. No undo action performed.";
+const string SystemResponse::MESSAGE_FAIL_TO_DISPLAY_VARIOUS = "Failed to display due to incorrect type specified.";
+const string SystemResponse::MESSAGE_NO_DIRECTORY = "Please specify a valid directory.";
+const string SystemResponse::MESSAGE_INVALID_DIRECTORY = "Directory invalid, please re-enter.";
+const string SystemResponse::MESSAGE_VALID_DIRECTORY = "Directory valid, file created.";
+const string SystemResponse::MESSAGE_INVALID_COMMAND = "Command invalid, please re-enter.";
+const string SystemResponse::MESSAGE_CLEAR_SUCCESSFUL = "The task list has been cleared.";
+
+
+SystemResponse::SystemResponse(void) {}
+
+SystemResponse::~SystemResponse(void) {}
+
+string SystemResponse::welcomeExistingMessage() {
+
+	sprintf_s(outputBuffer, MESSAGE_WELCOME_EXISTING_USER.c_str());
+	return outputBuffer;
+}
+
+string SystemResponse::noDirectoryResponse() {
+
+	sprintf_s(outputBuffer, MESSAGE_NO_DIRECTORY.c_str());
+	return outputBuffer;
+}
+
+string SystemResponse::DirectoryResponse(bool isValid) {
+
+	if (isValid){
+		sprintf_s(outputBuffer, MESSAGE_VALID_DIRECTORY.c_str());
+	}
+	else{
+		sprintf_s(outputBuffer, MESSAGE_INVALID_DIRECTORY.c_str());
+	}
+	return outputBuffer;
+}
+
+string SystemResponse::addResponse(bool isValidTime, bool isCorrectFormat) {
+
+	if (isValidTime && isCorrectFormat) {
+		sprintf_s(outputBuffer, MESSAGE_ADD.c_str());
+	} else if (!isValidTime) {
+		sprintf_s(outputBuffer, MESSAGE_ADD_FAIL_INVALID_TIME.c_str());
+	} else if (!isCorrectFormat) {
+		sprintf_s(outputBuffer, MESSAGE_ADD_FAIL_INCORRECT_FORMAT.c_str());
+	}
+	return outputBuffer;
+}
+
+string SystemResponse::deleteResponse(bool isDeleted, int index) {
+
+	string indexString = to_string(index);
+	if (isDeleted) {
+		sprintf_s(outputBuffer, MESSAGE_DELETE.c_str(), indexString.c_str());
+	} else {
+		sprintf_s(outputBuffer,MESSAGE_DELETE_FAIL.c_str(), indexString.c_str() );
+	}
+	return outputBuffer;
+}
+
+string SystemResponse::editResponse(bool isEditted, int index) {
+
+	string indexString = to_string(index);
+	if (isEditted) {
+		sprintf_s(outputBuffer, MESSAGE_EDIT.c_str(), indexString.c_str());
+	} else {
+		sprintf_s(outputBuffer, MESSAGE_EDIT_FAIL.c_str(), indexString.c_str());
+	}
+	return outputBuffer;
+}
+
+string SystemResponse::markDoneResponse(bool isCorrectIndex,bool isDone, int index) {
+
+	string indexString = to_string(index);
+	if (isCorrectIndex && !isDone) {
+		sprintf_s(outputBuffer, MESSAGE_MARK_DONE.c_str(), indexString.c_str());
+	}
+	else if (isCorrectIndex && isDone){
+		sprintf_s(outputBuffer, MESSAGE_MARK_DONE_FAIL_ALREADY_DONE.c_str(), indexString.c_str());
+	}
+	else{
+		sprintf_s(outputBuffer, MESSAGE_MARK_DONE_FAIL.c_str(), indexString.c_str()); 
+	}
+	return outputBuffer;
+}
+
+string SystemResponse::searchResponse(bool isEmpty) {
+
+	if (isEmpty) {
+		sprintf_s(outputBuffer, MESSAGE_SEARCH_FAIL.c_str());
+	}
+	else{
+		sprintf_s(outputBuffer, MESSAGE_SEARCH_SUCCESSFUL.c_str());
+	}
+	return outputBuffer;
+}
+
+string SystemResponse::undoResponse(bool isPerformed) {
+
+	if (isPerformed) {
+		sprintf_s(outputBuffer, MESSAGE_UNDO.c_str());
+	} else {
+		sprintf_s(outputBuffer, MESSAGE_UNDO_FAIL.c_str());
+	}
+	return outputBuffer;
+}
+
+string SystemResponse::redoResponse(bool isPerformed) {
+
+	if (isPerformed) {
+		sprintf_s(outputBuffer, MESSAGE_REDO.c_str());
+	} else {
+		sprintf_s(outputBuffer,MESSAGE_REDO_FAIL.c_str());
+	}
+	return outputBuffer;
+}
+
+string SystemResponse::dispVariousResponse(string message) {
+
+	sprintf_s(outputBuffer, message.c_str());
+	return outputBuffer;
+}
+
+string SystemResponse::invalidResponse(){
+
+	sprintf_s(outputBuffer, MESSAGE_INVALID_COMMAND.c_str());
+	return outputBuffer;
+}
+
+string SystemResponse::clearAllResponse() {
+
+	sprintf_s(outputBuffer, MESSAGE_CLEAR_SUCCESSFUL.c_str());
+	return outputBuffer;
+}
+
+string SystemResponse::tellResponse() {
+
+	RHLogger logger = RHLogger::getInstance();
+	logger.addLog(outputBuffer);
+	logger.saveLog();
+	return outputBuffer;
+}
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\SystemResponse.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\SystemResponse.h
+	 */
+
+
+#ifndef SYSTEMRESPONSE_H_
+#define SYSTEMRESPONSE_H_
+
+#define MAX_CHAR 255
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include "Logger.h"
+
+using namespace std;
+
+//SystemResponse is a class in charge of giving various feedback to the user based on the action executed by the program. 
+//It will be invoked whenever there is a action performed, 
+//regardless of success or fail and will give feedback according to the status (i.e success or fail) of the action.
+
+
+class SystemResponse {
+
+private:
+	static const string MESSAGE_WELCOME;
+    static const string MESSAGE_WELCOME_EXISTING_USER;
+	static const string MESSAGE_ADD;
+	static const string MESSAGE_ADD_FAIL_INVALID_TIME;
+	static const string MESSAGE_ADD_FAIL_INCORRECT_FORMAT;
+	static const string MESSAGE_DELETE;
+	static const string MESSAGE_DELETE_FAIL;
+	static const string MESSAGE_EDIT;
+	static const string MESSAGE_EDIT_FAIL;
+	static const string MESSAGE_MARK_DONE;
+	static const string MESSAGE_MARK_DONE_FAIL;
+	static const string MESSAGE_MARK_DONE_FAIL_ALREADY_DONE;
+	static const string MESSAGE_SEARCH_FAIL;
+	static const string MESSAGE_SEARCH_SUCCESSFUL;
+	static const string MESSAGE_UNDO;
+	static const string MESSAGE_UNDO_FAIL;
+	static const string MESSAGE_REDO;
+	static const string MESSAGE_REDO_FAIL;
+	static const string MESSAGE_FAIL_TO_DISPLAY_VARIOUS;
+	static const string MESSAGE_NO_DIRECTORY;
+	static const string MESSAGE_INVALID_DIRECTORY;
+	static const string MESSAGE_VALID_DIRECTORY;
+	static const string MESSAGE_INVALID_COMMAND;
+	static const string MESSAGE_CLEAR_SUCCESSFUL;
+
+public:
+
+	char outputBuffer[MAX_CHAR];
+
+	SystemResponse();
+	~SystemResponse();
+	string welcomeExistingMessage();
+	string addResponse(bool,bool);
+	string deleteResponse(bool, int);
+	string editResponse(bool, int);
+	string searchResponse(bool);
+	string markDoneResponse(bool,bool, int);
+	string undoResponse(bool);
+	string redoResponse(bool);
+	string dispVariousResponse(string);
+	string tellResponse();
+	string noDirectoryResponse();
+	string DirectoryResponse(bool);
+	string invalidResponse();
+	string clearAllResponse();
+};
+#endif
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\SystemResponse.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Task.cpp
+	 */
+
+
+#include "Task.h"
+#include <string>
+
+
+Task::Task(){
+}
+
+Task::~Task(){}
+
+void Task::setTaskName(string inputTaskName) {
+	taskName = inputTaskName;
+}
+
+void Task::setStartingTime(string inputStartingTime) {
+	startingTime = inputStartingTime;
+}
+
+void Task::setEndingTime(string inputEndingTime) {
+	endingTime = inputEndingTime;
+}
+
+void Task::setDone(string inputDone) {
+	status = inputDone;
+}
+
+void Task::setType(string inputType) {
+	type = inputType;
+}
+
+string Task::ToString() {
+	ostringstream oss;
+	oss << taskName <<" from "<< startingTime <<" to "<<endingTime<<" "<<status<<" "<<type <<"\n";
+
+	return oss.str();
+}
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Task.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Task.h
+	 */
+
+
+#ifndef TASK_H
+#define TASK_H
+
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <string>
+#include <fstream>
+#include <algorithm>
+
+using namespace std;
+
+class Task{
+private:
+
+	
+public:
+	string taskName;
+	string startingTime;
+	string endingTime;
+	string status;
+	string type;
+
+
+	Task();
+	~Task();
+   
+	void setTaskName(string inputTaskName);
+	void setStartingTime(string inputStartingTime);
+	void setEndingTime(string inputEndingTime);
+	void setDone(string inputDone);
+	void setType(string inputType);
+
+	string ToString();
+
+};
+#endif
+
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Task.h
+
+
+
+
+
