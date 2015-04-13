@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/WWGUI">
-        <file>Resources/WW.png</file>
-        <file>Resources/workwork.png</file>
-        <file>Resources/window_buttons.png</file>
-        <file>Resources/window_buttons_hovered.png</file>
-    </qresource>
-</RCC>

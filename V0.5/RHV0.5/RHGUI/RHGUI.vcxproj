@@ -72,12 +72,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\V0.1\V0.1\GUI\GUI.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\V0.1\V0.1\GUI\GUI.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\RHV0.5\RHV0.5.vcxproj">
       <Project>{744e6c64-0832-4bc0-9e06-0a1b731cec74}</Project>
     </ProjectReference>
@@ -88,6 +82,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GUI.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
