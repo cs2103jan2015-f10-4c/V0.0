@@ -1,10 +1,10 @@
 #include "deleteExecutor.h"
 
-deleteExecutor::deleteExecutor(void){}
+DeleteExecutor::DeleteExecutor(void) {}
 
-deleteExecutor::~deleteExecutor(void){}
+DeleteExecutor::~DeleteExecutor(void) {}
 
-void deleteExecutor::deleteTask(int index, vector<Task>& taskList){
+void DeleteExecutor::deleteTask(int index, vector<Task>& taskList) {
    
 		taskList.erase(taskList.begin() + (index - 1));
 	
