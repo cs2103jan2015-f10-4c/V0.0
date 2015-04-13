@@ -16,7 +16,7 @@ namespace sysTest
 	{
 	public:
 		
-		TEST_METHOD(addTask1)
+		TEST_METHOD(test_add1)
 		{
 			Logic* logic = new Logic();
 			string userCommand;
@@ -70,7 +70,7 @@ namespace sysTest
 			Assert::AreEqual(output, expectedOutput);
 		}
 
-		TEST_METHOD(addTask2)
+		TEST_METHOD(test_add2)
 		{
 			Logic testLogic;
 			string userCommand;
@@ -111,7 +111,7 @@ namespace sysTest
 			
 		}
 
-		TEST_METHOD(deleteTask)
+		TEST_METHOD(test_delete1)
 		{
 			Logic testLogic;
 			string task1 = "add;assignment;11may2015 23:59";
@@ -249,7 +249,7 @@ namespace sysTest
 
 		}
 
-		TEST_METHOD(clearTask)
+		TEST_METHOD(test_clear)
 		{
 			Logic testLogic;
 			string task1 = "add;assignment;11may2015 23:59";
@@ -277,7 +277,7 @@ namespace sysTest
 
 		}
 
-		TEST_METHOD(undoRedoTask)
+		TEST_METHOD(test_UndoRedo)
 		{
 			Logic testLogic;
 			string userCommand;
@@ -329,7 +329,7 @@ namespace sysTest
 		}
 
 //@author A0134921L
-		TEST_METHOD(editTask)
+		TEST_METHOD(test_edit)
 		{
 			Logic* logic = new Logic();
 			string userCommand;
