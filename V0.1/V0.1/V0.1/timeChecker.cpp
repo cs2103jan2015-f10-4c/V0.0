@@ -1,6 +1,6 @@
 //@author A0116363L
 
-#include "timeChecker.h"
+#include "TimeChecker.h"
 #include "Logger.h"
 
 const string TimeChecker::NON_TARGET_TYPE = "floating";
@@ -35,9 +35,9 @@ void TimeChecker::updateStatus(vector<Task>& tasklist){
 bool TimeChecker::checkStatus(string endingTime){
 
 	bool isOverdue = false;
-	string currentTime = transformTime.getCurrentTime();
-	time_t currentT = transformTime.stringToTime(currentTime);
-	time_t endTime = transformTime.stringToTime(endingTime);
+	string currentTime = _transformTime.getCurrentTime();
+	time_t currentT = _transformTime.stringToTime(currentTime);
+	time_t endTime = _transformTime.stringToTime(endingTime);
 	if (currentT > endTime){
 		isOverdue = true;
 	}

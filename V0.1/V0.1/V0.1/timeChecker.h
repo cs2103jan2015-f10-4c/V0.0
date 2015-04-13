@@ -17,7 +17,7 @@
 class TimeChecker{
 
 private:
-	TransformTime transformTime;
+	TransformTime _transformTime;
 	static const string NON_TARGET_TYPE;
 	static const string STATUS_OVERDUE;
 	static const string STATUS_ONGOING;
