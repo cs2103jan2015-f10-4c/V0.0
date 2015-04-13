@@ -1,13 +1,13 @@
 #include "addExecutor.h"
 
-string addExecutor::DEFAULT_TASK_STATUS = "ongoing";
-string addExecutor::EMPTY_STRING = "";
+string AddExecutor::DEFAULT_TASK_STATUS = "ongoing";
+string AddExecutor::EMPTY_STRING = "";
 
-addExecutor::addExecutor(void){}
+AddExecutor::AddExecutor(void){}
 
-addExecutor::~addExecutor(void){}
+AddExecutor::~AddExecutor(void){}
 
-void addExecutor::addTimedTask(string taskTitle, string startTime, string endTime, string taskType, vector<Task>& taskList) {
+void AddExecutor::addTimedTask(string taskTitle, string startTime, string endTime, string taskType, vector<Task>& taskList) {
     Task tempStorage;
     tempStorage.taskName = taskTitle;
     tempStorage.startingTime = startTime;
@@ -18,7 +18,7 @@ void addExecutor::addTimedTask(string taskTitle, string startTime, string endTim
    
 }
 
-void addExecutor::addDeadlineTask(string taskTitle, string endTime, string taskType, vector<Task>& deadlineList, vector<Task>& taskList) {
+void AddExecutor::addDeadlineTask(string taskTitle, string endTime, string taskType, vector<Task>& deadlineList, vector<Task>& taskList) {
 	
 	Task tempStorage;
 	tempStorage.taskName = taskTitle;
@@ -31,7 +31,7 @@ void addExecutor::addDeadlineTask(string taskTitle, string endTime, string taskT
 	
 }
 
-void addExecutor::addFloatingTask(string taskTitle, string taskType, vector<Task>& floatingList, vector<Task>& taskList) {
+void AddExecutor::addFloatingTask(string taskTitle, string taskType, vector<Task>& floatingList, vector<Task>& taskList) {
 	
 	Task tempStorage;
 	tempStorage.taskName = taskTitle;

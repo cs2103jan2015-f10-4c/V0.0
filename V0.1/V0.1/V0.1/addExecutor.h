@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class addExecutor{
+class AddExecutor{
 private:
 	
 	static string DEFAULT_TASK_STATUS;
@@ -20,8 +20,8 @@ private:
 
 public:
 	
-	addExecutor();
-	~addExecutor();
+	AddExecutor();
+	~AddExecutor();
 	void addTimedTask(string, string, string, string, vector<Task>&);
 	void addDeadlineTask(string, string, string, vector<Task>&, vector<Task>&);
 	void addFloatingTask(string, string, vector<Task>&, vector<Task>&);
