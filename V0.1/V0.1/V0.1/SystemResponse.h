@@ -1,3 +1,5 @@
+//@author A0115404W
+
 #ifndef SYSTEMRESPONSE_H_
 #define SYSTEMRESPONSE_H_
 
@@ -13,7 +15,13 @@
 
 using namespace std;
 
-class SystemResponse{
+//SystemResponse is a class in charge of giving various feedback to the user based on the action executed by the program. 
+//It will be invoked whenever there is a action performed, 
+//regardless of success or fail and will give feedback according to the status (i.e success or fail) of the action.
+
+
+class SystemResponse {
+
 private:
 	static const string MESSAGE_WELCOME;
     static const string MESSAGE_WELCOME_EXISTING_USER;
@@ -39,7 +47,6 @@ private:
 	static const string MESSAGE_VALID_DIRECTORY;
 	static const string MESSAGE_INVALID_COMMAND;
 	static const string MESSAGE_CLEAR_SUCCESSFUL;
-	//static char outputBuffer[MAX_CHAR];
 
 public:
 
