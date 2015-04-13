@@ -15,7 +15,7 @@ TimeChecker::~TimeChecker(){};
 //To update non-floating and ongoing task's status if it is overdue
 //logger is used to keep track which task is marked as overdue 
 void TimeChecker::updateStatus(vector<Task>& tasklist){
-	Logger logger = Logger::getInstance();
+	RHLogger logger = RHLogger::getInstance();
 
 	for (unsigned i = 0; i < tasklist.size(); i++){
 		if (tasklist[i].type != NON_TARGET_TYPE){

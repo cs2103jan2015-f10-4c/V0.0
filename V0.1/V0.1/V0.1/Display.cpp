@@ -39,7 +39,7 @@ string Display::setVariousDisplay(vector<Task>& taskList,string displayType){
 
 	vector<Task> targetTasklist;
 	//Logger is meant to track the progress of displaying the target list
-	Logger logger = Logger::getInstance();
+	RHLogger logger = RHLogger::getInstance();
 
 	
 	if (displayType ==FLOATING_TASK){
@@ -120,7 +120,7 @@ vector<Task>Display::getFloatingTask(vector<Task> taskList){
 		}
 	}
 	sortedFloatingTaskList = sorter.sortFloatingTaskList(floatingTaskList);
-	Logger logger = Logger::getInstance();
+	RHLogger logger = RHLogger::getInstance();
 	logger.addLog(FLOATING_RETRIVED_SORTED);
 	logger.saveLog();
 	return sortedFloatingTaskList;
@@ -137,7 +137,7 @@ vector<Task>Display::getDeadlineTask(vector<Task> taskList){
 		}
 	}
 	sortedDeadlineTaskList = sorter.sortDeadlineTaskList(deadlineTaskList);
-	Logger logger = Logger::getInstance();
+	RHLogger logger = RHLogger::getInstance();
 	logger.addLog(DEADLINE_RETRIVED_SORTED);
 	logger.saveLog();
 
@@ -153,7 +153,7 @@ vector<Task>Display::getTimedTask(vector<Task> taskList){
 		}
 	}
 	sortedTimedTaskList = sorter.sortTimedTaskList(timedTaskList);
-	Logger logger = Logger::getInstance();
+	RHLogger logger = RHLogger::getInstance();
 	logger.addLog(TIMED_RETRIVED_SORTED);
 	logger.saveLog();
 
@@ -170,7 +170,7 @@ vector<Task>Display::getOverdueTask(vector<Task> tasklist){
 			overdueTaskList.push_back(tasklist[i]);
 	}
 	sortedOverdueTaskList = sorter.sortOverdueTaskList(overdueTaskList);
-	Logger logger = Logger::getInstance();
+	RHLogger logger = RHLogger::getInstance();
 	logger.addLog(OVERDUE_RETRIVED_SORTED);
 	logger.saveLog();
 
@@ -187,7 +187,7 @@ vector<Task>Display::getDoneTask(vector<Task> tasklist){
 	}
 	sortedDoneTaskList = sorter.sortDoneTaskList(doneTaskList);
 
-	Logger logger = Logger::getInstance();
+	RHLogger logger = RHLogger::getInstance();
 	logger.addLog(DONE_RETRIVED_SORTED);
 	logger.saveLog();
 
@@ -204,7 +204,7 @@ vector<Task>Display::getOngoingTask(vector<Task> tasklist){
 	}
 	sortedOngoingTaskList = sorter.sortOngoingTaskList(ongoingTaskList);
 
-	Logger logger = Logger::getInstance();
+	RHLogger logger = RHLogger::getInstance();
 	logger.addLog(ONGOING_RETRIVED_SORTED);
 	logger.saveLog();
 

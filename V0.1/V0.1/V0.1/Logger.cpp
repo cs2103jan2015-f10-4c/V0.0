@@ -4,15 +4,15 @@
 
 const string LOG_FILENAME = "logFile.txt";
 
-Logger::Logger() {
+RHLogger::RHLogger() {
 }
 
-void Logger::addLog(string newLog) {
+void RHLogger::addLog(string newLog) {
 	_logContent.push_back(newLog);
 }
 
 //write log entries into the file named "logFile.txt"
-void Logger::saveLog() {
+void RHLogger::saveLog() {
 	ofstream writeFile(LOG_FILENAME.c_str());
 
 	for (unsigned int i = 0; i < _logContent.size(); i++) {
@@ -20,4 +20,8 @@ void Logger::saveLog() {
 	}
 
 	writeFile.close();
+}
+
+vector<string> RHLogger::getLogContent(){
+	return _logContent;
 }
