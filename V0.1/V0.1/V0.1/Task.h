@@ -1,3 +1,4 @@
+//@author A0115404W
 
 #ifndef TASK_H
 #define TASK_H
@@ -35,9 +36,4 @@ public:
 	string ToString();
 
 };
-
-
-
-
-
 #endif
