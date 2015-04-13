@@ -15,8 +15,7 @@ namespace LogicTest
 	{
 	public:
 		
-		TEST_METHOD(TestAdd)
-		{
+		TEST_METHOD(TestAdd) {
 			Logic logic;
 			//test case 1 to add a floating task
 			logic.executeUserCommand("add;tut");
@@ -45,8 +44,7 @@ namespace LogicTest
 			Assert::IsTrue(logic.taskList[2].type == "timed");
 		}
 
-		TEST_METHOD(TestDelete)
-		{
+		TEST_METHOD(TestDelete) {
 			Logic logic;
 			logic.executeUserCommand("add;tut");
 			logic.executeUserCommand("add;meeting");
@@ -62,8 +60,7 @@ namespace LogicTest
 			Assert::AreEqual(expectedSysResp2, actualSysResp2);
 		}
 
-		TEST_METHOD(TestEdit)
-		{
+		TEST_METHOD(TestEdit) {
 			Logic logic;
 			logic.executeUserCommand("add;meeting");
 			logic.executeUserCommand("add;meeting");
@@ -88,8 +85,7 @@ namespace LogicTest
 			Assert::AreEqual(expectedSysResp2, actualSysResp2);
 		}
 
-		TEST_METHOD(TestSearch)
-		{
+		TEST_METHOD(TestSearch) {
 			Logic logic;
 			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
 			logic.executeUserCommand("add;tut1");
@@ -153,8 +149,7 @@ namespace LogicTest
 
 		}
 
-		TEST_METHOD(TestMarkDone)
-		{
+		TEST_METHOD(TestMarkDone) {
 			Logic logic;
 			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
 			logic.executeUserCommand("add;meeting;15/4 10:00");
@@ -166,8 +161,7 @@ namespace LogicTest
 			Assert::IsTrue(logic.taskList[1].status == "ongoing");
 		}
 
-		TEST_METHOD(TestCheckIndex)
-		{
+		TEST_METHOD(TestCheckIndex) {
 			Logic logic;
 			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
 			logic.executeUserCommand("add;meeting;15/4 10:00");
@@ -183,8 +177,7 @@ namespace LogicTest
 
 		}
 
-		TEST_METHOD(TestClear)
-		{
+		TEST_METHOD(TestClear) {
 			Logic logic;
 			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
 			logic.executeUserCommand("add;meeting;15/4 10:00");
@@ -199,5 +192,125 @@ namespace LogicTest
 			Assert::AreEqual(expectedResult1, actualResult1);
 		}
 
+		TEST_METHOD(TestUndo) {
+			Logic logic;
+			//Test case 1 to test successful undo
+			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
+			logic.executeUserCommand("undo");
+			Assert::IsTrue(0 == logic.taskList.size());
+			string expectedResult1 = "Undo successful.";
+			string actualResult1 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedResult1, actualResult1);
+			//test case 2 to test unsuccessful undo
+			logic.executeUserCommand("undo");
+			string expectedResult2 = "Failed to undo. Exceed number of actions performed.";
+			string actualResult2 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedResult2, actualResult2);
+
+		}
+
+		TEST_METHOD(TestRedo) {
+			Logic logic;
+			//test case 1 to test unsuccessful redo
+			logic.executeUserCommand("redo");
+			string expectedResult1 = "Failed to redo. No undo action performed.";
+			string actualResult1 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedResult1, actualResult1);
+			//test case 2 to test successful redo
+			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
+			logic.executeUserCommand("undo");
+			logic.executeUserCommand("redo");
+			Assert::IsTrue(logic.taskList[0].taskName == "tut");
+			Assert::IsTrue(1 == logic.taskList.size());
+		}
+
+		TEST_METHOD(TestDisplayVariousType) {
+			Logic logic;
+			logic.executeUserCommand("add;tut;15/4 9:00;15/4 10:00");
+			logic.executeUserCommand("add;meeting;15/4 10:00");
+			logic.executeUserCommand("add;work");
+			logic.executeUserCommand("add;call sj;16/4 22:00");
+			logic.executeUserCommand("display;all");
+			//test case 1 to test displayAll case
+			ostringstream oss1;
+			oss1 << "[1.][tut][15-04-2015 09:00][15-04-2015 10:00][ongoing]"
+				 << endl
+				 << "[2.][meeting][][15-04-2015 10:00][ongoing]"
+				 << endl
+				 << "[3.][work][][][ongoing]"
+				 << endl
+				 << "[4.][call sj][][16-04-2015 22:00][ongoing]"
+				 << endl;
+			string expectedOutput1 = oss1.str();
+			string actualOuput1 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput1,actualOuput1);
+			//test case 2 to test displayDeadline case
+			logic.executeUserCommand("display;deadline");
+			ostringstream oss2;
+			oss2 << "[1.][meeting][][15-04-2015 10:00][ongoing]"
+				 << endl
+				 << "[2.][call sj][][16-04-2015 22:00][ongoing]"
+				 << endl;
+			string expectedOutput2 = oss2.str();
+			string actualOuput2 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput2,actualOuput2);
+			//test case 3 to test displayTimed case
+			logic.executeUserCommand("display;timed");
+			ostringstream oss3;
+			oss3 << "[1.][tut][15-04-2015 09:00][15-04-2015 10:00][ongoing]"
+				 << endl;
+			string expectedOutput3 = oss3.str();
+			string actualOuput3 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput3,actualOuput3);
+			//test case 4 to test displayFloating case
+			logic.executeUserCommand("display;floating");
+			ostringstream oss4;
+			oss4 << "[1.][work][][][ongoing]"
+				 << endl;
+			string expectedOutput4 = oss4.str();
+			string actualOuput4 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput4,actualOuput4);
+			//test case 5 to test displayDone case
+			logic.executeUserCommand("mark done;1");
+			logic.executeUserCommand("mark done;3");
+			logic.executeUserCommand("display;done");
+			ostringstream oss5;
+			oss5 << "[1.][tut][15-04-2015 09:00][15-04-2015 10:00][done]"
+				 << endl
+				 << "[2.][work][][][done]"
+				 << endl;
+			string expectedOutput5 = oss5.str();
+			string actualOuput5 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput5,actualOuput5);
+			//test case 6 to test displayOngoing case
+			logic.executeUserCommand("display;ongoing");
+			ostringstream oss6;
+			oss6 << "[1.][call sj][][16-04-2015 22:00][ongoing]"
+				 << endl
+				 << "[2.][meeting][][15-04-2015 10:00][ongoing]"
+				 << endl;
+			string expectedOutput6 = oss6.str();
+			string actualOuput6 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput6,actualOuput6);
+			//test case 7 to test displayOverdue case
+			logic.executeUserCommand("display;overdue");
+			ostringstream oss7;
+			oss7 << "";
+			string expectedOutput7 = oss7.str();
+			string actualOuput7 = logic.tellGUI();
+			Assert::AreEqual(expectedOutput7,actualOuput7);
+
+		}
+
+		TEST_METHOD(TestShowUserInvalidResponse) {
+			Logic logic;
+			//test case to test user input does not match any supported command
+			logic.executeUserCommand("lkasufhd;");
+			string expectedResult1 = "Command invalid, please re-enter.";
+			string actualResult1 = logic.tellGUIResponse();
+			Assert::AreEqual(expectedResult1, actualResult1);
+		}
+
+		
 	};
 }
