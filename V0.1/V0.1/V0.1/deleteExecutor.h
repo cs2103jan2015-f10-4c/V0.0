@@ -10,13 +10,17 @@
 
 using namespace std;
 
-class deleteExecutor{
+//DeleteExecutor class is used to perform delete related actions
+//This class has function to take in index of the task to be deleted from logic
+//It also take in taskList from logic and will delete the specified task from the list directly.
+
+class DeleteExecutor{
 private:
   
 public:
    
-    deleteExecutor();
-    ~deleteExecutor();
+    DeleteExecutor();
+    ~DeleteExecutor();
 	void deleteTask(int, vector<Task>&);
     
 };
