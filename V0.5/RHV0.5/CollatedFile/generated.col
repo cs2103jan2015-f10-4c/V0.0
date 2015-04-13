@@ -1,0 +1,28 @@
+//@author: generated
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHGUI\GUI.cpp
+	 */
+
+#include "GUI.h"
+
+using namespace System;
+using namespace System::Windows::Forms;
+
+[STAThread]
+
+void main(array<String^>^ args) {
+	Application::EnableVisualStyles();
+	Application::SetCompatibleTextRenderingDefault(false);
+
+	GUI::MyForm mainWindow;
+	Application::Run(%mainWindow);
+}
+	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHGUI\GUI.cpp
+
+
+
+
+
