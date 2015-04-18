@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\LogicTest.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\LogicTest.cpp
 	 */
 
 
@@ -322,14 +322,14 @@ namespace LogicTest
 	};
 }
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\LogicTest.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\LogicTest.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\addExecutor.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\addExecutor.cpp
 	 */
 
 
@@ -379,14 +379,14 @@ void AddExecutor::addFloatingTask(string taskTitle, string taskType, vector<Task
 	
 }
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\addExecutor.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\addExecutor.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\addExecutor.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\addExecutor.h
 	 */
 
 
@@ -427,14 +427,14 @@ public:
 };
 #endif
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\addExecutor.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\addExecutor.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\deleteExecutor.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\deleteExecutor.cpp
 	 */
 
 
@@ -450,14 +450,14 @@ void DeleteExecutor::deleteTask(int index, vector<Task>& taskList) {
 	
 }
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\deleteExecutor.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\deleteExecutor.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\deleteExecutor.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\deleteExecutor.h
 	 */
 
 
@@ -489,14 +489,14 @@ public:
 };
 #endif
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\deleteExecutor.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\deleteExecutor.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\editExecutor.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\editExecutor.cpp
 	 */
 
 
@@ -518,14 +518,14 @@ void EditExecutor::editTask(int index, string newTaskName, string newStartTime, 
 
 }
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\editExecutor.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\editExecutor.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\editExecutor.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\editExecutor.h
 	 */
 
 
@@ -561,14 +561,14 @@ public:
 
 #endif
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\editExecutor.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\editExecutor.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logic.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Logic.cpp
 	 */
 
 
@@ -875,14 +875,14 @@ void Logic::exitProgram() {
 }
 
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logic.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Logic.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logic.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Logic.h
 	 */
 
 
@@ -971,14 +971,14 @@ public:
 
 };
 #endif
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logic.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Logic.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\markDoneExecutor.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\markDoneExecutor.cpp
 	 */
 
 
@@ -994,14 +994,14 @@ void MarkDoneExecutor::markDoneTask(int index, vector<Task>& taskList) {
 	
 }
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\markDoneExecutor.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\markDoneExecutor.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\markDoneExecutor.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\markDoneExecutor.h
 	 */
 
 
@@ -1036,14 +1036,14 @@ public:
 
 #endif
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\markDoneExecutor.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\markDoneExecutor.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\searchExecutor.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\searchExecutor.cpp
 	 */
 
 
@@ -1081,14 +1081,14 @@ string SearchExecutor::getSearchedResult(vector<Task> searchResult) {
 
 
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\searchExecutor.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\searchExecutor.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\searchExecutor.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\searchExecutor.h
 	 */
 
 
@@ -1124,14 +1124,14 @@ public:
 
 #endif
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\searchExecutor.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\searchExecutor.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\SystemResponse.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\SystemResponse.cpp
 	 */
 
 
@@ -1296,14 +1296,14 @@ string SystemResponse::tellResponse() {
 	return outputBuffer;
 }
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\SystemResponse.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\SystemResponse.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\SystemResponse.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\SystemResponse.h
 	 */
 
 
@@ -1378,14 +1378,14 @@ public:
 };
 #endif
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\SystemResponse.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\SystemResponse.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Task.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Task.cpp
 	 */
 
 
@@ -1425,14 +1425,14 @@ string Task::ToString() {
 	return oss.str();
 }
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Task.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Task.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Task.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Task.h
 	 */
 
 
@@ -1474,7 +1474,7 @@ public:
 };
 #endif
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Task.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Task.h
 
 
 

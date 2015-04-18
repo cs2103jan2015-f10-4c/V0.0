@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\IntegratedTest.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\IntegratedTest.cpp
 	 */
 
 		TEST_METHOD(test_edit)
@@ -82,14 +82,14 @@
 
 	};
 }
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\IntegratedTest.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\IntegratedTest.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\unittestParser.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\unittestParser.cpp
 	 */
 
 
@@ -438,14 +438,14 @@ namespace UnitTeststorage
 }
 
 	
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\unittestParser.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\unittestParser.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\unittestTime.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\unittestTime.cpp
 	 */
 
 
@@ -950,14 +950,14 @@ namespace UnitTeststorage
 }
 
 	
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\unittestTime.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\unittestTime.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Parser.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Parser.cpp
 	 */
 
 
@@ -1178,14 +1178,14 @@ string Parser::getEndDetail(string input){
     return time;
 }
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Parser.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Parser.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Parser.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Parser.h
 	 */
 
 
@@ -1258,14 +1258,14 @@ public:
 
 #endif
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Parser.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Parser.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\TransformTime.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\TransformTime.cpp
 	 */
 
 
@@ -1776,14 +1776,14 @@ string TransformTime::convertTime(string input){
 
 
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\TransformTime.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\TransformTime.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\TransformTime.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\TransformTime.h
 	 */
 
 
@@ -1844,7 +1844,7 @@ public:
 
 
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\TransformTime.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\TransformTime.h
 
 
 

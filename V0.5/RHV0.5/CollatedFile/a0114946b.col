@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\IntegratedTest.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\IntegratedTest.cpp
 	 */
 
 
@@ -335,14 +335,14 @@ namespace sysTest
 
 		}
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\IntegratedTest.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\IntegratedTest.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\unittestHistory.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\unittestHistory.cpp
 	 */
 
 
@@ -531,14 +531,14 @@ namespace UnitTesthistory
 
 	};
 }
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\unittestHistory.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\unittestHistory.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\unittestStorage.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\unittestStorage.cpp
 	 */
 
 
@@ -995,14 +995,14 @@ namespace UnitTeststorage
 }
 
 	
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\unittestStorage.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\unittestStorage.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\History.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\History.cpp
 	 */
 
 
@@ -1149,14 +1149,14 @@ bool History::checkRedoEmpty(){
 
 
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\History.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\History.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\History.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\History.h
 	 */
 
 
@@ -1193,14 +1193,14 @@ public:
 #endif
 
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\History.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\History.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Storage.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Storage.cpp
 	 */
 
 
@@ -1588,14 +1588,14 @@ string Storage::getDueTime(string input){
 }
 
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Storage.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Storage.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Storage.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Storage.h
 	 */
 
 
@@ -1641,7 +1641,7 @@ public:
 };
 
 #endif
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Storage.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Storage.h
 
 
 

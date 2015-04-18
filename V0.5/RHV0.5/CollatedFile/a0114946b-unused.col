@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Storage.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Storage.cpp
 	 */
 
 //code written in v0.3 
@@ -70,7 +70,7 @@ vector<Task> Storage::getFloatingTaskList(){
 	return floatingTaskList;
 };
 */
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Storage.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Storage.cpp
 
 
 

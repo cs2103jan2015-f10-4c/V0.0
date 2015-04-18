@@ -1,4 +1,47 @@
-//@author f10-4c-reused
+//@author: f10-4c-reused
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Logger.cpp
+	 */
+
+
+#include "Logger.h"
+
+const string LOG_FILENAME = "logFile.txt";
+
+RHLogger::RHLogger() {
+}
+
+void RHLogger::addLog(string newLog) {
+	_logContent.push_back(newLog);
+}
+
+//write log entries into the file named "logFile.txt"
+void RHLogger::saveLog() {
+	ofstream writeFile(LOG_FILENAME.c_str());
+
+	for (unsigned int i = 0; i < _logContent.size(); i++) {
+		writeFile << _logContent[i] << endl;
+	}
+
+	writeFile.close();
+}
+
+vector<string> RHLogger::getLogContent(){
+	return _logContent;
+}
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Logger.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Logger.h
+	 */
+
 #ifndef LOGGER_H
 #define LOGGER_H
 
@@ -38,3 +81,10 @@ public:
 };
 
 #endif
+
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Logger.h
+
+
+
+
+

@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\DisplayTest.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\DisplayTest.cpp
 	 */
 
 
@@ -422,14 +422,14 @@ namespace UnitTest
 
 	};
 }
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\DisplayTest.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\DisplayTest.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\IntegratedTest2.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\IntegratedTest2.cpp
 	 */
 
 #include "stdafx.h"
@@ -777,14 +777,14 @@ namespace UnitTestForCommand
 		}
 	};
 }
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\IntegratedTest2.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\IntegratedTest2.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\LoggerTest.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\LoggerTest.cpp
 	 */
 
 
@@ -827,14 +827,14 @@ namespace UnitTest
 
 	};
 }
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\LoggerTest.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\LoggerTest.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\TimeCheckerTest.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\TimeCheckerTest.cpp
 	 */
 
 #include "stdafx.h"
@@ -918,14 +918,14 @@ namespace UnitTest
 
 	};
 }
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\AutometedTesting\TimeCheckerTest.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\AutometedTesting\TimeCheckerTest.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHGUI\GUI.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
 	 */
 
 #pragma once
@@ -1178,54 +1178,15 @@ namespace GUI {
 		logic.refreshStatus();
 
 		//To prepare the display window 
-		string returnInfo = logic.tellGUI();
-		String^ tempString = gcnew String(returnInfo.c_str());
-
-		for (unsigned i = 0; i < returnInfo.size(); i++){
-
-			if (returnInfo.at(i) == ']') {
-				count++;
-			}
-		}
-		while (count > 0) {
-			/****Index****/
-			tempStart = tempEnd + 3;
-			tempEnd = returnInfo.find_first_of("]", tempStart);
-			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-			temp = gcnew String(componentInfo.c_str());
-			listViewItems = gcnew Windows::Forms::ListViewItem(temp);
-			/****Task Name****/
-			tempStart = tempEnd + 2;
-			tempEnd = returnInfo.find_first_of("]", tempStart);
-			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-			temp = gcnew String(componentInfo.c_str());
-			listViewItems->SubItems->Add(temp);
-			/****Starting Time****/
-			tempStart = tempEnd + 2;
-			tempEnd = returnInfo.find_first_of("]", tempStart);
-			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-			temp = gcnew String(componentInfo.c_str());
-			listViewItems->SubItems->Add(temp);
-			/****Ending Time***/
-			tempStart = tempEnd + 2;
-			tempEnd = returnInfo.find_first_of("]", tempStart);
-			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-			temp = gcnew String(componentInfo.c_str());
-			listViewItems->SubItems->Add(temp);
-			/****Status****/
-			tempStart = tempEnd + 2;
-			tempEnd = returnInfo.find_first_of("]", tempStart);
-			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-			temp = gcnew String(componentInfo.c_str());
-			listViewItems->SubItems->Add(temp);
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
 
 
-			DisplayContent->Items->Add(this->listViewItems);
-			count -= 5;
-		}
 
-	}
 
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
+	 */
 
     //To register F1 as a hotkey for Help Button
 	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
@@ -1256,52 +1217,15 @@ namespace GUI {
 		//Pass the user input for further actions
 		logic.executeUserCommand(userInput);
 
-		//To prepare the display Window with the updated tasklist
-		string returnInfo = logic.tellGUI();
-		String^ tempString = gcnew String(returnInfo.c_str());
-
-		for (unsigned i = 0; i < returnInfo.size(); i++){
-
-			if (returnInfo.at(i) == ']') {
-				count++;
-			}
-		}
-		while (count > 0) {
-			/****Index****/
-			tempStart = tempEnd + 3;
-			tempEnd = returnInfo.find_first_of("]", tempStart);
-			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-			temp = gcnew String(componentInfo.c_str());
-			listViewItems = gcnew Windows::Forms::ListViewItem(temp);
-			/****Task Name****/
-			tempStart = tempEnd + 2;
-			tempEnd = returnInfo.find_first_of("]", tempStart);
-			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-			temp = gcnew String(componentInfo.c_str());
-			listViewItems->SubItems->Add(temp);
-			/****Starting Time****/
-			tempStart = tempEnd + 2;
-			tempEnd = returnInfo.find_first_of("]", tempStart);
-			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-			temp = gcnew String(componentInfo.c_str());
-			listViewItems->SubItems->Add(temp);
-			/****Ending Time***/
-			tempStart = tempEnd + 2;
-			tempEnd = returnInfo.find_first_of("]", tempStart);
-			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-			temp = gcnew String(componentInfo.c_str());
-			listViewItems->SubItems->Add(temp);
-			/****Status****/
-			tempStart = tempEnd + 2;
-			tempEnd = returnInfo.find_first_of("]", tempStart);
-			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-			temp = gcnew String(componentInfo.c_str());
-			listViewItems->SubItems->Add(temp);
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
 
 
-			DisplayContent->Items->Add(this->listViewItems);
-			count -= 5;
-		}
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
+	 */
 
 		//To display feedback or user prompt
 		string responseMessage = logic.tellGUIResponse();
@@ -1333,50 +1257,16 @@ namespace GUI {
 			 string returnInfo = logic.tellGUI();
 			 String^ tempString = gcnew String(returnInfo.c_str());
 
-			 for (unsigned i = 0; i < returnInfo.size(); i++){
 
-				 if (returnInfo.at(i) == ']') {
-					 count++;
-				 }
-			 }
-			 while (count > 0) {
-				 /****Index****/
-				 tempStart = tempEnd + 3;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems = gcnew Windows::Forms::ListViewItem(temp);
-				 /****Task Name****/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-				 /****Starting Time****/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-				 /****Ending Time***/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
-				 /****Status****/
-				 tempStart = tempEnd + 2;
-				 tempEnd = returnInfo.find_first_of("]", tempStart);
-				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
-				 temp = gcnew String(componentInfo.c_str());
-				 listViewItems->SubItems->Add(temp);
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
 
 
-				 DisplayContent->Items->Add(this->listViewItems);
-				 count -= 5;
-			 }
-	         
-    }
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
+	 */
 
     //To display the message box containing information
 	//to assist user with command format when help button is clicked
@@ -1418,14 +1308,14 @@ namespace GUI {
                }
 };
 }
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHGUI\GUI.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Display.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Display.cpp
 	 */
 
 
@@ -1646,14 +1536,14 @@ string Display::getContent(){
 }
 
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Display.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Display.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Display.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Display.h
 	 */
 
 #ifndef DISPLAY_H
@@ -1715,14 +1605,14 @@ public:
 };
 #endif
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Display.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Display.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\DisplayWindow.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\DisplayWindow.cpp
 	 */
 
 
@@ -1755,14 +1645,14 @@ void DisplayWindow::setContent(vector<Task>& tasklist){
 string DisplayWindow::getContent(){
 	   return _content;
 }
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\DisplayWindow.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\DisplayWindow.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\DisplayWindow.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\DisplayWindow.h
 	 */
 
 
@@ -1798,100 +1688,14 @@ public:
 };
 
 #endif
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\DisplayWindow.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\DisplayWindow.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logger.cpp
-	 */
-
-
-#include "Logger.h"
-
-const string LOG_FILENAME = "logFile.txt";
-
-RHLogger::RHLogger() {
-}
-
-void RHLogger::addLog(string newLog) {
-	_logContent.push_back(newLog);
-}
-
-//write log entries into the file named "logFile.txt"
-void RHLogger::saveLog() {
-	ofstream writeFile(LOG_FILENAME.c_str());
-
-	for (unsigned int i = 0; i < _logContent.size(); i++) {
-		writeFile << _logContent[i] << endl;
-	}
-
-	writeFile.close();
-}
-
-vector<string> RHLogger::getLogContent(){
-	return _logContent;
-}
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logger.cpp
-
-
-
-
-
-	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logger.h
-	 */
-
-#ifndef LOGGER_H
-#define LOGGER_H
-
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include "TransformTime.h"
-using namespace std;
-
-
-//Logger class is defined to keep track of the internal process of the running program.
-//When ever an important action is made in the program, 
-//a sentence will be stored in the logger file.
-//This file can help us to check the progress of the program.
-//Whenever a failure is incurred, user or developer can always refer to it for the elapsed point.
-
-class RHLogger{
-private:
-    vector<string> _logContent;
-
-public:
-	//This method is to return the current status 
-	//of the logger object and allows modification in any otehr class
-	static RHLogger& getInstance() {
-		static RHLogger instance;
-		return instance;
-	}
-
-	void addLog(string);
-	void saveLog();
-    RHLogger();
-
-	vector<string> getLogContent();
-
-	
-};
-
-#endif
-
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Logger.h
-
-
-
-
-
-	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Sorter.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Sorter.cpp
 	 */
 
 
@@ -2007,14 +1811,14 @@ vector<Task> Sorter::sortOngoingTaskList(vector<Task> tasklist){
 	}
 	return tasklist;
 }
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Sorter.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Sorter.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Sorter.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Sorter.h
 	 */
 
 
@@ -2051,14 +1855,14 @@ public:
 };
 
 #endif
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\Sorter.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Sorter.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\TimeChecker.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\TimeChecker.cpp
 	 */
 
 
@@ -2108,14 +1912,14 @@ bool TimeChecker::checkStatus(string endingTime){
 
 
 
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\TimeChecker.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\TimeChecker.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\TimeChecker.h
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\TimeChecker.h
 	 */
 
 
@@ -2152,7 +1956,7 @@ public:
 };
 
 #endif
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHV0.5\TimeChecker.h
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\TimeChecker.h
 
 
 

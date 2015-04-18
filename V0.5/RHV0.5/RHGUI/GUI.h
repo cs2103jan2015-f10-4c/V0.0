@@ -249,6 +249,7 @@ namespace GUI {
 		logic.refreshStatus();
 
 		//To prepare the display window 
+		//@author A0116363L-reused
 		string returnInfo = logic.tellGUI();
 		String^ tempString = gcnew String(returnInfo.c_str());
 
@@ -297,7 +298,7 @@ namespace GUI {
 
 	}
 
-
+    //@author A0116363L
     //To register F1 as a hotkey for Help Button
 	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 		if (e->KeyCode == System::Windows::Forms::Keys::F1) {
@@ -327,6 +328,7 @@ namespace GUI {
 		//Pass the user input for further actions
 		logic.executeUserCommand(userInput);
 
+		//@author A0116363L-reused
 		//To prepare the display Window with the updated tasklist
 		string returnInfo = logic.tellGUI();
 		String^ tempString = gcnew String(returnInfo.c_str());
@@ -374,6 +376,7 @@ namespace GUI {
 			count -= 5;
 		}
 
+		//@author A0116363L
 		//To display feedback or user prompt
 		string responseMessage = logic.tellGUIResponse();
 		this->SystemResponse->Text = gcnew String(responseMessage.c_str());
@@ -404,6 +407,8 @@ namespace GUI {
 			 string returnInfo = logic.tellGUI();
 			 String^ tempString = gcnew String(returnInfo.c_str());
 
+
+			 //@author A0116363L-reused
 			 for (unsigned i = 0; i < returnInfo.size(); i++){
 
 				 if (returnInfo.at(i) == ']') {
@@ -448,7 +453,7 @@ namespace GUI {
 			 }
 	         
     }
-
+    //@author A0116363L
     //To display the message box containing information
 	//to assist user with command format when help button is clicked
     private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {

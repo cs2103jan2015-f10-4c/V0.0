@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHGUI\GUI.cpp
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.cpp
 	 */
 
 #include "GUI.h"
@@ -20,7 +20,7 @@ void main(array<String^>^ args) {
 	GUI::MyForm mainWindow;
 	Application::Run(%mainWindow);
 }
-	// End of segment: C:\Users\svmsung\Desktop\CS group\V0.5\RHV0.5\RHGUI\GUI.cpp
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.cpp
 
 
 

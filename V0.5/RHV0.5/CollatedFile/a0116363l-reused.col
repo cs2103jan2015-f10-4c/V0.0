@@ -1,0 +1,173 @@
+//@author: a0116363l-reused
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
+	 */
+
+		string returnInfo = logic.tellGUI();
+		String^ tempString = gcnew String(returnInfo.c_str());
+
+		for (unsigned i = 0; i < returnInfo.size(); i++){
+
+			if (returnInfo.at(i) == ']') {
+				count++;
+			}
+		}
+		while (count > 0) {
+			/****Index****/
+			tempStart = tempEnd + 3;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems = gcnew Windows::Forms::ListViewItem(temp);
+			/****Task Name****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Starting Time****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Ending Time***/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Status****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+
+
+			DisplayContent->Items->Add(this->listViewItems);
+			count -= 5;
+		}
+
+	}
+
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
+	 */
+
+		//To prepare the display Window with the updated tasklist
+		string returnInfo = logic.tellGUI();
+		String^ tempString = gcnew String(returnInfo.c_str());
+
+		for (unsigned i = 0; i < returnInfo.size(); i++){
+
+			if (returnInfo.at(i) == ']') {
+				count++;
+			}
+		}
+		while (count > 0) {
+			/****Index****/
+			tempStart = tempEnd + 3;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems = gcnew Windows::Forms::ListViewItem(temp);
+			/****Task Name****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Starting Time****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Ending Time***/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+			/****Status****/
+			tempStart = tempEnd + 2;
+			tempEnd = returnInfo.find_first_of("]", tempStart);
+			componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+			temp = gcnew String(componentInfo.c_str());
+			listViewItems->SubItems->Add(temp);
+
+
+			DisplayContent->Items->Add(this->listViewItems);
+			count -= 5;
+		}
+
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
+	 */
+
+			 for (unsigned i = 0; i < returnInfo.size(); i++){
+
+				 if (returnInfo.at(i) == ']') {
+					 count++;
+				 }
+			 }
+			 while (count > 0) {
+				 /****Index****/
+				 tempStart = tempEnd + 3;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems = gcnew Windows::Forms::ListViewItem(temp);
+				 /****Task Name****/
+				 tempStart = tempEnd + 2;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+				 /****Starting Time****/
+				 tempStart = tempEnd + 2;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+				 /****Ending Time***/
+				 tempStart = tempEnd + 2;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+				 /****Status****/
+				 tempStart = tempEnd + 2;
+				 tempEnd = returnInfo.find_first_of("]", tempStart);
+				 componentInfo = returnInfo.substr(tempStart, tempEnd - tempStart);
+				 temp = gcnew String(componentInfo.c_str());
+				 listViewItems->SubItems->Add(temp);
+
+
+				 DisplayContent->Items->Add(this->listViewItems);
+				 count -= 5;
+			 }
+	         
+    }
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHGUI\GUI.h
+
+
+
+
+
