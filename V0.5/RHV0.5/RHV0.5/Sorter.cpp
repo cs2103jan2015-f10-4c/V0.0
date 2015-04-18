@@ -1,10 +1,10 @@
-//@author A0116363L
+
 
 #include "Sorter.h"
 #include "TransformTime.h"
 #include <assert.h>
 
-
+//@author A0116363L-reused
 //This is the sorting algorithm for alphabets
 bool cmpName(Task a, Task b){
 
@@ -23,7 +23,7 @@ bool cmpName(Task a, Task b){
 	else 
 		return false;
 }
-
+//@author A0116363L
 //This is the sorting algorithm for ending time
 bool cmpEndingTime(Task a, Task b){
 

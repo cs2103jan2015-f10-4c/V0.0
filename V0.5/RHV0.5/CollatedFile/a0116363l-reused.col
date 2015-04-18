@@ -171,3 +171,31 @@
 
 
 
+	/**
+	 * origin: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Sorter.cpp
+	 */
+
+//This is the sorting algorithm for alphabets
+bool cmpName(Task a, Task b){
+
+	unsigned i = 0;
+	while ((i < a.taskName.length()) && (i < b.taskName.length()))
+	{
+		if (tolower(a.taskName[i]) < tolower(b.taskName[i])) 
+			return true;
+		else if (tolower(a.taskName[i]) > tolower(b.taskName[i])) 
+			return false;
+		i++;
+	}
+
+	if (a.taskName.length() < b.taskName.length()) 
+		return true;
+	else 
+		return false;
+}
+	// End of segment: C:\Users\svmsung\Desktop\cs\V0.5\RHV0.5\RHV0.5\Sorter.cpp
+
+
+
+
+
